@@ -1,0 +1,218 @@
+---
+title: "AI Agent Protocols"
+subtitle: "Comparing MCP, A2A, AG-UI, and ACP for Nanobricks"
+---
+
+## Overview
+
+The AI agent ecosystem is converging on several protocols for standardized communication. Understanding these helps us choose the right integration strategy for Nanobricks.
+
+## Protocol Comparison
+
+### MCP (Model Context Protocol) - Anthropic
+**Purpose**: Standardizes how applications provide context to LLMs
+
+**Key Features**:
+- Universal "USB-C port for AI applications"
+- Client-server architecture
+- Tool and data source exposure
+- Vendor-agnostic LLM interactions
+
+**Best For**: Exposing nanobrick capabilities as tools/resources to LLMs
+
+**Example Integration**:
+```python
+class SkillMCP:
+    """MCP server for nanobricks"""
+    
+    def expose_as_tool(self, nanobrick: Nanobrick):
+        return {
+            "name": nanobrick.name,
+            "description": nanobrick.__doc__,
+            "input_schema": nanobrick.input_schema,
+            "handler": nanobrick.invoke
+        }
+```
+
+### A2A (Agent-to-Agent) - Google
+**Purpose**: Enable communication between opaque agentic applications
+
+**Key Features**:
+- JSON-RPC 2.0 over HTTP(S)
+- Agent discovery via "Agent Cards"
+- Preserves agent opacity (no internal state exposure)
+- Cross-ecosystem collaboration
+
+**Best For**: Nanobricks communicating with other AI agents
+
+**Example Integration**:
+```python
+class SkillA2A:
+    """A2A protocol for inter-agent communication"""
+    
+    def create_agent_card(self, nanobrick: Nanobrick):
+        return {
+            "id": f"nanobrick.{nanobrick.name}",
+            "capabilities": nanobrick.list_capabilities(),
+            "endpoints": {
+                "invoke": "/invoke",
+                "stream": "/stream"
+            }
+        }
+```
+
+### AG-UI (Agent User Interaction)
+**Purpose**: Standardize front-end to AI agent connections
+
+**Key Features**:
+- Event-driven protocol (16 event types)
+- Real-time state streaming
+- Human-in-the-loop collaboration
+- Transport-agnostic (SSE, WebSockets, webhooks)
+
+**Best For**: Creating interactive UIs for nanobricks
+
+**Example Integration**:
+```python
+class SkillAGUI:
+    """AG-UI for interactive nanobrick interfaces"""
+    
+    def emit_event(self, event_type: str, data: dict):
+        return {
+            "type": event_type,
+            "timestamp": datetime.now().isoformat(),
+            "source": f"nanobrick.{self.name}",
+            "data": data
+        }
+```
+
+### ACP (Agent Communication Protocol) - Linux Foundation
+**Purpose**: Open standard for agent interoperability
+
+**Key Features**:
+- REST-based communication
+- Async-first, sync supported
+- No SDK required (plain HTTP)
+- Offline discovery via metadata
+
+**Best For**: RESTful agent interactions with broad compatibility
+
+**Example Integration**:
+```python
+class SkillACP:
+    """ACP-compliant REST interface"""
+    
+    @app.post("/agent/invoke")
+    async def invoke(self, request: ACPRequest):
+        # Standard REST endpoint
+        return {
+            "status": "success",
+            "result": await self.nanobrick.invoke(request.input)
+        }
+```
+
+## Protocol Selection Matrix
+
+| Use Case | Recommended Protocol | Why |
+|----------|---------------------|-----|
+| LLM tool exposure | MCP | Designed for LLM context |
+| Agent collaboration | A2A | Preserves agent autonomy |
+| Interactive UIs | AG-UI | Event-driven interactivity |
+| General interop | ACP | REST-based simplicity |
+
+## Integration Strategy for Nanobricks
+
+### 1. Primary Protocol: MCP
+**Rationale**: 
+- Anthropic-backed with growing adoption
+- Clean tool/resource abstraction
+- Fits nanobrick philosophy
+
+### 2. Secondary Support: A2A
+**Rationale**:
+- Google backing ensures longevity
+- Enables multi-agent workflows
+- Complements MCP
+
+### 3. UI Layer: AG-UI
+**Rationale**:
+- Purpose-built for UI interaction
+- Works with Streamlit skill
+- Real-time capabilities
+
+### 4. Fallback: ACP
+**Rationale**:
+- Simple REST compatibility
+- No SDK dependencies
+- Broad accessibility
+
+## Implementation Approach
+
+### Phase 1: MCP Foundation
+```python
+@nanobrick
+class ValidatorWithMCP:
+    def __init__(self):
+        self.add_skill(SkillMCP())
+    
+    def get_mcp_tools(self):
+        return [{
+            "name": "validate",
+            "description": "Validate input data",
+            "parameters": self.input_schema
+        }]
+```
+
+### Phase 2: Multi-Protocol Support
+```python
+class NanobrickProtocolAdapter:
+    """Adapt nanobricks to multiple protocols"""
+    
+    def __init__(self, nanobrick: Nanobrick):
+        self.nanobrick = nanobrick
+        self.protocols = {
+            'mcp': SkillMCP(),
+            'a2a': SkillA2A(),
+            'agui': SkillAGUI(),
+            'acp': SkillACP()
+        }
+    
+    def enable_protocol(self, protocol: str):
+        self.nanobrick.add_skill(self.protocols[protocol])
+```
+
+### Phase 3: Protocol Bridge
+```python
+class ProtocolBridge:
+    """Bridge between different AI protocols"""
+    
+    async def mcp_to_a2a(self, mcp_tool, a2a_agent):
+        # Convert MCP tool to A2A agent card
+        pass
+    
+    async def agui_to_acp(self, agui_event, acp_endpoint):
+        # Convert AG-UI event to ACP REST call
+        pass
+```
+
+## Best Practices
+
+1. **Start Simple**: Begin with one protocol (MCP recommended)
+2. **Progressive Enhancement**: Add protocols as needed
+3. **Maintain Abstraction**: Keep protocol details in skills
+4. **Document Capabilities**: Clear metadata for each protocol
+5. **Test Interoperability**: Verify cross-protocol communication
+
+## Future Considerations
+
+- **Protocol Convergence**: Watch for standardization efforts
+- **Performance**: Monitor overhead of multiple protocols
+- **Security**: Each protocol has different security models
+- **Versioning**: Protocols will evolve; plan for updates
+
+## Resources
+
+- [MCP Specification](https://modelcontextprotocol.io)
+- [A2A GitHub](https://github.com/google/A2A)
+- [AG-UI Documentation](https://docs.ag-ui.com)
+- [ACP Standard](https://agentcommunicationprotocol.dev)

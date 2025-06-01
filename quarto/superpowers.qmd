@@ -1,0 +1,572 @@
+---
+title: "Skills"
+subtitle: "Latent capabilities that activate on demand"
+---
+
+## Concept: Skills vs Batteries
+
+Traditional "batteries included" implies heavy dependencies always present. Skills are different - they're **latent capabilities** that:
+
+- Remain dormant until activated
+- Don't add complexity when unused
+- Can be mixed and matched
+- Follow the same nanobrick interface
+
+## Core Skills
+
+### API Skill (FastAPI)
+
+Transform any nanobrick into a REST API:
+
+```python
+@skill
+class SkillAPI:
+    """Adds REST API endpoints to a nanobrick"""
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        # Create FastAPI app
+        app = FastAPI(title=f"{brick.name} API")
+        
+        # Add standard endpoints
+        @app.post("/invoke")
+        async def invoke(input: brick.InputType) -> brick.OutputType:
+            return await brick.invoke(input)
+        
+        @app.post("/batch")
+        async def batch(inputs: List[brick.InputType]) -> List[brick.OutputType]:
+            return await brick.batch(inputs)
+        
+        # Attach to brick
+        brick._api = app
+        brick.as_api = lambda: app
+        
+        return brick
+```
+
+**Usage:**
+```python
+# Create API from any nanobrick
+validator = ValidatorData().with_skill(SkillAPI())
+api = validator.as_api()
+
+# Mount into existing app
+main_app = FastAPI()
+main_app.mount("/validate", api)
+```
+
+### CLI Skill (Typer)
+
+Add command-line interface:
+
+```python
+@skill
+class SkillCLI:
+    """Adds CLI commands to a nanobrick"""
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        app = typer.Typer()
+        
+        @app.command()
+        def invoke(input_file: Path, output_file: Path):
+            """Process input through the nanobrick"""
+            data = json.loads(input_file.read_text())
+            # Use asyncio.run() here since this is CLI context, not Jupyter
+            result = asyncio.run(brick.invoke(data))
+            output_file.write_text(json.dumps(result))
+        
+        brick._cli = app
+        brick.as_cli = lambda: app
+        
+        return brick
+```
+
+### UI Skill (Streamlit)
+
+Create web UI components:
+
+```python
+@skill
+class SkillStreamlit:
+    """Adds Streamlit UI to a nanobrick"""
+    
+    component_type: str = "page"  # page, tab, sidebar
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        def render():
+            st.title(f"{brick.name}")
+            
+            # Input section
+            input_data = st.text_area("Input", height=200)
+            
+            if st.button("Process"):
+                try:
+                    data = json.loads(input_data)
+                    # Use asyncio.run() here since this is Streamlit context, not Jupyter
+                    result = asyncio.run(brick.invoke(data))
+                    st.success("Processed successfully!")
+                    st.json(result)
+                except Exception as e:
+                    st.error(f"Error: {e}")
+        
+        brick.as_ui = render
+        return brick
+```
+
+### Database Skill (SQLModel)
+
+Add persistence capabilities:
+
+```python
+@skill
+class SkillDatabase:
+    """Adds database persistence to a nanobrick"""
+    
+    model_class: Type[SQLModel]
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        # Add CRUD operations
+        async def save(data: dict) -> int:
+            instance = self.model_class(**data)
+            session.add(instance)
+            await session.commit()
+            return instance.id
+        
+        async def load(id: int) -> dict:
+            instance = await session.get(self.model_class, id)
+            return instance.dict()
+        
+        brick.save = save
+        brick.load = load
+        
+        return brick
+```
+
+### AI Skill (LLM Integration)
+
+Add reasoning capabilities:
+
+```python
+@skill
+class SkillAI:
+    """Adds AI/LLM capabilities to a nanobrick"""
+    
+    model: str = "gpt-4"
+    temperature: float = 0.7
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        async def think(context: dict) -> str:
+            """Use AI to reason about the context"""
+            prompt = f"""
+            You are helping a {brick.name} nanobrick.
+            Context: {json.dumps(context)}
+            
+            Provide insights or suggestions.
+            """
+            
+            return await llm_call(self.model, prompt, self.temperature)
+        
+        brick.think = think
+        
+        # Enhance invoke with AI
+        original_invoke = brick.invoke
+        
+        async def ai_invoke(input, **kwargs):
+            # Get original result
+            result = await original_invoke(input, **kwargs)
+            
+            # Add AI insights if needed
+            if kwargs.get('use_ai', False):
+                insights = await think({'input': input, 'result': result})
+                result['ai_insights'] = insights
+            
+            return result
+        
+        brick.invoke = ai_invoke
+        
+        return brick
+```
+
+## Skill Composition
+
+### Multiple Skills
+```python
+# Add multiple capabilities
+smart_validator = (
+    ValidatorData()
+    .with_skill(SkillAPI())
+    .with_skill(SkillCLI())
+    .with_skill(SkillAI(model="claude-3"))
+)
+
+# Now it can be used as:
+# - A function: result = await smart_validator.invoke(data)
+# - An API: app = smart_validator.as_api()
+# - A CLI: cli = smart_validator.as_cli()
+# - With AI: result = await smart_validator.invoke(data, use_ai=True)
+```
+
+### Conditional Enhancement
+```python
+class NanobrickAdaptive(Nanobrick):
+    def __init__(self, enable_ai: bool = False):
+        if enable_ai:
+            self.with_skill(SkillAI())
+        
+        if os.getenv('ENABLE_API'):
+            self.with_skill(SkillAPI())
+```
+
+## Creating Custom Skills
+
+```python
+@skill
+class SkillCaching:
+    """Adds caching to any nanobrick"""
+    
+    ttl: int = 3600  # seconds
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        cache = {}
+        
+        original_invoke = brick.invoke
+        
+        async def cached_invoke(input, **kwargs):
+            cache_key = hash(json.dumps(input, sort_keys=True))
+            
+            if cache_key in cache:
+                age = time.time() - cache[cache_key]['time']
+                if age < self.ttl:
+                    return cache[cache_key]['result']
+            
+            result = await original_invoke(input, **kwargs)
+            cache[cache_key] = {'result': result, 'time': time.time()}
+            
+            return result
+        
+        brick.invoke = cached_invoke
+        return brick
+```
+
+## Skill Guidelines
+
+1. **Minimal Interface**: Skills should enhance, not replace
+2. **Lazy Loading**: Import dependencies only when activated
+3. **Composable**: Multiple skills should work together
+4. **Reversible**: Consider allowing deactivation
+5. **Documented**: Clear description of what changes
+
+## Additional Core Skills
+
+### Logging Skill (Loguru)
+
+Professional logging with zero configuration:
+
+```python
+@skill
+class SkillLogging:
+    """Adds structured logging to a nanobrick"""
+    
+    level: str = "INFO"
+    format: str = "{time} | {level} | {brick.name} | {message}"
+    rotation: str = "10 MB"
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        from loguru import logger
+        
+        # Configure logger for this brick
+        brick_logger = logger.bind(brick_name=brick.name)
+        brick_logger.add(
+            f"logs/{brick.name}.log",
+            level=self.level,
+            format=self.format,
+            rotation=self.rotation
+        )
+        
+        # Wrap invoke with logging
+        original_invoke = brick.invoke
+        
+        async def logged_invoke(input, **kwargs):
+            brick_logger.info(f"Invoking with input: {input}")
+            try:
+                result = await original_invoke(input, **kwargs)
+                brick_logger.success(f"Successfully processed")
+                return result
+            except Exception as e:
+                brick_logger.error(f"Failed: {e}")
+                raise
+        
+        brick.invoke = logged_invoke
+        brick.logger = brick_logger
+        
+        return brick
+```
+
+### Observability Skill (OpenTelemetry)
+
+Full observability with tracing, metrics, and logs:
+
+```python
+@skill
+class SkillObservability:
+    """Adds observability to a nanobrick"""
+    
+    service_name: str = None
+    exporter: str = "jaeger"  # jaeger, prometheus, zipkin
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        from opentelemetry import trace, metrics
+        
+        tracer = trace.get_tracer(self.service_name or brick.name)
+        meter = metrics.get_meter(self.service_name or brick.name)
+        
+        # Create metrics
+        invocation_counter = meter.create_counter(
+            f"{brick.name}_invocations",
+            description=f"Number of invocations of {brick.name}"
+        )
+        
+        duration_histogram = meter.create_histogram(
+            f"{brick.name}_duration",
+            description=f"Duration of {brick.name} invocations"
+        )
+        
+        # Wrap with tracing
+        original_invoke = brick.invoke
+        
+        async def traced_invoke(input, **kwargs):
+            with tracer.start_as_current_span(f"{brick.name}.invoke") as span:
+                span.set_attribute("input.size", len(str(input)))
+                span.set_attribute("brick.name", brick.name)
+                
+                start_time = time.time()
+                try:
+                    result = await original_invoke(input, **kwargs)
+                    span.set_status(trace.Status(trace.StatusCode.OK))
+                    return result
+                except Exception as e:
+                    span.record_exception(e)
+                    span.set_status(trace.Status(trace.StatusCode.ERROR))
+                    raise
+                finally:
+                    duration = time.time() - start_time
+                    invocation_counter.add(1)
+                    duration_histogram.record(duration)
+        
+        brick.invoke = traced_invoke
+        brick.tracer = tracer
+        brick.meter = meter
+        
+        return brick
+```
+
+### Deployment Skills
+
+#### Docker Skill
+
+```python
+@skill
+class SkillDocker:
+    """Makes nanobrick Docker-ready"""
+    
+    base_image: str = "python:3.13-slim"
+    expose_port: int = 8000
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        # Generate Dockerfile
+        dockerfile_content = f"""
+        FROM {self.base_image}
+        
+        WORKDIR /app
+        
+        # Install dependencies
+        COPY requirements.txt .
+        RUN pip install -r requirements.txt
+        
+        # Copy brick code
+        COPY . .
+        
+        # Expose port if API skill is active
+        {"EXPOSE " + str(self.expose_port) if hasattr(brick, 'as_api') else ""}
+        
+        # Run the brick
+        CMD ["python", "-m", "nanobricks", "run", "{brick.name}"]
+        """
+        
+        # Generate docker-compose.yml
+        compose_content = f"""
+        version: '3.8'
+        services:
+          {brick.name}:
+            build: .
+            image: {brick.name}:latest
+            {"ports:" if hasattr(brick, 'as_api') else ""}
+            {"  - " + str(self.expose_port) + ":" + str(self.expose_port) if hasattr(brick, 'as_api') else ""}
+            environment:
+              - NANOBRICK_NAME={brick.name}
+            volumes:
+              - ./data:/app/data
+            restart: unless-stopped
+        """
+        
+        brick.dockerfile = dockerfile_content
+        brick.docker_compose = compose_content
+        
+        def save_docker_files():
+            Path("Dockerfile").write_text(dockerfile_content)
+            Path("docker-compose.yml").write_text(compose_content)
+        
+        brick.save_docker_files = save_docker_files
+        
+        return brick
+```
+
+#### Kubernetes Skill
+
+```python
+@skill
+class SkillKubernetes:
+    """Makes nanobrick Kubernetes-ready with Helm charts"""
+    
+    namespace: str = "nanobricks"
+    replicas: int = 3
+    
+    def enhance(self, brick: Nanobrick) -> Nanobrick:
+        # Generate Helm chart structure
+        helm_values = f"""
+        replicaCount: {self.replicas}
+        
+        image:
+          repository: {brick.name}
+          tag: latest
+          pullPolicy: IfNotPresent
+        
+        service:
+          type: ClusterIP
+          port: 80
+          targetPort: 8000
+        
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        
+        autoscaling:
+          enabled: true
+          minReplicas: 1
+          maxReplicas: 10
+          targetCPUUtilizationPercentage: 80
+        """
+        
+        deployment_template = f"""
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: {{ include "{brick.name}.fullname" . }}
+          labels:
+            {{- include "{brick.name}.labels" . | nindent 4 }}
+        spec:
+          replicas: {{ .Values.replicaCount }}
+          selector:
+            matchLabels:
+              {{- include "{brick.name}.selectorLabels" . | nindent 6 }}
+          template:
+            metadata:
+              labels:
+                {{- include "{brick.name}.selectorLabels" . | nindent 8 }}
+            spec:
+              containers:
+              - name: {{ .Chart.Name }}
+                image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+                imagePullPolicy: {{ .Values.image.pullPolicy }}
+                ports:
+                - name: http
+                  containerPort: {{ .Values.service.targetPort }}
+                  protocol: TCP
+                resources:
+                  {{- toYaml .Values.resources | nindent 12 }}
+        """
+        
+        brick.helm_values = helm_values
+        brick.helm_deployment = deployment_template
+        
+        return brick
+```
+
+## Skill Registry & Discovery
+
+### Lazy Loading Registry
+
+```python
+class SkillRegistry:
+    """Central registry for all skills with lazy loading"""
+    
+    _registry: Dict[str, Type[Skill]] = {}
+    _loaded: Dict[str, Skill] = {}
+    
+    @classmethod
+    def register(cls, name: str, skill_class: Type[Skill]):
+        """Register a skill for lazy loading"""
+        cls._registry[name] = skill_class
+    
+    @classmethod
+    def get(cls, name: str, **config) -> Skill:
+        """Get or create a skill instance"""
+        if name not in cls._loaded:
+            if name not in cls._registry:
+                raise ValueError(f"Unknown skill: {name}")
+            
+            # Lazy load and instantiate
+            skill_class = cls._registry[name]
+            cls._loaded[name] = skill_class(**config)
+        
+        return cls._loaded[name]
+    
+    @classmethod
+    def preload(cls, names: List[str]):
+        """Preload specific skills for performance"""
+        for name in names:
+            cls.get(name)
+
+# Register built-in skills
+SkillRegistry.register("api", SkillAPI)
+SkillRegistry.register("cli", SkillCLI)
+SkillRegistry.register("ui", SkillStreamlit)
+SkillRegistry.register("db", SkillDatabase)
+SkillRegistry.register("ai", SkillAI)
+SkillRegistry.register("logging", SkillLogging)
+SkillRegistry.register("observability", SkillObservability)
+SkillRegistry.register("docker", SkillDocker)
+SkillRegistry.register("kubernetes", SkillKubernetes)
+```
+
+### Configuration-Based Activation
+
+```python
+# From TOML configuration
+brick = ValidatorData()
+
+# Load skills from config
+config = Config.from_file("nanobrick.toml")
+for name, settings in config.skills.items():
+    if settings.get("enabled", False):
+        skill = SkillRegistry.get(name, **settings)
+        brick = brick.with_skill(skill)
+
+# Preload known skills
+if config.get("performance.preload_skills"):
+    SkillRegistry.preload(["api", "logging", "observability"])
+```
+
+## Future Skills
+
+- **Security**: Authentication, authorization, encryption
+- **Caching**: Redis, Memcached integration
+- **Messaging**: Kafka, RabbitMQ, NATS
+- **Scheduling**: Cron, Celery integration
+- **Workflow**: State machines, BPMN
+- **GraphQL**: Alternative to REST API
+- **WebSocket**: Real-time communication
+- **gRPC**: High-performance RPC

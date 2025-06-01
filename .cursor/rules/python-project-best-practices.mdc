@@ -1,0 +1,157 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Python Project Best Practices
+
+## Project Structure
+Always use the "src layout" for new Python packages:
+
+```
+project_name/
+├── pyproject.toml
+├── README.md
+├── LICENSE
+├── CHANGELOG.md
+├── src/
+│   └── package_name/
+│       ├── __init__.py
+│       ├── module1.py
+│       └── module2.py
+├── tests/
+│   └── test_package_name.py
+└── docs/
+    └── index.md
+```
+
+Benefits:
+- Forces tests to run against the installed version of your package, not the working directory
+- Prevents accidental imports of development files and test files
+- Makes it clear which files are meant to be importable
+- Ensures editable installs only import files that were meant to be importable
+- Prevents Python path-related bugs that can hide packaging issues
+
+## pyproject.toml Configuration
+
+### Basic Project Configuration
+```toml
+[project]
+name = "package_name"
+version = "0.1.0"
+description = "Short description of your project"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+dependencies = [
+    # Runtime dependencies go here
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pre-commit>=3.3.0",
+    "ruff>=0.1.0",
+]
+```
+
+### Build System Configuration
+```toml
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/package_name"]
+```
+
+### Testing with pytest
+```toml
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = """
+    --import-mode=importlib
+    --cov=package_name
+    --cov-report=term
+"""
+```
+
+### Code Quality with Ruff
+```toml
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "B",   # flake8-bugbear
+    "I",   # isort
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Ignore unused imports in __init__.py
+"tests/**" = ["S101"]     # Allow assert in tests
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+```
+
+## Working with uv (Package Manager)
+
+### Setup Commands
+- Initialize project: `uv init project_name`
+- Create virtual environment: `uv venv`
+- Add dependencies: `uv add package_name`
+- Add dev dependencies: `uv add --dev pytest ruff pre-commit`
+- Install dependencies: `uv sync`
+- Lock dependencies: `uv lock`
+
+## Code Style Guidelines
+
+### Naming Conventions
+- Classes: `PascalCase`
+- Variables/functions: `snake_case`
+- Constants: `UPPERCASE_WITH_UNDERSCORES`
+- Modules/packages: `lowercase_with_underscores`
+
+### Documentation
+- Use Google-style docstrings 
+- Document all public APIs
+- Include type hints for function parameters and return values
+
+### Testing
+- Write tests for all public functions
+- Aim for high code coverage
+- Use pytest fixtures for test setup
+
+### Error Handling
+- Use specific exceptions
+- Provide helpful error messages
+- Validate inputs early
+
+## Best Practices
+
+1. **Documentation First**: Always include a README.md with clear installation and usage instructions.
+2. **Consistent Versioning**: Use semantic versioning (MAJOR.MINOR.PATCH).
+3. **Environment Management**: Always use virtual environments for development.
+4. **Automated Testing**: Implement a comprehensive test suite with pytest.
+5. **Continuous Integration**: Set up GitHub Actions or similar CI for automated testing.
+6. **Development Tools**: Include standard development tools like linters, formatters, and type checkers.
+7. **Import Organization**: Organize imports into standard library, third-party, and local groups.
+8. **Small Functions**: Keep functions focused on a single task and under 50 lines.
+9. **Configuration**: Use environment variables or config files, not hardcoded values.
+10. **Security**: Validate all inputs and use secure dependencies.
+

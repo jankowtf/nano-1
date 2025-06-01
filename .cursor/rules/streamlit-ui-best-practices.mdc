@@ -1,0 +1,292 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Streamlit UI Best Practices
+
+## Component Organization
+
+### Pages Structure
+
+```
+src/presales/ui/components/pages/
+├── __init__.py
+├── admin_page.py
+├── dashboard_page.py
+├── tickets_page.py
+├── analytics_page.py
+└── settings_page.py
+```
+
+Pages are top-level navigation components that should:
+- Be self-contained and independently loadable
+- Handle their own state initialization
+- Delegate to tab components for sub-navigation
+
+### Tabs Structure
+
+```
+src/presales/ui/components/tabs/
+├── __init__.py
+├── admin/
+│   ├── __init__.py
+│   ├── pricing_tab.py
+│   ├── users_tab.py
+│   └── tshirt_sizes_tab.py
+├── dashboard/
+│   ├── __init__.py
+│   ├── summary_tab.py
+│   └── metrics_tab.py
+└── tickets/
+    ├── __init__.py
+    ├── active_tickets_tab.py
+    ├── completed_tickets_tab.py
+    └── new_ticket_tab.py
+```
+
+Tabs should:
+- Focus on a specific functional area
+- Be modular and reusable
+- Handle their own state management
+
+### Subtabs Structure
+
+```
+src/presales/ui/components/subtabs/
+└── tickets/
+    └── active_tickets/
+        ├── __init__.py
+        ├── kanban_subtab.py
+        └── list_subtab.py
+```
+
+## State Management
+
+### Session State Pattern
+
+```python
+# Initialize state for a component
+def init_component_state():
+    if "component_key" not in st.session_state:
+        st.session_state.component_key = {
+            "value1": default_value1,
+            "value2": default_value2
+        }
+
+# Update state for a component
+def update_component_state(key, value):
+    if "component_key" in st.session_state:
+        st.session_state.component_key[key] = value
+```
+
+### Component Keys
+
+Always use unique, predictable keys for UI components to prevent unexpected re-renders:
+
+```python
+# Bad - generic key
+st.button("Submit", key="submit_button")
+
+# Good - namespaced, specific key
+st.button("Submit", key=f"{page_name}_{tab_name}_submit_button_{item_id}")
+```
+
+### Caching
+
+Use appropriate caching decorators for data loading and processing:
+
+```python
+# For pure functions with no side effects
+@st.cache_data
+def fetch_data_from_api():
+    # API call here
+    return data
+
+# For resource objects (database connections, etc.)
+@st.cache_resource
+def get_database_connection():
+    # Create connection
+    return connection
+```
+
+## UI Components
+
+### Card Component Example
+
+```python
+def ticket_card(ticket_data, key_prefix):
+    """Display a ticket as a card."""
+    with st.container():
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            st.subheader(ticket_data["title"])
+            st.caption(f"ID: {ticket_data['id']} | Created: {ticket_data['created_date']}")
+            st.write(ticket_data["description"])
+            
+        with col2:
+            st.metric("Size", ticket_data["tshirt_size"])
+            st.caption(f"ETA: {ticket_data['eta']}")
+            
+            status_color = {
+                "pending": "🟠",
+                "in_progress": "🟡",
+                "completed": "🟢",
+                "blocked": "🔴"
+            }.get(ticket_data["status"], "⚪")
+            
+            st.write(f"{status_color} {ticket_data['status'].capitalize()}")
+            
+        st.button(
+            "View Details", 
+            key=f"{key_prefix}_view_{ticket_data['id']}",
+            on_click=lambda: handle_view_ticket(ticket_data["id"])
+        )
+        st.divider()
+```
+
+### Navigation Pattern
+
+```python
+def sidebar_navigation():
+    """Create sidebar navigation."""
+    st.sidebar.title("Presales Dashboard")
+    
+    pages = {
+        "Dashboard": "dashboard",
+        "Tickets": "tickets",
+        "Analytics": "analytics",
+        "Admin": "admin"
+    }
+    
+    # Initialize state if needed
+    if "current_page" not in st.session_state:
+        st.session_state.current_page = "dashboard"
+    
+    # Create navigation
+    for page_name, page_id in pages.items():
+        if st.sidebar.button(
+            page_name, 
+            key=f"nav_{page_id}",
+            use_container_width=True,
+            type="primary" if st.session_state.current_page == page_id else "secondary"
+        ):
+            st.session_state.current_page = page_id
+            # Reset page-specific state when changing pages
+            if f"{page_id}_state" in st.session_state:
+                del st.session_state[f"{page_id}_state"]
+```
+
+### Tab Navigation Pattern
+
+```python
+def render_tabs(tabs_config, current_page):
+    """Render tabs for the current page."""
+    if f"{current_page}_current_tab" not in st.session_state:
+        st.session_state[f"{current_page}_current_tab"] = list(tabs_config.keys())[0]
+    
+    tab_names = list(tabs_config.keys())
+    tabs = st.tabs(tab_names)
+    
+    for i, (tab_name, tab_component) in enumerate(tabs_config.items()):
+        with tabs[i]:
+            tab_component()
+```
+
+## Loading and Error States
+
+### Loading Pattern
+
+```python
+def load_data_with_status(fetch_function, *args, **kwargs):
+    """Load data with a loading spinner and error handling."""
+    with st.spinner("Loading data..."):
+        try:
+            data = fetch_function(*args, **kwargs)
+            return data, None
+        except Exception as e:
+            return None, str(e)
+
+# Usage
+data, error = load_data_with_status(api.get_tickets)
+if error:
+    st.error(f"Failed to load tickets: {error}")
+else:
+    display_tickets(data)
+```
+
+### Error Handling Pattern
+
+```python
+def safe_api_call(api_function, *args, **kwargs):
+    """Make an API call with error handling."""
+    try:
+        return api_function(*args, **kwargs), None
+    except Exception as e:
+        return None, str(e)
+
+# Usage
+result, error = safe_api_call(api.create_ticket, ticket_data)
+if error:
+    st.error(f"Failed to create ticket: {error}")
+else:
+    st.success("Ticket created successfully!")
+```
+
+## Form Submission Pattern
+
+```python
+def ticket_form(key_prefix):
+    """Create a form for ticket submission."""
+    with st.form(key=f"{key_prefix}_ticket_form"):
+        title = st.text_input("Title", key=f"{key_prefix}_title")
+        description = st.text_area("Description", key=f"{key_prefix}_description")
+        priority = st.select_slider(
+            "Priority", 
+            options=["Low", "Medium", "High", "Critical"],
+            key=f"{key_prefix}_priority"
+        )
+        
+        submitted = st.form_submit_button("Submit Ticket")
+        
+        if submitted:
+            if not title:
+                st.error("Title is required")
+                return None
+                
+            return {
+                "title": title,
+                "description": description,
+                "priority": priority,
+                "status": "pending"
+            }
+    
+    return None
+```
+
+## Best Practices Summary
+
+1. **Component Isolation**:
+   - Each component should be responsible for its own rendering and state
+   - Components should be reusable and accept parameters for customization
+
+2. **State Management**:
+   - Always initialize state before using it
+   - Use namespaced keys to avoid conflicts
+   - Clear or reset state when navigating between components
+
+3. **Performance**:
+   - Use appropriate caching for expensive operations
+   - Minimize API calls and database queries
+   - Avoid unnecessary re-renders
+
+4. **User Experience**:
+   - Provide feedback for loading states and errors
+   - Use consistent UI patterns across the application
+   - Ensure responsive design for different screen sizes
+
+5. **Code Organization**:
+   - Group related components together
+   - Follow consistent naming conventions
+   - Create utility functions for common patterns

@@ -1,0 +1,558 @@
+---
+title: "Nanobricks Tutorial"
+subtitle: "A comprehensive guide to building with nanobricks"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+    toc-depth: 3
+execute:
+  echo: true
+  warning: false
+---
+
+```{python}
+#| echo: false
+import sys
+import os
+sys.path.append(os.path.abspath("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src"))
+```
+
+## Introduction
+
+This tutorial will teach you how to build production-ready Python systems using nanobricks. We'll start with the basics and work our way up to complex applications.
+
+## Core Concepts
+
+### What is a Nanobrick?
+
+A nanobrick is:
+- **Atomic**: Does one thing well
+- **Self-contained**: No hidden dependencies
+- **Composable**: Combines with other bricks
+- **Type-safe**: Full type inference
+- **Async-first**: Built for modern Python
+
+### The Nanobrick Protocol
+
+Every nanobrick implements this protocol:
+
+```{python}
+#| eval: false
+from typing import Protocol, TypeVar, Generic
+
+T_in = TypeVar('T_in')
+T_out = TypeVar('T_out')
+T_deps = TypeVar('T_deps')
+
+class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
+    name: str
+    version: str
+    
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+```
+
+## Building Your First Nanobrick
+
+### Step 1: Basic Implementation
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickBase
+
+class TemperatureConverter(NanobrickBase[float, dict, None]):
+    """Converts Celsius to Fahrenheit and Kelvin."""
+    
+    def __init__(self):
+        self.name = "temperature_converter"
+        self.version = "1.0.0"
+    
+    async def invoke(self, celsius: float, *, deps=None) -> dict:
+        return {
+            "celsius": celsius,
+            "fahrenheit": (celsius * 9/5) + 32,
+            "kelvin": celsius + 273.15
+        }
+
+# Use it
+converter = TemperatureConverter()
+result = await converter.invoke(25.0)
+print(result)
+# {'celsius': 25.0, 'fahrenheit': 77.0, 'kelvin': 298.15}
+```
+
+### Step 2: Using NanobrickSimple
+
+For bricks without dependencies, use NanobrickSimple:
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickSimple
+
+class WordCounter(NanobrickSimple[str, dict]):
+    """Counts words and characters in text."""
+    
+    async def invoke(self, text: str, *, deps=None) -> dict:
+        words = text.split()
+        return {
+            "text": text,
+            "word_count": len(words),
+            "char_count": len(text),
+            "unique_words": len(set(words))
+        }
+
+counter = WordCounter()
+stats = await counter.invoke("The quick brown fox jumps over the lazy dog")
+```
+
+## Composition Patterns
+
+### Linear Pipelines
+
+The most common pattern is linear composition:
+
+```{python}
+#| eval: false
+class TextCleaner(NanobrickSimple[str, str]):
+    async def invoke(self, text: str, *, deps=None) -> str:
+        return " ".join(text.split())  # Remove extra whitespace
+
+class TextLowercaser(NanobrickSimple[str, str]):
+    async def invoke(self, text: str, *, deps=None) -> str:
+        return text.lower()
+
+class TextTokenizer(NanobrickSimple[str, list]):
+    async def invoke(self, text: str, *, deps=None) -> list:
+        return text.split()
+
+# Compose them
+text_pipeline = TextCleaner() | TextLowercaser() | TextTokenizer()
+
+tokens = await text_pipeline.invoke("  Hello   WORLD  ")
+# ['hello', 'world']
+```
+
+### Branching Pipelines
+
+Use the Branch pattern for conditional logic:
+
+```{python}
+#| eval: false
+from nanobricks.patterns import Branch
+
+class IsAdult(NanobrickSimple[dict, bool]):
+    async def invoke(self, person: dict, *, deps=None) -> bool:
+        return person.get("age", 0) >= 18
+
+adult_pipeline = ProcessAdult() | SendWelcomeEmail()
+minor_pipeline = ProcessMinor() | NotifyGuardian()
+
+age_router = Branch(
+    condition=IsAdult(),
+    true_branch=adult_pipeline,
+    false_branch=minor_pipeline
+)
+
+result = await age_router.invoke({"name": "Alice", "age": 25})
+```
+
+### Parallel Execution
+
+Process multiple items concurrently:
+
+```{python}
+#| eval: false
+from nanobricks.patterns import Parallel
+
+# Run multiple processors in parallel
+parallel_processor = Parallel([
+    CPUIntensiveTask(),
+    NetworkAPICall(),
+    DatabaseQuery()
+])
+
+results = await parallel_processor.invoke(data)
+# Returns: [cpu_result, api_result, db_result]
+```
+
+## Working with Dependencies
+
+### Defining Dependencies
+
+Use TypedDict for type-safe dependencies:
+
+```{python}
+#| eval: false
+from typing import TypedDict
+from nanobricks import NanobrickBase
+
+class AppDeps(TypedDict):
+    db: DatabaseConnection
+    cache: CacheClient
+    logger: Logger
+    config: dict
+
+class UserLoader(NanobrickBase[str, dict, AppDeps]):
+    """Loads user data with caching."""
+    
+    async def invoke(self, user_id: str, *, deps: AppDeps) -> dict:
+        # Check cache first
+        cache_key = f"user:{user_id}"
+        cached = await deps["cache"].get(cache_key)
+        if cached:
+            deps["logger"].info(f"Cache hit for {user_id}")
+            return cached
+        
+        # Load from database
+        user = await deps["db"].fetch_one(
+            "SELECT * FROM users WHERE id = ?", user_id
+        )
+        
+        # Cache for next time
+        await deps["cache"].set(cache_key, user, ttl=300)
+        deps["logger"].info(f"Loaded user {user_id} from DB")
+        
+        return user
+```
+
+### Dependency Injection
+
+Dependencies flow through entire pipelines:
+
+```{python}
+#| eval: false
+from nanobricks.dependencies import DependencyContainer
+
+# Create dependencies
+deps = DependencyContainer(
+    db=database_connection,
+    cache=redis_client,
+    logger=logger,
+    config={"environment": "production"}
+)
+
+# All bricks in pipeline receive deps
+pipeline = ValidateRequest() | UserLoader() | EnrichUser() | SaveUser()
+result = await pipeline.invoke(request, deps=deps.to_dict())
+```
+
+## Error Handling
+
+### Fail-Fast Default
+
+By default, errors propagate immediately:
+
+```{python}
+#| eval: false
+class StrictValidator(NanobrickSimple[dict, dict]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        if "email" not in data:
+            raise ValueError("Email is required")
+        if "@" not in data["email"]:
+            raise ValueError("Invalid email format")
+        return data
+
+# This will raise ValueError if validation fails
+try:
+    result = await StrictValidator().invoke({"name": "Alice"})
+except ValueError as e:
+    print(f"Validation error: {e}")
+```
+
+### Error Recovery
+
+Use fallback patterns for resilience:
+
+```{python}
+#| eval: false
+from nanobricks.patterns import Fallback
+
+class UnreliableAPICall(NanobrickSimple[str, dict]):
+    async def invoke(self, query: str, *, deps=None) -> dict:
+        # This might fail
+        response = await external_api.search(query)
+        return response
+
+class CachedResults(NanobrickSimple[str, dict]):
+    async def invoke(self, query: str, *, deps=None) -> dict:
+        # Return cached/default results
+        return {"results": [], "cached": True}
+
+# Try API first, fall back to cache
+safe_search = Fallback(
+    primary=UnreliableAPICall(),
+    fallback=CachedResults()
+)
+
+result = await safe_search.invoke("python nanobricks")
+```
+
+## Using Built-in Components
+
+### Validators
+
+```{python}
+#| eval: false
+from nanobricks.validators import (
+    EmailValidator,
+    RangeValidator,
+    TypeValidator,
+    SchemaValidator
+)
+
+# Email validation
+email_validator = EmailValidator()
+valid_email = await email_validator.invoke("user@example.com")
+
+# Range validation
+age_validator = RangeValidator(min_value=0, max_value=150)
+valid_age = await age_validator.invoke(25)
+
+# Schema validation
+user_schema = {
+    "name": str,
+    "age": int,
+    "email": str,
+    "active": bool
+}
+schema_validator = SchemaValidator(schema=user_schema)
+valid_user = await schema_validator.invoke({
+    "name": "Alice",
+    "age": 30,
+    "email": "alice@example.com",
+    "active": True
+})
+```
+
+### Transformers
+
+```{python}
+#| eval: false
+from nanobricks.transformers import (
+    JSONTransformer,
+    CSVParser,
+    TypeConverter,
+    TextNormalizer
+)
+
+# Parse JSON
+json_parser = JSONTransformer()
+data = await json_parser.invoke('{"name": "Alice", "age": 30}')
+
+# Parse CSV
+csv_parser = CSVParser(has_header=True)
+rows = await csv_parser.invoke("name,age\nAlice,30\nBob,25")
+
+# Convert types
+converter = TypeConverter(target_type=int)
+number = await converter.invoke("42")
+
+# Normalize text
+normalizer = TextNormalizer(
+    lowercase=True,
+    remove_punctuation=True,
+    remove_extra_spaces=True
+)
+clean_text = await normalizer.invoke("Hello,  WORLD!!!")
+```
+
+## Adding Skills
+
+### Logging Skill
+
+```{python}
+#| eval: false
+# Method 1: Decorator
+from nanobricks import skill
+
+@skill("logging", level="INFO")
+class DataProcessor(NanobrickSimple[dict, dict]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        # Processing happens here
+        return {"processed": True, **data}
+
+# Method 2: Runtime
+processor = DataProcessor()
+logged_processor = processor.with_skill("logging", level="DEBUG")
+```
+
+### API Skill
+
+```{python}
+#| eval: false
+@skill("api", port=8000, path="/process")
+class APIProcessor(NanobrickSimple[dict, dict]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        return {"status": "processed", "data": data}
+
+processor = APIProcessor()
+processor.start_server()  # Now available via HTTP
+```
+
+### Multiple Skills
+
+```{python}
+#| eval: false
+@skill("logging")
+@skill("api", port=8080)
+@skill("observability")
+class ProductionService(NanobrickSimple[dict, dict]):
+    """A production-ready service with multiple skills."""
+    
+    async def invoke(self, request: dict, *, deps=None) -> dict:
+        # Your business logic here
+        return {"response": "ok"}
+```
+
+## Testing Your Nanobricks
+
+### Unit Testing
+
+```{python}
+#| eval: false
+import pytest
+from myapp.bricks import DataValidator
+
+@pytest.mark.asyncio
+async def test_validator():
+    validator = DataValidator()
+    
+    # Test valid input
+    result = await validator.invoke({"email": "test@example.com"})
+    assert result["email"] == "test@example.com"
+    
+    # Test invalid input
+    with pytest.raises(ValueError):
+        await validator.invoke({"email": "invalid"})
+```
+
+### Testing Pipelines
+
+```{python}
+#| eval: false
+@pytest.mark.asyncio
+async def test_pipeline():
+    pipeline = Loader() | Validator() | Transformer()
+    
+    result = await pipeline.invoke("input_data")
+    assert result["status"] == "transformed"
+```
+
+### Testing with Dependencies
+
+```{python}
+#| eval: false
+from nanobricks.dependencies import MockDatabase, MockCache
+
+@pytest.mark.asyncio
+async def test_with_deps():
+    mock_deps = {
+        "db": MockDatabase({"users": [{"id": 1, "name": "Test"}]}),
+        "cache": MockCache()
+    }
+    
+    loader = UserLoader()
+    user = await loader.invoke("1", deps=mock_deps)
+    assert user["name"] == "Test"
+```
+
+## Configuration
+
+### Using TOML Configuration
+
+Create `nanobrick.toml`:
+
+```toml
+[project]
+name = "my-app"
+version = "1.0.0"
+
+[logging]
+level = "INFO"
+format = "json"
+
+[database]
+url = "postgresql://localhost/myapp"
+pool_size = 10
+
+[features]
+cache_enabled = true
+rate_limiting = true
+```
+
+Load in your bricks:
+
+```{python}
+#| eval: false
+from nanobricks.config import get_default_config
+
+class ConfigurableService(NanobrickSimple[dict, dict]):
+    def __init__(self):
+        super().__init__()
+        self.config = get_default_config()
+    
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        if self.config.features.cache_enabled:
+            # Use caching logic
+            pass
+        
+        return data
+```
+
+## Next Steps
+
+Now that you understand the basics:
+
+1. **Build Larger Systems**: Check out the [SDK Guide](sdk-guide.html)
+2. **Learn Patterns**: Read the [Design Patterns](patterns.html) guide
+3. **Deploy to Production**: See the [Production Guide](production.html)
+4. **Explore Examples**: Browse our [example repository](https://github.com/nanobricks/examples)
+
+## Quick Reference
+
+### Creating Bricks
+```{python}
+#| eval: false
+# Simple brick (no deps)
+class MyBrick(NanobrickSimple[InputType, OutputType]):
+    async def invoke(self, input: InputType, *, deps=None) -> OutputType:
+        pass
+
+# With dependencies
+class MyBrick(NanobrickBase[InputType, OutputType, DepsType]):
+    async def invoke(self, input: InputType, *, deps: DepsType) -> OutputType:
+        pass
+```
+
+### Composition
+```{python}
+#| eval: false
+# Linear
+pipeline = A() | B() | C()
+
+# Branching
+branch = Branch(condition, true_path, false_path)
+
+# Parallel
+parallel = Parallel([A(), B(), C()])
+
+# Fallback
+safe = Fallback(primary, backup)
+```
+
+### Skills
+```{python}
+#| eval: false
+# Add at runtime
+brick.with_skill("logging")
+brick.with_skill("api", port=8000)
+brick.with_skill("cache", ttl=300)
+
+# Add with decorator
+@skill("logging")
+@skill("api")
+class MyBrick(NanobrickSimple[In, Out]):
+    pass
+```

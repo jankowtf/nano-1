@@ -1,0 +1,262 @@
+---
+title: "AI Integration Patterns"
+subtitle: "Nanobricks with reasoning capabilities"
+---
+
+## Vision: AI-Powered Nanobricks
+
+Each nanobrick can have reasoning capabilities by programmatically interfacing with LLMs or agents.
+
+::: {.callout-note}
+## Protocol Deep Dive
+For a comprehensive comparison of AI protocols (MCP, A2A, AG-UI, ACP), see the [AI Protocols](ai-protocols.qmd) page.
+:::
+
+## Integration Options
+
+### Option 1: MCP Server Skill (Recommended)
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) provides standardized AI communication between applications and LLMs:
+
+```python
+@skill
+class SkillMCPServer:
+    """Enables MCP server protocol for AI communication"""
+    
+    def enhance(self, nanobrick: Nanobrick) -> Nanobrick:
+        # Add MCP server capabilities
+        nanobrick.mcp_server = MCPServer(
+            tools=nanobrick.get_tools(),
+            prompts=nanobrick.get_prompts()
+        )
+        return nanobrick
+```
+
+**Advantages:**
+- Standardized protocol ("USB-C for AI")
+- Tool/prompt/resource exposure
+- Vendor-agnostic LLM support
+- Growing ecosystem adoption
+- Python SDK available
+
+### Option 2: Multi-Protocol Support
+
+Beyond MCP, nanobricks can support multiple protocols:
+
+#### A2A (Agent-to-Agent) by Google
+For nanobrick-to-nanobrick communication:
+
+```python
+@skill
+class SkillA2A:
+    """Enable agent discovery and collaboration"""
+    
+    def create_agent_card(self, nanobrick: Nanobrick):
+        return {
+            "id": f"nanobrick.{nanobrick.name}",
+            "capabilities": nanobrick.list_capabilities(),
+            "rpc_endpoint": f"/agent/{nanobrick.name}/rpc"
+        }
+```
+
+#### AG-UI (Agent User Interaction)
+For interactive interfaces:
+
+```python
+@skill  
+class SkillAgentUI:
+    """Adds visual agent interface"""
+    
+    def enhance(self, nanobrick: Nanobrick) -> Nanobrick:
+        # Create AG-UI compatible interface
+        nanobrick.agent_ui = AgentUI(
+            name=nanobrick.name,
+            capabilities=nanobrick.capabilities
+        )
+        return nanobrick
+```
+
+**Advantages:**
+- Visual debugging
+- Interactive development
+- Agent orchestration
+
+#### ACP (Agent Communication Protocol)
+For REST-based interoperability:
+
+```python
+@skill
+class SkillACP:
+    """REST-based agent communication"""
+    
+    def as_rest_agent(self, nanobrick: Nanobrick):
+        # Exposes standard REST endpoints
+        return ACPAgent(nanobrick)
+```
+
+### Option 3: Direct LLM Integration
+
+Simple, direct LLM calls:
+
+```python
+@skill
+class SkillLLM:
+    """Direct LLM integration"""
+    
+    model: str = "gpt-4"
+    
+    async def reason(self, context: dict) -> str:
+        # Direct API calls to LLMs
+        return await llm_call(self.model, context)
+```
+
+**Advantages:**
+- Simple implementation
+- Full control
+- Provider flexibility
+
+### Option 4: LangChain/LangGraph Integration
+
+Leverage existing frameworks:
+
+```python
+@skill
+class SkillLangChain:
+    """LangChain integration for complex reasoning"""
+    
+    def as_tool(self, nanobrick: Nanobrick) -> Tool:
+        # Expose nanobrick as LangChain tool
+        return Tool(
+            name=nanobrick.name,
+            func=nanobrick.invoke,
+            description=nanobrick.__doc__
+        )
+```
+
+## Architecture Considerations
+
+### 1. Separation of Concerns
+- Core nanobrick logic remains pure
+- AI capabilities as optional enhancement
+- Clear boundaries between reasoning and execution
+
+### 2. State Management
+```python
+class AIStatefulNanobrick(StatefulNanobrick):
+    """Nanobrick with AI memory"""
+    
+    memory: ConversationMemory
+    reasoning_trace: List[ReasoningStep]
+    
+    async def think(self, input: Any) -> ThoughtProcess:
+        # AI reasoning with memory
+        ...
+```
+
+### 3. Multi-Agent Patterns
+```python
+# Nanobricks as agents
+validator_agent = ValidatorData().with_skill(SkillMCPServer())
+transformer_agent = DataTransformer().with_skill(SkillMCPServer())
+
+# Agent collaboration
+orchestrator = AgentOrchestrator([validator_agent, transformer_agent])
+```
+
+## Protocol Selection Strategy
+
+### Primary: MCP for LLM Integration
+- Best for exposing nanobrick capabilities to LLMs
+- Clean abstraction for tools and resources
+- Strong ecosystem support
+
+### Secondary: A2A for Agent Collaboration  
+- When nanobricks need to work with other agents
+- Preserves autonomy and opacity
+- Enables complex multi-agent workflows
+
+### Tertiary: AG-UI for Interactivity
+- For human-in-the-loop scenarios
+- Real-time state updates
+- Event-driven UI synchronization
+
+## Implementation Roadmap
+
+### Phase 1: MCP Foundation (Start Here)
+1. Implement SkillMCP with tool exposure
+2. Create MCP server for nanobricks
+3. Test with Claude/other LLMs
+
+### Phase 2: Multi-Protocol Support
+1. Add A2A for agent collaboration
+2. Implement AG-UI for interactive UIs
+3. Create protocol adapters/bridges
+
+### Phase 3: Advanced Features
+1. Cross-protocol orchestration
+2. Protocol translation layer
+3. Unified agent registry
+
+## Example: Multi-Protocol Nanobrick
+
+```python
+@nanobrick
+class SmartValidator(Nanobrick[dict, dict]):
+    """Validator with multiple AI protocol support"""
+    
+    def __init__(self, protocols: List[str] = ["mcp"]):
+        # Add requested protocols
+        if "mcp" in protocols:
+            self.add_skill(SkillMCP())
+        if "a2a" in protocols:
+            self.add_skill(SkillA2A())
+        if "agui" in protocols:
+            self.add_skill(SkillAGUI())
+    
+    async def invoke(self, input: dict) -> dict:
+        # Traditional validation
+        errors = self.validate(input)
+        
+        # AI enhancement via MCP
+        if errors and self.has_skill(SkillMCP):
+            reasoning = await self.ai_reason(input, errors)
+            if reasoning.suggests_fix:
+                input = reasoning.apply_fix(input)
+        
+        # Emit events for UI if AG-UI enabled
+        if self.has_skill(SkillAGUI):
+            self.emit_event("validation_complete", {
+                "errors": errors,
+                "fixed": reasoning.applied_fixes
+            })
+        
+        return input
+```
+
+## Best Practices
+
+1. **Progressive Enhancement**
+   - Nanobricks work without AI
+   - AI adds value, not dependency
+
+2. **Clear Interfaces**
+   - Expose tools/prompts explicitly
+   - Document AI capabilities
+
+3. **Cost Management**
+   - Cache AI responses
+   - Batch reasoning when possible
+
+## Open Questions
+
+1. Should AI be a skill or core capability?
+2. How do we standardize prompts across nanobricks?
+3. What's the best way to handle AI failures?
+
+## Resources
+
+- [MCP Documentation](https://modelcontextprotocol.io)
+- [A2A Protocol](https://github.com/google/A2A)
+- [AG-UI Documentation](https://docs.ag-ui.com/)
+- [ACP Standard](https://agentcommunicationprotocol.dev)
+- [AI Protocols Comparison](ai-protocols.qmd)

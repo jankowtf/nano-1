@@ -1,0 +1,148 @@
+---
+title: "Nanobricks"
+subtitle: "The SDK for building composable Python systems"
+author: "Jan Kothyson & Claude"
+date: today
+---
+
+## Build Better Python Systems
+
+Nanobricks is a revolutionary SDK that lets you build production-ready Python systems from small, composable components. Think "Lego blocks for code" - simple pieces that combine to create anything.
+
+## Why Nanobricks?
+
+### 🧱 **Atomic Components**
+Every nanobrick does ONE thing well. No bloated classes, no complex inheritance - just simple, focused components that you can understand at a glance.
+
+### 🔗 **Universal Composition**
+All nanobricks share the same interface. Combine them with the pipe operator (`|`) to build complex systems from simple parts. What works alone works in combination.
+
+### 🚀 **Progressive Enhancement**
+Start simple, add capabilities as needed. Skills like logging, API endpoints, and monitoring can be added to any nanobrick without changing its code.
+
+### 🏭 **Production Ready**
+Built-in support for everything you need in production: deployment (Docker, Kubernetes), observability, security, performance optimization, and more.
+
+## Quick Example
+
+```python
+from nanobricks import NanobrickSimple, skill
+
+# Define atomic components
+@skill("logging")
+class ValidateUser(NanobrickSimple[dict, dict]):
+    async def invoke(self, user: dict, *, deps=None) -> dict:
+        if not user.get("email"):
+            raise ValueError("Email required")
+        return user
+
+@skill("api", port=8080)
+class UserService(NanobrickSimple[dict, dict]):
+    def __init__(self):
+        super().__init__()
+        self.pipeline = (
+            ValidateUser()
+            | EnrichUser()
+            | SaveUser()
+        ).with_skill("retry", max_attempts=3)
+    
+    async def invoke(self, user: dict, *, deps=None) -> dict:
+        return await self.pipeline.invoke(user, deps=deps)
+
+# Deploy it!
+service = UserService()
+service.start_server()  # REST API at http://localhost:8080
+```
+
+## The Ten Principles
+
+1. **Be Simple** — Complexity emerges from composition, not components
+2. **Be Standardized** — One interface to rule them all
+3. **Be Composable** — Play well with others
+4. **Be Self-Sufficient** — Carry what you need
+5. **Be Scaffoldable** — Work out of the box
+6. **Be Observable** — Show what you're doing
+7. **Be Resilient** — Fail gracefully, recover automatically
+8. **Be Configurable** — Adapt without changing
+9. **Be Evolutionary** — Improve over time
+10. **Be Secure** — Safe by default
+
+## Get Started
+
+### 🚀 **[Quickstart Guide](quickstart.qmd)**
+Build your first nanobrick in 10 minutes
+
+### 📚 **[Tutorial](tutorial.qmd)**
+Learn nanobricks step by step
+
+### 🏗️ **[SDK Guide](sdk-guide.qmd)**
+Build production systems with nanobricks
+
+### 🎨 **[Design Patterns](patterns.qmd)**
+Advanced composition patterns and best practices
+
+## Use Cases
+
+### Build a REST API
+```python
+api = create_rest_api(
+    endpoints=[UserEndpoints(), OrderEndpoints()],
+    middleware=[RateLimiter(), Authenticator()],
+    skills=["logging", "monitoring", "docker"]
+)
+```
+
+### Create a Data Pipeline
+```python
+pipeline = (
+    S3Loader(bucket="raw-data")
+    | CSVParser()
+    | DataValidator(schema)
+    | Transformer()
+    | DatabaseWriter()
+).with_skill("monitoring")
+```
+
+### Design a Microservice
+```python
+service = create_microservice(
+    name="payment-processor",
+    handlers={
+        "POST /payments": ProcessPayment(),
+        "payment.requested": PaymentHandler()
+    },
+    skills=["api", "kubernetes", "observability"]
+)
+```
+
+## Key Features
+
+### Skills System
+Add capabilities without changing code:
+- 🚀 **API** - REST endpoints with FastAPI
+- 💻 **CLI** - Command-line interface with Typer  
+- 🎨 **UI** - Web interface with Streamlit
+- 📊 **Observability** - Metrics, traces, and logs
+- 🐳 **Docker** - Automatic containerization
+- ☸️ **Kubernetes** - Cloud-native deployment
+- 🤖 **AI** - LLM integration and agent capabilities
+
+### Type Safety
+Full type inference through entire pipelines. Your IDE knows the types at every step.
+
+### Production Features
+- Circuit breakers and bulkheads
+- Rate limiting and authentication
+- Health checks and graceful shutdown
+- Caching and performance optimization
+- Security hardening
+
+## Join the Community
+
+- [GitHub](https://github.com/nanobricks/nanobricks)
+- [Discord](https://discord.gg/nanobricks)
+- [Examples](https://github.com/nanobricks/examples)
+
+---
+
+*Build it right, build it once.*

@@ -1,0 +1,126 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+1. Use `uv` instead of `pip`
+2. Use `fastapi` for APIs
+3. Use `typer` for CLIs
+4. Use `sqlmodel` for database
+5. Use `pydantic` for data validation
+6. Use `dotenv-vault` for environment variables
+7. Use `loguru` for logging
+8. Linter: `ruff`. Lines should be max 88 characters long
+
+# Modules
+1. When creating python modules, strive for modularity and reusability through great composability
+2. New modules should start out as directory-based modules
+3. We use a `noun_verb` or `component_verb` naming convention for modules and its submodules
+4. We always use absolute imports (e.g. `from nano_scorm.parser import
+   SCORMParser` instead of `from .parser import SCORMParser`)
+
+# Infrastructure and Naming Conventions
+
+## Naming Convention: Entity-First Pattern
+
+We use an `<entity>:<variant>` or `<component>:<action>` naming convention throughout the codebase for better organization and discoverability.
+
+### General Pattern
+- **Entity/Component comes FIRST**: The main concept or component
+- **Variant/Action comes SECOND**: The specific variant or action
+
+### Examples by Context
+
+#### Classes
+```python
+# ✅ Correct
+class SkillAPI:     # Entity: Skill, Variant: API
+class SkillCLI:     # Entity: Skill, Variant: CLI
+class SkillUI:      # Entity: Skill, Variant: UI
+class ValidatorEmail:    # Entity: Validator, Variant: Email
+class TransformerJSON:   # Entity: Transformer, Variant: JSON
+
+# ❌ Incorrect
+class SkillAI:
+class ValidatorEmail:
+```
+
+#### Functions/Methods
+```python
+# ✅ Correct
+def nanobrick_create():  # Entity: nanobrick, Action: create
+def nanobrick_compose(): # Entity: nanobrick, Action: compose
+def validator_check():   # Entity: validator, Action: check
+
+# ❌ Incorrect
+def create_nanobrick():
+def check_validator():
+```
+
+#### API Endpoints
+```python
+# ✅ Correct
+@app.post("/nanobrick/create")
+@app.get("/nanobrick/list")
+@app.put("/skill/activate")
+
+# ❌ Incorrect
+@app.post("/create-nanobrick")
+@app.get("/list-nanobricks")
+```
+
+#### CLI Commands
+```bash
+# ✅ Correct
+nanobrick create
+nanobrick list
+skill add
+skill remove
+
+# ❌ Incorrect
+create-nanobrick
+add-skill
+```
+
+#### Go Tasks (Taskfile.yml)
+```yaml
+# ✅ Correct
+tasks:
+  docs:render:
+  docs:preview:
+  docs:clean:
+  brick:new:
+  brick:test:
+  quarto:render:
+  quarto:build:
+
+# ❌ Incorrect
+tasks:
+  render:docs:
+  new:brick:
+```
+
+#### File Names
+```
+# ✅ Correct
+skill_api.py
+skill_cli.py
+validator_email.py
+transformer_json.py
+
+# ❌ Incorrect
+api_skill.py
+email_validator.py
+```
+
+### Benefits
+1. **Grouping**: Related items naturally group together alphabetically
+2. **Discovery**: Easy to find all variants of an entity
+3. **Consistency**: Same pattern across all layers of the stack
+4. **Clarity**: Clear hierarchy of concepts
+
+### Application Rules
+1. **Always** use entity-first naming for new code
+2. **Refactor** existing code to follow this pattern when touched
+3. **Document** any exceptions with clear rationale
+4. **Enforce** in code reviews and automated linting

@@ -1,0 +1,214 @@
+---
+title: "Quickstart Guide"
+subtitle: "Build composable Python systems in 10 minutes"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+---
+
+## Installation
+
+```bash
+pip install nanobricks
+```
+
+Or with development dependencies:
+
+```bash
+pip install "nanobricks[dev]"
+```
+
+## Your First Nanobrick
+
+Every nanobrick is a self-contained unit of functionality:
+
+```{python}
+#| eval: false
+# Note: This example uses async/await syntax. 
+# In a Jupyter notebook, you can run this directly with 'await'.
+# In a Python script, wrap in asyncio.run() or use invoke_sync().
+
+from nanobricks import NanobrickSimple
+
+class GreeterBrick(NanobrickSimple[str, str]):
+    """Says hello to someone."""
+    
+    async def invoke(self, name: str, *, deps=None) -> str:
+        return f"Hello, {name}!"
+
+# Use it
+greeter = GreeterBrick()
+
+# In Jupyter/async context:
+message = await greeter.invoke("World")
+
+# In regular Python script:
+# import asyncio
+# message = asyncio.run(greeter.invoke("World"))
+# OR
+# message = greeter.invoke_sync("World")
+
+print(message)  # "Hello, World!"
+```
+
+## Composing Nanobricks
+
+The real power comes from composition using the pipe operator:
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickSimple
+
+class UppercaseBrick(NanobrickSimple[str, str]):
+    async def invoke(self, text: str, *, deps=None) -> str:
+        return text.upper()
+
+class ExclamationBrick(NanobrickSimple[str, str]):
+    async def invoke(self, text: str, *, deps=None) -> str:
+        return f"{text}!!!"
+
+# Compose them!
+pipeline = GreeterBrick() | UppercaseBrick() | ExclamationBrick()
+
+# Produces: "HELLO, ALICE!!!"
+result = await pipeline.invoke("Alice")
+```
+
+## Adding Skills
+
+Skills add capabilities without changing your brick's core logic:
+
+```{python}
+#| eval: false
+# Add logging
+logged_greeter = greeter.with_skill("logging")
+
+# Add API endpoint
+api_greeter = greeter.with_skill("api", port=8000)
+
+# Add CLI interface
+cli_greeter = greeter.with_skill("cli")
+
+# Chain multiple skills
+production_greeter = (
+    greeter
+    .with_skill("logging")
+    .with_skill("api")
+    .with_skill("observability")
+)
+```
+
+## Building Real Applications
+
+Here's a complete data validation service in under 20 lines:
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickSimple, skill
+from nanobricks.validators import EmailValidator, TypeValidator
+
+@skill("api", port=8080)
+@skill("logging")
+class UserValidationService(NanobrickSimple[dict, dict]):
+    """Validates user registration data."""
+    
+    def __init__(self):
+        super().__init__()
+        self.pipeline = (
+            TypeValidator({"email": str, "age": int})
+            | EmailValidator(field="email")
+            | self.enrich_user
+        )
+    
+    async def invoke(self, user_data: dict, *, deps=None) -> dict:
+        validated = await self.pipeline.invoke(user_data)
+        return {"valid": True, "user": validated}
+    
+    async def enrich_user(self, data: dict, *, deps=None) -> dict:
+        data["created_at"] = "2024-01-01"
+        return data
+
+# Run it!
+service = UserValidationService()
+service.start_server()  # Now available at http://localhost:8080
+```
+
+## What's Next?
+
+### Learn the Concepts
+- [Tutorial](tutorial.html) - Step-by-step guide
+- [Core Concepts](concepts.html) - Understand the architecture
+
+### Build Systems
+- [SDK Guide](sdk-guide.html) - Build larger applications
+- [Patterns](patterns.html) - Best practices and design patterns
+
+### Deploy to Production
+- [Production Guide](production.html) - Deploy and scale
+- [API Reference](api-reference.html) - Complete reference
+
+## Quick Examples
+
+### Data Pipeline
+```{python}
+#| eval: false
+from nanobricks.transformers import CSVParser, TypeConverter
+from nanobricks.validators import SchemaValidator
+
+etl_pipeline = (
+    CSVParser()
+    | SchemaValidator(schema)
+    | TypeConverter(types={"age": int, "salary": float})
+    | DatabaseWriter()
+).with_skill("retry", max_attempts=3)
+```
+
+### REST API Gateway
+```{python}
+#| eval: false
+from nanobricks.skills import create_api_gateway
+
+api = create_api_gateway(
+    routes={
+        "/users": UserService(),
+        "/orders": OrderService(),
+        "/products": ProductService(),
+    },
+    middleware=[
+        RateLimiter(100),
+        Authenticator(),
+        RequestLogger(),
+    ]
+)
+```
+
+### Microservice
+```{python}
+#| eval: false
+from nanobricks import create_microservice
+
+service = create_microservice(
+    name="payment-processor",
+    bricks=[
+        ValidatePayment(),
+        CheckFraud(),
+        ProcessPayment(),
+        SendReceipt(),
+    ],
+    skills=["api", "cli", "docker", "kubernetes", "monitoring"]
+)
+```
+
+## Join the Community
+
+- [GitHub](https://github.com/nanobricks/nanobricks)
+- [Discord](https://discord.gg/nanobricks)
+- [Examples Repository](https://github.com/nanobricks/examples)
+
+---
+
+Ready to build? Check out the [Tutorial](tutorial.html) for a deeper dive!

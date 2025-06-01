@@ -1,0 +1,153 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# pyproject.toml Configuration Template
+
+When working with `pyproject.toml`, follow these guidelines:
+
+## Basic Structure
+
+```toml
+[project]
+name = "package_name"
+version = "0.1.0"
+description = "Short description of your project"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    # Runtime dependencies go here
+]
+
+[project.urls]
+"Homepage" = "https://github.com/username/repo"
+"Bug Tracker" = "https://github.com/username/repo/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    "pre-commit>=3.3.0",
+    "ruff>=0.1.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+]
+
+[build-system]
+requires = ["hatchling>=1.18.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/package_name"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = """
+    --import-mode=importlib
+    --cov=package_name
+    --cov-report=term
+    --cov-report=xml
+    --cov-report=html
+"""
+
+[tool.coverage.paths]
+source = ["src/", ".tox/*/site-packages/"]
+
+[tool.coverage.run]
+source = ["package_name"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+src = ["src"]
+extend-exclude = ["__pycache__", "*.pyc", "*.egg-info"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "B",   # flake8-bugbear
+    "I",   # isort
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+]
+ignore = [
+    # Add rules to ignore here
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]  # Ignore unused imports in __init__.py
+"tests/**" = ["S101"]     # Allow assert in tests
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+```
+
+## Key Sections to Include
+
+1. **[project]**: Contains core metadata about your package
+2. **[build-system]**: Specifies the build backend (hatchling recommended)
+3. **[project.optional-dependencies]**: Groups dependencies by purpose (dev, test, docs)
+4. **[tool.pytest.ini_options]**: Configure pytest behavior
+5. **[tool.coverage]**: Configure test coverage settings
+6. **[tool.ruff]**: Configure Ruff for linting and formatting
+
+## Best Practices
+
+- Use semantic versioning for the version field
+- Set an appropriate Python version constraint in requires-python
+- Group dependencies logically using optional-dependencies
+- Configure comprehensive test coverage reporting
+- Set up Ruff for both linting and formatting
+- Include relevant classifiers for better PyPI categorization
+
+## Common Classifiers
+
+```toml
+classifiers = [
+    "Development Status :: 3 - Alpha",  # Or 4 - Beta, 5 - Production/Stable
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",  # Match your license
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries",
+]
+```
+
+## Working with uv
+
+When using uv with this configuration:
+
+- Add runtime dependencies: `uv add dependency_name`
+- Add dev dependencies: `uv add --dev pytest ruff pre-commit`
+- Add doc dependencies: `uv add --group docs sphinx sphinx-rtd-theme`
+- Install all dependencies: `uv sync`
+- Create lockfile: `uv lock`

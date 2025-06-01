@@ -1,0 +1,212 @@
+---
+title: "Naming Conventions"
+subtitle: "Entity-first pattern for consistency"
+---
+
+## Core Principle: Entity-First
+
+We use an `<entity>:<variant>` or `<component>:<action>` naming convention throughout the Nanobricks ecosystem.
+
+## The Pattern
+
+```
+<entity>:<variant>
+<component>:<action>
+```
+
+- **Entity/Component** comes FIRST (the main concept)
+- **Variant/Action** comes SECOND (the specific type or operation)
+
+## Examples Across the Stack
+
+### Python Classes
+
+::: {.pattern-good}
+```python
+# ✅ Correct: Entity-first
+class SkillAPI:      # Skill is the entity, API is the variant
+class SkillCLI:      
+class SkillUI:       
+class SkillDB:       
+class SkillAI:       
+
+class NanobrickValidator:
+class NanobrickTransformer:
+class NanobrickPersistor:
+
+class ValidatorEmail:     # Validator entity, Email variant
+class ValidatorPhone:
+class ValidatorAddress:
+```
+:::
+
+::: {.pattern-bad}
+```python
+# ❌ Incorrect: Variant-first
+class SkillAI:
+class SkillCLI:
+class ValidatorEmail:
+```
+:::
+
+### Functions and Methods
+
+::: {.pattern-good}
+```python
+# ✅ Correct
+def nanobrick_create(name: str) -> Nanobrick:
+def nanobrick_compose(bricks: List[Nanobrick]) -> Nanobrick:
+def nanobrick_validate(brick: Nanobrick) -> bool:
+
+def skill_activate(power: Skill) -> None:
+def skill_deactivate(power: Skill) -> None:
+```
+:::
+
+### API Endpoints
+
+::: {.pattern-good}
+```python
+# ✅ Correct: RESTful with entity-first
+@app.post("/nanobrick/create")
+@app.get("/nanobrick/list")
+@app.get("/nanobrick/{id}")
+@app.put("/nanobrick/{id}/compose")
+
+@app.post("/skill/activate")
+@app.get("/skill/available")
+```
+:::
+
+### CLI Commands
+
+::: {.pattern-good}
+```bash
+# ✅ Correct: Entity as command, action as subcommand
+$ nanobrick create my-validator
+$ nanobrick list
+$ nanobrick compose pipeline.yaml
+
+$ skill add api
+$ skill remove cli
+$ skill list
+```
+:::
+
+### Go Tasks (Taskfile.yml)
+
+::: {.pattern-good}
+```yaml
+# ✅ Correct: Entity:action format
+tasks:
+  # Documentation tasks
+  docs:render:
+  docs:preview:
+  docs:publish:
+  docs:clean:
+  
+  # Nanobrick tasks
+  brick:new:
+  brick:test:
+  brick:lint:
+  brick:publish:
+  
+  # Quarto specific
+  quarto:render:
+  quarto:check:
+  
+  # Development
+  dev:setup:
+  dev:test:
+  dev:lint:
+```
+:::
+
+### File Names
+
+::: {.pattern-good}
+```
+# ✅ Correct
+skill_api.py
+skill_cli.py
+skill_ui.py
+skill_db.py
+skill_ai.py
+
+nanobrick_core.py
+nanobrick_protocol.py
+nanobrick_composition.py
+
+validator_email.py
+validator_phone.py
+transformer_json.py
+transformer_xml.py
+```
+:::
+
+## Benefits
+
+### 1. Natural Grouping
+Files, classes, and functions group together alphabetically by entity:
+```
+nanobrick_compose()
+nanobrick_create()
+nanobrick_validate()
+```
+
+### 2. Easy Discovery
+Find all skill-related code instantly:
+```python
+SkillAPI
+SkillCLI
+SkillUI
+skill_activate()
+skill_list()
+```
+
+### 3. Consistent Mental Model
+The same pattern works everywhere:
+- Classes: `EntityVariant`
+- Functions: `entity_action()`
+- CLI: `entity action`
+- API: `/entity/action`
+- Tasks: `entity:action`
+
+### 4. Scalability
+As the project grows, related concepts stay together:
+```
+ValidatorEmail
+ValidatorPhone
+ValidatorAddress
+ValidatorCreditCard
+ValidatorSSN
+```
+
+## Implementation Guidelines
+
+1. **New Code**: Always follow entity-first pattern
+2. **Refactoring**: Update naming when modifying existing code
+3. **Reviews**: Enforce in code reviews
+4. **Automation**: Consider linting rules for enforcement
+5. **Documentation**: Update examples to follow convention
+
+## Exceptions
+
+Rare exceptions may exist for:
+- External API compatibility
+- Third-party library constraints
+- Legacy system integration
+
+Document any exceptions clearly with rationale.
+
+## Quick Reference
+
+| Context | Pattern | Example |
+|---------|---------|---------|
+| Class | `EntityVariant` | `SkillAPI` |
+| Function | `entity_action()` | `nanobrick_create()` |
+| Method | `entity_action()` | `self.validator_check()` |
+| CLI | `entity action` | `nanobrick create` |
+| API | `/entity/action` | `/nanobrick/create` |
+| Task | `entity:action` | `docs:render` |
+| File | `entity_variant.py` | `skill_api.py` |

@@ -1,0 +1,1284 @@
+---
+title: "Production Examples"
+subtitle: "Real-world applications built with Nanobricks"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+    toc-depth: 3
+execute:
+  echo: true
+  warning: false
+---
+
+## Introduction
+
+This guide contains complete, production-ready examples showing how to build real applications with Nanobricks. Each example includes error handling, monitoring, deployment configuration, and best practices.
+
+## Example 1: User Management API
+
+A complete user management service with authentication, validation, and database persistence.
+
+### Architecture Overview
+
+```{mermaid}
+graph LR
+    A[HTTP Request] --> B[Rate Limiter]
+    B --> C[Authenticator]
+    C --> D[Request Validator]
+    D --> E[User Service]
+    E --> F[Database]
+    E --> G[Cache]
+    E --> H[Event Bus]
+    H --> I[Email Service]
+    H --> J[Analytics]
+```
+
+### Implementation
+
+```{python}
+#| eval: false
+#| code-fold: false
+from nanobricks import NanobrickBase, NanobrickSimple, create_service
+from nanobricks.skills import skill
+from nanobricks.patterns import Pipeline, Branch, Fallback
+from nanobricks.security import hash_password, verify_password
+import asyncpg
+import redis.asyncio as redis
+from typing import Optional, Dict, List
+from datetime import datetime, timedelta
+import jwt
+
+# Configuration
+JWT_SECRET = "your-secret-key"
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRATION = timedelta(hours=24)
+
+# Dependencies
+class ServiceDeps(TypedDict):
+    db: asyncpg.Pool
+    cache: redis.Redis
+    event_bus: EventBus
+    config: Dict
+
+# Data Models
+from pydantic import BaseModel, EmailStr
+
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+    full_name: str
+
+class User(BaseModel):
+    id: str
+    email: str
+    full_name: str
+    created_at: datetime
+    active: bool = True
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+# Core Nanobricks
+class ValidateUserData(NanobrickSimple[UserCreate, UserCreate]):
+    """Validates user registration data."""
+    
+    async def invoke(self, data: UserCreate, *, deps=None) -> UserCreate:
+        if len(data.password) < 8:
+            raise ValueError("Password must be at least 8 characters")
+        
+        if not data.full_name.strip():
+            raise ValueError("Full name is required")
+        
+        return data
+
+class CheckEmailUniqueness(NanobrickBase[UserCreate, UserCreate, ServiceDeps]):
+    """Ensures email is not already registered."""
+    
+    async def invoke(self, data: UserCreate, *, deps: ServiceDeps) -> UserCreate:
+        existing = await deps["db"].fetchrow(
+            "SELECT id FROM users WHERE email = $1",
+            data.email
+        )
+        
+        if existing:
+            raise ValueError(f"Email {data.email} is already registered")
+        
+        return data
+
+class HashUserPassword(NanobrickSimple[UserCreate, Dict]):
+    """Hashes the user password securely."""
+    
+    async def invoke(self, data: UserCreate, *, deps=None) -> Dict:
+        user_dict = data.dict()
+        user_dict["password_hash"] = await hash_password(data.password)
+        del user_dict["password"]
+        return user_dict
+
+class CreateUserInDB(NanobrickBase[Dict, User, ServiceDeps]):
+    """Creates user in database."""
+    
+    async def invoke(self, user_data: Dict, *, deps: ServiceDeps) -> User:
+        result = await deps["db"].fetchrow("""
+            INSERT INTO users (email, password_hash, full_name, created_at)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, email, full_name, created_at, active
+        """, 
+            user_data["email"],
+            user_data["password_hash"],
+            user_data["full_name"],
+            datetime.utcnow()
+        )
+        
+        return User(**dict(result))
+
+class CacheUser(NanobrickBase[User, User, ServiceDeps]):
+    """Caches user data for fast retrieval."""
+    
+    async def invoke(self, user: User, *, deps: ServiceDeps) -> User:
+        cache_key = f"user:{user.id}"
+        await deps["cache"].setex(
+            cache_key,
+            3600,  # 1 hour TTL
+            user.json()
+        )
+        return user
+
+class EmitUserCreatedEvent(NanobrickBase[User, User, ServiceDeps]):
+    """Emits event for other services to react."""
+    
+    async def invoke(self, user: User, *, deps: ServiceDeps) -> User:
+        await deps["event_bus"].emit("user.created", {
+            "user_id": user.id,
+            "email": user.email,
+            "timestamp": datetime.utcnow().isoformat()
+        })
+        return user
+
+# Compose the registration pipeline
+registration_pipeline = Pipeline(
+    ValidateUserData(),
+    CheckEmailUniqueness(),
+    HashUserPassword(),
+    CreateUserInDB(),
+    CacheUser(),
+    EmitUserCreatedEvent()
+).with_skill("logging", level="INFO")
+ .with_skill("observability", service_name="user-service")
+
+# Authentication bricks
+class ValidateCredentials(NanobrickBase[LoginRequest, User, ServiceDeps]):
+    """Validates user credentials."""
+    
+    async def invoke(self, request: LoginRequest, *, deps: ServiceDeps) -> User:
+        result = await deps["db"].fetchrow("""
+            SELECT id, email, password_hash, full_name, created_at, active
+            FROM users WHERE email = $1
+        """, request.email)
+        
+        if not result:
+            raise ValueError("Invalid credentials")
+        
+        if not await verify_password(request.password, result["password_hash"]):
+            raise ValueError("Invalid credentials")
+        
+        return User(
+            id=result["id"],
+            email=result["email"],
+            full_name=result["full_name"],
+            created_at=result["created_at"],
+            active=result["active"]
+        )
+
+class GenerateJWT(NanobrickSimple[User, Dict]):
+    """Generates JWT token for authenticated user."""
+    
+    async def invoke(self, user: User, *, deps=None) -> Dict:
+        payload = {
+            "sub": user.id,
+            "email": user.email,
+            "exp": datetime.utcnow() + JWT_EXPIRATION
+        }
+        
+        token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+        
+        return {
+            "access_token": token,
+            "token_type": "bearer",
+            "user": user.dict()
+        }
+
+# Login pipeline
+login_pipeline = Pipeline(
+    ValidateCredentials(),
+    GenerateJWT()
+).with_skill("logging")
+
+# User lookup with caching
+class GetUserById(NanobrickBase[str, User, ServiceDeps]):
+    """Gets user by ID with cache fallback."""
+    
+    async def invoke(self, user_id: str, *, deps: ServiceDeps) -> User:
+        # Try cache first
+        cache_key = f"user:{user_id}"
+        cached = await deps["cache"].get(cache_key)
+        
+        if cached:
+            return User.parse_raw(cached)
+        
+        # Load from database
+        result = await deps["db"].fetchrow("""
+            SELECT id, email, full_name, created_at, active
+            FROM users WHERE id = $1
+        """, user_id)
+        
+        if not result:
+            raise ValueError(f"User {user_id} not found")
+        
+        user = User(**dict(result))
+        
+        # Update cache
+        await deps["cache"].setex(cache_key, 3600, user.json())
+        
+        return user
+
+# Create the complete service
+@skill("api", port=8000, title="User Management API")
+@skill("docker", base_image="python:3.13-slim")
+@skill("kubernetes", replicas=3, autoscale=True)
+class UserManagementService:
+    """Complete user management service."""
+    
+    def __init__(self, deps: ServiceDeps):
+        self.deps = deps
+        self.register = registration_pipeline
+        self.login = login_pipeline
+        self.get_user = GetUserById()
+    
+    async def create_user(self, user_data: UserCreate) -> User:
+        """POST /users - Create new user"""
+        return await self.register.invoke(user_data, deps=self.deps)
+    
+    async def authenticate(self, credentials: LoginRequest) -> Dict:
+        """POST /auth/login - Authenticate user"""
+        return await self.login.invoke(credentials, deps=self.deps)
+    
+    async def get_user_by_id(self, user_id: str) -> User:
+        """GET /users/{user_id} - Get user by ID"""
+        return await self.get_user.invoke(user_id, deps=self.deps)
+    
+    async def health_check(self) -> Dict:
+        """GET /health - Health check endpoint"""
+        return {
+            "status": "healthy",
+            "timestamp": datetime.utcnow().isoformat(),
+            "service": "user-management"
+        }
+
+# Deployment configuration
+if __name__ == "__main__":
+    import asyncio
+    
+    async def main():
+        # Initialize dependencies
+        db = await asyncpg.create_pool("postgresql://localhost/users")
+        cache = await redis.from_url("redis://localhost")
+        event_bus = EventBus()
+        
+        deps = ServiceDeps(
+            db=db,
+            cache=cache,
+            event_bus=event_bus,
+            config={"environment": "production"}
+        )
+        
+        # Create and start service
+        service = UserManagementService(deps)
+        await service.start_server()
+    
+    asyncio.run(main())
+```
+
+### Testing
+
+```{python}
+#| eval: false
+import pytest
+from nanobricks.testing import create_test_client
+
+@pytest.fixture
+async def test_deps():
+    """Create test dependencies with mocks."""
+    return ServiceDeps(
+        db=MockDatabase(),
+        cache=MockCache(),
+        event_bus=MockEventBus(),
+        config={"environment": "test"}
+    )
+
+@pytest.mark.asyncio
+async def test_user_registration(test_deps):
+    service = UserManagementService(test_deps)
+    
+    user_data = UserCreate(
+        email="test@example.com",
+        password="securepass123",
+        full_name="Test User"
+    )
+    
+    user = await service.create_user(user_data)
+    
+    assert user.email == "test@example.com"
+    assert user.full_name == "Test User"
+    assert user.id is not None
+
+@pytest.mark.asyncio
+async def test_duplicate_email(test_deps):
+    service = UserManagementService(test_deps)
+    
+    # Create first user
+    user_data = UserCreate(
+        email="test@example.com",
+        password="securepass123",
+        full_name="Test User"
+    )
+    await service.create_user(user_data)
+    
+    # Try to create with same email
+    with pytest.raises(ValueError, match="already registered"):
+        await service.create_user(user_data)
+```
+
+### Deployment
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  user-service:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db/users
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - redis
+  
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+## Example 2: Real-time Data Processing Pipeline
+
+A production data pipeline that processes streaming data with validation, transformation, and storage.
+
+### Architecture
+
+```{mermaid}
+graph TB
+    A[Kafka Stream] --> B[Message Consumer]
+    B --> C[Schema Validator]
+    C --> D[Data Enricher]
+    D --> E[Business Rules]
+    E --> F{Router}
+    F -->|Type A| G[Processor A]
+    F -->|Type B| H[Processor B]
+    G --> I[Aggregator]
+    H --> I
+    I --> J[Data Lake]
+    I --> K[Analytics DB]
+    I --> L[Real-time Dashboard]
+```
+
+### Implementation
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickBase, NanobrickSimple, create_pipeline
+from nanobricks.patterns import Router, Parallel, Window
+from typing import Dict, List, Any
+import aiokafka
+import pandas as pd
+from datetime import datetime, timedelta
+
+# Data models
+class SensorReading(BaseModel):
+    sensor_id: str
+    timestamp: datetime
+    temperature: float
+    humidity: float
+    location: Dict[str, float]  # lat, lon
+
+class EnrichedReading(SensorReading):
+    city: str
+    country: str
+    weather_conditions: str
+    anomaly_score: float
+
+# Processing bricks
+class ValidateSensorData(NanobrickSimple[Dict, SensorReading]):
+    """Validates and parses raw sensor data."""
+    
+    async def invoke(self, raw_data: Dict, *, deps=None) -> SensorReading:
+        try:
+            reading = SensorReading(**raw_data)
+            
+            # Validate ranges
+            if not -50 <= reading.temperature <= 70:
+                raise ValueError(f"Invalid temperature: {reading.temperature}")
+            
+            if not 0 <= reading.humidity <= 100:
+                raise ValueError(f"Invalid humidity: {reading.humidity}")
+            
+            return reading
+            
+        except Exception as e:
+            # Log to dead letter queue
+            raise ValueError(f"Invalid sensor data: {e}")
+
+class EnrichWithLocation(NanobrickBase[SensorReading, EnrichedReading, ServiceDeps]):
+    """Enriches reading with location data."""
+    
+    async def invoke(self, reading: SensorReading, *, deps: ServiceDeps) -> EnrichedReading:
+        # Get location from cache or API
+        location_key = f"{reading.location['lat']},{reading.location['lon']}"
+        location_data = await deps["cache"].get(location_key)
+        
+        if not location_data:
+            # Call geocoding API
+            location_data = await deps["geocoding_api"].reverse_geocode(
+                reading.location['lat'],
+                reading.location['lon']
+            )
+            await deps["cache"].setex(location_key, 86400, location_data)
+        
+        return EnrichedReading(
+            **reading.dict(),
+            city=location_data['city'],
+            country=location_data['country'],
+            weather_conditions="normal",  # Would call weather API
+            anomaly_score=0.0
+        )
+
+class DetectAnomalies(NanobrickBase[EnrichedReading, EnrichedReading, ServiceDeps]):
+    """Detects anomalies using ML model."""
+    
+    async def invoke(self, reading: EnrichedReading, *, deps: ServiceDeps) -> EnrichedReading:
+        # Use pre-trained model
+        model = deps["ml_models"]["anomaly_detector"]
+        
+        features = [
+            reading.temperature,
+            reading.humidity,
+            reading.timestamp.hour,
+            reading.timestamp.weekday()
+        ]
+        
+        anomaly_score = model.predict_proba([features])[0][1]
+        reading.anomaly_score = float(anomaly_score)
+        
+        if anomaly_score > 0.8:
+            # Trigger alert
+            await deps["event_bus"].emit("anomaly.detected", {
+                "sensor_id": reading.sensor_id,
+                "score": anomaly_score,
+                "reading": reading.dict()
+            })
+        
+        return reading
+
+class AggregateReadings(NanobrickSimple[List[EnrichedReading], Dict]):
+    """Aggregates readings for analytics."""
+    
+    async def invoke(self, readings: List[EnrichedReading], *, deps=None) -> Dict:
+        df = pd.DataFrame([r.dict() for r in readings])
+        
+        return {
+            "timestamp": datetime.utcnow(),
+            "count": len(readings),
+            "avg_temperature": df['temperature'].mean(),
+            "avg_humidity": df['humidity'].mean(),
+            "anomaly_count": len(df[df['anomaly_score'] > 0.5]),
+            "by_city": df.groupby('city').agg({
+                'temperature': 'mean',
+                'humidity': 'mean',
+                'sensor_id': 'count'
+            }).to_dict()
+        }
+
+# Create processing pipeline
+@skill("monitoring", metrics=["throughput", "latency", "errors"])
+@skill("scaling", auto_scale=True, min_instances=2, max_instances=10)
+class SensorDataPipeline:
+    """Real-time sensor data processing pipeline."""
+    
+    def __init__(self, deps: ServiceDeps):
+        self.deps = deps
+        
+        # Main processing pipeline
+        self.process_reading = Pipeline(
+            ValidateSensorData(),
+            EnrichWithLocation(),
+            DetectAnomalies()
+        ).with_skill("retry", max_attempts=3)
+        
+        # Aggregation window
+        self.windowed_aggregation = Window(
+            window_size=timedelta(minutes=5),
+            aggregator=AggregateReadings()
+        )
+        
+        # Storage writers
+        self.lake_writer = DataLakeWriter()
+        self.analytics_writer = AnalyticsDBWriter()
+        self.dashboard_updater = DashboardUpdater()
+        
+        # Parallel output
+        self.output_handlers = Parallel([
+            self.lake_writer,
+            self.analytics_writer,
+            self.dashboard_updater
+        ])
+    
+    async def start(self):
+        """Start consuming from Kafka."""
+        consumer = aiokafka.AIOKafkaConsumer(
+            'sensor-readings',
+            bootstrap_servers='localhost:9092',
+            group_id='sensor-processor',
+            value_deserializer=lambda m: json.loads(m.decode('utf-8'))
+        )
+        
+        await consumer.start()
+        
+        try:
+            async for msg in consumer:
+                try:
+                    # Process individual reading
+                    reading = await self.process_reading.invoke(
+                        msg.value,
+                        deps=self.deps
+                    )
+                    
+                    # Add to aggregation window
+                    await self.windowed_aggregation.add(reading)
+                    
+                    # Check if window is ready
+                    if self.windowed_aggregation.is_ready():
+                        aggregated = await self.windowed_aggregation.invoke()
+                        await self.output_handlers.invoke(aggregated, deps=self.deps)
+                    
+                except Exception as e:
+                    # Send to dead letter queue
+                    await self.deps["dead_letter_queue"].send({
+                        "error": str(e),
+                        "message": msg.value,
+                        "timestamp": datetime.utcnow()
+                    })
+                    
+        finally:
+            await consumer.stop()
+
+# Monitoring and alerting
+class PipelineMonitor(NanobrickSimple[Dict, None]):
+    """Monitors pipeline health and sends alerts."""
+    
+    def __init__(self, thresholds: Dict):
+        super().__init__()
+        self.thresholds = thresholds
+    
+    async def invoke(self, metrics: Dict, *, deps=None) -> None:
+        # Check error rate
+        if metrics['error_rate'] > self.thresholds['max_error_rate']:
+            await deps["alerting"].send_alert(
+                severity="high",
+                message=f"High error rate: {metrics['error_rate']:.2%}",
+                runbook_url="https://wiki/sensor-pipeline-errors"
+            )
+        
+        # Check latency
+        if metrics['p99_latency'] > self.thresholds['max_latency_ms']:
+            await deps["alerting"].send_alert(
+                severity="medium",
+                message=f"High latency: {metrics['p99_latency']}ms",
+                runbook_url="https://wiki/sensor-pipeline-latency"
+            )
+```
+
+### Performance Optimization
+
+```{python}
+#| eval: false
+# Add performance optimizations
+optimized_pipeline = (
+    SensorDataPipeline(deps)
+    .with_skill("cache", ttl=300)
+    .with_skill("batch", size=100)
+    .with_skill("profile", trace=True)
+)
+
+# Configure for high throughput
+high_throughput_config = {
+    "consumer": {
+        "fetch_min_bytes": 1024 * 1024,  # 1MB
+        "max_poll_records": 500
+    },
+    "processing": {
+        "parallelism": 8,
+        "batch_timeout_ms": 100
+    },
+    "output": {
+        "compression": "snappy",
+        "batch_size": 1000
+    }
+}
+```
+
+## Example 3: E-commerce Order Processing System
+
+A complete order processing system with inventory management, payment processing, and fulfillment.
+
+### System Architecture
+
+```{mermaid}
+graph TB
+    subgraph "Order Service"
+        A[Order API] --> B[Order Validator]
+        B --> C[Inventory Check]
+        C --> D[Price Calculator]
+        D --> E[Payment Processor]
+    end
+    
+    subgraph "Inventory Service"
+        C --> F[Stock Manager]
+        F --> G[Warehouse API]
+    end
+    
+    subgraph "Payment Service"
+        E --> H[Payment Gateway]
+        H --> I[Fraud Detection]
+    end
+    
+    subgraph "Fulfillment Service"
+        E --> J[Order Queue]
+        J --> K[Shipping Calculator]
+        K --> L[Label Generator]
+        L --> M[Tracking Service]
+    end
+```
+
+### Implementation
+
+```{python}
+#| eval: false
+from nanobricks import create_microservice, NanobrickBase
+from nanobricks.patterns import Saga, Compensate
+from decimal import Decimal
+import stripe
+import asyncio
+
+# Domain models
+class OrderItem(BaseModel):
+    product_id: str
+    quantity: int
+    unit_price: Decimal
+
+class Order(BaseModel):
+    id: str
+    customer_id: str
+    items: List[OrderItem]
+    shipping_address: Dict
+    total: Decimal = Decimal("0")
+    status: str = "pending"
+
+# Inventory management
+class CheckInventory(NanobrickBase[Order, Order, ServiceDeps]):
+    """Checks and reserves inventory."""
+    
+    async def invoke(self, order: Order, *, deps: ServiceDeps) -> Order:
+        inventory_service = deps["inventory_service"]
+        
+        # Check availability for all items
+        for item in order.items:
+            available = await inventory_service.check_stock(
+                item.product_id,
+                item.quantity
+            )
+            
+            if not available:
+                raise ValueError(
+                    f"Insufficient stock for product {item.product_id}"
+                )
+        
+        # Reserve inventory
+        reservation_id = await inventory_service.reserve_items(
+            [(item.product_id, item.quantity) for item in order.items],
+            duration_minutes=30  # 30 minute reservation
+        )
+        
+        # Store reservation ID for potential rollback
+        order.metadata = {"reservation_id": reservation_id}
+        
+        return order
+    
+    async def compensate(self, order: Order, *, deps: ServiceDeps) -> None:
+        """Release inventory reservation on failure."""
+        if reservation_id := order.metadata.get("reservation_id"):
+            await deps["inventory_service"].release_reservation(reservation_id)
+
+class CalculatePricing(NanobrickSimple[Order, Order]):
+    """Calculates order total with taxes and discounts."""
+    
+    def __init__(self, tax_rate: Decimal = Decimal("0.08")):
+        super().__init__()
+        self.tax_rate = tax_rate
+    
+    async def invoke(self, order: Order, *, deps=None) -> Order:
+        subtotal = sum(
+            item.quantity * item.unit_price 
+            for item in order.items
+        )
+        
+        # Apply discounts
+        discount = await self.calculate_discount(order, subtotal)
+        
+        # Calculate tax
+        taxable_amount = subtotal - discount
+        tax = taxable_amount * self.tax_rate
+        
+        # Add shipping
+        shipping = await self.calculate_shipping(order)
+        
+        order.total = taxable_amount + tax + shipping
+        order.breakdown = {
+            "subtotal": subtotal,
+            "discount": discount,
+            "tax": tax,
+            "shipping": shipping,
+            "total": order.total
+        }
+        
+        return order
+
+class ProcessPayment(NanobrickBase[Order, Order, ServiceDeps]):
+    """Processes payment through payment gateway."""
+    
+    async def invoke(self, order: Order, *, deps: ServiceDeps) -> Order:
+        stripe.api_key = deps["config"]["stripe_api_key"]
+        
+        try:
+            # Create payment intent
+            intent = stripe.PaymentIntent.create(
+                amount=int(order.total * 100),  # Convert to cents
+                currency="usd",
+                customer=order.customer_id,
+                metadata={
+                    "order_id": order.id
+                }
+            )
+            
+            # Process payment
+            payment = stripe.PaymentIntent.confirm(
+                intent.id,
+                payment_method=order.payment_method_id
+            )
+            
+            if payment.status == "succeeded":
+                order.status = "paid"
+                order.payment_id = payment.id
+            else:
+                raise ValueError(f"Payment failed: {payment.status}")
+                
+        except stripe.error.CardError as e:
+            raise ValueError(f"Card declined: {e.user_message}")
+        
+        return order
+    
+    async def compensate(self, order: Order, *, deps: ServiceDeps) -> None:
+        """Refund payment on failure."""
+        if payment_id := getattr(order, "payment_id", None):
+            stripe.Refund.create(payment_intent=payment_id)
+
+class CreateFulfillment(NanobrickBase[Order, Order, ServiceDeps]):
+    """Creates fulfillment order for shipping."""
+    
+    async def invoke(self, order: Order, *, deps: ServiceDeps) -> Order:
+        fulfillment_service = deps["fulfillment_service"]
+        
+        # Calculate shipping options
+        shipping_options = await fulfillment_service.calculate_shipping(
+            items=order.items,
+            destination=order.shipping_address
+        )
+        
+        # Select best option (could be user preference)
+        selected_option = min(
+            shipping_options,
+            key=lambda x: x["cost"] + x["days"] * 5  # Balance cost and speed
+        )
+        
+        # Create fulfillment order
+        fulfillment = await fulfillment_service.create_order({
+            "order_id": order.id,
+            "items": order.items,
+            "shipping_address": order.shipping_address,
+            "shipping_method": selected_option["method"],
+            "expected_delivery": selected_option["estimated_delivery"]
+        })
+        
+        order.fulfillment_id = fulfillment["id"]
+        order.tracking_number = fulfillment["tracking_number"]
+        order.status = "processing"
+        
+        return order
+
+# Create order processing saga
+order_saga = Saga(
+    name="order_processing",
+    steps=[
+        CheckInventory(),
+        CalculatePricing(),
+        ProcessPayment(),
+        CreateFulfillment()
+    ],
+    compensation_strategy="reverse"  # Compensate in reverse order
+).with_skill("monitoring", track_compensation=True)
+
+# Order service with event sourcing
+@skill("api", port=8001)
+@skill("event_sourcing", store="postgresql")
+class OrderProcessingService:
+    """Complete order processing service."""
+    
+    def __init__(self, deps: ServiceDeps):
+        self.deps = deps
+        self.saga = order_saga
+        
+        # Event handlers for async processing
+        self.event_handlers = {
+            "order.created": self.handle_order_created,
+            "payment.completed": self.handle_payment_completed,
+            "fulfillment.shipped": self.handle_order_shipped
+        }
+    
+    async def create_order(self, order_data: Dict) -> Order:
+        """POST /orders - Create new order"""
+        order = Order(**order_data)
+        order.id = generate_order_id()
+        
+        try:
+            # Process through saga
+            processed_order = await self.saga.invoke(order, deps=self.deps)
+            
+            # Emit success event
+            await self.deps["event_bus"].emit("order.completed", {
+                "order": processed_order.dict(),
+                "timestamp": datetime.utcnow()
+            })
+            
+            return processed_order
+            
+        except Exception as e:
+            # Saga will handle compensation
+            await self.deps["event_bus"].emit("order.failed", {
+                "order_id": order.id,
+                "error": str(e),
+                "timestamp": datetime.utcnow()
+            })
+            raise
+    
+    async def handle_order_shipped(self, event: Dict):
+        """Handle shipment notification."""
+        order_id = event["order_id"]
+        tracking_info = event["tracking_info"]
+        
+        # Update order status
+        await self.deps["db"].execute("""
+            UPDATE orders 
+            SET status = 'shipped',
+                tracking_number = $1,
+                shipped_at = $2
+            WHERE id = $3
+        """, tracking_info["tracking_number"], datetime.utcnow(), order_id)
+        
+        # Notify customer
+        await self.deps["notification_service"].send_email(
+            template="order_shipped",
+            order_id=order_id,
+            tracking_info=tracking_info
+        )
+```
+
+### Testing with Saga Compensation
+
+```{python}
+#| eval: false
+@pytest.mark.asyncio
+async def test_payment_failure_compensation():
+    """Test that inventory is released when payment fails."""
+    
+    # Mock payment to fail
+    deps = create_test_deps()
+    deps["payment_service"].mock_failure = True
+    
+    service = OrderProcessingService(deps)
+    
+    order_data = {
+        "customer_id": "cust_123",
+        "items": [
+            {"product_id": "prod_1", "quantity": 2, "unit_price": "29.99"}
+        ],
+        "shipping_address": {...}
+    }
+    
+    # This should fail at payment step
+    with pytest.raises(ValueError, match="Payment failed"):
+        await service.create_order(order_data)
+    
+    # Verify compensation occurred
+    assert deps["inventory_service"].reservations == {}  # Released
+    assert deps["metrics"]["compensations_triggered"] == 1
+```
+
+## Example 4: AI-Powered Customer Support System
+
+An intelligent support system using nanobricks with AI capabilities.
+
+### Implementation
+
+```{python}
+#| eval: false
+from nanobricks.ai import AIBrick, ConversationMemory
+from nanobricks.skills import create_mcp_server
+
+class AnalyzeSentiment(AIBrick[str, Dict]):
+    """Analyzes customer sentiment using AI."""
+    
+    def __init__(self):
+        super().__init__(
+            model="gpt-4",
+            temperature=0.3,
+            max_tokens=100
+        )
+    
+    async def invoke(self, message: str, *, deps=None) -> Dict:
+        response = await self.complete(
+            system="Analyze sentiment and urgency of customer message",
+            user=message,
+            response_format={"sentiment": "positive/neutral/negative", "urgency": "low/medium/high"}
+        )
+        return response
+
+class GenerateResponse(AIBrick[Dict, str]):
+    """Generates contextual support response."""
+    
+    def __init__(self, knowledge_base: KnowledgeBase):
+        super().__init__(model="gpt-4")
+        self.kb = knowledge_base
+    
+    async def invoke(self, context: Dict, *, deps=None) -> str:
+        # Get relevant knowledge
+        docs = await self.kb.search(
+            context["message"],
+            limit=3
+        )
+        
+        response = await self.complete(
+            system="""You are a helpful customer support agent.
+            Use the provided documentation to answer accurately.
+            Be concise and friendly.""",
+            user=context["message"],
+            context={"documentation": docs},
+            max_tokens=500
+        )
+        
+        return response
+
+# Create intelligent support pipeline
+support_pipeline = (
+    AnalyzeSentiment()
+    | RouteByUrgency()
+    | LoadCustomerHistory()
+    | GenerateResponse(knowledge_base)
+    | ValidateResponse()
+).with_skill("conversation_memory")
+ .with_skill("observability", track_ai_usage=True)
+```
+
+## Deployment Best Practices
+
+### 1. Container Optimization
+
+```dockerfile
+# Multi-stage build for smaller images
+FROM python:3.13-slim as builder
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt
+
+FROM python:3.13-slim
+WORKDIR /app
+
+# Copy only necessary files
+COPY --from=builder /root/.local /root/.local
+COPY src/ ./src/
+COPY nanobrick.toml .
+
+# Non-root user
+RUN useradd -m -u 1000 appuser
+USER appuser
+
+ENV PATH=/root/.local/bin:$PATH
+CMD ["python", "-m", "nanobricks.run", "my-service"]
+```
+
+### 2. Kubernetes Production Config
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nanobrick-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nanobrick-service
+  template:
+    metadata:
+      labels:
+        app: nanobrick-service
+    spec:
+      containers:
+      - name: service
+        image: myregistry/nanobrick-service:v1.0.0
+        ports:
+        - containerPort: 8000
+        env:
+        - name: ENVIRONMENT
+          value: production
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nanobrick-service
+spec:
+  selector:
+    app: nanobrick-service
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nanobrick-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nanobrick-service
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+### 3. Monitoring Setup
+
+```{python}
+#| eval: false
+from nanobricks.observability import create_monitoring_stack
+
+monitoring = create_monitoring_stack(
+    service_name="my-service",
+    
+    # Metrics with Prometheus
+    metrics={
+        "endpoint": "http://prometheus:9090",
+        "custom_metrics": [
+            "orders_processed_total",
+            "payment_amount_sum",
+            "processing_duration_seconds"
+        ]
+    },
+    
+    # Tracing with Jaeger
+    tracing={
+        "endpoint": "http://jaeger:14268",
+        "sample_rate": 0.1  # 10% sampling
+    },
+    
+    # Logging with ELK
+    logging={
+        "endpoint": "http://elasticsearch:9200",
+        "index": "nanobricks-prod",
+        "retention_days": 30
+    },
+    
+    # Alerting rules
+    alerts=[
+        {
+            "name": "high_error_rate",
+            "condition": "rate(errors_total[5m]) > 0.01",
+            "severity": "critical",
+            "notify": ["oncall@company.com"]
+        },
+        {
+            "name": "high_latency", 
+            "condition": "histogram_quantile(0.99, latency_seconds) > 1",
+            "severity": "warning",
+            "notify": ["team@company.com"]
+        }
+    ]
+)
+```
+
+## Performance Tuning
+
+### Database Connection Pooling
+
+```{python}
+#| eval: false
+from nanobricks.performance import create_connection_pool
+
+db_pool = create_connection_pool(
+    "postgresql://localhost/mydb",
+    min_connections=5,
+    max_connections=20,
+    connection_timeout=5.0,
+    idle_timeout=300.0,
+    max_lifetime=3600.0
+)
+
+# Use with nanobricks
+deps = ServiceDeps(db=db_pool, ...)
+```
+
+### Caching Strategy
+
+```{python}
+#| eval: false
+from nanobricks.performance import MultiLevelCache
+
+cache = MultiLevelCache(
+    # L1: In-memory LRU cache
+    memory_cache={"max_size": 1000, "ttl": 60},
+    
+    # L2: Redis cache
+    redis_cache={"url": "redis://localhost", "ttl": 3600},
+    
+    # L3: CDN cache (for read-through)
+    cdn_cache={"enabled": True, "regions": ["us-east-1", "eu-west-1"]}
+)
+
+# Apply to expensive operations
+cached_processor = processor.with_skill("cache", cache=cache)
+```
+
+## Security Hardening
+
+### API Security
+
+```{python}
+#| eval: false
+from nanobricks.security import secure_api
+
+secure_service = secure_api(
+    service,
+    
+    # Authentication
+    auth={
+        "type": "jwt",
+        "secret": JWT_SECRET,
+        "algorithm": "RS256",
+        "issuer": "https://auth.company.com"
+    },
+    
+    # Rate limiting per user
+    rate_limit={
+        "requests_per_minute": 100,
+        "burst": 20,
+        "key": lambda req: req.user_id
+    },
+    
+    # Input validation
+    validation={
+        "max_body_size": 1024 * 1024,  # 1MB
+        "allowed_content_types": ["application/json"],
+        "schema_validation": True
+    },
+    
+    # Security headers
+    headers={
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Strict-Transport-Security": "max-age=31536000"
+    }
+)
+```
+
+## Summary
+
+These production examples demonstrate:
+
+1. **Complete Systems**: Full applications built with nanobricks
+2. **Error Handling**: Proper error handling and compensation
+3. **Testing**: Comprehensive testing strategies
+4. **Deployment**: Production-ready deployment configurations
+5. **Monitoring**: Observability and alerting setup
+6. **Performance**: Optimization techniques
+7. **Security**: Hardening for production use
+
+Each example can be adapted and extended for your specific use case. The modular nature of nanobricks makes it easy to swap components, add new features, or scale specific parts of your system independently.

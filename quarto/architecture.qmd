@@ -1,0 +1,396 @@
+---
+title: "Architecture Overview"
+subtitle: "Technical design of the Nanobricks framework"
+---
+
+## Core Architecture Decisions
+
+### Protocol + ABC Hybrid Approach
+
+We use Protocol for type checking with ABC for runtime enforcement:
+
+```python
+from typing import Protocol, Generic, TypeVar, runtime_checkable
+from abc import ABC, abstractmethod
+
+T_in = TypeVar('T_in')
+T_out = TypeVar('T_out')
+T_deps = TypeVar('T_deps')
+
+@runtime_checkable
+class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
+    """Type checking interface"""
+    name: str
+    version: str
+    
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def __or__(self, other: 'NanobrickProtocol') -> 'NanobrickProtocol': ...
+
+class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
+    """Runtime enforcement base class"""
+    
+    @abstractmethod
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out:
+        """Async invocation - must be implemented"""
+        pass
+    
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out:
+        """Sync wrapper - auto-generated from async"""
+        import asyncio
+        # Note: In Jupyter/Quarto, use await instead of asyncio.run()
+        # return asyncio.run(self.invoke(input, deps=deps))
+        import asyncio
+        try:
+            loop = asyncio.get_running_loop()
+            # We're in an async context, can't use asyncio.run()
+            raise RuntimeError("Use await instead of invoke_sync() in Jupyter/Quarto")
+        except RuntimeError:
+            # No running loop, safe to use asyncio.run()
+            return asyncio.run(self.invoke(input, deps=deps))
+    
+    def __or__(self, other):
+        """Composition operator with type preservation"""
+        return NanobrickComposite(self, other)
+```
+
+### Simple Composition Semantics
+
+Following the SIMPLE principle, our initial error handling is straightforward:
+
+```python
+class ErrorHandling:
+    """Simple error propagation by default"""
+    
+    # Default: Fail fast
+    pipeline = A() | B() | C()  # If B fails, pipeline stops
+    
+    # Explicit error handling
+    pipeline = (
+        A()
+        | B().with_fallback(lambda e: default_value)
+        | C()
+    )
+    
+    # Future: Circuit breaker skill
+    pipeline = (
+        A()
+        | B().with_skill("circuit_breaker")
+        | C()
+    )
+```
+
+### Lightweight State Management
+
+State as an optional concern with progressive enhancement:
+
+```python
+# Stateless by default
+brick = DataTransformer()
+
+# Explicit state via skill
+brick = DataTransformer().with_skill("stateful", 
+    backend="redis",
+    ttl=3600
+)
+
+# State scoping
+brick = DataTransformer().with_state_scope("user:123")
+
+# Shared state between bricks
+state_store = StateStore("redis://localhost")
+pipeline = (
+    A().with_state(state_store)
+    | B().with_state(state_store)  # Shares same store
+    | C()  # Stateless
+)
+```
+
+### Clean Dependency Injection
+
+Dependencies flow through composition with explicit contracts:
+
+```python
+# Define dependencies via TypedDict
+class MyDeps(TypedDict):
+    db: Database
+    cache: Cache
+    logger: Logger
+
+# Explicit dependency passing
+result = brick.invoke(data, deps={"db": db, "cache": cache})
+
+# Dependency injection through composition
+pipeline = (
+    ValidateBrick()
+    | TransformBrick()
+    | PersistBrick()
+).with_deps(MyDeps(db=db, cache=cache, logger=logger))
+
+# Partial dependency override
+result = pipeline.invoke(data, deps={"cache": different_cache})
+```
+
+### Type Safety with Inference Limits
+
+Practical approach to maintaining type safety:
+
+```python
+# Type aliases for clarity
+ValidatedData = NewType('ValidatedData', dict)
+TransformedData = NewType('TransformedData', dict)
+
+# Explicit typing for deep pipelines
+pipeline: Nanobrick[RawData, FinalResult, MyDeps] = (
+    Validator[RawData, ValidatedData, MyDeps]()
+    | Transformer[ValidatedData, TransformedData, MyDeps]()
+    | Persister[TransformedData, FinalResult, MyDeps]()
+)
+
+# Type hints for intermediate results
+step1 = Validator()  # type: Nanobrick[Raw, Valid, Deps]
+step2 = step1 | Transformer()  # type: Nanobrick[Raw, Trans, Deps]
+step3 = step2 | Persister()  # type: Nanobrick[Raw, Final, Deps]
+```
+
+## Enhanced Architectural Features
+
+### Contracts & Invariants
+
+Built-in support for design-by-contract:
+
+```python
+@nanobrick(
+    name="ValidatorData",
+    preconditions=[
+        lambda input, deps: isinstance(input, dict),
+        lambda input, deps: "schema" in deps
+    ],
+    postconditions=[
+        lambda result: result is not None,
+        lambda result: "validated" in result
+    ],
+    invariants=[
+        lambda self: self.error_count >= 0
+    ]
+)
+class ValidatorData(NanobrickBase):
+    async def invoke(self, input, *, deps=None):
+        # Contracts automatically checked
+        pass
+```
+
+### Resource Management
+
+Context manager support for proper cleanup:
+
+```python
+# Automatic resource management
+async with pipeline as p:
+    result = await p.invoke(data)
+    # Resources cleaned up automatically
+
+# Explicit resource limits
+@nanobrick(
+    resources={
+        "max_memory_mb": 100,
+        "timeout_seconds": 30,
+        "max_concurrent": 5
+    }
+)
+class ResourceBoundedBrick(NanobrickBase):
+    pass
+```
+
+### Hot-Swapping Support
+
+Dynamic brick replacement without stopping pipelines:
+
+```python
+# Create swappable pipeline
+pipeline = SwappablePipeline([
+    ValidatorV1(),
+    Transformer(),
+    Persister()
+])
+
+# Hot-swap a component
+pipeline.swap(0, ValidatorV2())  # Zero downtime
+
+# Gradual rollout
+pipeline.swap(0, ValidatorV2(), rollout_percent=10)
+```
+
+### Branching & Merging
+
+Beyond linear pipelines:
+
+```python
+# Conditional branching
+pipeline = (
+    Validator()
+    | Branch(
+        condition=lambda x: x.get("type") == "A",
+        true_path=ProcessorA(),
+        false_path=ProcessorB()
+    )
+    | Merger()
+)
+
+# Parallel execution
+pipeline = (
+    Splitter()
+    | Parallel([
+        ProcessorA(),
+        ProcessorB(),
+        ProcessorC()
+    ])
+    | Aggregator()
+)
+
+# Fan-out/fan-in
+pipeline = (
+    Source()
+    | FanOut([ProcessorA(), ProcessorB()])  # Copies to both
+    | FanIn(strategy="merge")  # Combines results
+)
+```
+
+## Layered Architecture
+
+### Layer 2: Skill System
+
+Optional capabilities that enhance nanobricks:
+
+```python
+class Skill(Protocol):
+    """Base interface for all skills"""
+    
+    def enhance(self, nanobrick: Nanobrick) -> Nanobrick: ...
+```
+
+### Layer 3: Composition Engine
+
+Handles different composition patterns:
+
+- **Sequential**: `A | B | C`
+- **Parallel**: `A + B + C`
+- **Nested**: `A(B(C))`
+- **Hybrid**: Complex workflows
+
+### Layer 4: Runtime Environment
+
+Execution context and dependency injection:
+
+```python
+class NanobrickRuntime:
+    """Manages nanobrick execution"""
+    
+    registry: NanobrickRegistry
+    injector: DependencyInjector
+    monitor: PerformanceMonitor
+```
+
+## Package Structure
+
+### Core Package (`nanobricks-core`)
+```
+nanobricks-core/
+├── src/
+│   └── nanobricks/
+│       ├── __init__.py
+│       ├── protocol.py      # Core interfaces
+│       ├── skill.py    # Skill system
+│       ├── composition.py   # Composition operators
+│       └── runtime.py       # Execution environment
+```
+
+### Standard Library (`nanobricks-stdlib`)
+```
+nanobricks-stdlib/
+├── src/
+│   └── nanobricks_stdlib/
+│       ├── validators/      # Common validators
+│       ├── transformers/    # Data transformers
+│       ├── connectors/      # External connections
+│       └── utils/          # Utility bricks
+```
+
+### Skills (`nanobricks-powers`)
+```
+nanobricks-powers/
+├── src/
+│   └── nanobricks_powers/
+│       ├── api.py          # FastAPI power
+│       ├── cli.py          # Typer power
+│       ├── ui.py           # Streamlit power
+│       ├── db.py           # SQLModel power
+│       └── ai.py           # AI/LLM power
+```
+
+## Design Principles
+
+### 1. Simplicity First
+- Minimal required interface
+- Complexity through composition
+- Clear mental model
+
+### 2. Explicit Over Implicit
+- No hidden magic
+- Clear data flow
+- Predictable behavior
+
+### 3. Composition Over Inheritance
+- Protocol-based design
+- Mix-and-match capabilities
+- No deep hierarchies
+
+### 4. Fail Fast, Recover Gracefully
+- Type checking at boundaries
+- Clear error messages
+- Antifragile patterns
+
+## Key Components
+
+### Nanobrick Protocol
+- Defines minimal interface
+- Ensures composability
+- Type-safe generics
+
+### Skill System
+- Optional enhancements
+- Lazy activation
+- Clean separation
+
+### Composition Engine
+- Multiple patterns
+- Type inference
+- Performance optimization
+
+### Registry & Discovery
+- Static imports (default)
+- Dynamic discovery (optional)
+- Dependency injection
+
+## Comparison with Other Frameworks
+
+| Aspect | Nanobricks | LangChain | FastAPI |
+|--------|-----------|-----------|---------|
+| Composition | Native pipe operator | LCEL | Dependency injection |
+| Type Safety | Beartype + Mypy | Runtime checks | Pydantic |
+| Modularity | Protocol-based | Class hierarchies | Function-based |
+| Batteries | Skills (optional) | Built-in | Extensions |
+
+## Performance Considerations
+
+1. **Lazy Loading**: Skills load only when activated
+2. **Async First**: Native async/await support
+3. **Zero-Cost Abstractions**: Protocols have no runtime overhead
+4. **Efficient Composition**: Optimized pipe operations
+
+## Security Model
+
+1. **Isolated Execution**: Each nanobrick runs in isolation
+2. **Capability-Based**: Skills grant specific capabilities
+3. **Type Safety**: Prevents many runtime errors
+4. **Audit Trail**: Optional execution logging

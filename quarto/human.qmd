@@ -1,0 +1,3021 @@
+---
+title: "Nanobricks for Humans"
+subtitle: "A step-by-step journey through our implementation"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+execute:
+  echo: true
+  warning: false
+---
+
+```{python}
+# | eval: false
+# | echo: true
+# | output: true
+
+import sys
+import os
+
+# Adjust the path to your workspace root if needed
+sys.path.append(os.path.abspath("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src"))
+
+import asyncio
+import nest_asyncio
+
+nest_asyncio.apply()
+```
+
+## Welcome, Human! 👋
+
+This document is your personal guide through the Nanobricks implementation. As we build each piece, I'll update this document with working code examples that you can run and experiment with.
+
+## Current Status: Performance Optimizations Complete! ⚡
+
+Your nanobricks now fly with intelligent caching, efficient batching, pipeline fusion, and memory pooling! Make expensive operations instant with LRU caching, process items in batches, and reduce overhead with fused pipelines.
+
+## What We've Built So Far
+
+### 1. The Vision
+
+We're creating "Lego bricks for code" - simple, composable components that can build anything:
+
+```python
+# This is what we're building towards:
+pipeline = (
+    DataValidator() 
+    | DataTransformer() 
+    | DataPersistor()
+).invoke(data)
+
+# With skills activated:
+smart_pipeline = (
+    DataValidator()
+    .with_skill("logging")
+    .with_skill("observability")
+    | DataTransformer()
+    | DataPersistor()
+    .with_skill("api")  # Now it's a REST API!
+)
+```
+
+### 2. The Ten Commandments
+
+Our guiding principles that shape everything:
+
+1. **Be Simple** - One component, one purpose
+2. **Be Standardized** - Same interface everywhere
+3. **Be Composable** - Mix and match freely
+4. **Be Self-Sufficient** - Bring your own batteries
+5. **Be Scaffoldable** - Work immediately
+6. **Be Observable** - See what's happening
+7. **Be Resilient** - Handle failures gracefully
+8. **Be Configurable** - Adapt without code changes
+9. **Be Evolutionary** - Get better over time
+10. **Be Secure** - Safe by default
+
+### 3. The Architecture
+
+We decided on a hybrid approach combining the best of both worlds:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# For type checking (IDE support, mypy)
+from typing import Protocol, Generic, TypeVar, runtime_checkable
+
+T_in = TypeVar("T_in")
+T_out = TypeVar("T_out")
+T_deps = TypeVar("T_deps")
+
+
+@runtime_checkable
+class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
+    """What every nanobrick looks like to the type system"""
+
+    name: str
+    version: str
+
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+
+
+# For runtime enforcement (actual base class)
+from abc import ABC, abstractmethod
+
+
+class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
+    """What you actually inherit from"""
+
+    @abstractmethod
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out:
+        """You must implement this"""
+        pass
+
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out:
+        """We provide this for free!"""
+        import asyncio
+
+        return asyncio.run(self.invoke(input, deps=deps))
+```
+
+## Coming Next: The Implementation Journey
+
+### Step 1: Hello, Nanobrick! ✅
+*Status: Complete*
+
+Our first working nanobrick is ready! Here's how to create one:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# import sys
+
+# sys.path.append("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src")
+
+import asyncio
+from nanobricks import NanobrickBase, NanobrickSimple
+
+
+# Method 1: Full control with NanobrickBase
+class EchoBrick(NanobrickBase[str, str, None]):
+    """I repeat what you say!"""
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return input
+
+
+# Method 2: Simpler with NanobrickSimple (no deps needed)
+class UpperBrick(NanobrickSimple[str, str]):
+    """I SHOUT WHAT YOU SAY!"""
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return input.upper()
+
+
+# Use them!
+echo = EchoBrick()
+upper = UpperBrick()
+
+# Async usage (native Jupyter style)
+result = await echo.invoke("Hello, World!")
+print(f"Echo async (await): {result}")
+
+result = await upper.invoke("Hello, World!")
+print(f"Upper async (await): {result}")
+
+# In Jupyter/Quarto, we use await directly since we're in an async environment
+result = await echo.invoke("Hello, World!")
+print(f"Echo second call (await): {result}")
+
+result = await upper.invoke("hello")
+print(f"Upper second call (await): {result}")
+
+# Note: invoke_sync() and asyncio.run() don't work in Jupyter due to the running event loop
+# In non-Jupyter environments, you would use:
+# result = echo.invoke_sync("Hello, World!")
+# result = asyncio.run(echo.invoke("Hello, World!"))
+```
+
+### A Note on Async/Sync in Jupyter
+
+Jupyter notebooks run in an async environment, which affects how we call nanobricks:
+
+1. **In Jupyter/Quarto**: Use `await` directly (the running event loop prevents `asyncio.run()`)
+2. **In regular Python scripts**: Use `invoke_sync()` or `asyncio.run()`
+
+The `invoke_sync()` method and `asyncio.run()` are designed for non-async contexts and will raise errors in Jupyter due to the existing event loop. This is why we use `await` directly in this notebook.
+
+### What Makes a Nanobrick?
+
+Every nanobrick has:
+- **A name**: Defaults to the class name
+- **A version**: Defaults to "0.1.0"
+- **An async invoke method**: The core processing logic
+- **Type parameters**: Input type, output type, and optional dependencies
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Check the nanobrick properties
+print(f"Name: {echo.name}")
+print(f"Version: {echo.version}")
+print(f"String representation: {str(echo)}")
+```
+
+### Step 2: Composition Magic ✅
+*Status: Complete*
+
+The pipe operator is working! Here's how to compose nanobricks:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickSimple
+
+
+# Create some bricks
+class GreetBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return f"Hello, {input}!"
+
+
+class ShoutBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return input.upper()
+
+
+# Compose them!
+greet = GreetBrick()
+shout = ShoutBrick()
+pipeline = greet | shout
+
+# Use the pipeline
+# Method 1: Native Jupyter async style
+result = await pipeline.invoke("world")
+print(f"Pipeline (await): {result}")
+
+# Method 2: Another await call (since we're in async environment)
+result = await pipeline.invoke("python")
+print(f"Pipeline (second call): {result}")
+```
+
+### Advanced Composition
+
+You can chain multiple bricks and even compose different types:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Chain multiple bricks
+excited = greet | shout | shout  # Double shout!
+result = await excited.invoke("alice")
+print(f"Double shout: {result}")
+
+
+# Type transformations
+class LengthBrick(NanobrickSimple[str, int]):
+    async def invoke(self, input: str, *, deps=None) -> int:
+        return len(input)
+
+
+# This creates a pipeline: str -> str -> int
+count_greeting = greet | LengthBrick()
+result = await count_greeting.invoke("bob")
+print(f"Length of greeting: {result} (for 'Hello, bob!')")
+
+
+# Error propagation (fail-fast)
+class ValidateBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        if not input.isalpha():
+            raise ValueError("Only letters allowed")
+        return input
+
+
+safe_greet = ValidateBrick() | greet | shout
+try:
+    result = await safe_greet.invoke("123")
+except ValueError as e:
+    print(f"Caught expected error: {e}")
+```
+
+### Pipeline Class
+
+For longer compositions, use the Pipeline class:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import Pipeline
+
+
+# First define the missing brick
+class AddExclamationBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return f"{input}!!!!"
+
+
+# Create a pipeline from multiple bricks
+pipeline = Pipeline(ValidateBrick(), GreetBrick(), ShoutBrick(), AddExclamationBrick())
+
+result = await pipeline.invoke("world")
+print(f"Pipeline result: {result}")
+```
+
+### Step 3: Dependency Injection ✅
+*Status: Complete*
+
+Your nanobricks can now share resources! Here's how dependency injection works:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickBase, StandardDeps, DependencyContainer
+from nanobricks.dependencies import MockDatabase, MockLogger
+
+
+# Define a brick that uses dependencies
+class UserLoaderBrick(NanobrickBase[str, dict, StandardDeps]):
+    async def invoke(self, user_id: str, *, deps=None) -> dict:
+        if not deps or "db" not in deps:
+            raise ValueError("Database dependency required")
+
+        # Use the database from deps
+        result = await deps["db"].query(f"SELECT * FROM users WHERE id = {user_id}")
+
+        # Optional: use logger if available
+        if "logger" in deps:
+            deps["logger"].info(f"Loaded user {user_id}")
+
+        return result[0]
+
+
+# Create dependencies
+deps = DependencyContainer(
+    db=MockDatabase(
+        {"SELECT * FROM users WHERE id = 123": [{"id": 123, "name": "Alice"}]}
+    ),
+    logger=MockLogger(),
+    config={"tenant": "AcmeCorp"},
+)
+
+# Use the brick with dependencies
+loader = UserLoaderBrick()
+user = await loader.invoke("123", deps=deps.to_dict())
+print(f"Loaded user: {user}")
+```
+
+### Dependency Types
+
+We provide some common dependency types:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import StandardDeps
+from typing import TypedDict
+
+# Show what StandardDeps looks like
+print("StandardDeps is a TypedDict with the following fields:")
+print("- db: Database connection")
+print("- cache: Cache instance")
+print("- logger: Logger instance")
+print("- config: Configuration dict")
+
+
+# Example of creating your own dependency type
+class MyDeps(TypedDict):
+    api_client: object  # Would be your APIClient type
+    feature_flags: dict
+    user_context: dict  # Would be your UserContext type
+
+
+print("\nCustom dependency type created successfully!")
+```
+
+### Dependencies in Pipelines
+
+Dependencies flow through entire pipelines automatically:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Define example bricks for the pipeline
+class EnrichBrick(NanobrickBase[dict, dict, StandardDeps]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        enriched = data.copy()
+        enriched["enriched"] = True
+        if deps and "logger" in deps:
+            deps["logger"].info("Data enriched")
+        return enriched
+
+
+class SaveBrick(NanobrickBase[dict, dict, StandardDeps]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        if deps and "db" in deps:
+            # Simulate saving to database
+            deps["db"].queries.append(f"INSERT INTO data VALUES ({data})")
+        return data
+
+
+# Create a UserValidateBrick that works with dict input
+class UserValidateBrick(NanobrickBase[dict, dict, StandardDeps]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        if "name" not in data:
+            raise ValueError("Name is required")
+        return data
+
+
+# All bricks in the pipeline receive the same deps
+pipeline = UserValidateBrick() | EnrichBrick() | SaveBrick()
+data = {"id": 123, "name": "Alice"}
+result = await pipeline.invoke(data, deps=deps.to_dict())
+print(f"Pipeline result: {result}")
+```
+
+### Step 4: Configuration Power
+*Status: Complete! ✅*
+
+Nanobricks now supports powerful TOML-based configuration with environment overrides!
+
+#### Loading Configuration
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks.config import load_config, get_default_config
+
+# Load default config (searches for nanobrick.toml, pyproject.toml, etc.)
+config = load_config()
+print(f"Default config loaded: {type(config)}")
+
+# Load with specific environment
+try:
+    prod_config = load_config(environment="production")
+    print("Production config loaded successfully")
+except:
+    print("No production environment config found (expected)")
+
+# Load with overrides
+custom_config = load_config(overrides={"logging": {"level": "DEBUG"}})
+print(
+    f"Custom override - log level: {custom_config.get('logging', {}).get('level', 'INFO')}"
+)
+
+# Get cached default config
+config = get_default_config()
+print(f"Cached config type: {type(config)}")
+```
+
+#### Configuration Files
+
+Create a `nanobrick.toml` file:
+
+```toml
+[project]
+name = "my-project"
+version = "1.0.0"
+
+[logging]
+level = "INFO"
+format = "simple"
+
+[database]
+url = "sqlite:///app.db"
+pool_size = 5
+
+# Environment-specific overrides
+[environments.production]
+[environments.production.database]
+url = "postgresql://prod-server/app"
+pool_size = 20
+
+[environments.test]
+[environments.test.database]
+url = "sqlite:///:memory:"
+```
+
+#### Using Config in Bricks
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickBase
+from nanobricks.config import get_default_config, Config
+
+
+class ConfigurableBrick(NanobrickBase[str, str, None]):
+    def __init__(self):
+        self.name = "configurable"
+        self.version = "1.0.0"
+        self.config = get_default_config()
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        # Access config safely with get() method
+        log_level = self.config.get("logging", {}).get("level", "INFO")
+
+        # Or dictionary style
+        features = self.config.get("features", {})
+
+        return f"Processed '{input}' with {log_level} logging"
+
+
+# Test the configurable brick
+configurable = ConfigurableBrick()
+result = await configurable.invoke("test data")
+print(f"Result: {result}")
+```
+
+#### Config Object Features
+
+- **Dot notation access**: `config.database.host`
+- **Dictionary access**: `config["database"]["host"]`
+- **Safe get with defaults**: `config.get("missing", "default")`
+- **Immutable with freeze**: `config.freeze()`
+- **Environment support**: Automatic env-specific overrides
+- **Discovery chain**: Searches up directory tree for config files
+
+#### Real Example from examples/configuration.py
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Demonstrate Config API features
+from nanobricks.config import Config
+
+# Create a config object
+config = Config(
+    {
+        "app": {
+            "name": "demo",
+            "version": "1.0.0",
+            "settings": {"debug": True, "timeout": 30},
+        },
+        "features": ["auth", "api", "cache"],
+    }
+)
+
+# Dot notation access
+print(f"App name: {config.app.name}")
+print(f"Debug mode: {config.app.settings.debug}")
+
+# Dictionary access
+print(f"Features: {config['features']}")
+
+# Safe get with default
+print(f"Missing key: {config.get('missing', 'default value')}")
+
+# Convert back to dict
+data = config.to_dict()
+print(f"As dict type: {type(data)}")
+```
+
+#### Working with Environment-Specific Configs
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Example of how environment configs work
+from nanobricks.config import Config
+
+# Simulate a config with environments
+full_config = Config(
+    {
+        "database": {"url": "sqlite:///dev.db", "pool_size": 5},
+        "environments": {
+            "production": {
+                "database": {"url": "postgresql://prod-server/app", "pool_size": 20}
+            },
+            "test": {"database": {"url": "sqlite:///:memory:"}},
+        },
+    }
+)
+
+# In real usage, load_config(environment="production") would apply these overrides
+print(f"Dev database: {full_config.database.url}")
+print(f"Prod database: {full_config.environments.production.database.url}")
+print(f"Test database: {full_config.environments.test.database.url}")
+```
+
+### Step 5: Skills Activate!
+*Status: Complete! ✅*
+
+The skill framework is now working! Add capabilities on demand without changing your brick's core logic.
+
+#### What Are Skills?
+
+Skills are optional capabilities that nanobricks can activate when needed:
+
+- **Timing**: Measure execution time ✅
+- **Retry**: Automatic retry on failure ✅
+- **Caching**: Cache results for repeated calls ✅
+- **Logging**: Automatic logging of inputs/outputs ✅
+- **API**: Expose as REST endpoints ✅
+- **CLI**: Command-line interface ✅
+- **Observability**: Metrics and tracing (coming soon)
+
+#### Creating a Skill
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import Skill, NanobrickEnhanced, register_skill
+
+
+@register_skill("timing")
+class TimingSkill(Skill):
+    """Adds timing information to brick invocations."""
+
+    def _create_enhanced_brick(self, brick):
+        import time
+
+        class TimingEnhanced(NanobrickEnhanced):
+            async def invoke(self, input, *, deps=None):
+                start = time.time()
+                result = await self._wrapped.invoke(input, deps=deps)
+                elapsed = time.time() - start
+                print(f"⏱️  {self._wrapped.name} took {elapsed:.3f}s")
+                return result
+
+        return TimingEnhanced(brick, self)
+
+
+print("TimingSkill registered!")
+```
+
+#### Using Skills
+
+There are three ways to add skills to your bricks:
+
+##### 1. Method Chaining
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Create a simple brick
+class SlowBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        await asyncio.sleep(0.1)  # Simulate slow work
+        return f"Processed: {input}"
+
+
+# Add timing skill
+brick = SlowBrick()
+timed_brick = brick.with_skill("timing")
+
+# Use it
+result = await timed_brick.invoke("hello")
+print(f"Result: {result}")
+```
+
+##### 2. Function Style
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import with_skill
+
+
+# Add multiple skills
+@register_skill("cache")
+class CacheSkill(Skill):
+    def _create_enhanced_brick(self, brick):
+        cache = {}
+
+        class CacheEnhanced(NanobrickEnhanced):
+            async def invoke(self, input, *, deps=None):
+                key = str(input)
+                if key in cache:
+                    print(f"💾 Cache hit for: {key}")
+                    return cache[key]
+
+                result = await self._wrapped.invoke(input, deps=deps)
+                cache[key] = result
+                print(f"💾 Cached: {key}")
+                return result
+
+        return CacheEnhanced(brick, self)
+
+
+# Chain skills
+enhanced = with_skill(with_skill(brick, "cache"), "timing")
+
+# First call - slow
+result1 = await enhanced.invoke("test")
+# Second call - fast (cached)
+result2 = await enhanced.invoke("test")
+
+print(f"Same results: {result1 == result2}")
+```
+
+##### 3. Decorator Style
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import skill
+
+
+@skill("timing")
+@skill("cache")
+class SmartBrick(NanobrickSimple[str, int]):
+    """A brick decorated with skills."""
+
+    async def invoke(self, input: str, *, deps=None) -> int:
+        await asyncio.sleep(0.05)  # Simulate work
+        return len(input)
+
+
+# The brick is automatically enhanced
+smart = SmartBrick()
+
+# Test it
+for text in ["hello", "world", "hello"]:  # "hello" appears twice
+    length = await smart.invoke(text)
+    print(f"Length of '{text}': {length}")
+```
+
+#### Real Example: Retry Skill
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+
+@register_skill("retry")
+class RetrySkill(Skill):
+    """Adds retry logic to brick invocations."""
+
+    def _create_enhanced_brick(self, brick):
+        max_retries = self.config.get("max_retries", 3)
+
+        class RetryEnhanced(NanobrickEnhanced):
+            async def invoke(self, input, *, deps=None):
+                last_error = None
+                for attempt in range(max_retries):
+                    try:
+                        return await self._wrapped.invoke(input, deps=deps)
+                    except Exception as e:
+                        last_error = e
+                        if attempt < max_retries - 1:
+                            print(f"🔄 Retry {attempt + 1}/{max_retries} after: {e}")
+
+                raise last_error
+
+        return RetryEnhanced(brick, self)
+
+
+# Test with an unreliable brick
+class UnreliableBrick(NanobrickSimple[int, int]):
+    def __init__(self):
+        super().__init__()
+        self._count = 0
+
+    async def invoke(self, input: int, *, deps=None) -> int:
+        self._count += 1
+        # Fail first two times
+        if self._count % 3 != 0:
+            raise ValueError(f"Failed on attempt {self._count}")
+        return input * 2
+
+
+# Add retry logic
+unreliable = UnreliableBrick()
+reliable = unreliable.with_skill("retry", max_retries=3)
+
+try:
+    result = await reliable.invoke(21)
+    print(f"Success! Result: {result}")
+except Exception as e:
+    print(f"Failed after retries: {e}")
+```
+
+### Step 6: Built-in Skills
+*Status: Complete! ✅*
+
+Nanobricks comes with three powerful built-in skills that cover the most common needs.
+
+#### Logging Skill
+
+Automatically log inputs, outputs, and errors with customizable formatting:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+import asyncio
+
+# Import built-in skills
+import nanobricks.skills
+from nanobricks import skill, NanobrickSimple
+
+
+@skill("logging", level="INFO", pretty=True)
+class DataProcessorBrick(NanobrickSimple[dict, dict]):
+    """Processes data with automatic logging."""
+
+    async def invoke(self, input: dict, *, deps=None) -> dict:
+        # Your processing logic
+        return {"processed": True, "item_count": len(input), "keys": list(input.keys())}
+
+
+# Use it
+processor = DataProcessorBrick()
+result = await processor.invoke({"a": 1, "b": 2})
+
+# Logs automatically:
+# 🔵 Input: {"a": 1, "b": 2}
+# 🟢 Output: {"processed": true, "item_count": 2, "keys": ["a", "b"]} (took 0.001s)
+```
+
+Logging options:
+- `level`: Log level (DEBUG, INFO, WARNING, ERROR)
+- `log_inputs`: Log inputs (default: True)
+- `log_outputs`: Log outputs (default: True)
+- `log_errors`: Log errors (default: True)
+- `truncate`: Max length for values (default: 100)
+- `pretty`: Pretty-print JSON (default: False)
+
+#### API Skill
+
+Turn any nanobrick into a REST API with FastAPI:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+
+@skill("api", path="/analyze", port=8080, docs=True)
+class TextAnalyzerBrick(NanobrickSimple[str, dict]):
+    """Analyzes text and returns statistics."""
+
+    async def invoke(self, input: str, *, deps=None) -> dict:
+        words = input.split()
+        return {
+            "text": input,
+            "word_count": len(words),
+            "unique_words": len(set(words)),
+        }
+
+
+analyzer = TextAnalyzerBrick()
+
+# Start the API server
+# analyzer.start_server()  # Runs at http://localhost:8080/analyze
+
+# Access the API:
+# POST http://localhost:8080/analyze
+# {"data": "hello world hello"}
+
+# API docs at http://localhost:8080/docs
+```
+
+API options:
+- `path`: Endpoint path (default: /{brick_name})
+- `method`: HTTP method (default: POST)
+- `host`: Host to bind (default: 0.0.0.0)
+- `port`: Port to bind (default: 8000)
+- `docs`: Enable Swagger docs (default: True)
+
+#### CLI Skill
+
+Create command-line interfaces with Typer:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+
+@skill("cli", command="transform", input_type="json")
+class DataTransformerBrick(NanobrickSimple[list, dict]):
+    """Transforms data into summary statistics."""
+
+    async def invoke(self, input: list, *, deps=None) -> dict:
+        return {
+            "total_items": len(input),
+            "first": input[0] if input else None,
+            "last": input[-1] if input else None,
+        }
+
+
+transformer = DataTransformerBrick()
+
+# Use from command line:
+# transform invoke '[1, 2, 3, 4, 5]'
+# transform invoke data.json --from-file
+# transform info
+# transform example
+```
+
+CLI options:
+- `command`: Command name (default: brick name)
+- `description`: Help text
+- `input_type`: json, text, or file
+- `output_format`: json, text, or pretty
+
+#### Combining Built-in Skills
+
+The real power comes from combining skills:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+
+@skill("logging", level="INFO")
+@skill("api", port=8000)
+@skill("cli", command="process")
+class ProcessorBrick(NanobrickSimple[dict, dict]):
+    """A brick with multiple interfaces."""
+
+    async def invoke(self, input: dict, *, deps=None) -> dict:
+        # Process data
+        result = {k: v * 2 for k, v in input.items() if isinstance(v, (int, float))}
+        return result
+
+
+processor = ProcessorBrick()
+
+# Now you can:
+# 1. Call it directly (with logging)
+result = await processor.invoke({"a": 5, "b": 10})
+
+# 2. Access via REST API
+# processor.start_server()
+
+# 3. Use from command line
+# process invoke '{"a": 5, "b": 10}'
+```
+
+## Try It Yourself!
+
+Once we start implementing, you'll be able to run these examples:
+
+```{shell}
+#| eval: true
+#| echo: true
+#| output: true
+
+# Install the package
+pip install -e .
+
+# Run the examples
+python examples/basic_pipeline.py
+python examples/sync_usage.py
+python examples/dependency_injection.py
+python examples/configuration.py
+```
+
+## Questions Along the Way?
+
+As we build, I'll add troubleshooting tips and explanations here. This document will grow with our implementation!
+
+## Installation & Setup
+
+Now that we have working code, here's how to get started:
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd nano-1
+
+# Install in development mode
+pip install -e ".[dev]"
+
+# Run the tests
+pytest tests/unit/test_protocol.py -v
+
+# Check types
+mypy src/nanobricks/ --strict
+```
+
+## What's Working Now?
+
+✅ Core protocol with NanobrickProtocol and NanobrickBase  
+✅ NanobrickSimple for easy nanobricks without dependencies  
+✅ Async and sync invocation  
+✅ Type safety with generics  
+✅ Full pipe operator composition (|)  
+✅ NanobrickComposite for two-brick pipelines  
+✅ Pipeline class for multi-brick chains  
+✅ Error propagation (fail-fast)  
+✅ Type transformations in pipelines  
+✅ Dependency injection with StandardDeps  
+✅ DependencyContainer for managing deps  
+✅ Mock implementations for testing  
+✅ Dependencies flow through pipelines  
+✅ TOML-based configuration system  
+✅ Environment-specific config overrides  
+✅ Config discovery chain  
+✅ Dot notation config access  
+✅ Skill framework with enhance() pattern  
+✅ Registry for skill management  
+✅ with_skill() method chaining  
+✅ @skill decorator support  
+✅ Example skills: timing, retry, cache  
+✅ **Built-in logging skill with smart formatting**  
+✅ **Built-in API skill with FastAPI**  
+✅ **Built-in CLI skill with Typer**  
+✅ **Built-in Docker skill with Dockerfile generation**  
+✅ **Built-in Kubernetes skill with manifest & Helm chart generation**  
+✅ **Performance optimizations: caching, batching, fusion, pooling**  
+✅ Working examples in `examples/` directory  
+✅ 221 tests, 74% coverage  
+✅ Strict mypy type checking  
+
+## Try It Now!
+
+```bash
+# Run the examples
+python examples/basic_pipeline.py
+python examples/sync_usage.py
+python examples/dependency_injection.py
+python examples/configuration.py
+python examples/custom_skills.py
+python examples/builtin_skills.py
+python examples/deployment_example.py  # Docker & Kubernetes deployment
+python examples/performance_example.py  # NEW! Performance optimizations
+
+# Run all tests
+pytest tests/unit/ -v
+```
+
+## Real Examples from the examples/ Directory
+
+Here are some highlights from our working examples:
+
+### From basic_pipeline.py
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+import asyncio
+from typing import List
+from nanobricks import NanobrickSimple
+
+
+# Email processing example from basic_pipeline.py
+class ValidateEmailBrick(NanobrickSimple[str, str]):
+    """Validates that input looks like an email."""
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        if "@" not in input or "." not in input:
+            raise ValueError(f"Invalid email format: {input}")
+        return input
+
+
+class NormalizeEmailBrick(NanobrickSimple[str, str]):
+    """Normalizes email to lowercase and strips whitespace."""
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return input.strip().lower()
+
+
+class ExtractDomainBrick(NanobrickSimple[str, str]):
+    """Extracts domain from email address."""
+
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return input.split("@")[1]
+
+
+# Create pipeline
+validate = ValidateEmailBrick(name="validate")
+normalize = NormalizeEmailBrick(name="normalize")
+extract = ExtractDomainBrick(name="extract")
+
+email_pipeline = validate | normalize | extract
+
+# Test with various inputs
+test_emails = ["  John.Doe@Example.COM  ", "alice@wonderland.io", "BOB@CORP.NET"]
+
+print("Email Processing Pipeline:")
+for email in test_emails:
+    try:
+        domain = await email_pipeline.invoke(email)
+        print(f"  {email:30} -> {domain}")
+    except ValueError as e:
+        print(f"  {email:30} -> ERROR: {e}")
+```
+
+### From dependency_injection.py - Smart Caching
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from typing import Optional
+from nanobricks import NanobrickBase
+from nanobricks.dependencies import (
+    StandardDeps,
+    MockDatabase,
+    MockCache,
+    MockLogger,
+    DependencyContainer,
+)
+
+
+# Smart loader with caching from dependency_injection.py
+class SmartUserLoader(NanobrickBase[str, dict, StandardDeps]):
+    """Loads user data with intelligent caching."""
+
+    async def invoke(
+        self, user_id: str, *, deps: Optional[StandardDeps] = None
+    ) -> dict:
+        if not deps:
+            raise ValueError("Dependencies required")
+
+        # Check cache first
+        cache_key = f"user:{user_id}"
+        if "cache" in deps:
+            cached_data = await deps["cache"].get(cache_key)
+            if cached_data:
+                if "logger" in deps:
+                    deps["logger"].debug(f"Cache hit for {cache_key}")
+                return cached_data
+
+        # Load from database
+        if "db" not in deps:
+            raise ValueError("Database required")
+
+        results = await deps["db"].query(
+            "SELECT * FROM users WHERE id = ?", {"id": user_id}
+        )
+
+        if not results:
+            raise ValueError(f"User {user_id} not found")
+
+        user_data = results[0]
+
+        # Store in cache for next time
+        if "cache" in deps:
+            await deps["cache"].set(cache_key, user_data, ttl=300)
+            if "logger" in deps:
+                deps["logger"].debug(f"Cached data for {cache_key}")
+
+        return user_data
+
+
+# Set up dependencies
+mock_db = MockDatabase(
+    {
+        "SELECT * FROM users WHERE id = ?": [
+            {"id": "123", "name": "Alice", "email": "alice@example.com"}
+        ]
+    }
+)
+
+deps = DependencyContainer(db=mock_db, cache=MockCache(), logger=MockLogger())
+
+loader = SmartUserLoader()
+
+# First call - hits database
+print("First call (DB):")
+user1 = await loader.invoke("123", deps=deps.to_dict())
+print(f"  User: {user1}")
+print(f"  DB queries: {len(mock_db.queries)}")
+
+# Second call - hits cache
+mock_db.queries.clear()
+print("\nSecond call (Cache):")
+user2 = await loader.invoke("123", deps=deps.to_dict())
+print(f"  User: {user2}")
+print(f"  DB queries: {len(mock_db.queries)} (cache hit!)")
+```
+
+### Step 7: Deployment Skills
+*Status: Complete! ✅*
+
+Deploy your nanobricks anywhere with automatic containerization and orchestration!
+
+#### Docker Skill
+
+Automatically containerize your nanobricks with zero configuration:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickSimple
+from nanobricks.skills.deployment import SkillDocker, DockerConfig
+
+# Define a simple brick for the example
+class MyDataProcessor(NanobrickSimple[dict, dict]):
+    """Process data with validation."""
+    
+    def __init__(self):
+        super().__init__(name="mydataprocessor", version="1.0.0")
+    
+    async def invoke(self, input: dict, *, deps=None) -> dict:
+        # Process the data
+        return {"processed": True, "count": len(input)}
+
+# Simple containerization
+docker_skill = SkillDocker()
+brick = MyDataProcessor()
+enhanced = docker_skill.enhance(brick)
+
+# Generate Dockerfile
+dockerfile = docker_skill.generate_dockerfile(brick)
+print("Generated Dockerfile:")
+print(dockerfile)
+
+# Output:
+# FROM python:3.13-slim
+# WORKDIR /app
+# COPY requirements.txt .
+# RUN pip install -r requirements.txt
+# COPY . .
+# EXPOSE 8000
+# CMD ["python", "-m", "nanobricks.run", "mydataprocessor"]
+```
+
+With custom configuration:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Continue from previous cell - redefine for this cell
+from nanobricks import NanobrickSimple
+from nanobricks.skills.deployment import SkillDocker, DockerConfig
+
+class MyDataProcessor(NanobrickSimple[dict, dict]):
+    """Process data with validation."""
+    
+    def __init__(self):
+        super().__init__(name="mydataprocessor", version="1.0.0")
+    
+    async def invoke(self, input: dict, *, deps=None) -> dict:
+        return {"processed": True, "count": len(input)}
+
+brick = MyDataProcessor()
+
+# Advanced Docker configuration
+docker_config = DockerConfig(
+    base_image="python:3.13-alpine",
+    expose_ports=[8080],
+    environment={"API_KEY": "${API_KEY}", "ENV": "production"},
+    labels={"app": "nanobricks", "version": "1.0.0"},
+    healthcheck={
+        "test": ["CMD", "curl", "-f", "http://localhost:8080/health"],
+        "interval": "30s",
+        "timeout": "3s",
+        "retries": 3,
+    },
+    system_packages=["curl"],  # For healthcheck
+)
+
+docker_skill = SkillDocker(docker_config)
+
+# Generate docker-compose.yml
+# Note: generate_compose expects a dict of services
+compose = docker_skill.generate_compose(
+    services={"myapp": brick},
+    networks=["app-network"],
+)
+print("Docker Compose configuration generated!")
+print("Compose file includes services, networks, and configuration.")
+```
+
+#### Kubernetes Skill
+
+Deploy to Kubernetes with automatic manifest generation:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks.skills.deployment import SkillKubernetes, KubernetesConfig
+
+# Basic Kubernetes deployment
+k8s_config = KubernetesConfig(
+    namespace="production",
+    replicas=3,
+    resources={
+        "requests": {"cpu": "100m", "memory": "128Mi"},
+        "limits": {"cpu": "500m", "memory": "512Mi"},
+    },
+    labels={"app": "nanobricks", "tier": "backend"},
+)
+
+k8s_skill = SkillKubernetes(k8s_config)
+# brick = MyAPIBrick()
+
+# Generate all Kubernetes manifests
+# manifests = k8s_skill.generate_manifests(brick, "myapp:v1.0.0")
+
+# Includes:
+# - Deployment with health checks and resource limits
+# - Service for load balancing
+# - HorizontalPodAutoscaler for auto-scaling
+# - ConfigMap for configuration
+```
+
+Generate Helm charts for production deployments:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+# Generate complete Helm chart
+helm_chart = k8s_skill.generate_helm_chart(brick, "myapp:v1.0.0")
+
+# Creates:
+# - Chart.yaml with metadata
+# - values.yaml with configurable parameters
+# - Templates for all Kubernetes resources
+# - Support for multiple environments
+
+print("Helm chart structure:")
+for filename, content in helm_chart.items():
+    print(f"  {filename}")
+```
+
+#### Complete Deployment Pipeline
+
+Combine Docker and Kubernetes for full deployment automation:
+
+```{python}
+# | eval: false
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickSimple, skill
+from nanobricks.skills.deployment import SkillDocker, SkillKubernetes
+
+
+@skill("logging")
+@skill("api", port=8080)
+class ProductionBrick(NanobrickSimple[dict, dict]):
+    """A production-ready nanobrick."""
+
+    async def invoke(self, input: dict, *, deps=None) -> dict:
+        # Your business logic here
+        return {"processed": True, "items": len(input)}
+
+
+# Create deployment pipeline
+brick = ProductionBrick()
+
+# 1. Containerize
+docker = SkillDocker()
+dockerfile = docker.generate_dockerfile(brick)
+compose = docker.generate_docker_compose(brick, "myapp:latest")
+
+# 2. Deploy to Kubernetes
+k8s = SkillKubernetes(
+    KubernetesConfig(
+        namespace="production",
+        replicas=5,
+        autoscaling=True,
+        min_replicas=3,
+        max_replicas=10,
+        target_cpu_utilization=70,
+    )
+)
+
+manifests = k8s.generate_manifests(brick, "myapp:latest")
+helm_chart = k8s.generate_helm_chart(brick, "myapp:latest")
+
+print("✅ Deployment pipeline ready!")
+print(f"   - Dockerfile: {len(dockerfile)} lines")
+print(f"   - Kubernetes manifests: {len(manifests)} resources")
+print(f"   - Helm chart: {len(helm_chart)} files")
+```
+
+### Step 8: Performance Optimizations
+*Status: Complete! ✅*
+
+Make your nanobricks blazing fast with built-in performance optimizations!
+
+#### Caching
+
+Add intelligent caching to expensive operations:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks.performance import with_cache
+
+
+# Create an expensive brick
+class DatabaseLookupBrick(NanobrickSimple[str, dict]):
+    async def invoke(self, key: str, *, deps=None) -> dict:
+        # Simulate expensive database query
+        await asyncio.sleep(0.5)
+        return {"key": key, "data": f"Data for {key}"}
+
+
+# Add caching
+db_brick = DatabaseLookupBrick()
+cached_db = with_cache(db_brick, max_size=100, ttl=300)  # 5 min TTL
+
+# First call - slow (cache miss)
+result1 = await cached_db.invoke("user123")  # Takes 0.5s
+
+# Second call - fast (cache hit)
+result2 = await cached_db.invoke("user123")  # Instant!
+
+# Check cache stats
+print(cached_db.cache_info())
+# {'size': 1, 'max_size': 100, 'ttl': 300, ...}
+```
+
+#### Batching
+
+Process multiple items efficiently:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks.performance import with_batching
+
+
+# Create a brick that benefits from batching
+class APICallBrick(NanobrickSimple[str, dict]):
+    async def invoke(self, item: str, *, deps=None) -> dict:
+        # Simulate API call
+        await asyncio.sleep(0.1)
+        return {"id": item, "processed": True}
+
+
+# Add batching
+api_brick = APICallBrick()
+batched_api = with_batching(api_brick, batch_size=10)
+
+# Process multiple items efficiently
+items = [f"item_{i}" for i in range(20)]
+results = await batched_api.invoke(items)
+print(results)
+# Processes in batches
+```
+
+#### Pipeline Fusion
+
+Optimize long pipelines by fusing operations:
+
+```{python}
+# | eval: false
+# | echo: true
+# | output: true
+
+from nanobricks import Pipeline
+from nanobricks.performance import fuse_pipeline
+
+# Create a pipeline
+step1 = TransformBrick()
+step2 = ValidateBrick()
+step3 = EnrichBrick()
+step4 = SaveBrick()
+
+# Regular pipeline
+pipeline = Pipeline(step1, step2, step3, step4)
+
+# Fused pipeline - reduces async overhead
+fused = fuse_pipeline(pipeline)
+
+# Both work the same, but fused is faster
+result = await fused.invoke(data)
+```
+
+#### Memory Pooling
+
+Reuse objects to reduce allocation overhead:
+
+```{python}
+# | eval: true
+# | echo: true
+# | output: true
+
+from nanobricks.performance import MemoryPool
+
+
+# Create a pool of reusable processors
+class DataProcessor:
+    def __init__(self):
+        self.buffer = bytearray(1024)
+        self.results = []
+
+    def reset(self):
+        self.results.clear()
+
+    def process(self, data):
+        # Process using pre-allocated buffer
+        self.results.append(len(data))
+        return self.results
+
+
+# Create pool
+pool = MemoryPool(DataProcessor, size=5)
+
+# Use pooled objects
+processor = pool.acquire()
+result = processor.process("hello")
+print(result)
+pool.release(processor)  # Returns to pool for reuse
+```
+
+#### Combined Optimizations
+
+Stack optimizations for maximum performance:
+
+```{python}
+# | eval: false
+# | echo: true
+# | output: true
+
+from nanobricks import NanobrickSimple
+from nanobricks.performance import with_cache, fuse_pipeline
+
+# Create a complex pipeline
+validator = DataValidator()
+enricher = DataEnricher()
+transformer = DataTransformer()
+
+# Add caching to expensive operations
+cached_enricher = with_cache(enricher, max_size=1000)
+
+# Create and fuse pipeline
+pipeline = validator | cached_enricher | transformer
+fused = fuse_pipeline([validator, cached_enricher, transformer])
+
+# Ultra-fast processing with caching and fusion
+results = []
+for item in large_dataset:
+    result = await fused.invoke(item)  # Cached + fused!
+    results.append(result)
+```
+
+## Built-in Transformers
+
+### CSV Transformers
+
+Work with CSV data seamlessly:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.transformers import CSVParser, CSVSerializer
+
+# Parse CSV text
+parser = CSVParser(delimiter=",", strip_values=True)
+data = await parser.invoke("""name,age,city
+Alice,30,New York
+Bob,25,London""")
+# Result: [{"name": "Alice", "age": "30", "city": "New York"}, ...]
+
+# Serialize back to CSV
+serializer = CSVSerializer(columns=["name", "city"])  # Select columns
+csv_text = await serializer.invoke(data)
+```
+
+### Text Normalization
+
+Clean and normalize text data:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.transformers import TextNormalizer
+
+# Configure normalization
+normalizer = TextNormalizer(
+    lowercase=True,
+    remove_punctuation=True,
+    expand_contractions=True,
+    remove_urls=True,
+    custom_replacements={
+        "CEO": "Chief Executive Officer",
+        "AI": "Artificial Intelligence"
+    }
+)
+
+text = "The CEO said: Don't miss our AI update at https://example.com!"
+clean = await normalizer.invoke(text)
+# Result: "the chief executive officer said do not miss our artificial intelligence update"
+```
+
+### Smart Type Conversion
+
+Convert between types intelligently:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.transformers import SmartTypeConverter, BulkTypeConverter
+
+# Single value conversion
+to_date = SmartTypeConverter(target_type=date, date_format="%Y-%m-%d")
+result = await to_date.invoke("2024-01-15")  # Returns date object
+
+# Bulk conversion with error handling
+to_int = BulkTypeConverter(
+    target_type=int,
+    skip_errors=True,
+    error_value=0,
+    report_errors=True
+)
+
+values = ["42", "100", "invalid", "75"]
+result = await to_int.invoke(values)
+# Result: {"results": [42, 100, 0, 75], "error_count": 1, ...}
+```
+
+### Dynamic Type Conversion
+
+Convert dictionaries with type hints:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.transformers import DynamicTypeConverter
+
+# Configure type mappings
+converter = DynamicTypeConverter(
+    type_map={"age": int, "active": bool},
+    infer_types=True  # Auto-detect numbers and booleans
+)
+
+data = {
+    "name": "Alice",
+    "age": "30",        # Will convert to int
+    "salary": "50000.50",  # Will infer as float
+    "active": "yes"     # Will convert to bool
+}
+
+result = await converter.invoke(data)
+# Result: {"name": "Alice", "age": 30, "salary": 50000.5, "active": True}
+```
+
+### DataFrame Transformers
+
+Work with pandas DataFrames for powerful data analysis:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.transformers import (
+    DataFrameFilter,
+    DataFrameGroupBy,
+    DataFrameMerge,
+    DataFrameReshape
+)
+
+# Filter data
+sales_data = [
+    {"product": "Laptop", "price": 999.99, "quantity": 5, "region": "North"},
+    {"product": "Mouse", "price": 29.99, "quantity": 15, "region": "South"},
+    {"product": "Laptop", "price": 999.99, "quantity": 3, "region": "South"},
+]
+
+# Filter high-value sales
+filter = DataFrameFilter(
+    column="price",
+    value=100,
+    op=">"
+)
+expensive_items = await filter.invoke(sales_data)
+
+# Group and aggregate
+groupby = DataFrameGroupBy(
+    by="product",
+    agg={
+        "quantity": "sum",
+        "price": ["mean", "count"]
+    }
+)
+product_summary = await groupby.invoke(sales_data)
+
+# Pivot data
+pivot = DataFrameReshape(
+    reshape_type="pivot",
+    index="product",
+    columns="region",
+    values="quantity",
+    aggfunc="sum"
+)
+pivot_table = await pivot.invoke(sales_data)
+```
+
+#### Advanced DataFrame Operations
+
+```{python}
+# | eval: false
+# | echo: true
+
+# Complex filtering with queries
+complex_filter = DataFrameFilter(
+    query="price > 50 and region == 'North' and quantity >= 5"
+)
+filtered = await complex_filter.invoke(sales_data)
+
+# Merge with additional data
+product_info = pd.DataFrame([
+    {"product": "Laptop", "category": "Electronics", "cost": 700},
+    {"product": "Mouse", "category": "Electronics", "cost": 15}
+])
+
+merge = DataFrameMerge(
+    other=product_info,
+    how="left",
+    on="product"
+)
+enriched_data = await merge.invoke(sales_data)
+
+# Time series operations (requires datetime index)
+from nanobricks.transformers import DataFrameTimeSeriesOperator
+
+# Rolling average
+rolling = DataFrameTimeSeriesOperator(
+    operation="rolling",
+    window=7,
+    func="mean"
+)
+smoothed_data = await rolling.invoke(time_series_df)
+
+# Resample to weekly
+resample = DataFrameTimeSeriesOperator(
+    operation="resample",
+    rule="W",  # Weekly
+    func="sum"
+)
+weekly_data = await resample.invoke(time_series_df)
+```
+
+## Developer Tools
+
+### Project Scaffolding
+
+Create new nanobrick projects in seconds:
+
+```bash
+# Create a new project
+nanobrick new my-awesome-brick \
+  --description "An awesome data processor" \
+  --author "Your Name" \
+  --email "you@example.com"
+
+# Project structure created:
+my-awesome-brick/
+├── pyproject.toml          # Project metadata & dependencies
+├── nanobrick.toml          # Nanobrick configuration
+├── README.md               # Documentation
+├── .gitignore              # Git ignore patterns
+├── .vscode/
+│   └── settings.json       # VS Code configuration
+├── src/
+│   └── my_awesome_brick/
+│       ├── __init__.py
+│       └── core.py         # Your brick implementation
+└── tests/
+    ├── __init__.py
+    └── test_my_awesome_brick.py
+```
+
+The generated brick is ready to use:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from my_awesome_brick import MyAwesomeBrick
+
+# Use your new brick
+brick = MyAwesomeBrick(prefix="AWESOME")
+result = await brick.invoke("hello")
+# Result: "AWESOME: hello processed"
+```
+
+### Documentation Generation
+
+Automatically generate documentation from your nanobricks:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.docs import DocumentationGenerator
+
+# Generate docs for your bricks
+generator = DocumentationGenerator(output_dir="docs/api")
+
+# Document individual bricks
+from my_bricks import DataProcessor, Validator, Transformer
+
+generator.write_docs([DataProcessor, Validator, Transformer])
+
+# Creates:
+# docs/api/
+#   ├── index.md              # Overview with links
+#   ├── dataprocessor.md      # Full docs for DataProcessor
+#   ├── validator.md          # Full docs for Validator
+#   └── transformer.md        # Full docs for Transformer
+```
+
+Generated documentation includes:
+
+- Type signatures with input/output/dependencies
+- Constructor parameters
+- Method documentation
+- Usage examples extracted from docstrings
+- Supported skills
+- Composition examples
+
+Example generated documentation:
+
+```markdown
+# DataProcessor
+
+`my_bricks.DataProcessor`
+
+A brick that processes data with validation and transformation.
+
+## Type Signature
+
+- **Input**: `dict`
+- **Output**: `dict`
+- **Dependencies**: `DatabaseConfig`
+
+## Constructor
+
+```python
+DataProcessor(validate=True, transform=True)
+```
+
+Initialize data processor with options...
+
+## Examples
+
+```python
+>>> processor = DataProcessor()
+>>> result = await processor.invoke({"name": "Alice", "age": 30})
+>>> print(result)
+{"name": "ALICE", "age": 30, "valid": True}
+```
+
+## Supported Skills
+
+- Skill Framework
+- Logging
+- API
+- Observability
+```
+
+### Developer Experience Tools
+
+#### Pipeline Debugger
+
+Debug your pipelines step-by-step:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.devtools import BrickDebugger
+
+# Create debugger
+debugger = BrickDebugger(
+    capture_input=True,
+    capture_output=True,
+    capture_errors=True,
+    save_to_file="debug.json"
+)
+
+# Wrap bricks with debugging
+processor = debugger.wrap_brick(DataProcessor())
+validator = debugger.wrap_brick(Validator())
+
+# Create debugged pipeline
+pipeline = processor | validator
+
+# Run and see what happens
+result = await pipeline.invoke({"name": "Alice", "age": 30})
+
+# Print execution trace
+debugger.print_trace()
+# Output:
+# 📊 Execution Trace:
+# ============================================================
+# 
+# [14:32:15.123] ▶️  DataProcessor
+#     Input: {'name': 'Alice', 'age': 30}
+# [14:32:15.234] ✅ DataProcessor (111.00ms)
+#     Output: {'name': 'ALICE', 'age': 30, 'processed': True}
+# 
+# [14:32:15.235] ▶️  Validator
+#     Input: {'name': 'ALICE', 'age': 30, 'processed': True}
+# [14:32:15.267] ✅ Validator (32.00ms)
+#     Output: {'name': 'ALICE', 'age': 30, 'processed': True, 'valid': True}
+```
+
+#### Performance Profiler
+
+Profile your bricks to find bottlenecks:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.devtools import BrickProfiler, profile_brick
+
+# Create profiler
+profiler = BrickProfiler(measure_memory=True)
+
+# Profile a pipeline
+slow_brick = profiler.wrap_brick(SlowProcessor())
+fast_brick = profiler.wrap_brick(FastValidator())
+pipeline = slow_brick | fast_brick
+
+# Run multiple times
+for i in range(100):
+    await pipeline.invoke(f"data_{i}")
+
+# Print performance stats
+profiler.print_stats()
+# Output:
+# ⏱️  Performance Profile:
+# ================================================================================
+# Brick                          Calls   Total(ms)    Avg(ms)    Min(ms)    Max(ms)
+# --------------------------------------------------------------------------------
+# SlowProcessor                    100     8543.21      85.43      82.10      95.33
+# FastValidator                    100      234.56       2.35       2.01       3.44
+# 
+# 💾 Memory Usage:
+# --------------------------------------------------------------------------------
+# SlowProcessor                  Delta:   +12.34 MB
+
+# Find bottlenecks
+bottlenecks = profiler.get_bottlenecks(threshold_pct=50)
+print(f"Bottlenecks: {bottlenecks}")  # ['SlowProcessor']
+```
+
+#### Pipeline Visualizer
+
+Visualize your pipeline structure:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.devtools import visualize_pipeline
+
+# Create a complex pipeline
+loader = DataLoader()
+processor = DataProcessor()
+validator = Validator()
+saver = DataSaver()
+
+pipeline = loader | processor | validator | saver
+
+# ASCII visualization
+print(visualize_pipeline(pipeline))
+# Output:
+# Pipeline Flow:
+# ==================================================
+# 
+#      INPUT
+#        │
+#        ▼
+# ┌──────────────────────┐
+# │      DataLoader      │
+# │     DataLoader       │
+# │       v1.0.0         │
+# └──────────────────────┘
+#        │
+#        ▼
+# ┌──────────────────────┐
+# │    DataProcessor     │
+# │    DataProcessor     │
+# │       v1.0.0         │
+# └──────────────────────┘
+#        │
+#        ▼
+# ┌──────────────────────┐
+# │      Validator       │
+# │      Validator       │
+# │       v1.0.0         │
+# └──────────────────────┘
+#        │
+#        ▼
+# ┌──────────────────────┐
+# │      DataSaver       │
+# │      DataSaver       │
+# │       v1.0.0         │
+# └──────────────────────┘
+#        │
+#        ▼
+#      OUTPUT
+
+# Generate Mermaid diagram
+mermaid = visualize_pipeline(pipeline, style="mermaid", save_to="pipeline.mmd")
+```
+
+## AI Integration
+
+### AI Reasoning Skill
+
+Enhance your nanobricks with AI-powered intelligence:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.skills import create_ai_skill
+
+# Create AI skill with cost controls
+ai_skill = create_ai_skill(
+    max_cost_per_invoke=0.05,  # $0.05 limit per call
+    enable_reasoning_trace=True,
+    enable_memory=True,
+)
+
+# Enhance any brick with AI
+validator = DataValidator()
+ai_validator = validator.with_skill(ai_skill)
+
+# The AI will:
+# - Understand complex validation rules from context
+# - Learn from past validations
+# - Provide intelligent error recovery
+# - Track costs to prevent overruns
+
+result = await ai_validator.invoke(complex_data)
+
+# Check AI reasoning
+if hasattr(ai_validator, 'get_reasoning_trace'):
+    trace = ai_validator.get_reasoning_trace()
+    for step in trace:
+        print(f"{step.timestamp}: {step.thought}")
+
+# Monitor costs
+print(f"AI costs: {ai_skill.get_cost_report()}")
+```
+
+### MCP Server Integration
+
+Expose your nanobricks as tools for LLMs via Model Context Protocol:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.skills import create_mcp_server, MCPToolConfig
+
+# Configure tool exposure
+summarizer = TextSummarizer()
+analyzer = DataAnalyzer()
+
+# Create MCP server
+mcp_server = create_mcp_server(
+    bricks=[summarizer, analyzer],
+    server_name="my-tools",
+    configs={
+        "TextSummarizer": MCPToolConfig(
+            name="summarize",
+            description="Summarizes text intelligently",
+            example_inputs=[{"text": "Long article..."}],
+        )
+    }
+)
+
+# Run server for LLM access
+await mcp_server.run_server()
+
+# Your LLM can now use these tools!
+```
+
+### Agent Communication
+
+Build multi-agent systems with nanobricks:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.agent import create_agent
+
+# Create agents from bricks
+processor = create_agent(DataProcessor(), name="Processor Agent")
+validator = create_agent(DataValidator(), name="Validator Agent") 
+analyzer = create_agent(DataAnalyzer(), name="Analyzer Agent")
+
+# Agents can discover each other
+discovered = await processor.discover_agents(capability="validation")
+
+# Send messages between agents
+await processor.send_message(
+    to_agent=validator.id,
+    message_type=MessageType.REQUEST,
+    content={"validate": data}
+)
+
+# Request processing from another agent
+result = await processor.request_processing(
+    target_agent=analyzer.id,
+    input=processed_data,
+    timeout=30.0
+)
+
+# Broadcast to all agents
+await processor.broadcast(
+    MessageType.ANNOUNCE,
+    {"status": "processing complete"}
+)
+```
+
+### Adaptive Behavior
+
+Create self-tuning nanobricks that learn and adapt:
+
+```{python}
+# | eval: false
+# | echo: true
+
+from nanobricks.adaptive import create_adaptive_brick
+from nanobricks.adaptive.policies import ThresholdPolicy, MLPolicy
+
+# Simple threshold-based adaptation
+policy = ThresholdPolicy(
+    latency_threshold_ms=100,
+    error_rate_threshold=0.05
+)
+
+processor = DataProcessor()
+adaptive_processor = create_adaptive_brick(processor, policy)
+
+# The brick will automatically:
+# - Monitor performance metrics
+# - Detect when thresholds are exceeded
+# - Adjust parameters (batch size, concurrency, etc.)
+# - Retry with different strategies on errors
+
+# Use ML-based adaptation for complex scenarios
+ml_policy = MLPolicy(model_path="adaptation_model.pkl")
+smart_processor = create_adaptive_brick(processor, ml_policy)
+
+# Check adaptation status
+metrics = adaptive_processor.get_metrics_summary()
+print(f"Success rate: {metrics['success_rate']:.2%}")
+print(f"Current adaptations: {metrics['current_adaptations']}")
+```
+
+### AI-Powered Examples
+
+#### Intelligent Validator
+
+```{python}
+# | eval: false
+# | echo: true
+
+# A validator that understands context
+validator = IntelligentValidator(
+    context="user registration with email and phone"
+)
+
+# Add AI for smarter validation
+ai_validator = validator.with_skill(create_ai_skill())
+
+result = await ai_validator.invoke({
+    "name": "",
+    "email": "invalid-email",
+    "phone": "555"
+})
+
+# AI provides intelligent feedback:
+# - Errors: ["Invalid email format"]
+# - Warnings: ["Name is empty", "Phone too short"]  
+# - Suggestions: ["Use format: name@domain.com", "Include country code"]
+```
+
+#### Conversational Pipeline Assistant
+
+```{python}
+# | eval: false
+# | echo: true
+
+# Create a conversational assistant for your pipeline
+assistant = ConversationalBrick(
+    system_prompt="Help users debug data pipelines"
+)
+
+# Use in your pipeline for interactive debugging
+pipeline = DataLoader() | processor | assistant | validator
+
+# The assistant can:
+# - Answer questions about the pipeline
+# - Explain errors in plain language
+# - Suggest optimizations
+# - Guide users through debugging
+```
+
+## Security Features
+
+Protect your nanobricks with comprehensive security measures:
+
+### Input Sanitization
+
+Prevent injection attacks with automatic sanitization:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import InputSanitizer
+
+# Protect against XSS and SQL injection
+sanitizer = InputSanitizer(
+    UserService(),
+    html_escape=True,
+    sql_escape=True,
+    max_length=1000,
+    allowed_chars="a-zA-Z0-9 .-_",
+)
+
+# Malicious input gets sanitized
+result = await sanitizer.invoke('<script>alert("xss")</script>')
+# Result: '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;'
+```
+
+### Rate Limiting
+
+Prevent abuse with configurable rate limits:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import RateLimiter
+
+# Limit requests per user
+limiter = RateLimiter(
+    ApiService(),
+    max_requests=100,
+    window_seconds=60,
+    burst_size=10,  # Max burst within short period
+    key_func=lambda input, deps: deps["user_id"],
+)
+
+# Exceeding limits raises an error
+try:
+    await limiter.invoke(request, deps={"user_id": "alice"})
+except ValueError as e:
+    print(f"Rate limited: {e}")
+```
+
+### Permission-Based Access Control
+
+Fine-grained permissions and role-based access:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import PermissionGuard, Permission, SecurityContext
+
+# Require specific permissions
+admin_only = PermissionGuard(
+    DeleteService(),
+    required_permissions={Permission.DELETE, Permission.ADMIN},
+    required_roles={"administrator"},
+)
+
+# Create security context
+context = SecurityContext(
+    user_id="alice",
+    permissions={Permission.READ, Permission.WRITE},
+    roles={"user"},
+)
+
+# Access denied without proper permissions
+try:
+    await admin_only.invoke(request, deps={"security_context": context})
+except PermissionError:
+    print("Access denied")
+```
+
+### Encryption
+
+Protect sensitive data at rest and in transit:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import EncryptionBrick
+
+# Encrypt specific fields
+encrypted = EncryptionBrick(
+    UserDataStore(),
+    fields_to_encrypt=["password", "ssn", "credit_card"],
+    encrypt_output=True,
+)
+
+# Sensitive fields are automatically encrypted
+result = await encrypted.invoke({
+    "username": "alice",
+    "password": "secret123",  # Will be encrypted
+    "email": "alice@example.com",  # Not encrypted
+})
+```
+
+### Audit Logging
+
+Track all operations for compliance and security:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import AuditLogger
+
+# Log all operations
+audited = AuditLogger(
+    PaymentService(),
+    log_input=True,
+    log_output=False,  # Don't log sensitive output
+    hash_sensitive_data=True,
+)
+
+# All operations are logged
+await audited.invoke(payment_request)
+
+# Query audit log
+entries = audited.get_audit_log(
+    user_id="alice",
+    start_time=yesterday,
+    success_only=False,
+)
+```
+
+### Layered Security
+
+Apply multiple security layers at once:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.security import secure_nanobrick
+
+# Apply all security features
+secure_service = secure_nanobrick(
+    CriticalService(),
+    sanitize=True,
+    rate_limit=50,
+    permissions={Permission.EXECUTE},
+    encrypt=True,
+    audit=True,
+)
+```
+
+## Production Features
+
+Make your nanobricks production-ready with reliability patterns:
+
+### Circuit Breakers
+
+Prevent cascading failures with automatic circuit breaking:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.production import CircuitBreaker
+
+# Protect unreliable services
+breaker = CircuitBreaker(
+    ExternalApiService(),
+    failure_threshold=5,      # Open after 5 failures
+    success_threshold=2,      # Close after 2 successes
+    timeout_seconds=60,       # Reset attempt after 60s
+    fallback=lambda x, d: cached_response,  # Fallback when open
+)
+
+# Circuit opens automatically on failures
+result = await breaker.invoke(request)
+
+# Check circuit status
+print(f"Circuit state: {breaker.state}")  # CLOSED, OPEN, or HALF_OPEN
+print(f"Stats: {breaker.stats}")
+```
+
+### Bulkhead Isolation
+
+Isolate resources to prevent total system failure:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.production import Bulkhead
+
+# Limit concurrent executions
+bulkhead = Bulkhead(
+    ResourceIntensiveService(),
+    max_concurrent=5,        # Max 5 concurrent
+    max_queue_size=10,       # Queue up to 10 more
+    timeout_seconds=30,      # Timeout waiting for slot
+)
+
+# Requests beyond limits are rejected
+try:
+    results = await asyncio.gather(*[
+        bulkhead.invoke(req) for req in many_requests
+    ])
+except RuntimeError as e:
+    print(f"Bulkhead full: {e}")
+
+# Monitor bulkhead status
+print(f"Active: {bulkhead.active_count}")
+print(f"Stats: {bulkhead.stats}")
+```
+
+### Health Checks
+
+Monitor service health automatically:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.production import HealthCheck
+
+# Add health monitoring
+monitored = HealthCheck(
+    CriticalService(),
+    check_interval_seconds=30,
+    failure_threshold=3,
+)
+
+# Start background health checks
+await monitored.start_health_checks()
+
+# Use the service normally
+result = await monitored.invoke(request)
+
+# Check health status
+health = await monitored.check_health()
+print(f"Status: {health.status}")  # HEALTHY, DEGRADED, or UNHEALTHY
+print(f"Details: {health.details}")
+
+# Custom health check logic
+def custom_check():
+    # Check database, disk space, etc.
+    if database_connected and disk_space_ok:
+        return HealthCheckResult(HealthStatus.HEALTHY)
+    else:
+        return HealthCheckResult(HealthStatus.UNHEALTHY)
+
+custom_monitored = HealthCheck(service, custom_check=custom_check)
+```
+
+### Graceful Shutdown
+
+Clean shutdown with proper resource cleanup:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.production import GracefulShutdown
+
+# Create shutdown manager
+shutdown = GracefulShutdown(timeout_seconds=30)
+
+# Register resources to manage
+shutdown.register_brick(database_service)
+shutdown.register_brick(cache_service)
+
+# Register background tasks
+shutdown.register_task(monitoring_task)
+shutdown.register_task(cleanup_task)
+
+# Custom shutdown handlers
+async def save_state():
+    await state_store.save()
+    print("State saved")
+
+shutdown.register_handler(save_state)
+
+# Install signal handlers (SIGTERM, SIGINT)
+shutdown.install_signal_handlers()
+
+# Wait for shutdown signal
+await shutdown.wait_for_shutdown()
+
+# Or trigger manually
+await shutdown.shutdown()
+```
+
+### All-in-One Production Setup
+
+Apply all production features at once:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.production import with_production_features
+
+# Make any brick production-ready
+production_service = with_production_features(
+    MyService(),
+    circuit_breaker=True,
+    bulkhead=10,           # Max 10 concurrent
+    health_check=True,
+    failure_threshold=5,   # Circuit breaker setting
+    timeout_seconds=60,    # Circuit reset timeout
+)
+
+# Use normally - all protection is transparent
+result = await production_service.invoke(request)
+
+# Features work together:
+# - Circuit breaker prevents cascading failures
+# - Bulkhead limits resource usage
+# - Health checks monitor service status
+```
+
+## Performance Optimization
+
+Optimize your nanobricks for maximum performance:
+
+### Caching
+
+Cache expensive operations with TTL and LRU eviction:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import with_cache
+
+# Add caching to any brick
+fibonacci = FibonacciBrick()
+cached_fib = with_cache(
+    fibonacci,
+    max_size=1000,      # Max cache entries
+    ttl=300,            # 5 minute TTL
+)
+
+# First call computes
+result1 = await cached_fib.invoke(20)  # Takes time
+
+# Second call is instant
+result2 = await cached_fib.invoke(20)  # From cache!
+
+# Check cache statistics
+stats = cached_fib.cache_info()
+print(f"Cache hits: {stats['hits']}")
+print(f"Cache size: {stats['size']}")
+
+# Clear cache if needed
+cached_fib.clear_cache()
+```
+
+### Connection Pooling
+
+Efficiently manage external resources:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import ConnectionPool
+
+# Create connection pool
+async def create_db_connection():
+    # Simulate expensive connection
+    await asyncio.sleep(0.1)
+    return {"id": random.randint(1000, 9999), "connected": True}
+
+pool = ConnectionPool(
+    create_db_connection,
+    min_size=2,         # Keep 2 connections ready
+    max_size=10,        # Max 10 connections
+    acquire_timeout=5.0,
+)
+
+# Use connections efficiently
+async with pool.acquire() as conn:
+    # Connection is automatically returned to pool
+    result = await db_brick.invoke(query, deps={"connection": conn})
+
+# Monitor pool health
+stats = pool.get_stats()
+print(f"Active connections: {stats['in_use']}")
+print(f"Available: {stats['available']}")
+
+# Cleanup
+await pool.close()
+```
+
+### Pipeline Fusion
+
+Optimize pipeline execution by fusing operations:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import FusedPipeline
+
+# Regular pipeline
+upper = TransformBrick(str.upper)
+strip = TransformBrick(str.strip)
+reverse = TransformBrick(lambda x: x[::-1])
+
+# Create fused pipeline for better performance
+fused = FusedPipeline([upper, strip, reverse])
+
+# Benchmark comparison
+import time
+
+# Regular execution
+start = time.time()
+for _ in range(10000):
+    result = await upper.invoke("  hello  ")
+    result = await strip.invoke(result)
+    result = await reverse.invoke(result)
+regular_time = time.time() - start
+
+# Fused execution - reduces async overhead
+start = time.time()
+for _ in range(10000):
+    result = await fused.invoke("  hello  ")
+fused_time = time.time() - start
+
+print(f"Speedup: {regular_time / fused_time:.2f}x")
+```
+
+### Performance Profiling
+
+Profile your bricks to identify bottlenecks:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import ProfilerBrick
+
+# Wrap any brick with profiling
+profiled = ProfilerBrick(
+    SlowService(),
+    enable_trace=True,
+    log_slow_calls=100.0,  # Log calls > 100ms
+)
+
+# Use normally
+await profiled.invoke(request)
+
+# Get performance metrics
+metrics = profiled.get_metrics()
+print(f"Average time: {metrics.avg_time_ms:.2f}ms")
+print(f"Min/Max: {metrics.min_time_ms:.2f}ms / {metrics.max_time_ms:.2f}ms")
+print(f"Total calls: {metrics.total_calls}")
+
+# Get detailed traces
+traces = profiled.get_traces()
+for trace in traces:
+    print(f"{trace['brick']}: {trace['duration_ms']:.2f}ms")
+```
+
+### Benchmarking
+
+Accurately benchmark your nanobricks:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import Benchmark
+
+# Create benchmark
+bench = Benchmark("data_processing")
+
+# Measure performance
+result = await bench.measure(
+    lambda: processor.invoke(test_data),
+    iterations=1000,
+    warmup=10,
+)
+
+print(f"Operations/sec: {result.ops_per_sec:.2f}")
+print(f"Average latency: {result.avg_time * 1000:.2f}ms")
+print(f"Min/Max: {result.min_time * 1000:.2f}ms / {result.max_time * 1000:.2f}ms")
+
+# Compare optimizations
+original_result = await bench.measure(original_processor.invoke)
+optimized_result = await bench.measure(optimized_processor.invoke)
+
+comparison = bench.compare(optimized_result)
+print(f"Speedup: {comparison['speedup']:.2f}x")
+```
+
+### System Monitoring
+
+Monitor system resources:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import get_system_metrics
+
+# Get current system state
+metrics = get_system_metrics()
+
+print(f"CPU Usage: {metrics['cpu']['percent']}%")
+print(f"Memory: {metrics['memory']['percent']:.1f}% used")
+print(f"Disk I/O: {metrics['disk_io'].get('read_bytes', 0) / 1e9:.2f} GB read")
+print(f"Network: {metrics['network_io'].get('bytes_sent', 0) / 1e6:.2f} MB sent")
+
+# Use for adaptive behavior
+if metrics['cpu']['percent'] > 80:
+    # Switch to low-resource mode
+    processor.set_batch_size(10)
+```
+
+### All-in-One Optimization
+
+Apply multiple optimizations at once:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.performance import with_performance_optimizations
+
+# Apply all optimizations
+optimized = with_performance_optimizations(
+    DataProcessor(),
+    cache=True,           # Enable caching
+    cache_size=1000,      # Cache size
+    cache_ttl=300,        # 5 minute TTL
+    profile=True,         # Enable profiling
+    profile_trace=True,   # Store traces
+    log_slow_calls=50.0,  # Log > 50ms calls
+)
+
+# Use normally - optimizations are transparent
+result = await optimized.invoke(data)
+
+# Check performance
+metrics = optimized.get_metrics()
+print(f"Cache hit rate: {metrics.cache_hits / metrics.total_calls:.1%}")
+```
+
+## Coming Next
+
+✅ Configuration system (TOML) - DONE!  
+✅ Skill framework - DONE!  
+✅ First built-in skills (logging, API, CLI) - DONE!  
+✅ Deployment skills (Docker, Kubernetes) - DONE!  
+✅ Performance optimizations (caching, batching, fusion) - DONE!  
+✅ Additional transformers (CSV, text, type conversion) - DONE!  
+✅ Project scaffolding & documentation generation - DONE!  
+✅ Developer experience tools (debugger, visualizer, profiler) - DONE!  
+✅ AI Integration (MCP, agents, adaptive behavior) - DONE!  
+✅ Security features (sanitization, rate limiting, permissions, encryption) - DONE!  
+✅ Production features (circuit breakers, bulkheads, health checks) - DONE!  
+✅ Performance profiling and optimization - DONE!  
+✅ Package registry and discovery - DONE!
+
+## Package Registry
+
+Share and discover nanobricks with the built-in package registry:
+
+### Creating Packages
+
+Package your nanobricks for distribution:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks import create_package_from_brick
+
+# Create a package from your brick
+processor = TextProcessor()
+package = create_package_from_brick(
+    processor,
+    name="text-processor",
+    version="1.0.0",
+    author="Your Name",
+    description="Powerful text processing nanobrick",
+    keywords=["text", "nlp", "processing"],
+    homepage="https://github.com/yourname/text-processor",
+)
+
+# Save as archive
+archive = package.to_archive()
+with open("text-processor-1.0.0.nbp", "wb") as f:
+    f.write(archive)
+
+print(f"Package created: {len(archive) / 1024:.2f} KB")
+```
+
+### Publishing Packages
+
+Share your nanobricks with the community:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks import get_registry
+
+# Get registry client
+registry = get_registry()
+
+# Publish your package
+success = await registry.publish(package, api_key="your-api-key")
+if success:
+    print(f"✓ Published {package.metadata.name} v{package.metadata.version}")
+```
+
+### Searching Packages
+
+Find nanobricks for your needs:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+# Search by keyword
+results = await registry.search("validation", limit=10)
+for result in results:
+    print(f"{result.name} v{result.version}: {result.description}")
+    print(f"  Downloads: {result.downloads}")
+
+# Search by author
+results = await registry.search("", author="Alice Developer")
+
+# Get detailed info
+info = await registry.info("data-validator")
+print(f"Latest version: {info.latest_version}")
+print(f"Total downloads: {info.total_downloads}")
+```
+
+### Installing Packages
+
+Install nanobricks with version management:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+# Install latest stable version
+package = await registry.install("data-validator")
+
+# Install specific version
+package = await registry.install("data-validator", version_spec="==2.1.0")
+
+# Install with version constraints
+package = await registry.install(
+    "data-validator",
+    version_spec="^2.0.0",  # Compatible with 2.x.x
+)
+
+# List installed packages
+installed = await registry.list_installed()
+for pkg in installed:
+    print(f"{pkg.metadata.name} v{pkg.metadata.version}")
+```
+
+### Version Management
+
+Semantic versioning with constraints:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.registry import Version, VersionRange
+
+# Parse versions
+v1 = Version.parse("1.2.3")
+v2 = Version.parse("2.0.0-beta.1")
+
+# Compare versions
+print(v1 < v2)  # True
+
+# Version ranges
+range = VersionRange.parse("^1.0.0")  # Compatible with 1.x.x
+print(range.contains(v1))  # True
+
+# Resolve dependencies
+from nanobricks.registry import resolve_dependencies
+
+dependencies = {
+    "nanobrick-core": "^1.0.0",
+    "nanobrick-utils": ">=1.0.0,<2.0.0",
+    "nanobrick-types": "~1.2.0",  # ~1.2.x
+}
+
+available = {
+    "nanobrick-core": [Version.parse("1.0.0"), Version.parse("1.5.0")],
+    "nanobrick-utils": [Version.parse("1.2.0"), Version.parse("2.0.0")],
+    "nanobrick-types": [Version.parse("1.2.3"), Version.parse("1.3.0")],
+}
+
+resolved = resolve_dependencies(dependencies, available)
+# Results: core=1.5.0, utils=1.2.0, types=1.2.3
+```
+
+### Package Metadata
+
+Rich metadata for discoverability:
+
+```{python}
+#| eval: false
+#| echo: true
+#| output: true
+
+from nanobricks.registry import PackageMetadata
+
+metadata = PackageMetadata(
+    name="my-nanobrick",
+    version="1.0.0",
+    description="Does amazing things",
+    author="Your Name",
+    email="you@example.com",
+    license="MIT",
+    homepage="https://github.com/you/my-nanobrick",
+    keywords=["awesome", "nanobrick"],
+    dependencies={
+        "nanobricks": ">=1.0.0",
+        "requests": "^2.0.0",
+    },
+    # Nanobrick-specific metadata
+    skills=["api", "cli"],
+    input_type="dict[str, Any]",
+    output_type="ProcessedData",
+)
+```
+
+🔜 Community marketplace and visual builder
+
+---
+
+*Last Updated: Registry Ready - Share and Discover Amazing Nanobricks!*

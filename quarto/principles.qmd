@@ -1,0 +1,106 @@
+---
+title: "The Ten Commandments of Nanobricks"
+subtitle: "Foundational principles that guide everything we build"
+---
+
+## Core Principles
+
+The Nanobricks framework is built on ten fundamental principles that shape every design decision:
+
+### 1. **Be Simple**
+Complexity emerges from composition, not components. Each nanobrick should do one thing well, with a clear mental model that both humans and AIs can reason about effortlessly.
+
+### 2. **Be Standardized**
+One interface to rule them all. The consistent `invoke()` pattern and pipe operator create a universal language for composition.
+
+### 3. **Be Composable**
+Play well with others. Nanobricks combine like Lego blocks - any output can connect to any compatible input, creating endless possibilities.
+
+### 4. **Be Self-Sufficient**
+Carry what you need. Through skills, nanobricks bring their own batteries - but only activate them when needed.
+
+### 5. **Be Scaffoldable**
+Work out of the box. New nanobricks should be productive immediately, with sensible defaults and minimal configuration.
+
+### 6. **Be Observable**
+Show what you're doing. Built-in tracing, logging, and metrics make debugging a breeze, not a nightmare.
+
+### 7. **Be Resilient**
+Fail gracefully, recover automatically. Embrace the chaos of distributed systems with circuit breakers, retries, and fallbacks.
+
+### 8. **Be Configurable**
+Adapt without changing. TOML configuration allows behavior changes across environments without touching code.
+
+### 9. **Be Evolutionary**
+Improve over time. Through hot-swapping, versioning, and AI-powered adaptation, nanobricks get better with use.
+
+### 10. **Be Secure**
+Safe by default. Input validation, sandboxing, and the principle of least privilege are built into the foundation.
+
+## Principle Hierarchy
+
+### The Original Five (Core DNA)
+1. Simple
+2. Standardized
+3. Composable
+4. Batteries Included (Self-Sufficient)
+5. Scaffoldable
+
+These form the essential nature of what makes a nanobrick a nanobrick.
+
+### The Extended Five (Distinguishing Features)
+6. Observable
+7. Resilient
+8. Configurable
+9. Evolutionary
+10. Secure
+
+These elevate nanobricks from simple components to production-ready, antifragile systems.
+
+## Living by the Principles
+
+### In Design
+- Every new feature must support, not violate, these principles
+- When principles conflict, simplicity wins
+- The principles guide us toward antifragility
+
+### In Implementation
+```python
+# Simple: One clear purpose
+@nanobrick
+class UppercaseTransformer:
+    async def invoke(self, text: str) -> str:
+        return text.upper()
+
+# Composable: Works with others
+pipeline = ValidateText() | UppercaseTransformer() | SaveToFile()
+
+# Observable: Built-in visibility
+transformer = UppercaseTransformer().with_skill("observability")
+
+# Resilient: Handles failures
+safe_transformer = UppercaseTransformer().with_fallback(lambda x: x)
+
+# Configurable: Adapts to needs
+config_aware = UppercaseTransformer(config="nanobrick.toml")
+```
+
+### In Evolution
+The principles themselves can evolve, but only through community consensus and real-world validation. They are our constitution, not our chains.
+
+## The Path to Antifragility
+
+These ten principles, when followed together, create the conditions for antifragility:
+
+- **Simplicity** enables understanding and adaptation
+- **Standardization** allows universal composition
+- **Composability** creates emergent complexity
+- **Self-sufficiency** ensures independence
+- **Scaffoldability** accelerates adoption
+- **Observability** provides feedback loops
+- **Resilience** handles stress gracefully
+- **Configurability** enables runtime adaptation
+- **Evolution** drives continuous improvement
+- **Security** maintains system integrity
+
+Together, they form a framework that doesn't just survive stress - it thrives on it.

@@ -1,0 +1,703 @@
+---
+title: "Architecture Diagrams"
+subtitle: "Visual guide to Nanobricks composition patterns"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+execute:
+  echo: true
+  warning: false
+---
+
+## Core Architecture
+
+### The Nanobrick Protocol
+
+```{mermaid}
+classDiagram
+    class NanobrickProtocol {
+        <<interface>>
+        +name: str
+        +version: str
+        +invoke(input: T_in, deps: T_deps) T_out
+        +invoke_sync(input: T_in, deps: T_deps) T_out
+        +__or__(other: NanobrickProtocol) NanobrickProtocol
+    }
+    
+    class NanobrickBase {
+        <<abstract>>
+        +name: str
+        +version: str
+        +invoke(input: T_in, deps: T_deps) T_out
+        +invoke_sync(input: T_in, deps: T_deps) T_out
+        +with_skill(skill: str, **config) NanobrickEnhanced
+    }
+    
+    class NanobrickSimple {
+        +invoke(input: T_in, deps: None) T_out
+    }
+    
+    class MyBrick {
+        +invoke(input: str, deps: None) str
+    }
+    
+    NanobrickProtocol <|.. NanobrickBase : implements
+    NanobrickBase <|-- NanobrickSimple : extends
+    NanobrickSimple <|-- MyBrick : extends
+```
+
+### Composition Flow
+
+```{mermaid}
+graph LR
+    subgraph "Individual Bricks"
+        A[Validator<br/>str → str]
+        B[Transformer<br/>str → dict]
+        C[Persister<br/>dict → bool]
+    end
+    
+    subgraph "Composed Pipeline"
+        A --> B --> C
+    end
+    
+    Input[/"hello"/] --> A
+    C --> Output[/true/]
+    
+    style A fill:#e1f5fe
+    style B fill:#e1f5fe
+    style C fill:#e1f5fe
+```
+
+## Composition Patterns
+
+### Linear Pipeline
+
+```{mermaid}
+graph LR
+    Input[Input Data] --> V[ValidateBrick]
+    V --> T[TransformBrick]
+    T --> E[EnrichBrick]
+    E --> S[SaveBrick]
+    S --> Output[Output]
+    
+    style V fill:#b3e5fc
+    style T fill:#81d4fa
+    style E fill:#4fc3f7
+    style S fill:#29b6f6
+```
+
+**Code:**
+```python
+pipeline = ValidateBrick() | TransformBrick() | EnrichBrick() | SaveBrick()
+```
+
+### Branching Pattern
+
+```{mermaid}
+graph TB
+    Input[Input] --> C{ConditionBrick}
+    C -->|True| T[TrueBranch]
+    C -->|False| F[FalseBranch]
+    T --> M[MergeBrick]
+    F --> M
+    M --> Output[Output]
+    
+    style C fill:#fff59d
+    style T fill:#a5d6a7
+    style F fill:#ef9a9a
+```
+
+**Code:**
+```python
+branch = Branch(
+    condition=ConditionBrick(),
+    true_branch=ProcessAdult(),
+    false_branch=ProcessMinor()
+)
+```
+
+### Parallel Execution
+
+```{mermaid}
+graph TB
+    Input[Input] --> Split{FanOut}
+    Split --> P1[Processor1]
+    Split --> P2[Processor2]
+    Split --> P3[Processor3]
+    P1 --> Merge{FanIn}
+    P2 --> Merge
+    P3 --> Merge
+    Merge --> Output[Output]
+    
+    style Split fill:#ce93d8
+    style Merge fill:#ce93d8
+    style P1 fill:#b39ddb
+    style P2 fill:#b39ddb
+    style P3 fill:#b39ddb
+```
+
+**Code:**
+```python
+parallel = Parallel([
+    Processor1(),
+    Processor2(),
+    Processor3()
+])
+```
+
+### Error Handling with Fallback
+
+```{mermaid}
+graph LR
+    Input[Input] --> P{PrimaryBrick}
+    P -->|Success| Output[Output]
+    P -.->|Error| F[FallbackBrick]
+    F --> Output
+    
+    style P fill:#a5d6a7
+    style F fill:#ffcc80
+```
+
+**Code:**
+```python
+safe = Fallback(
+    primary=UnreliableAPI(),
+    fallback=CachedResponse()
+)
+```
+
+## Skills Enhancement
+
+### How Skills Work
+
+```{mermaid}
+graph TB
+    subgraph "Base Brick"
+        B[DataProcessor<br/>invoke()]
+    end
+    
+    subgraph "With Logging Skill"
+        L1[LoggingSkill] --> B1[DataProcessor]
+        L1 -.-> |logs| Log1[Log Output]
+    end
+    
+    subgraph "With Multiple Skills"
+        L2[LoggingSkill] --> A[APISkill] --> B2[DataProcessor]
+        L2 -.-> |logs| Log2[Log Output]
+        A -.-> |exposes| API[REST API]
+    end
+    
+    style B fill:#e3f2fd
+    style B1 fill:#e3f2fd
+    style B2 fill:#e3f2fd
+    style L1 fill:#fff9c4
+    style L2 fill:#fff9c4
+    style A fill:#f3e5f5
+```
+
+**Code:**
+```python
+# Base brick
+processor = DataProcessor()
+
+# Add skills
+logged = processor.with_skill("logging")
+api_logged = processor.with_skill("logging").with_skill("api")
+```
+
+### Skill Composition
+
+```{mermaid}
+graph LR
+    subgraph "Skills Available"
+        S1[Logging]
+        S2[API]
+        S3[CLI]
+        S4[Cache]
+        S5[Monitoring]
+        S6[Docker]
+    end
+    
+    subgraph "Enhanced Brick"
+        Core[YourBrick]
+        S1 --> Core
+        S2 --> Core
+        S5 --> Core
+    end
+    
+    Core --> Features[Enhanced<br/>Features]
+    
+    style Core fill:#90caf9
+    style S1 fill:#fff59d
+    style S2 fill:#f48fb1
+    style S5 fill:#a5d6a7
+```
+
+## Dependency Flow
+
+### Dependencies Through Pipeline
+
+```{mermaid}
+graph TB
+    subgraph "Dependencies"
+        DB[(Database)]
+        Cache[(Cache)]
+        Config[Config]
+    end
+    
+    subgraph "Pipeline"
+        A[LoadUser] -.-> DB
+        A --> B[EnrichUser]
+        B -.-> Cache
+        B --> C[SaveUser]
+        C -.-> DB
+        C -.-> Config
+    end
+    
+    Input[user_id] --> A
+    C --> Output[User]
+    
+    style A fill:#e1f5fe
+    style B fill:#b3e5fc
+    style C fill:#81d4fa
+```
+
+**Code:**
+```python
+deps = {
+    "db": database_connection,
+    "cache": redis_client,
+    "config": app_config
+}
+
+result = await pipeline.invoke(input, deps=deps)
+```
+
+## System Architecture Examples
+
+### Microservice Architecture
+
+```{mermaid}
+graph TB
+    subgraph "API Gateway"
+        GW[Gateway<br/>RateLimiter | Auth | Router]
+    end
+    
+    subgraph "User Service"
+        U1[ValidateUser]
+        U2[CreateUser]
+        U3[NotifyUser]
+        U1 --> U2 --> U3
+    end
+    
+    subgraph "Order Service"
+        O1[ValidateOrder]
+        O2[ProcessPayment]
+        O3[CreateFulfillment]
+        O1 --> O2 --> O3
+    end
+    
+    subgraph "Shared Infrastructure"
+        DB[(PostgreSQL)]
+        MQ[RabbitMQ]
+        Cache[(Redis)]
+    end
+    
+    GW --> U1
+    GW --> O1
+    U2 -.-> DB
+    O2 -.-> DB
+    U3 -.-> MQ
+    O3 -.-> MQ
+    
+    style GW fill:#ffccbc
+    style U1 fill:#c5e1a5
+    style O1 fill:#b3e5fc
+```
+
+### Event-Driven Architecture
+
+```{mermaid}
+graph LR
+    subgraph "Event Sources"
+        API[API Events]
+        DB[DB Changes]
+        Queue[Message Queue]
+    end
+    
+    subgraph "Event Bus"
+        EB{Event Bus}
+    end
+    
+    subgraph "Event Handlers"
+        H1[EmailHandler]
+        H2[AnalyticsHandler]
+        H3[AuditHandler]
+    end
+    
+    API --> EB
+    DB --> EB
+    Queue --> EB
+    
+    EB --> H1
+    EB --> H2
+    EB --> H3
+    
+    style EB fill:#e1bee7
+    style H1 fill:#c5cae9
+    style H2 fill:#c5cae9
+    style H3 fill:#c5cae9
+```
+
+### Data Pipeline Architecture
+
+```{mermaid}
+graph TB
+    subgraph "Sources"
+        S3[S3 Bucket]
+        API[External API]
+        DB[(Database)]
+    end
+    
+    subgraph "Extract"
+        E[ExtractorBrick]
+    end
+    
+    subgraph "Transform"
+        T1[Parser] --> T2[Validator]
+        T2 --> T3[Enricher]
+        T3 --> T4[Aggregator]
+    end
+    
+    subgraph "Load"
+        L1[DataLake]
+        L2[Analytics DB]
+        L3[Dashboard]
+    end
+    
+    S3 --> E
+    API --> E
+    DB --> E
+    
+    E --> T1
+    T4 --> L1
+    T4 --> L2
+    T4 --> L3
+    
+    style E fill:#ffcdd2
+    style T1 fill:#f8bbd0
+    style T2 fill:#e1bee7
+    style T3 fill:#ce93d8
+    style T4 fill:#b39ddb
+```
+
+## Deployment Patterns
+
+### Container Deployment
+
+```{mermaid}
+graph TB
+    subgraph "Development"
+        Dev[YourBrick]
+    end
+    
+    subgraph "With Docker Skill"
+        Docker[DockerSkill]
+        App[YourBrick]
+        Docker --> App
+    end
+    
+    subgraph "Generated"
+        DF[Dockerfile]
+        DC[docker-compose.yml]
+        IMG[Container Image]
+    end
+    
+    App --> DF
+    App --> DC
+    DF --> IMG
+    
+    subgraph "Deployment"
+        REG[Container Registry]
+        K8S[Kubernetes]
+        LAMBDA[AWS Lambda]
+    end
+    
+    IMG --> REG
+    REG --> K8S
+    REG --> LAMBDA
+    
+    style Docker fill:#e3f2fd
+    style IMG fill:#c5cae9
+```
+
+### Kubernetes Architecture
+
+```{mermaid}
+graph TB
+    subgraph "Kubernetes Cluster"
+        subgraph "Namespace: production"
+            D[Deployment<br/>3 replicas]
+            S[Service<br/>LoadBalancer]
+            HPA[HorizontalPodAutoscaler]
+            CM[ConfigMap]
+            SEC[Secret]
+        end
+        
+        subgraph "Pods"
+            P1[Pod 1<br/>YourBrick]
+            P2[Pod 2<br/>YourBrick]
+            P3[Pod 3<br/>YourBrick]
+        end
+    end
+    
+    subgraph "External"
+        ING[Ingress]
+        MON[Prometheus]
+        LOG[ELK Stack]
+    end
+    
+    ING --> S
+    S --> P1
+    S --> P2
+    S --> P3
+    HPA --> D
+    D --> P1
+    D --> P2
+    D --> P3
+    CM --> P1
+    SEC --> P1
+    
+    P1 -.-> MON
+    P1 -.-> LOG
+    
+    style D fill:#c8e6c9
+    style S fill:#bbdefb
+    style HPA fill:#fff9c4
+```
+
+## Production Patterns
+
+### Circuit Breaker Pattern
+
+```{mermaid}
+stateDiagram-v2
+    [*] --> Closed
+    Closed --> Open: Failure threshold reached
+    Open --> HalfOpen: After timeout
+    HalfOpen --> Closed: Success
+    HalfOpen --> Open: Failure
+    
+    state Closed {
+        [*] --> Normal
+        Normal --> Normal: Success
+        Normal --> Counting: Failure
+        Counting --> Counting: Failure < threshold
+        Counting --> Normal: Success
+    }
+    
+    state Open {
+        [*] --> Rejecting
+        Rejecting --> Rejecting: All requests fail fast
+    }
+    
+    state HalfOpen {
+        [*] --> Testing
+        Testing --> Testing: Limited requests
+    }
+```
+
+### Bulkhead Pattern
+
+```{mermaid}
+graph TB
+    subgraph "Without Bulkhead"
+        R1[All Requests] --> S1[Single Service]
+        S1 --> F1[Total Failure]
+    end
+    
+    subgraph "With Bulkhead"
+        R2[Requests] --> B{Bulkhead}
+        B --> S2A[Service Pool A<br/>Max: 5]
+        B --> S2B[Service Pool B<br/>Max: 5]
+        S2A --> P1[Partial Failure]
+        S2B --> OK[Still Working]
+    end
+    
+    style F1 fill:#ef5350
+    style P1 fill:#ffa726
+    style OK fill:#66bb6a
+```
+
+## SDK Usage Patterns
+
+### Repository Pattern
+
+```{mermaid}
+graph TB
+    subgraph "Application Layer"
+        API[API Handler]
+        CLI[CLI Command]
+        JOB[Background Job]
+    end
+    
+    subgraph "Repository Layer"
+        UR[UserRepository]
+        subgraph "Operations"
+            GET[GetUser]
+            CREATE[CreateUser]
+            UPDATE[UpdateUser]
+            DELETE[DeleteUser]
+        end
+    end
+    
+    subgraph "Data Layer"
+        CACHE[(Cache)]
+        DB[(Database)]
+    end
+    
+    API --> UR
+    CLI --> UR
+    JOB --> UR
+    
+    UR --> GET
+    UR --> CREATE
+    UR --> UPDATE
+    UR --> DELETE
+    
+    GET --> CACHE
+    GET --> DB
+    CREATE --> DB
+    UPDATE --> DB
+    UPDATE --> CACHE
+    DELETE --> DB
+    DELETE --> CACHE
+    
+    style UR fill:#e8f5e9
+    style GET fill:#c8e6c9
+    style CREATE fill:#c8e6c9
+    style UPDATE fill:#c8e6c9
+    style DELETE fill:#c8e6c9
+```
+
+### Service Layer Pattern
+
+```{mermaid}
+graph TB
+    subgraph "Presentation"
+        REST[REST API]
+        GQL[GraphQL]
+        CLI[CLI]
+    end
+    
+    subgraph "Service Layer"
+        US[UserService]
+        OS[OrderService]
+        PS[PaymentService]
+    end
+    
+    subgraph "Business Logic"
+        subgraph "User Domain"
+            UV[UserValidator]
+            UE[UserEnricher]
+        end
+        subgraph "Order Domain"
+            OV[OrderValidator]
+            OP[OrderProcessor]
+        end
+        subgraph "Payment Domain"
+            PV[PaymentValidator]
+            PP[PaymentProcessor]
+        end
+    end
+    
+    subgraph "Data Access"
+        REPO[Repositories]
+        EXT[External Services]
+    end
+    
+    REST --> US
+    REST --> OS
+    GQL --> US
+    GQL --> OS
+    CLI --> PS
+    
+    US --> UV --> UE
+    OS --> OV --> OP
+    PS --> PV --> PP
+    
+    UE --> REPO
+    OP --> REPO
+    PP --> EXT
+    
+    style US fill:#e3f2fd
+    style OS fill:#e3f2fd
+    style PS fill:#e3f2fd
+```
+
+## Performance Optimization
+
+### Caching Layers
+
+```{mermaid}
+graph TB
+    Request[Request] --> L1{L1 Cache<br/>Memory}
+    L1 -->|Hit| Response1[Fast Response<br/>~0.01ms]
+    L1 -->|Miss| L2{L2 Cache<br/>Redis}
+    L2 -->|Hit| Response2[Quick Response<br/>~1ms]
+    L2 -->|Miss| L3[Database]
+    L3 --> Response3[Slow Response<br/>~50ms]
+    
+    L3 -.-> L2
+    L2 -.-> L1
+    
+    style L1 fill:#c8e6c9
+    style L2 fill:#fff9c4
+    style L3 fill:#ffccbc
+```
+
+### Pipeline Optimization
+
+```{mermaid}
+graph LR
+    subgraph "Before Optimization"
+        A1[Step A<br/>10ms] --> B1[Step B<br/>20ms] --> C1[Step C<br/>15ms]
+    end
+    
+    subgraph "With Caching"
+        A2[Step A<br/>10ms] --> Cache{Cached?}
+        Cache -->|Yes| Result1[0.1ms]
+        Cache -->|No| B2[Step B<br/>20ms] --> C2[Step C<br/>15ms]
+    end
+    
+    subgraph "With Fusion"
+        ABC[Fused A+B+C<br/>35ms total]
+    end
+    
+    subgraph "With Parallelization"
+        A3[Step A]
+        B3[Step B]
+        C3[Step C]
+        Input --> A3
+        Input --> B3
+        Input --> C3
+        A3 --> Merge
+        B3 --> Merge
+        C3 --> Merge
+    end
+```
+
+## Summary
+
+These diagrams illustrate:
+
+1. **Core Architecture**: How the protocol and base classes work
+2. **Composition Patterns**: Different ways to combine nanobricks
+3. **Skills System**: How capabilities are added dynamically
+4. **System Architectures**: Building complete systems
+5. **Deployment Patterns**: Production deployment strategies
+6. **Performance Patterns**: Optimization techniques
+
+Each pattern can be combined with others to create sophisticated, production-ready systems while maintaining simplicity at the component level.

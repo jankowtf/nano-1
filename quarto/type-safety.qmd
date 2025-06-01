@@ -1,0 +1,133 @@
+---
+title: "Type Safety in Nanobricks"
+subtitle: "Ensuring composition correctness"
+---
+
+## The Type Composition Challenge
+
+When composing nanobricks with the pipe operator, we need to ensure type safety:
+
+```python
+validator: Nanobrick[dict, dict]
+transformer: Nanobrick[dict, list]
+storage: Nanobrick[list, None]
+
+# This should type-check correctly
+pipeline = validator | transformer | storage
+```
+
+## Solutions
+
+### 1. Beartype (Runtime Type Checking)
+
+[Beartype](https://github.com/beartype/beartype) offers O(1) runtime type checking:
+
+```python
+from beartype import beartype
+
+@beartype
+class ValidatorData(Nanobrick[dict, dict]):
+    async def invoke(self, input: dict) -> dict:
+        # Beartype ensures types at runtime
+        return validated_data
+```
+
+**Advantages:**
+- Fast runtime validation
+- Works with existing type hints
+- Catches errors static analysis might miss
+
+### 2. Mypy (Static Type Checking)
+
+Traditional static analysis with mypy plugins:
+
+```python
+# mypy will check this at analysis time
+pipeline: Nanobrick[dict, None] = validator | transformer | storage
+```
+
+### 3. Hybrid Approach (Recommended)
+
+Use both static and runtime checking:
+
+```python
+from typing import TypeVar, Generic
+from beartype import beartype
+
+T1 = TypeVar('T1')
+T2 = TypeVar('T2')
+T3 = TypeVar('T3')
+
+@beartype
+class Pipeline(Generic[T1, T2]):
+    """Type-safe pipeline composition"""
+    
+    def __or__(self, other: Nanobrick[T2, T3]) -> Pipeline[T1, T3]:
+        # Type-safe composition
+        return Pipeline(self, other)
+```
+
+## Implementation Strategy
+
+### Phase 1: Basic Type Safety
+- Use standard Python generics
+- Rely on mypy for static checking
+- Document type constraints
+
+### Phase 2: Enhanced Runtime Checking
+- Integrate beartype decorators
+- Add composition validators
+- Create type-safe operators
+
+### Phase 3: Advanced Patterns
+- Custom mypy plugins
+- Pipeline type inference
+- Automatic type adaptation
+
+## Alternative Libraries
+
+### PipeFunc
+[PipeFunc](https://pipefunc.readthedocs.io/) provides type-safe pipelines:
+- Automatic dependency resolution
+- Type checking built-in
+- Visualization support
+
+### Pipe Package
+Simple pipe operations with partial type support:
+```python
+from pipe import select, where, take
+
+result = data | select(lambda x: x.value) | where(lambda x: x > 0) | take(5)
+```
+
+## Best Practices
+
+1. **Explicit Type Annotations**
+   ```python
+   class MyBrick(Nanobrick[InputType, OutputType]):
+       ...
+   ```
+
+2. **Type Guards at Boundaries**
+   ```python
+   def compose_safely(a: Nanobrick[A, B], b: Nanobrick[B, C]) -> Nanobrick[A, C]:
+       # Validate type compatibility
+       ...
+   ```
+
+3. **Progressive Enhancement**
+   - Start with basic typing
+   - Add runtime checks where needed
+   - Optimize critical paths
+
+## Open Questions
+
+1. Should we enforce strict type checking or allow dynamic typing?
+2. How do we handle union types in pipelines?
+3. What about optional/nullable types in compositions?
+
+## Resources
+
+- [Beartype Documentation](https://beartype.readthedocs.io/)
+- [Mypy Documentation](https://mypy.readthedocs.io/)
+- [Python Typing PEPs](https://www.python.org/dev/peps/pep-0484/)

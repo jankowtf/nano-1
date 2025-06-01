@@ -1,0 +1,82 @@
+---
+title: "Concept Evolution"
+subtitle: "How Nanobricks developed through collaborative design"
+---
+
+## Version History
+
+### v1.0 - Initial Concept (2025-01-22)
+
+The original vision established five pillars:
+
+1. **Simple** - Straightforward design and implementation
+2. **Standardized** - Consistent interfaces 
+3. **Composable** - Easy combination into complex components
+4. **Batteries Included** - Self-contained functionality
+5. **Scaffoldable** - Rails-inspired instant functionality
+
+Key decisions:
+- Every nanobrick as a Python package
+- uv-based package management
+- src-layout project structure
+- Absolute imports
+
+### v2.0 - Evolved Concept (2025-01-22)
+
+Through sparring and critical analysis, several refinements emerged:
+
+#### Major Changes
+
+1. **Packaging Flexibility**
+   - Not every nanobrick must be a package
+   - Support for modules within projects
+   - Nano-collections for themed groups
+
+2. **Skills Replace Batteries**
+   - Latent capabilities vs. heavy dependencies
+   - Activate only when needed
+   - Maintains simplicity principle
+
+3. **Composition Patterns Clarified**
+   - Pipeline composition (R-style)
+   - Augmentation composition
+   - Hybrid composition
+
+4. **Architecture Levels**
+   - Core Protocol (minimal)
+   - Skilled (with capabilities)
+   - Stateful (with memory/learning)
+
+## Key Insights
+
+### The Fundamental Tension
+"How do we reconcile 'simple' with 'batteries included'?" 
+
+**Resolution**: Skills as potential energy - capabilities that CAN be activated but don't add complexity unless used.
+
+### The Composition Paradox
+"When you pipe bricks together, what actually flows through?"
+
+**Resolution**: Clear separation between data flow (through pipes) and capability enhancement (through skills).
+
+### Nature as Guide
+"It's both super complex and at the same time super simple"
+
+This became our guiding principle - simple rules creating complex behaviors through emergence.
+
+## Design Decisions Log
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2025-01-22 | Adopt skill model | Reduces complexity while maintaining power |
+| 2025-01-22 | Support module-based bricks | Not everything needs to be a package |
+| 2025-01-22 | Use pipe operator | Familiar from R, intuitive composition |
+| 2025-01-22 | Type safety via beartype/mypy | Runtime + static checking |
+
+## Future Evolution
+
+The concept continues to evolve. Key areas for v3.0:
+- Dynamic discovery mechanisms
+- AI/Agent integration patterns
+- Performance optimizations
+- Real-world usage patterns

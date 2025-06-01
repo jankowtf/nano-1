@@ -1,0 +1,204 @@
+---
+title: "Design Patterns"
+subtitle: "Patterns that make Nanobricks powerful"
+---
+
+## Core Patterns from Successful Frameworks
+
+### From LangChain
+
+#### 1. Runnable Interface Pattern
+```python
+class Nanobrick(Protocol):
+    async def invoke(self, input: T) -> U: ...
+    def batch(self, inputs: List[T]) -> List[U]: ...
+    async def stream(self, input: T) -> AsyncIterator[U]: ...
+```
+
+**Why it works:** Consistent interface across all components enables seamless composition.
+
+#### 2. Pipe Operator Composition (LCEL)
+```python
+# Intuitive chaining
+pipeline = validator | transformer | storage
+
+# Equivalent to
+pipeline = Pipeline([validator, transformer, storage])
+```
+
+**Why it works:** Familiar syntax from Unix pipes and R's magrittr.
+
+### From PydanticAI
+
+#### 3. Dependency Injection
+```python
+class ValidatorData(Nanobrick[dict, dict, ValidationRules]):
+    async def invoke(self, input: dict, *, deps: ValidationRules) -> dict:
+        # Use injected dependencies
+        return deps.validate(input)
+```
+
+**Why it works:** Testable, flexible, and explicit dependencies.
+
+#### 4. Generic Type Safety
+```python
+T = TypeVar('T')
+U = TypeVar('U')
+
+class Transformer(Nanobrick[T, U]):
+    # Type-safe transformations
+    pass
+```
+
+**Why it works:** Catches errors at development time.
+
+## Nanobricks-Specific Patterns
+
+### 5. Skill Pattern
+```python
+@nanobrick
+class BasicValidator:
+    def invoke(self, data): ...
+
+# Add capabilities without modifying core
+enhanced = BasicValidator().with_skill(SkillAPI())
+```
+
+**Why it works:** Separation of concerns, optional complexity.
+
+### 6. Dual Nature Pattern
+```python
+# Use as library
+result = validator.invoke(data)
+
+# Use as service
+app = validator.as_api()
+cli = validator.as_cli()
+```
+
+**Why it works:** Same logic, multiple interfaces.
+
+### 7. Progressive Enhancement
+```python
+# Start simple
+class ValidatorEmail(Nanobrick):
+    def invoke(self, email: str) -> bool:
+        return "@" in email
+
+# Enhance later
+class ValidatorEmailSmart(ValidatorEmail):
+    def __init__(self):
+        self.add_skill(SkillAI())
+    
+    async def invoke(self, email: str) -> bool:
+        # Basic check
+        if not super().invoke(email):
+            return False
+        
+        # AI enhancement
+        if self.has_ai:
+            return await self.ai_verify(email)
+        
+        return True
+```
+
+**Why it works:** Start simple, grow as needed.
+
+## Composition Patterns
+
+### Sequential Composition
+```python
+# Data flows through each step
+pipeline = input | step1 | step2 | output
+```
+
+### Parallel Composition
+```python
+# Execute concurrently, combine results
+result = await (validator & enricher & scorer).invoke(data)
+```
+
+### Conditional Composition
+```python
+# Branch based on conditions
+pipeline = input | validator | (transformer if condition else passthrough) | output
+```
+
+### Recursive Composition
+```python
+# Nanobricks containing nanobricks
+class Workflow(Nanobrick):
+    def __init__(self, steps: List[Nanobrick]):
+        self.steps = steps
+    
+    async def invoke(self, input):
+        result = input
+        for step in self.steps:
+            result = await step.invoke(result)
+        return result
+```
+
+## Anti-Patterns to Avoid
+
+### 1. Deep Inheritance
+❌ **Don't do this:**
+```python
+class ValidatorBase(Nanobrick):
+    class ValidatorString(ValidatorBase):
+        class ValidatorEmail(ValidatorString):
+            class ValidatorEmailCorporate(ValidatorEmail):
+                # Too deep!
+```
+
+✅ **Do this instead:**
+```python
+# Compose behaviors
+validator = StringValidator() | EmailPattern() | CorporateDomain()
+```
+
+### 2. Hidden State
+❌ **Don't do this:**
+```python
+class Counter(Nanobrick):
+    def __init__(self):
+        self._count = 0  # Hidden mutable state
+    
+    def invoke(self, input):
+        self._count += 1  # Side effect!
+        return input
+```
+
+✅ **Do this instead:**
+```python
+class Counter(StatefulNanobrick):
+    # Explicit state management
+    state: CounterState
+```
+
+### 3. Tight Coupling
+❌ **Don't do this:**
+```python
+class ProcessorData(Nanobrick):
+    def invoke(self, input):
+        # Directly calling another service
+        db_result = DatabaseService.query(input)
+        api_result = ExternalAPI.fetch(input)
+```
+
+✅ **Do this instead:**
+```python
+class ProcessorData(Nanobrick[Input, Output, Dependencies]):
+    async def invoke(self, input: Input, *, deps: Dependencies):
+        # Use injected dependencies
+        db_result = await deps.database.query(input)
+        api_result = await deps.api.fetch(input)
+```
+
+## Best Practices
+
+1. **Keep It Simple**: Start with the minimal interface
+2. **Explicit Over Implicit**: Clear data flow and dependencies
+3. **Composition Over Configuration**: Build complexity through combination
+4. **Type Safety**: Use generics and type hints
+5. **Fail Fast**: Validate at boundaries
+6. **Document Intent**: Clear docstrings and examples

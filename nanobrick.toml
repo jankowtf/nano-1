@@ -1,0 +1,65 @@
+# Nanobricks Configuration
+
+[project]
+name = "example-project"
+version = "0.1.0"
+description = "Example Nanobricks project"
+
+[features]
+# Static feature flags
+enable_telemetry = false
+enable_caching = true
+strict_mode = false
+
+[logging]
+level = "INFO"
+format = "simple"
+output = "console"
+
+[database]
+url = "sqlite:///app.db"
+pool_size = 5
+echo = false
+
+[cache]
+backend = "memory"
+ttl = 300
+max_size = 1000
+
+[api]
+host = "0.0.0.0"
+port = 8000
+reload = true
+
+# Environment-specific overrides
+[environments.production]
+[environments.production.logging]
+level = "WARNING"
+format = "json"
+output = "file"
+
+[environments.production.database]
+url = "postgresql://user:pass@localhost/app"
+pool_size = 20
+echo = false
+
+[environments.production.api]
+host = "0.0.0.0"
+port = 80
+reload = false
+
+[environments.test]
+[environments.test.database]
+url = "sqlite:///:memory:"
+echo = true
+
+[environments.test.cache]
+backend = "none"
+
+[environments.development]
+[environments.development.logging]
+level = "DEBUG"
+
+[environments.development.api]
+reload = true
+debug = true

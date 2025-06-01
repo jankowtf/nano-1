@@ -1,0 +1,179 @@
+---
+title: "Nanobricks Documentation"
+subtitle: "The SDK for building composable Python systems"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+execute:
+  echo: true
+  warning: false
+---
+
+## Welcome to Nanobricks
+
+Nanobricks is a Python SDK that lets you build production-ready systems from small, composable components. Think of it as "Lego blocks for Python developers" - simple pieces that combine to create anything.
+
+## What Makes Nanobricks Different?
+
+### 🧱 Atomic Components
+Every nanobrick does ONE thing well. No bloated classes, no complex inheritance - just simple, focused components.
+
+### 🔗 Universal Composition
+All nanobricks share the same interface. Combine them with the pipe operator (`|`) to build complex systems from simple parts.
+
+### 🚀 Progressive Enhancement
+Start simple, add capabilities as needed. Skills like logging, API endpoints, and monitoring can be added without changing your code.
+
+### 🏭 Production Ready
+Built-in support for deployment (Docker, Kubernetes), observability, security, and performance optimization.
+
+### 🔍 Type Safe
+Full type inference through pipelines. Your IDE knows the types at every step.
+
+## Quick Example
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickSimple, skill
+
+# Define a nanobrick
+@skill("logging")
+@skill("api", port=8080)
+class DataProcessor(NanobrickSimple[dict, dict]):
+    async def invoke(self, data: dict, *, deps=None) -> dict:
+        return {"processed": True, "items": len(data)}
+
+# Compose a pipeline
+pipeline = (
+    ValidateData()
+    | DataProcessor()
+    | SaveToDatabase()
+).with_skill("retry", max_attempts=3)
+
+# Use it
+result = await pipeline.invoke({"users": [1, 2, 3]})
+```
+
+## Documentation Guide
+
+### 🚀 [Quickstart](quickstart.html)
+**10 minutes to your first nanobrick**
+- Installation
+- Creating your first brick
+- Basic composition
+- Adding skills
+
+### 📚 [Tutorial](tutorial.html)
+**Complete guide to nanobricks**
+- Core concepts explained
+- Step-by-step examples
+- Testing strategies
+- Configuration system
+
+### 🏗️ [SDK Guide](sdk-guide.html)
+**Building production systems**
+- Architecture patterns (Repository, Service Layer, CQRS)
+- Real-world examples (REST APIs, Data Pipelines, Microservices)
+- Best practices
+- Deployment strategies
+
+### 🎨 [Design Patterns](patterns.html)
+**Advanced composition patterns**
+- Branching and conditionals
+- Parallel execution
+- Error handling
+- Event-driven architecture
+
+### 🏭 [Production Guide](production.html)
+**Deploy and scale with confidence**
+- Security features
+- Performance optimization
+- Monitoring and observability
+- High availability patterns
+
+### 📖 [API Reference](api-reference.html)
+**Complete API documentation**
+- All classes and methods
+- Built-in components
+- Skills reference
+- Type definitions
+
+## The Nanobricks Philosophy
+
+### 1. Simplicity First
+If a component does more than one thing, it should be two components.
+
+### 2. Composition Over Configuration
+Build behavior by combining bricks, not by tweaking parameters.
+
+### 3. Explicit Over Implicit
+No hidden magic. You can see exactly what each brick does.
+
+### 4. Type Safety Throughout
+Strong typing from input to output, through entire pipelines.
+
+### 5. Progressive Enhancement
+Start with basic functionality, add production features as needed.
+
+## Use Cases
+
+### Build a REST API
+```{python}
+#| eval: false
+api = create_rest_api(
+    endpoints=[UserEndpoints(), OrderEndpoints()],
+    middleware=[RateLimiter(), Authenticator()],
+    skills=["logging", "monitoring", "docker"]
+)
+```
+
+### Create a Data Pipeline
+```{python}
+#| eval: false
+pipeline = (
+    S3Loader(bucket="raw-data")
+    | CSVParser()
+    | DataValidator(schema)
+    | Transformer()
+    | DatabaseWriter()
+).with_skill("monitoring")
+```
+
+### Design a Microservice
+```{python}
+#| eval: false
+service = create_microservice(
+    name="payment-processor",
+    handlers={
+        "POST /payments": ProcessPayment(),
+        "payment.requested": PaymentHandler()
+    },
+    skills=["api", "kubernetes", "observability"]
+)
+```
+
+## Getting Help
+
+### 💬 Community
+- [GitHub Discussions](https://github.com/nanobricks/nanobricks/discussions)
+- [Discord Server](https://discord.gg/nanobricks)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/nanobricks)
+
+### 📚 Resources
+- [Example Repository](https://github.com/nanobricks/examples)
+- [Video Tutorials](https://youtube.com/nanobricks)
+- [Blog](https://blog.nanobricks.io)
+
+### 🐛 Issues
+- [Bug Reports](https://github.com/nanobricks/nanobricks/issues)
+- [Feature Requests](https://github.com/nanobricks/nanobricks/discussions/categories/ideas)
+
+## Ready to Build?
+
+Start with the [Quickstart Guide](quickstart.html) and build your first nanobrick in 10 minutes!
+
+---
+
+*Nanobricks - Build it right, build it once.*

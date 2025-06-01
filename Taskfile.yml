@@ -1,0 +1,143 @@
+version: '3'
+
+vars:
+  QUARTO_DIR: quarto
+  SITE_DIR: quarto/_site
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  # Quarto documentation tasks
+  docs:render:
+    desc: Render Quarto documentation
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto render
+    sources:
+      - '{{.QUARTO_DIR}}/**/*.qmd'
+      - '{{.QUARTO_DIR}}/**/*.yml'
+      - '{{.QUARTO_DIR}}/**/*.css'
+    generates:
+      - '{{.SITE_DIR}}/**/*'
+
+  docs:preview:
+    desc: Preview Quarto documentation with live reload
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto preview
+
+  docs:open:
+    desc: Open the rendered documentation in browser
+    cmds:
+      - open '{{.SITE_DIR}}/index.html'
+    preconditions:
+      - sh: test -f '{{.SITE_DIR}}/index.html'
+        msg: "Documentation not rendered. Run 'task docs:render' first."
+
+  docs:clean:
+    desc: Clean generated documentation
+    cmds:
+      - rm -rf '{{.SITE_DIR}}'
+
+  docs:publish:
+    desc: Publish documentation to GitHub Pages
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto publish gh-pages
+
+  # Development tasks
+  dev:setup:
+    desc: Set up development environment
+    cmds:
+      - uv pip install -e ".[dev]"
+      - echo "✅ Development environment ready!"
+
+  dev:test:
+    desc: Run all tests
+    cmds:
+      - pytest tests/ -v
+
+  dev:test-unit:
+    desc: Run unit tests only
+    cmds:
+      - pytest tests/unit/ -v
+
+  dev:test-integration:
+    desc: Run integration tests only
+    cmds:
+      - pytest tests/integration/ -v
+
+  dev:test-cov:
+    desc: Run tests with coverage report
+    cmds:
+      - pytest tests/ --cov=nanobricks --cov-report=html --cov-report=term
+
+  dev:lint:
+    desc: Run linters
+    cmds:
+      - ruff check src/ tests/
+      - mypy src/
+
+  dev:format:
+    desc: Format code
+    cmds:
+      - ruff format src/ tests/
+      - black src/ tests/
+
+  dev:typecheck:
+    desc: Run strict type checking
+    cmds:
+      - mypy src/ --strict
+
+  # Nanobrick scaffolding tasks
+  brick:new:
+    desc: Create a new nanobrick
+    vars:
+      BRICK_NAME: '{{.BRICK_NAME | default "my_brick"}}'
+    cmds:
+      - mkdir -p src/{{.BRICK_NAME}}
+      - |
+        cat > src/{{.BRICK_NAME}}/__init__.py << 'EOF'
+        """{{.BRICK_NAME}} - A Nanobrick component"""
+        
+        from .core import {{.BRICK_NAME | title}}Brick
+        
+        __all__ = ["{{.BRICK_NAME | title}}Brick"]
+        EOF
+      - |
+        cat > src/{{.BRICK_NAME}}/core.py << 'EOF'
+        from typing import TypeVar, Generic
+        from nanobricks import Nanobrick
+        
+        InputT = TypeVar('InputT')
+        OutputT = TypeVar('OutputT')
+        
+        class {{.BRICK_NAME | title}}Brick(Nanobrick[InputT, OutputT]):
+            """{{.BRICK_NAME | title}} nanobrick implementation"""
+            
+            name = "{{.BRICK_NAME}}"
+            version = "0.1.0"
+            
+            async def invoke(self, input: InputT) -> OutputT:
+                # Implement your logic here
+                return input
+        EOF
+
+  # Version management
+  version:bump:
+    desc: Bump version
+    vars:
+      PART: '{{.PART | default "patch"}}'
+    cmds:
+      - bumpver update --{{.PART}}
+
+  # Combined tasks
+  dev:all:
+    desc: Run all checks and render docs
+    cmds:
+      - task: dev:lint
+      - task: dev:test
+      - task: docs:render

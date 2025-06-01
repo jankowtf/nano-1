@@ -1,0 +1,818 @@
+---
+title: "Nanobricks SDK Guide"
+subtitle: "Building production-ready Python systems"
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    toc: true
+    toc-depth: 3
+execute:
+  echo: true
+  warning: false
+---
+
+## Introduction
+
+This guide shows how to use Nanobricks as an SDK for building larger, production-ready Python systems. We'll cover architecture patterns, real-world examples, and best practices.
+
+## Why Nanobricks as an SDK?
+
+Traditional approaches to building Python systems often lead to:
+- Monolithic code that's hard to test and maintain
+- Tight coupling between components
+- Difficulty adding features without breaking existing code
+- Complex deployment and scaling challenges
+
+Nanobricks solves these problems by providing:
+- **Atomic Components**: Self-contained units that do one thing well
+- **Standardized Interfaces**: Every component follows the same pattern
+- **Composition Over Inheritance**: Build complex systems from simple parts
+- **Progressive Enhancement**: Add capabilities as needed through skills
+- **Production-Ready**: Built-in support for monitoring, deployment, and scaling
+
+## Architecture Patterns
+
+### Repository Pattern
+
+Build a complete data access layer:
+
+```{python}
+#| eval: false
+from nanobricks import NanobrickBase, NanobrickSimple, Pipeline
+from typing import Optional, List, TypedDict
+
+class DatabaseDeps(TypedDict):
+    db_connection: DatabaseConnection
+    cache: Optional[CacheClient]
+
+class UserRepository:
+    """Repository for user data access."""
+    
+    def __init__(self, deps: DatabaseDeps):
+        self.deps = deps
+        
+        # Build pipelines for each operation
+        self.get_user = Pipeline(
+            ValidateUserId(),
+            BuildSelectQuery(),
+            ExecuteQuery(deps),
+            MapToUser(),
+            CacheResult(deps)
+        )
+        
+        self.create_user = Pipeline(
+            ValidateUserData(),
+            SanitizeInput(),
+            BuildInsertQuery(),
+            ExecuteQuery(deps),
+            MapToUser()
+        )
+        
+        self.update_user = Pipeline(
+            ValidateUserId(),
+            ValidateUserData(),
+            BuildUpdateQuery(),
+            ExecuteQuery(deps),
+            InvalidateCache(deps),
+            MapToUser()
+        )
+    
+    async def get(self, user_id: str) -> User:
+        return await self.get_user.invoke(user_id)
+    
+    async def create(self, user_data: dict) -> User:
+        return await self.create_user.invoke(user_data)
+    
+    async def update(self, user_id: str, user_data: dict) -> User:
+        return await self.update_user.invoke({"id": user_id, **user_data})
+
+# Supporting bricks
+class ValidateUserId(NanobrickSimple[str, str]):
+    async def invoke(self, user_id: str, *, deps=None) -> str:
+        if not user_id or not user_id.isalnum():
+            raise ValueError("Invalid user ID")
+        return user_id
+
+class BuildSelectQuery(NanobrickSimple[str, dict]):
+    async def invoke(self, user_id: str, *, deps=None) -> dict:
+        return {
+            "query": "SELECT * FROM users WHERE id = ?",
+            "params": [user_id]
+        }
+
+class ExecuteQuery(NanobrickBase[dict, dict, DatabaseDeps]):
+    def __init__(self, deps: DatabaseDeps):
+        super().__init__()
+        self.deps = deps
+    
+    async def invoke(self, query_info: dict, *, deps=None) -> dict:
+        result = await self.deps["db_connection"].execute(
+            query_info["query"],
+            query_info["params"]
+        )
+        return result
+
+class MapToUser(NanobrickSimple[dict, User]):
+    async def invoke(self, row: dict, *, deps=None) -> User:
+        return User(**row)
+```
+
+### Service Layer Pattern
+
+Build business logic as composable services:
+
+```{python}
+#| eval: false
+from nanobricks import create_service, ServiceDeps
+
+class OrderService:
+    """Order processing service with complete business logic."""
+    
+    def __init__(self):
+        # Core processing pipeline
+        self.process_order = (
+            ValidateOrder()
+            | CheckInventory()
+            | CalculatePricing()
+            | ApplyDiscounts()
+            | ProcessPayment()
+            | UpdateInventory()
+            | CreateShipment()
+            | SendConfirmation()
+        ).with_skill("logging").with_skill("observability")
+        
+        # Add retry for payment processing
+        self.process_payment_safe = (
+            ProcessPayment()
+            .with_skill("retry", max_attempts=3)
+            .with_skill("circuit_breaker")
+        )
+    
+    async def create_order(self, order_data: dict, deps: ServiceDeps) -> dict:
+        try:
+            # Run the pipeline
+            result = await self.process_order.invoke(order_data, deps=deps)
+            
+            # Log success metric
+            if deps.get("metrics"):
+                await deps["metrics"].increment("orders.created")
+            
+            return result
+            
+        except Exception as e:
+            # Log failure metric
+            if deps.get("metrics"):
+                await deps["metrics"].increment("orders.failed")
+            raise
+
+# Make it an API service
+order_api = create_api_service(
+    OrderService(),
+    routes=[
+        ("POST", "/orders", "create_order"),
+        ("GET", "/orders/{id}", "get_order"),
+        ("PUT", "/orders/{id}", "update_order"),
+        ("DELETE", "/orders/{id}", "cancel_order")
+    ],
+    middleware=[
+        RateLimiter(requests_per_minute=100),
+        Authenticator(),
+        RequestValidator(),
+        ResponseTransformer()
+    ]
+)
+```
+
+### Event-Driven Architecture
+
+Build event-driven systems with nanobricks:
+
+```{python}
+#| eval: false
+from nanobricks.patterns import EventBus, EventHandler
+
+# Define event handlers as nanobricks
+class OrderCreatedHandler(NanobrickSimple[OrderEvent, None]):
+    async def invoke(self, event: OrderEvent, *, deps=None) -> None:
+        # Send email
+        await EmailService().send_order_confirmation(event.order)
+
+class InventoryUpdateHandler(NanobrickSimple[OrderEvent, None]):
+    async def invoke(self, event: OrderEvent, *, deps=None) -> None:
+        # Update inventory
+        for item in event.order.items:
+            await InventoryService().decrement(item.sku, item.quantity)
+
+class AnalyticsHandler(NanobrickSimple[OrderEvent, None]):
+    async def invoke(self, event: OrderEvent, *, deps=None) -> None:
+        # Track analytics
+        await Analytics().track("order_created", {
+            "order_id": event.order.id,
+            "total": event.order.total,
+            "items": len(event.order.items)
+        })
+
+# Create event bus
+event_bus = EventBus()
+
+# Register handlers
+event_bus.subscribe("order.created", OrderCreatedHandler())
+event_bus.subscribe("order.created", InventoryUpdateHandler())
+event_bus.subscribe("order.created", AnalyticsHandler())
+
+# Emit events in your service
+class OrderService:
+    def __init__(self, event_bus: EventBus):
+        self.event_bus = event_bus
+    
+    async def create_order(self, order_data: dict) -> Order:
+        # Create order
+        order = await self.process_order.invoke(order_data)
+        
+        # Emit event
+        await self.event_bus.emit("order.created", OrderEvent(order))
+        
+        return order
+```
+
+### CQRS Pattern
+
+Separate commands and queries:
+
+```{python}
+#| eval: false
+from nanobricks import Command, Query
+
+# Commands modify state
+class CreateUserCommand(Command[dict, str]):
+    """Creates a new user and returns their ID."""
+    
+    def __init__(self):
+        self.pipeline = (
+            ValidateUserData()
+            | CheckEmailUniqueness()
+            | HashPassword()
+            | CreateUser()
+            | EmitUserCreatedEvent()
+        )
+    
+    async def execute(self, user_data: dict, *, deps=None) -> str:
+        result = await self.pipeline.invoke(user_data, deps=deps)
+        return result["user_id"]
+
+# Queries read state
+class GetUserQuery(Query[str, UserDTO]):
+    """Retrieves user information."""
+    
+    def __init__(self):
+        self.pipeline = (
+            ValidateUserId()
+            | LoadFromCache()
+            | LoadFromDatabase()
+            | MapToDTO()
+        )
+    
+    async def execute(self, user_id: str, *, deps=None) -> UserDTO:
+        return await self.pipeline.invoke(user_id, deps=deps)
+
+# CQRS service
+class UserCQRS:
+    def __init__(self):
+        # Commands
+        self.create_user = CreateUserCommand()
+        self.update_user = UpdateUserCommand()
+        self.delete_user = DeleteUserCommand()
+        
+        # Queries
+        self.get_user = GetUserQuery()
+        self.list_users = ListUsersQuery()
+        self.search_users = SearchUsersQuery()
+```
+
+## Real-World Examples
+
+### Building a REST API
+
+Complete REST API with authentication, rate limiting, and monitoring:
+
+```{python}
+#| eval: false
+from nanobricks import create_rest_api
+from nanobricks.skills import skill
+
+# Define your API endpoints as nanobricks
+@skill("logging")
+@skill("observability")
+class UserEndpoints:
+    """User management endpoints."""
+    
+    async def get_user(self, request: Request) -> Response:
+        user_id = request.path_params["id"]
+        
+        pipeline = (
+            ExtractUserId()
+            | ValidatePermissions()
+            | LoadUser()
+            | SerializeUser()
+        )
+        
+        user = await pipeline.invoke(user_id, deps=request.deps)
+        return Response(user, status=200)
+    
+    async def create_user(self, request: Request) -> Response:
+        pipeline = (
+            ParseJSON()
+            | ValidateUserData()
+            | CheckUniqueness()
+            | CreateUser()
+            | SendWelcomeEmail()
+            | SerializeUser()
+        )
+        
+        user = await pipeline.invoke(request.body, deps=request.deps)
+        return Response(user, status=201)
+
+# Create the API
+api = create_rest_api(
+    title="User Management API",
+    version="1.0.0",
+    endpoints=[
+        UserEndpoints(),
+        OrderEndpoints(),
+        ProductEndpoints()
+    ],
+    middleware=[
+        CORSMiddleware(origins=["https://myapp.com"]),
+        RateLimitMiddleware(requests_per_minute=100),
+        AuthenticationMiddleware(jwt_secret=SECRET),
+        RequestLoggingMiddleware(),
+        MetricsMiddleware()
+    ],
+    error_handlers={
+        ValidationError: validation_error_handler,
+        AuthenticationError: auth_error_handler,
+        Exception: generic_error_handler
+    }
+)
+
+# Run it
+if __name__ == "__main__":
+    api.run(host="0.0.0.0", port=8000)
+```
+
+### Building a Data Pipeline
+
+ETL pipeline for data processing:
+
+```{python}
+#| eval: false
+from nanobricks import create_data_pipeline
+from nanobricks.transformers import *
+from nanobricks.validators import *
+
+# Define your data pipeline
+etl_pipeline = create_data_pipeline(
+    name="sales_etl",
+    
+    # Extract
+    source=S3Source(
+        bucket="raw-data",
+        prefix="sales/",
+        format="csv"
+    ),
+    
+    # Transform
+    transformers=[
+        # Parse and validate
+        CSVParser(delimiter=",", encoding="utf-8"),
+        SchemaValidator(schema={
+            "date": "datetime",
+            "product_id": "string",
+            "quantity": "integer",
+            "price": "decimal",
+            "customer_id": "string"
+        }),
+        
+        # Clean and enrich
+        DataCleaner(
+            remove_nulls=True,
+            trim_strings=True,
+            standardize_dates=True
+        ),
+        ProductEnricher(product_api_url=PRODUCT_API),
+        CustomerEnricher(customer_db=customer_repo),
+        
+        # Aggregate
+        GroupBy(keys=["date", "product_id"]),
+        Aggregator({
+            "total_quantity": "sum(quantity)",
+            "total_revenue": "sum(quantity * price)",
+            "unique_customers": "count_distinct(customer_id)"
+        }),
+        
+        # Add derived metrics
+        MetricsCalculator([
+            "avg_order_value = total_revenue / unique_customers",
+            "units_per_customer = total_quantity / unique_customers"
+        ])
+    ],
+    
+    # Load
+    destination=WarehouseDestination(
+        connection_string=WAREHOUSE_URL,
+        table="sales_summary",
+        mode="append"
+    ),
+    
+    # Error handling
+    error_handler=ErrorHandler(
+        on_error="continue",  # or "fail", "retry"
+        max_errors=100,
+        error_output=S3Source(bucket="errors", prefix="sales/")
+    ),
+    
+    # Monitoring
+    monitors=[
+        DataQualityMonitor(
+            checks=[
+                "total_revenue > 0",
+                "unique_customers > 0",
+                "date is not null"
+            ]
+        ),
+        PerformanceMonitor(
+            alert_on_duration_seconds=300,
+            alert_on_memory_gb=4
+        )
+    ]
+)
+
+# Run with scheduling
+scheduler = PipelineScheduler(
+    pipeline=etl_pipeline,
+    schedule="0 2 * * *",  # Daily at 2 AM
+    retry_policy=RetryPolicy(max_attempts=3, backoff="exponential"),
+    notifications=[
+        EmailNotification(on=["failure", "success"]),
+        SlackNotification(on=["failure"])
+    ]
+)
+
+scheduler.start()
+```
+
+### Building a Microservice
+
+Complete microservice with all production features:
+
+```{python}
+#| eval: false
+from nanobricks import Microservice, create_microservice
+
+# Define your microservice
+payment_service = create_microservice(
+    name="payment-processor",
+    version="2.1.0",
+    
+    # Core business logic as nanobricks
+    handlers={
+        # API endpoints
+        "POST /payments": ProcessPayment(),
+        "GET /payments/{id}": GetPayment(),
+        "POST /payments/{id}/refund": RefundPayment(),
+        
+        # Message queue handlers
+        "payment.requested": PaymentRequestHandler(),
+        "payment.cancelled": PaymentCancelHandler(),
+        
+        # Scheduled jobs
+        "*/5 * * * *": ReconciliationJob(),  # Every 5 minutes
+        "0 0 * * *": DailyReportJob()       # Daily at midnight
+    },
+    
+    # Dependencies
+    dependencies={
+        "payment_gateway": StripeGateway(api_key=STRIPE_KEY),
+        "database": PostgresConnection(DATABASE_URL),
+        "cache": RedisCache(REDIS_URL),
+        "message_queue": RabbitMQ(RABBITMQ_URL)
+    },
+    
+    # Skills for production
+    skills=[
+        ("logging", {"level": "INFO", "format": "json"}),
+        ("api", {"port": 8080, "docs": True}),
+        ("observability", {"traces": True, "metrics": True}),
+        ("docker", {"base_image": "python:3.13-slim"}),
+        ("kubernetes", {"replicas": 3, "autoscale": True})
+    ],
+    
+    # Configuration
+    config={
+        "rate_limits": {
+            "default": 100,  # requests per minute
+            "payment_processing": 10
+        },
+        "circuit_breaker": {
+            "failure_threshold": 5,
+            "timeout_seconds": 60
+        },
+        "retry": {
+            "max_attempts": 3,
+            "backoff": "exponential"
+        }
+    }
+)
+
+# Deploy it
+if __name__ == "__main__":
+    # Local development
+    payment_service.run_local()
+    
+    # Or generate deployment artifacts
+    payment_service.generate_docker_image()
+    payment_service.generate_kubernetes_manifests()
+    payment_service.generate_helm_chart()
+```
+
+## Best Practices
+
+### 1. Keep Bricks Atomic
+
+Each brick should do ONE thing:
+
+```{python}
+#| eval: false
+# Good: Single responsibility
+class ValidateEmail(NanobrickSimple[str, str]):
+    async def invoke(self, email: str, *, deps=None) -> str:
+        if "@" not in email:
+            raise ValueError("Invalid email")
+        return email
+
+# Bad: Multiple responsibilities
+class ProcessUser(NanobrickSimple[dict, dict]):
+    async def invoke(self, user: dict, *, deps=None) -> dict:
+        # Validates email AND hashes password AND saves to DB
+        # Too many responsibilities!
+        pass
+```
+
+### 2. Use Type Hints
+
+Always specify types for better IDE support and safety:
+
+```{python}
+#| eval: false
+from typing import List, Dict, Optional
+
+class DataProcessor(NanobrickBase[List[Dict], ProcessedData, AppDeps]):
+    """Process raw data into structured format."""
+    
+    async def invoke(
+        self, 
+        raw_data: List[Dict], 
+        *, 
+        deps: Optional[AppDeps] = None
+    ) -> ProcessedData:
+        # Type hints enable IDE autocomplete and type checking
+        pass
+```
+
+### 3. Compose, Don't Inherit
+
+Build functionality through composition:
+
+```{python}
+#| eval: false
+# Good: Composition
+user_processor = (
+    ValidateUser()
+    | EnrichUser()
+    | SaveUser()
+).with_skill("logging")
+
+# Bad: Deep inheritance
+class ValidatingEnrichingSavingUserProcessor(
+    ValidatingProcessor,
+    EnrichingProcessor,
+    SavingProcessor
+):
+    # Complex inheritance hierarchy
+    pass
+```
+
+### 4. Handle Errors Gracefully
+
+Use appropriate error handling patterns:
+
+```{python}
+#| eval: false
+# Use fallbacks for resilience
+safe_api_call = Fallback(
+    primary=ExternalAPICall(),
+    fallback=CachedResponse()
+)
+
+# Use circuit breakers for external services
+protected_service = (
+    PaymentGateway()
+    .with_skill("circuit_breaker", failure_threshold=5)
+    .with_skill("retry", max_attempts=3)
+)
+
+# Validate early in pipelines
+pipeline = (
+    ValidateInput()  # Fail fast on bad input
+    | ExpensiveOperation()
+    | SaveResult()
+)
+```
+
+### 5. Test in Isolation
+
+Test each brick independently:
+
+```{python}
+#| eval: false
+# Test individual bricks
+async def test_validator():
+    validator = EmailValidator()
+    
+    # Valid case
+    result = await validator.invoke("test@example.com")
+    assert result == "test@example.com"
+    
+    # Invalid case
+    with pytest.raises(ValueError):
+        await validator.invoke("invalid-email")
+
+# Test composed pipelines
+async def test_pipeline():
+    pipeline = Validator() | Processor() | Saver()
+    
+    # Mock dependencies
+    mock_deps = {"db": MockDatabase(), "cache": MockCache()}
+    
+    result = await pipeline.invoke(test_data, deps=mock_deps)
+    assert result["status"] == "saved"
+```
+
+## Deployment Patterns
+
+### Container Deployment
+
+```{python}
+#| eval: false
+# Add Docker skill to any brick or service
+dockerized = my_service.with_skill("docker", {
+    "base_image": "python:3.13-slim",
+    "port": 8080,
+    "healthcheck": "/health"
+})
+
+# Generate Dockerfile and docker-compose
+dockerized.generate_dockerfile()
+dockerized.generate_compose()
+```
+
+### Kubernetes Deployment
+
+```{python}
+#| eval: false
+# Add Kubernetes skill
+k8s_service = my_service.with_skill("kubernetes", {
+    "namespace": "production",
+    "replicas": 3,
+    "resources": {
+        "requests": {"cpu": "100m", "memory": "256Mi"},
+        "limits": {"cpu": "1000m", "memory": "1Gi"}
+    },
+    "autoscaling": {
+        "min_replicas": 2,
+        "max_replicas": 10,
+        "target_cpu": 70
+    }
+})
+
+# Generate manifests
+k8s_service.generate_manifests()
+k8s_service.generate_helm_chart()
+```
+
+### Serverless Deployment
+
+```{python}
+#| eval: false
+# Create serverless functions from nanobricks
+from nanobricks.serverless import create_lambda
+
+lambda_handler = create_lambda(
+    ProcessImage()
+    | ExtractText()
+    | TranslateText()
+    | SaveResult(),
+    
+    memory_mb=512,
+    timeout_seconds=30,
+    environment={"REGION": "us-east-1"}
+)
+
+# Deploy to AWS Lambda
+lambda_handler.deploy()
+```
+
+## Monitoring and Observability
+
+### Built-in Observability
+
+```{python}
+#| eval: false
+# Add observability to any brick
+observable = my_service.with_skill("observability", {
+    "traces": True,
+    "metrics": True,
+    "logs": True,
+    "service_name": "payment-processor"
+})
+
+# Automatic instrumentation:
+# - Distributed tracing with OpenTelemetry
+# - Metrics collection (latency, errors, throughput)
+# - Structured logging with correlation IDs
+# - Custom metrics and spans
+```
+
+### Custom Metrics
+
+```{python}
+#| eval: false
+class PaymentProcessor(NanobrickBase[Payment, Receipt, AppDeps]):
+    async def invoke(self, payment: Payment, *, deps: AppDeps) -> Receipt:
+        # Record custom metrics
+        metrics = deps.get("metrics")
+        if metrics:
+            metrics.increment("payments.processed")
+            metrics.histogram("payment.amount", payment.amount)
+            
+            with metrics.timer("payment.processing_time"):
+                receipt = await self.process_payment(payment)
+            
+            metrics.gauge("payment.queue_size", self.queue_size)
+        
+        return receipt
+```
+
+## Performance Optimization
+
+### Caching Strategies
+
+```{python}
+#| eval: false
+# Add caching to expensive operations
+cached_processor = (
+    DataProcessor()
+    .with_skill("cache", ttl=300, max_size=1000)
+)
+
+# Multi-level caching
+pipeline = (
+    CheckMemoryCache()
+    | CheckRedisCache()
+    | LoadFromDatabase()
+    | UpdateCaches()
+)
+```
+
+### Batch Processing
+
+```{python}
+#| eval: false
+# Process items in batches
+batch_processor = (
+    DataValidator()
+    | BatchProcessor(batch_size=100)
+    | BulkDatabaseWriter()
+)
+
+# Automatic batching with backpressure
+stream_processor = create_stream_processor(
+    source=KafkaConsumer(topic="events"),
+    processor=EventProcessor(),
+    batch_size=50,
+    flush_interval_seconds=5
+)
+```
+
+## Summary
+
+Nanobricks provides a powerful SDK for building production-ready Python systems:
+
+1. **Atomic Components**: Build complex systems from simple, testable parts
+2. **Standardized Patterns**: Every component follows the same interface
+3. **Progressive Enhancement**: Add capabilities through skills
+4. **Production Ready**: Built-in support for all production concerns
+5. **Flexible Architecture**: Supports any architecture pattern
+
+Start building better Python systems with Nanobricks today!

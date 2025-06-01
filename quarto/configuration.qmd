@@ -1,0 +1,281 @@
+---
+title: "Configuration & Feature Management"
+subtitle: "TOML-based configuration for nanobricks"
+---
+
+## Overview
+
+Nanobricks use TOML for configuration, providing a clean, readable format for managing features, skills, and runtime behavior. This enables both static configuration and dynamic feature flagging.
+
+## Configuration Structure
+
+### Basic Nanobrick Configuration
+
+```toml
+# nanobrick.toml
+[metadata]
+name = "ValidatorData"
+version = "1.0.0"
+description = "Validates data against schemas"
+
+[skills]
+# Declare available skills
+api = { enabled = false, lazy = true }
+cli = { enabled = true, lazy = true }
+logging = { enabled = true, provider = "loguru" }
+observability = { enabled = false, provider = "opentelemetry" }
+
+[contracts]
+# Define invariants and contracts
+preconditions = [
+    "input must be dict-like",
+    "schema must be provided"
+]
+postconditions = [
+    "output is validated data or raises ValidationError"
+]
+
+[resources]
+# Resource limits and management
+max_memory_mb = 100
+timeout_seconds = 30
+cleanup_on_exit = true
+
+[deployment]
+# Deployment configurations
+docker = { enabled = true, base_image = "python:3.13-slim" }
+kubernetes = { enabled = true, helm_chart = "./charts/data-validator" }
+```
+
+### Global Configuration
+
+```toml
+# ~/.nanobricks/config.toml
+[defaults]
+lazy_loading = true
+enable_contracts = true
+observability_level = "INFO"
+
+[registry]
+sources = [
+    "https://registry.nanobricks.io",
+    "https://company.internal/nanobricks"
+]
+
+[development]
+hot_reload = true
+debug_mode = false
+trace_compositions = true
+```
+
+## Feature Flagging
+
+### Static Feature Flags
+
+```toml
+[features]
+# Feature flags evaluated at load time
+experimental_branching = false
+enable_hot_swapping = true
+strict_type_checking = true
+
+[features.dynamic]
+# Features that can change at runtime
+circuit_breaker = { enabled = true, threshold = 0.5 }
+rate_limiting = { enabled = false, requests_per_minute = 100 }
+```
+
+### Environment-Specific Configuration
+
+```toml
+# nanobrick.prod.toml
+[skills]
+logging = { enabled = true, level = "WARNING" }
+observability = { enabled = true, sampling_rate = 0.1 }
+
+[resources]
+max_memory_mb = 500
+timeout_seconds = 60
+
+# nanobrick.dev.toml
+[skills]
+logging = { enabled = true, level = "DEBUG" }
+observability = { enabled = true, sampling_rate = 1.0 }
+
+[development]
+enable_profiler = true
+mock_external_services = true
+```
+
+## Configuration API
+
+### Loading Configuration
+
+```python
+from nanobricks import Nanobrick, Config
+
+# Auto-discover configuration
+brick = ValidatorData()  # Loads nanobrick.toml automatically
+
+# Explicit configuration
+config = Config.from_file("custom-config.toml")
+brick = ValidatorData(config=config)
+
+# Environment-aware loading
+brick = ValidatorData(env="prod")  # Loads nanobrick.prod.toml
+```
+
+### Runtime Configuration
+
+```python
+# Update configuration at runtime
+brick.config.set("skills.logging.level", "DEBUG")
+
+# Feature flag checking
+if brick.features.is_enabled("experimental_branching"):
+    result = brick.branch(condition, true_path, false_path)
+
+# Dynamic skill activation
+if brick.config.get("skills.api.enabled"):
+    app = brick.as_api()
+```
+
+### Configuration Inheritance
+
+```toml
+# base.toml
+[metadata]
+author = "Team Nanobricks"
+license = "MIT"
+
+[defaults]
+timeout = 30
+
+# nanobrick.toml
+extends = "base.toml"
+
+[metadata]
+name = "MyBrick"  # Overrides not shown, inherits author & license
+
+[defaults]
+timeout = 60  # Override base timeout
+```
+
+## Skill Configuration
+
+### Conditional Activation
+
+```toml
+[skills.api]
+enabled = true
+lazy = true
+conditions = [
+    "environment != 'test'",
+    "has_dependency('fastapi')"
+]
+
+[skills.api.config]
+host = "0.0.0.0"
+port = 8000
+reload = false
+```
+
+### Skill Dependencies
+
+```toml
+[skills.observability]
+enabled = true
+requires = ["logging"]  # Must have logging enabled
+
+[skills.observability.config]
+provider = "opentelemetry"
+exporters = ["jaeger", "prometheus"]
+```
+
+## Best Practices
+
+### 1. Configuration Hierarchy
+
+```
+~/.nanobricks/config.toml          # User defaults
+project/nanobricks.toml            # Project defaults
+project/bricks/my_brick/
+  ├── nanobrick.toml              # Brick configuration
+  ├── nanobrick.dev.toml          # Development overrides
+  ├── nanobrick.prod.toml         # Production overrides
+  └── nanobrick.local.toml        # Local overrides (gitignored)
+```
+
+### 2. Validation
+
+```toml
+[config_schema]
+# Optional schema validation for configuration
+type = "strict"
+additional_properties = false
+
+[config_schema.properties.skills.api.config.port]
+type = "integer"
+minimum = 1024
+maximum = 65535
+```
+
+### 3. Secret Management
+
+```toml
+[secrets]
+# Never store secrets in TOML files
+api_key = "${NANOBRICK_API_KEY}"  # Environment variable
+db_password = "${vault:database/password}"  # Vault integration
+```
+
+## Configuration Discovery
+
+Nanobricks automatically discover configuration in this order:
+
+1. Explicit `config` parameter
+2. Environment-specific file (e.g., `nanobrick.prod.toml`)
+3. Default `nanobrick.toml` in brick directory
+4. Project-level `nanobricks.toml`
+5. User home directory `~/.nanobricks/config.toml`
+6. System defaults
+
+Each level can override previous values, allowing fine-grained control.
+
+## Dynamic Reloading
+
+```python
+# Enable configuration watching
+brick.config.watch(on_change=lambda: print("Config updated!"))
+
+# Manual reload
+brick.config.reload()
+
+# Hot-swapping based on config changes
+@brick.config.on_change("skills.api.enabled")
+def handle_api_toggle(enabled):
+    if enabled:
+        brick.mount_api()
+    else:
+        brick.unmount_api()
+```
+
+## Integration with Skills
+
+Configuration seamlessly integrates with the skill system:
+
+```python
+# Skill reads its config automatically
+api = brick.as_api()  # Uses [skills.api.config]
+
+# Override at activation
+api = brick.as_api(port=9000)  # Overrides config file
+
+# Conditional skill chains
+result = (
+    brick
+    .with_config({"logging.level": "DEBUG"})
+    .with_skill("observability")
+    .invoke(data)
+)
+```

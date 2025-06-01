@@ -1,0 +1,139 @@
+/* Nanobricks Wiki Custom Styles */
+
+/* Code blocks */
+pre {
+  background-color: #f8f9fa;
+  border-left: 4px solid #4a90e2;
+  padding-left: 1rem;
+}
+
+/* Inline code */
+code:not(pre code) {
+  background-color: #f0f0f0;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Headers */
+h1,
+h2,
+h3 {
+  color: #2c3e50;
+}
+
+/* Blockquotes for important notes */
+blockquote {
+  border-left: 4px solid #e74c3c;
+  background-color: #fff5f5;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+table th {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.5rem;
+}
+
+table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Navigation */
+.navbar {
+  background-color: #2c3e50;
+}
+
+.navbar a {
+  color: white !important;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: #f8f9fa;
+}
+
+/* Version badges */
+.version-badge {
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.375rem;
+  background-color: #4a90e2;
+  color: white;
+}
+
+/* Skill badges */
+.skill {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  margin: 0.1em;
+  font-size: 0.85em;
+  border-radius: 0.25rem;
+}
+
+.skill-api {
+  background-color: #e74c3c;
+  color: white;
+}
+.skill-cli {
+  background-color: #3498db;
+  color: white;
+}
+.skill-ui {
+  background-color: #2ecc71;
+  color: white;
+}
+.skill-db {
+  background-color: #f39c12;
+  color: white;
+}
+.skill-ai {
+  background-color: #9b59b6;
+  color: white;
+}
+
+/* Pattern examples */
+.pattern-good {
+  border-left: 4px solid #2ecc71;
+  background-color: #f0fff4;
+}
+
+.pattern-bad {
+  border-left: 4px solid #e74c3c;
+  background-color: #fff5f5;
+}
+
+/* Roadmap checkboxes */
+input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* Phase indicators */
+.phase {
+  font-weight: bold;
+  color: #4a90e2;
+}
+
+.phase-complete {
+  color: #2ecc71;
+}
+.phase-current {
+  color: #f39c12;
+}
+.phase-future {
+  color: #95a5a6;
+}

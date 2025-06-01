@@ -1,0 +1,160 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Presales Application Architecture
+
+## Overview
+
+This document outlines the architecture and best practices for the Presales Application which helps manage subscription-based consulting services.
+
+## Project Structure
+
+```
+presales/
+├── pyproject.toml
+├── README.md
+├── main.py               # Application entry point
+├── src/
+│   └── presales/
+│       ├── __init__.py
+│       ├── api/          # FastAPI backend
+│       │   ├── core/     # Core application logic
+│       │   ├── dependencies/  # FastAPI dependencies
+│       │   ├── models/   # Pydantic models
+│       │   ├── routes/   # API endpoints
+│       │   ├── services/ # Business logic services
+│       │   └── tests/    # API tests
+│       ├── config/       # Application configuration
+│       ├── db/           # Database models and connections
+│       ├── ui/           # Streamlit UI components
+│       │   ├── components/ # Reusable UI components
+│       │   │   ├── pages/ # Page components
+│       │   │   ├── tabs/  # Tab components
+│       │   │   └── subtabs/ # Subtab components
+│       │   ├── state/    # UI state management
+│       │   ├── tests/    # UI tests
+│       │   └── utils/    # UI utilities
+│       └── utils/        # Shared utilities
+├── tests/                # Integration tests
+```
+
+## Backend (FastAPI) Architecture
+
+### Models
+
+- Use Pydantic models for data validation
+- Define clear schemas for all API requests and responses
+- Implement proper validation rules
+
+### API Structure
+
+1. **Routes**: Organize endpoints by domain/function in separate modules
+2. **Dependencies**: Extract common dependencies (auth, logging, etc.)
+3. **Services**: Business logic implementing the application features
+4. **Core**: Core application logic including the AI assessment engine
+
+### Key API Endpoints
+
+- `/api/v1/tickets`: CRUD operations for tickets
+- `/api/v1/tickets/assessment`: Assessment of ticket complexity and timeline
+- `/api/v1/clients`: Client management endpoints
+- `/api/v1/subscriptions`: Subscription management endpoints
+- `/api/v1/admin`: Administrative settings and configurations
+
+## Frontend (Streamlit) Architecture
+
+### Component Structure
+
+1. **Pages**: Top-level navigation components
+   - Each page should be a separate Python module
+   - Pages are loaded dynamically based on navigation selection
+
+2. **Tabs**: Second-level navigation within pages
+   - Each tab should be a separate Python module
+   - Tabs are loaded based on the active page
+
+3. **Subtabs**: Third-level navigation within tabs
+   - Each subtab should be a separate Python module
+   - Subtabs are loaded based on the active tab
+
+### State Management
+
+1. **Session State**: Use Streamlit's session_state for persistent UI state
+2. **State Utilities**: Create helper functions for common state operations
+3. **Component Keys**: Ensure unique keys for all stateful components
+4. **Caching**: Use st.cache functions for expensive operations
+
+### Page Organization
+
+1. **Dashboard**: Overview of subscription status, tickets, and metrics
+2. **Tickets**: Kanban-style view of tickets with filtering options
+3. **Analytics**: Reports and insights on ticket resolution, timeline adherence, etc.
+4. **Admin**: Configuration settings for the application
+   - Pricing settings
+   - T-shirt size definitions
+   - User management
+   - System settings
+
+## Card Components
+
+Implement custom card components with:
+1. Visual indicators for ticket status
+2. T-shirt size display
+3. Timeline information
+4. Value assessment
+5. Priority indicators
+
+## Subscription Model
+
+- Base package: €7,500/month
+- Service includes:
+  - Consulting and guidance
+  - System configuration, integration, and development
+  - Knowledge transfer and upskilling
+
+## Ticket Assessment Process
+
+1. Client submits ticket with:
+   - Description
+   - Goals
+   - Timeline requirements
+   - Priority
+
+2. AI assessment engine evaluates:
+   - Complexity
+   - Implementation timeline
+   - Projected value
+   - Resource requirements
+
+3. Assessment results in T-shirt sizing:
+   - S: 1-2 weeks
+   - M: 2-3 weeks
+   - L: 3-4 weeks
+   - XL: 4-5 weeks
+   - XXL: 6-8 weeks
+
+4. Automated notifications sent to client with ETA and assessment details
+
+## Best Practices
+
+1. **Code Organization**:
+   - Follow single responsibility principle
+   - Keep components focused and modular
+   - Use consistent naming conventions
+
+2. **UI Guidelines**:
+   - Use KISS principle - simple, straightforward Streamlit code
+   - Minimize external dependencies
+   - Ensure responsive design works on various screen sizes
+
+3. **State Management**:
+   - Always use unique keys for components
+   - Cache expensive computations and API calls
+   - Properly initialize all state variables
+
+4. **Testing**:
+   - Unit tests for all API endpoints
+   - Component tests for UI elements
+   - Integration tests for full workflow
