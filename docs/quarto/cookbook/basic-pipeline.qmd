@@ -1,0 +1,209 @@
+---
+title: "Basic Pipeline"
+subtitle: "Your First Nanobrick Pipeline"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+## Problem
+
+You want to process data through multiple stages, where each stage transforms the data in a specific way. For example, cleaning text, tokenizing it, and then analyzing it.
+
+## Solution
+
+Use the pipe operator (`|`) to compose nanobricks when the output type of one stage matches the input type of the next stage.
+
+```python
+pipeline = TextCleaner() | WordTokenizer() | WordCounter()
+result = await pipeline.invoke(input_text)
+```
+
+## Complete Example
+
+Let's build a text analysis pipeline that:
+1. Cleans messy text
+2. Splits it into words
+3. Counts word frequencies
+
+```python
+import asyncio
+from typing import List, Dict
+from nanobricks import NanobrickSimple
+
+
+class TextCleaner(NanobrickSimple[str, str]):
+    """Removes extra whitespace and normalizes text."""
+    
+    name = "text_cleaner"
+    version = "1.0.0"
+    
+    async def invoke(self, input: str, *, deps=None) -> str:
+        return " ".join(input.split())
+
+
+class WordTokenizer(NanobrickSimple[str, List[str]]):
+    """Splits text into individual words."""
+    
+    name = "word_tokenizer"
+    version = "1.0.0"
+    
+    async def invoke(self, input: str, *, deps=None) -> List[str]:
+        return input.lower().split()
+
+
+class WordCounter(NanobrickSimple[List[str], Dict[str, int]]):
+    """Counts word frequencies."""
+    
+    name = "word_counter"
+    version = "1.0.0"
+    
+    async def invoke(self, input: List[str], *, deps=None) -> Dict[str, int]:
+        word_freq = {}
+        for word in input:
+            word_freq[word] = word_freq.get(word, 0) + 1
+        return word_freq
+
+
+# Compose the pipeline
+pipeline = TextCleaner() | WordTokenizer() | WordCounter()
+
+# Use it
+async def analyze_text(text: str):
+    return await pipeline.invoke(text)
+```
+
+## How It Works
+
+### Type Flow
+
+The pipe operator works because the types align perfectly:
+
+```
+TextCleaner:    str → str
+WordTokenizer:  str → List[str]
+WordCounter:    List[str] → Dict[str, int]
+
+Pipeline:       str → Dict[str, int]
+```
+
+### Behind the Scenes
+
+When you use `|`, nanobricks:
+1. Creates a composite brick that chains the `invoke` calls
+2. Passes the output of each stage as input to the next
+3. Maintains async compatibility throughout
+4. Combines metadata (names, versions) from all stages
+
+## Common Patterns
+
+### Pattern 1: Linear Processing
+
+Perfect for straightforward transformations:
+
+```python
+# Data processing pipeline
+pipeline = (
+    CSVParser() |      # str → List[Dict]
+    DataValidator() |  # List[Dict] → List[Dict]
+    DataTransformer()  # List[Dict] → DataFrame
+)
+```
+
+### Pattern 2: Reusable Pipelines
+
+Create factory functions for common pipelines:
+
+```python
+def create_etl_pipeline(config: dict):
+    return (
+        Extractor(config["source"]) |
+        Transformer(config["rules"]) |
+        Loader(config["destination"])
+    )
+
+# Use with different configurations
+sales_pipeline = create_etl_pipeline(sales_config)
+inventory_pipeline = create_etl_pipeline(inventory_config)
+```
+
+### Pattern 3: Partial Pipelines
+
+Build pipelines incrementally:
+
+```python
+# Start with cleaning
+base_pipeline = TextCleaner() | TextNormalizer()
+
+# Add analysis for one use case
+sentiment_pipeline = base_pipeline | SentimentAnalyzer()
+
+# Add different analysis for another
+summary_pipeline = base_pipeline | TextSummarizer()
+```
+
+## When to Use This Pattern
+
+✅ **Use pipe operator when:**
+- Types naturally align between stages
+- You want clean, readable code
+- The flow is linear (no branching)
+- Each stage has single input/output
+
+❌ **Don't use when:**
+- You need complex branching logic
+- Types don't align without conversion
+- You need error recovery between stages
+- You need access to intermediate results
+
+## Troubleshooting
+
+### Type Mismatch Errors
+
+If you get type errors when composing:
+
+```python
+# This won't work - types don't align
+bad_pipeline = TextCleaner() | WordCounter()  # str → str | List[str] → Dict
+```
+
+**Solution**: Add an adapter or use manual composition (see [Manual Composition](manual-composition.qmd))
+
+### Accessing Intermediate Results
+
+If you need intermediate values:
+
+```python
+# Instead of a pipeline, use individual bricks
+cleaner = TextCleaner()
+tokenizer = WordTokenizer()
+
+cleaned = await cleaner.invoke(raw_text)
+print(f"After cleaning: {cleaned}")  # Intermediate result
+
+tokens = await tokenizer.invoke(cleaned)
+print(f"Tokens: {tokens}")  # Another intermediate
+```
+
+## Performance Considerations
+
+The pipe operator has minimal overhead:
+- Each stage is called sequentially (no unnecessary parallelism)
+- No intermediate storage unless needed
+- Async operations are properly chained
+
+For parallel processing, see [Branching Pipelines](branching-pipelines.qmd).
+
+## Try It Yourself
+
+1. Run the example: `python examples/cookbook/01_simple_pipeline.py`
+2. Modify the pipeline to add a stage that filters stop words
+3. Create a pipeline for your own use case
+
+## See Also
+
+- [Manual Composition](manual-composition.qmd) - When types don't align
+- [Error Handling](error-handling.qmd) - Adding error recovery
+- [Testing Bricks](testing-bricks.qmd) - Testing your pipelines
+- [Branching Pipelines](branching-pipelines.qmd) - Non-linear flows

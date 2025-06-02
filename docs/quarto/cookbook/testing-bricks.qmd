@@ -1,0 +1,602 @@
+---
+title: "Testing Patterns"
+subtitle: "How to Test Nanobricks and Pipelines"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+## Problem
+
+You need to test your nanobricks to ensure they:
+- Handle inputs correctly
+- Manage dependencies properly
+- Propagate errors as expected
+- Work correctly in pipelines
+- Perform well under load
+
+Testing async code and dependency injection adds complexity that requires specific patterns.
+
+## Solution
+
+Use pytest with async support and strategic mocking:
+
+```python
+import pytest
+from unittest.mock import Mock, AsyncMock
+
+class TestMyBrick:
+    @pytest.mark.asyncio
+    async def test_basic_functionality(self):
+        brick = MyBrick()
+        result = await brick.invoke(input_data)
+        assert result == expected_output
+```
+
+## Basic Testing Patterns
+
+### Testing Individual Bricks
+
+Start with simple unit tests for each brick:
+
+```python
+class TestTextProcessor:
+    @pytest.fixture
+    def brick(self):
+        """Create a fresh brick instance for each test."""
+        return TextProcessor()
+    
+    @pytest.mark.asyncio
+    async def test_basic_processing(self, brick):
+        result = await brick.invoke("hello world")
+        assert result == "HELLO WORLD"
+    
+    @pytest.mark.asyncio
+    async def test_error_handling(self, brick):
+        with pytest.raises(ValueError, match="Text cannot be empty"):
+            await brick.invoke("")
+```
+
+### Testing with Dependencies
+
+Mock dependencies to test in isolation:
+
+```python
+class TestDatabaseBrick:
+    @pytest.fixture
+    def mock_db(self):
+        """Create a mock database."""
+        db = AsyncMock()
+        db.execute.return_value = [{"id": 1, "name": "Test"}]
+        return db
+    
+    @pytest.mark.asyncio
+    async def test_with_database(self, mock_db):
+        brick = DatabaseBrick()
+        deps = {"db": mock_db}
+        
+        result = await brick.invoke("SELECT * FROM users", deps=deps)
+        
+        assert len(result) == 1
+        mock_db.execute.assert_called_once_with("SELECT * FROM users")
+```
+
+### Testing Pipelines
+
+Test composed pipelines end-to-end:
+
+```python
+class TestPipeline:
+    @pytest.fixture
+    def pipeline(self):
+        return Parser() | Validator() | Transformer()
+    
+    @pytest.mark.asyncio
+    async def test_full_pipeline(self, pipeline):
+        input_data = "raw input"
+        result = await pipeline.invoke(input_data)
+        
+        assert result.processed == True
+        assert result.valid == True
+```
+
+## Advanced Testing Patterns
+
+### Parametrized Tests
+
+Test multiple scenarios efficiently:
+
+```python
+@pytest.mark.parametrize("input,expected", [
+    ("hello", "HELLO"),
+    ("Hello World", "HELLO WORLD"),
+    ("  spaces  ", "SPACES"),
+    ("123", "123"),
+])
+@pytest.mark.asyncio
+async def test_various_inputs(input, expected):
+    brick = TextProcessor()
+    result = await brick.invoke(input)
+    assert result == expected
+```
+
+### Testing Error Scenarios
+
+Ensure errors are handled correctly:
+
+```python
+class TestErrorHandling:
+    @pytest.mark.asyncio
+    async def test_missing_dependencies(self):
+        brick = RequiresDependencies()
+        
+        # Test missing deps
+        with pytest.raises(ValueError, match="Database required"):
+            await brick.invoke("query")
+    
+    @pytest.mark.asyncio
+    async def test_partial_dependencies(self):
+        brick = RequiresDependencies()
+        deps = {"logger": Mock()}  # Missing required 'db'
+        
+        with pytest.raises(ValueError):
+            await brick.invoke("query", deps=deps)
+```
+
+### Testing Async Behavior
+
+Test concurrent execution and timeouts:
+
+```python
+class TestAsyncBehavior:
+    @pytest.mark.asyncio
+    async def test_concurrent_execution(self):
+        brick = ProcessorBrick()
+        
+        # Run multiple invocations concurrently
+        tasks = [
+            brick.invoke(f"input-{i}")
+            for i in range(10)
+        ]
+        
+        results = await asyncio.gather(*tasks)
+        assert len(results) == 10
+        assert all(r.startswith("PROCESSED") for r in results)
+    
+    @pytest.mark.asyncio
+    async def test_timeout_handling(self):
+        brick = SlowBrick()
+        
+        with pytest.raises(asyncio.TimeoutError):
+            await asyncio.wait_for(
+                brick.invoke("input"),
+                timeout=0.1
+            )
+```
+
+## Mocking Strategies
+
+### Complete Mock Replacement
+
+Replace entire bricks for testing:
+
+```python
+@pytest.mark.asyncio
+async def test_with_mock_brick():
+    # Create a mock brick
+    mock_brick = AsyncMock()
+    mock_brick.invoke.return_value = {"mocked": True}
+    
+    # Use in pipeline
+    pipeline = RealBrick() | mock_brick | AnotherRealBrick()
+    
+    result = await pipeline.invoke("input")
+    mock_brick.invoke.assert_called_once()
+```
+
+### Partial Mocking
+
+Mock specific methods while keeping others:
+
+```python
+@pytest.mark.asyncio
+async def test_partial_mock():
+    brick = ComplexBrick()
+    
+    # Mock only the external call
+    with patch.object(brick, '_call_external_api') as mock_api:
+        mock_api.return_value = {"status": "ok"}
+        
+        result = await brick.invoke("input")
+        assert result["processed"] == True
+        mock_api.assert_called_once()
+```
+
+### Spy Pattern
+
+Monitor calls without changing behavior:
+
+```python
+@pytest.mark.asyncio
+async def test_spy_on_brick():
+    brick = MyBrick()
+    original_invoke = brick.invoke
+    
+    calls = []
+    async def spy_invoke(*args, **kwargs):
+        calls.append((args, kwargs))
+        return await original_invoke(*args, **kwargs)
+    
+    brick.invoke = spy_invoke
+    
+    # Use the brick
+    await brick.invoke("test", deps={"x": 1})
+    
+    # Verify calls
+    assert len(calls) == 1
+    assert calls[0][0][0] == "test"
+    assert calls[0][1]["deps"]["x"] == 1
+```
+
+## Test Fixtures
+
+### Reusable Fixtures
+
+Create fixtures for common test needs:
+
+```python
+@pytest.fixture
+def mock_dependencies():
+    """Standard mock dependencies."""
+    return {
+        "logger": Mock(spec=Logger),
+        "db": AsyncMock(spec=Database),
+        "cache": AsyncMock(spec=Cache),
+        "config": {"debug": True, "timeout": 30}
+    }
+
+@pytest.fixture
+async def real_dependencies():
+    """Real dependencies for integration tests."""
+    db = await create_test_database()
+    cache = InMemoryCache()
+    
+    yield {
+        "db": db,
+        "cache": cache,
+        "logger": TestLogger()
+    }
+    
+    # Cleanup
+    await db.close()
+    cache.clear()
+```
+
+### Fixture Composition
+
+Build complex fixtures from simpler ones:
+
+```python
+@pytest.fixture
+def base_config():
+    return {"environment": "test"}
+
+@pytest.fixture
+def db_config(base_config):
+    return {**base_config, "db_url": "sqlite:///:memory:"}
+
+@pytest.fixture
+async def configured_brick(db_config, mock_dependencies):
+    brick = ConfigurableBrick(db_config)
+    await brick.initialize()
+    yield brick
+    await brick.cleanup()
+```
+
+## Integration Testing
+
+### Testing Complete Workflows
+
+Test realistic scenarios:
+
+```python
+class TestIntegration:
+    @pytest.mark.asyncio
+    async def test_complete_workflow(self, mock_dependencies):
+        # Setup
+        parser = Parser()
+        validator = Validator()
+        processor = Processor()
+        storage = Storage()
+        
+        # Execute workflow
+        raw_data = '{"user": "test", "action": "create"}'
+        
+        parsed = await parser.invoke(raw_data, deps=mock_dependencies)
+        validated = await validator.invoke(parsed, deps=mock_dependencies)
+        processed = await processor.invoke(validated, deps=mock_dependencies)
+        stored = await storage.invoke(processed, deps=mock_dependencies)
+        
+        # Verify
+        assert stored["success"] == True
+        assert mock_dependencies["db"].save.called
+```
+
+### Testing with Real Dependencies
+
+Sometimes you need real dependencies:
+
+```python
+@pytest.mark.integration
+class TestWithRealDependencies:
+    @pytest.mark.asyncio
+    async def test_real_database_operations(self, real_dependencies):
+        brick = DatabaseBrick()
+        
+        # Insert test data
+        await brick.invoke(
+            "INSERT INTO test VALUES (1, 'test')",
+            deps=real_dependencies
+        )
+        
+        # Query and verify
+        results = await brick.invoke(
+            "SELECT * FROM test",
+            deps=real_dependencies
+        )
+        
+        assert len(results) == 1
+        assert results[0]["id"] == 1
+```
+
+## Performance Testing
+
+### Basic Performance Tests
+
+Ensure bricks meet performance requirements:
+
+```python
+import time
+
+class TestPerformance:
+    @pytest.mark.asyncio
+    async def test_processing_speed(self):
+        brick = FastProcessor()
+        input_data = "x" * 1000  # 1KB of data
+        
+        start = time.time()
+        result = await brick.invoke(input_data)
+        duration = time.time() - start
+        
+        assert duration < 0.1  # Should process in under 100ms
+    
+    @pytest.mark.asyncio
+    async def test_throughput(self):
+        brick = BatchProcessor()
+        items = [f"item-{i}" for i in range(1000)]
+        
+        start = time.time()
+        results = await brick.invoke(items)
+        duration = time.time() - start
+        
+        throughput = len(items) / duration
+        assert throughput > 100  # Should process >100 items/second
+```
+
+### Load Testing
+
+Test behavior under load:
+
+```python
+@pytest.mark.load
+class TestUnderLoad:
+    @pytest.mark.asyncio
+    async def test_concurrent_load(self):
+        brick = ThreadSafeBrick()
+        
+        # Create many concurrent requests
+        async def make_request(i):
+            return await brick.invoke(f"request-{i}")
+        
+        tasks = [make_request(i) for i in range(100)]
+        results = await asyncio.gather(*tasks)
+        
+        # All should succeed
+        assert len(results) == 100
+        assert all(r["success"] for r in results)
+```
+
+## Test Organization
+
+### Directory Structure
+
+Organize tests to mirror your source:
+
+```
+tests/
+├── unit/
+│   ├── test_transformers.py
+│   ├── test_validators.py
+│   └── test_processors.py
+├── integration/
+│   ├── test_pipelines.py
+│   └── test_workflows.py
+├── fixtures/
+│   ├── __init__.py
+│   └── common.py
+└── conftest.py
+```
+
+### Shared Test Utilities
+
+Create utilities for common testing needs:
+
+```python
+# tests/utils.py
+async def create_test_brick(brick_class, **config):
+    """Factory for creating configured test bricks."""
+    brick = brick_class(**config)
+    await brick.initialize()
+    return brick
+
+def assert_valid_result(result):
+    """Common assertions for results."""
+    assert result is not None
+    assert "error" not in result
+    assert result.get("success", False)
+
+class BrickTestCase:
+    """Base class for brick tests."""
+    
+    @pytest.fixture
+    async def brick(self):
+        """Override in subclasses."""
+        raise NotImplementedError
+    
+    @pytest.mark.asyncio
+    async def test_has_required_attributes(self, brick):
+        assert hasattr(brick, "name")
+        assert hasattr(brick, "version")
+        assert hasattr(brick, "invoke")
+```
+
+## Best Practices
+
+### 1. Test Isolation
+
+Each test should be independent:
+
+```python
+# Good - isolated test
+@pytest.mark.asyncio
+async def test_processing():
+    brick = MyBrick()  # Fresh instance
+    result = await brick.invoke("test")
+    assert result == "expected"
+
+# Bad - shared state
+processor = MyBrick()  # Shared instance
+
+@pytest.mark.asyncio
+async def test_one():
+    await processor.invoke("test1")  # Might affect test_two
+
+@pytest.mark.asyncio
+async def test_two():
+    await processor.invoke("test2")  # Depends on test_one
+```
+
+### 2. Clear Test Names
+
+Use descriptive test names:
+
+```python
+# Good - describes what is being tested
+async def test_empty_input_raises_validation_error()
+async def test_concurrent_requests_are_handled_safely()
+async def test_database_connection_timeout_is_respected()
+
+# Bad - unclear what is being tested
+async def test_1()
+async def test_error()
+async def test_works()
+```
+
+### 3. Arrange-Act-Assert
+
+Structure tests clearly:
+
+```python
+@pytest.mark.asyncio
+async def test_user_creation():
+    # Arrange
+    brick = UserCreator()
+    user_data = {"name": "Alice", "email": "alice@example.com"}
+    mock_db = AsyncMock()
+    deps = {"db": mock_db}
+    
+    # Act
+    result = await brick.invoke(user_data, deps=deps)
+    
+    # Assert
+    assert result["created"] == True
+    assert result["user_id"] is not None
+    mock_db.insert.assert_called_once()
+```
+
+### 4. Test Edge Cases
+
+Don't just test the happy path:
+
+```python
+@pytest.mark.parametrize("input,should_fail", [
+    ("", True),                    # Empty
+    (None, True),                  # None
+    ("a" * 1000, False),          # Very long
+    ("unicode: 你好", False),      # Unicode
+    ("\n\t\r", True),             # Only whitespace
+    ("valid input", False),        # Normal case
+])
+@pytest.mark.asyncio
+async def test_input_validation(input, should_fail):
+    brick = InputValidator()
+    
+    if should_fail:
+        with pytest.raises(ValueError):
+            await brick.invoke(input)
+    else:
+        result = await brick.invoke(input)
+        assert result is not None
+```
+
+## Common Pitfalls
+
+### Forgetting await
+
+Always await async calls in tests:
+
+```python
+# Wrong - test will pass even if brick fails!
+@pytest.mark.asyncio
+async def test_wrong():
+    brick = MyBrick()
+    result = brick.invoke("test")  # Missing await!
+    assert result == "expected"  # This compares a coroutine object
+
+# Correct
+@pytest.mark.asyncio
+async def test_correct():
+    brick = MyBrick()
+    result = await brick.invoke("test")
+    assert result == "expected"
+```
+
+### Not Cleaning Up
+
+Always clean up resources:
+
+```python
+@pytest.fixture
+async def database():
+    db = await create_database()
+    yield db
+    await db.close()  # Cleanup happens automatically
+
+# Or in the test
+@pytest.mark.asyncio
+async def test_with_cleanup():
+    db = await create_database()
+    try:
+        # Test code
+        pass
+    finally:
+        await db.close()
+```
+
+## See Also
+
+- [Error Handling](error-handling.qmd) - Testing error scenarios
+- [Dependency Injection](dependency-injection.qmd) - Mocking dependencies
+- [Basic Pipeline](basic-pipeline.qmd) - Testing composed pipelines
+- [examples/cookbook/05_testing_example.py](../../examples/cookbook/05_testing_example.py) - Complete test examples

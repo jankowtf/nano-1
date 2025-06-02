@@ -1,0 +1,99 @@
+---
+title: "Nanobricks Cookbook"
+subtitle: "Practical Recipes for Common Patterns"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+---
+
+## Introduction
+
+Welcome to the Nanobricks Cookbook! This collection of practical examples and patterns will help you get the most out of the framework. Each recipe addresses a specific use case or pattern that emerged from real-world usage.
+
+## Quick Navigation
+
+### 🚀 Getting Started
+- [Basic Pipeline](basic-pipeline.qmd) - Your first nanobrick pipeline
+- [Manual Composition](manual-composition.qmd) - When the pipe operator isn't enough
+
+### 🔧 Core Patterns
+- [Dependency Injection](dependency-injection.qmd) - Using the `deps` parameter effectively
+- [Error Handling](error-handling.qmd) - Exceptions vs validation results
+- [Testing Bricks](testing-bricks.qmd) - Unit and integration testing strategies
+
+### 🎯 Advanced Patterns
+- [Branching Pipelines](branching-pipelines.qmd) - Parallel and conditional flows
+- [Skill Patterns](skill-patterns.qmd) - Creating and applying skills
+- [Composition vs Inheritance](composition-patterns.qmd) - Architecture decisions
+
+## How to Use This Cookbook
+
+Each recipe follows a consistent format:
+
+1. **Problem**: What challenge are we solving?
+2. **Solution**: The recommended approach
+3. **Example**: Complete, runnable code
+4. **Discussion**: Why this approach works
+5. **Variations**: Alternative patterns
+6. **See Also**: Related recipes
+
+## Code Examples
+
+All examples in this cookbook are:
+- ✅ Tested with the current version of nanobricks
+- ✅ Type-checked with mypy
+- ✅ Available in the `examples/cookbook/` directory
+- ✅ Designed to be copy-paste ready
+
+## Common Questions
+
+### "When should I use the pipe operator vs manual composition?"
+
+The pipe operator (`|`) is great when:
+- Types align perfectly between stages
+- You want a clean, linear flow
+- Each stage has a single input/output
+
+Use manual composition when:
+- You need to branch or merge data flows
+- Types don't align naturally
+- You need complex error handling
+- You want more control over the flow
+
+### "How do I handle errors in my pipelines?"
+
+We recommend two patterns:
+1. **Let exceptions bubble** - Good for unexpected errors
+2. **Return validation results** - Good for expected failures
+
+See the [Error Handling](error-handling.qmd) recipe for details.
+
+### "How do I test my nanobricks?"
+
+Testing strategies depend on your brick's complexity:
+- **Unit tests** for individual bricks
+- **Integration tests** for pipelines
+- **Mock dependencies** for isolated testing
+
+See the [Testing Bricks](testing-bricks.qmd) recipe for patterns.
+
+## Contributing
+
+Found a pattern that others might benefit from? We welcome cookbook contributions! 
+
+1. Create an example in `examples/cookbook/`
+2. Document it in `docs/quarto/cookbook/`
+3. Ensure it follows our format
+4. Submit a pull request
+
+## Need Help?
+
+- 📚 Check the [SDK Guide](../sdk-guide.qmd) for comprehensive documentation
+- 💬 Ask questions in GitHub Discussions
+- 🐛 Report issues on GitHub
+- 🚀 See the [Roadmap](../roadmap.qmd) for upcoming features
+
+---
+
+*Happy cooking with nanobricks! 🧱*

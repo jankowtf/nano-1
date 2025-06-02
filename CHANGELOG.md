@@ -7,13 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2025-01-06
+
 ### Added
+- Comprehensive Cookbook section with practical recipes and patterns
+  - Basic pipeline guide showing pipe operator usage
+  - Dependency injection guide with `deps` parameter patterns
+  - Error handling patterns comparing exceptions vs result types
+  - Testing patterns for unit and integration testing
+  - Architecture decision guide for composition vs inheritance
+- Five complete example scripts in examples/cookbook/
 - Roadmap documentation based on real-world feedback from nano-scorm project
-- Semantic versioning task automation in Taskfile.semver.yml
-- Improved documentation structure with docs/quarto organization
+- Semantic versioning task automation with resource-based naming in Taskfile.semver.yml
+  - `version:*` commands for version management
+  - `changelog:*` commands for changelog operations
+  - Single source of truth in pyproject.toml
 
 ### Changed
 - Moved quarto documentation from root to docs/quarto directory
+- Updated navigation to include cookbook section prominently
+
+### Documentation
+- Zero code changes - pure documentation improvements addressing user feedback
+- All examples tested and type-checked
+- Clear problem/solution format for each pattern
+- Links between related topics
 
 ## [0.1.0] - 2025-01-06
 
@@ -48,5 +66,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling patterns
 - AI integration via MCP protocol
 
-[Unreleased]: https://github.com/yourusername/nanobricks/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/yourusername/nanobricks/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/yourusername/nanobricks/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/yourusername/nanobricks/releases/tag/v0.1.0

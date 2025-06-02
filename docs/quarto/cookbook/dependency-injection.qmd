@@ -1,0 +1,389 @@
+---
+title: "Dependency Injection"
+subtitle: "Using the deps Parameter Effectively"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+## Problem
+
+Your nanobricks need access to shared resources like:
+- Database connections
+- Configuration settings
+- External services (APIs, caches, message queues)
+- Loggers and monitoring tools
+- Authentication/authorization context
+
+You want to inject these dependencies without:
+- Hard-coding them into bricks
+- Creating global variables
+- Breaking testability
+- Coupling bricks to specific implementations
+
+## Solution
+
+Use the `deps` parameter in the `invoke` method to pass dependencies:
+
+```python
+async def invoke(self, input: T, *, deps: Optional[Dict[str, Any]] = None) -> U:
+    db = deps.get("db") if deps else None
+    config = deps.get("config", default_config) if deps else default_config
+    # Use injected dependencies
+```
+
+## Core Concepts
+
+### The deps Parameter
+
+Every nanobrick's `invoke` method accepts an optional `deps` parameter:
+
+```python
+class MyBrick(NanobrickSimple[Input, Output]):
+    async def invoke(
+        self, 
+        input: Input, 
+        *, 
+        deps: Optional[Dict[str, Any]] = None
+    ) -> Output:
+        # Access dependencies from deps dict
+        pass
+```
+
+### Dependency Flow in Pipelines
+
+When using the pipe operator, deps flow through all stages:
+
+```python
+# deps are automatically passed to each stage
+pipeline = BrickA() | BrickB() | BrickC()
+result = await pipeline.invoke(input, deps={"db": db_conn})
+```
+
+## Common Patterns
+
+### Pattern 1: Database Connections
+
+```python
+class DatabaseBrick(NanobrickSimple[Query, Results]):
+    async def invoke(self, query: Query, *, deps=None) -> Results:
+        if not deps or "db" not in deps:
+            raise ValueError("Database connection required in deps['db']")
+        
+        db = deps["db"]
+        return await db.execute(query)
+
+# Usage
+deps = {"db": database_connection}
+results = await brick.invoke(query, deps=deps)
+```
+
+### Pattern 2: Configuration Objects
+
+```python
+@dataclass
+class Config:
+    api_key: str
+    timeout: int = 30
+    retry_count: int = 3
+
+class APIBrick(NanobrickSimple[Request, Response]):
+    async def invoke(self, request: Request, *, deps=None) -> Response:
+        config = Config()  # Default
+        if deps and "config" in deps:
+            config = deps["config"]
+        
+        # Use configuration
+        return await make_api_call(
+            request, 
+            api_key=config.api_key,
+            timeout=config.timeout
+        )
+```
+
+### Pattern 3: Multiple Services
+
+```python
+class NotificationBrick(NanobrickSimple[Message, bool]):
+    async def invoke(self, message: Message, *, deps=None) -> bool:
+        if not deps:
+            raise ValueError("Dependencies required")
+        
+        # Extract multiple services
+        email_service = deps.get("email_service")
+        sms_service = deps.get("sms_service")
+        logger = deps.get("logger")
+        
+        # Use services as needed
+        if message.type == "email" and email_service:
+            result = await email_service.send(message)
+        elif message.type == "sms" and sms_service:
+            result = await sms_service.send(message)
+        else:
+            raise ValueError(f"No service for {message.type}")
+        
+        # Optional logging
+        if logger:
+            logger.info(f"Sent {message.type} notification")
+        
+        return result
+```
+
+### Pattern 4: Environment-Specific Dependencies
+
+```python
+def create_dependencies(environment: str) -> Dict[str, Any]:
+    """Create environment-specific dependencies."""
+    if environment == "production":
+        return {
+            "db": ProductionDatabase(),
+            "cache": RedisCache("prod.redis.com"),
+            "config": load_config("prod.yaml")
+        }
+    elif environment == "development":
+        return {
+            "db": SQLiteDatabase(":memory:"),
+            "cache": InMemoryCache(),
+            "config": load_config("dev.yaml")
+        }
+    else:
+        raise ValueError(f"Unknown environment: {environment}")
+
+# Use appropriate deps for environment
+deps = create_dependencies(os.getenv("ENVIRONMENT", "development"))
+result = await pipeline.invoke(data, deps=deps)
+```
+
+## Advanced Patterns
+
+### Dependency Container
+
+Create a container class to manage complex dependencies:
+
+```python
+class DependencyContainer:
+    """Manages application dependencies with lazy initialization."""
+    
+    def __init__(self, config_path: str):
+        self.config = load_config(config_path)
+        self._db = None
+        self._cache = None
+        self._services = {}
+    
+    @property
+    def db(self):
+        """Lazy database connection."""
+        if not self._db:
+            self._db = create_db_connection(self.config.database)
+        return self._db
+    
+    @property
+    def cache(self):
+        """Lazy cache initialization."""
+        if not self._cache:
+            self._cache = create_cache(self.config.cache)
+        return self._cache
+    
+    def get_service(self, name: str):
+        """Get or create named service."""
+        if name not in self._services:
+            self._services[name] = create_service(name, self.config)
+        return self._services[name]
+    
+    def as_dict(self) -> Dict[str, Any]:
+        """Convert to deps dictionary."""
+        return {
+            "db": self.db,
+            "cache": self.cache,
+            "config": self.config,
+            "container": self  # Include self for dynamic service access
+        }
+
+# Usage
+container = DependencyContainer("config/prod.yaml")
+result = await pipeline.invoke(data, deps=container.as_dict())
+```
+
+### Dependency Injection in Pipelines
+
+When building complex pipelines, you might want different deps for different stages:
+
+```python
+class SmartPipeline(NanobrickSimple[Input, Output]):
+    def __init__(self):
+        self.stage1 = Stage1Brick()
+        self.stage2 = Stage2Brick()
+        self.stage3 = Stage3Brick()
+    
+    async def invoke(self, input: Input, *, deps=None) -> Output:
+        # Stage 1 needs database
+        stage1_deps = {"db": deps.get("db")} if deps else None
+        result1 = await self.stage1.invoke(input, deps=stage1_deps)
+        
+        # Stage 2 needs cache and config
+        stage2_deps = {
+            "cache": deps.get("cache"),
+            "config": deps.get("config")
+        } if deps else None
+        result2 = await self.stage2.invoke(result1, deps=stage2_deps)
+        
+        # Stage 3 needs everything
+        result3 = await self.stage3.invoke(result2, deps=deps)
+        
+        return result3
+```
+
+## Testing with Dependencies
+
+Dependency injection makes testing much easier:
+
+```python
+# test_my_brick.py
+import pytest
+from unittest.mock import AsyncMock, Mock
+
+class TestDatabaseBrick:
+    @pytest.mark.asyncio
+    async def test_with_mock_database(self):
+        # Create mock dependencies
+        mock_db = AsyncMock()
+        mock_db.execute.return_value = [{"id": 1, "name": "Test"}]
+        
+        mock_logger = Mock()
+        
+        deps = {
+            "db": mock_db,
+            "logger": mock_logger
+        }
+        
+        # Test the brick
+        brick = DatabaseBrick()
+        result = await brick.invoke("SELECT * FROM users", deps=deps)
+        
+        # Verify behavior
+        assert len(result) == 1
+        mock_db.execute.assert_called_once_with("SELECT * FROM users")
+        
+    @pytest.mark.asyncio
+    async def test_missing_dependencies(self):
+        brick = DatabaseBrick()
+        
+        # Should raise when deps missing
+        with pytest.raises(ValueError, match="Database connection required"):
+            await brick.invoke("SELECT *", deps={})
+```
+
+## Best Practices
+
+### 1. Document Required Dependencies
+
+Always document what dependencies your brick expects:
+
+```python
+class MyBrick(NanobrickSimple[Input, Output]):
+    """
+    Processes data using external services.
+    
+    Required dependencies:
+        - db: Database connection
+        - config: Configuration object
+        
+    Optional dependencies:
+        - logger: Logger instance
+        - cache: Cache service
+    """
+```
+
+### 2. Provide Sensible Defaults
+
+When possible, provide defaults for optional dependencies:
+
+```python
+async def invoke(self, input: Input, *, deps=None) -> Output:
+    # Required dependency - fail fast
+    if not deps or "db" not in deps:
+        raise ValueError("db is required in deps")
+    
+    # Optional with default
+    config = deps.get("config", self.default_config) if deps else self.default_config
+    logger = deps.get("logger", null_logger) if deps else null_logger
+```
+
+### 3. Type Your Dependencies
+
+Consider using TypedDict for better type safety:
+
+```python
+from typing import TypedDict, Optional
+
+class BrickDeps(TypedDict, total=False):
+    db: DatabaseConnection
+    config: Config
+    logger: Logger
+    cache: Optional[Cache]
+
+class TypedBrick(NanobrickSimple[Input, Output]):
+    async def invoke(self, input: Input, *, deps: Optional[BrickDeps] = None) -> Output:
+        # Now you get type hints for deps!
+        if deps:
+            db = deps.get("db")  # Type: Optional[DatabaseConnection]
+```
+
+### 4. Avoid Over-Injection
+
+Don't inject things that should be:
+- Constructor parameters (brick configuration)
+- Part of the input data
+- Internal implementation details
+
+```python
+# Good - injecting shared resource
+deps = {"db": database_connection}
+
+# Bad - this should be input data
+deps = {"user_id": 123}  # Should be part of input
+
+# Bad - this should be constructor param
+deps = {"batch_size": 100}  # Should be MyBrick(batch_size=100)
+```
+
+## Common Pitfalls
+
+### Modifying Deps
+
+Don't modify the deps dictionary:
+
+```python
+# Bad - modifies shared deps
+async def invoke(self, input: Input, *, deps=None) -> Output:
+    if deps:
+        deps["processed"] = True  # Don't do this!
+    
+# Good - create new dict if needed
+async def invoke(self, input: Input, *, deps=None) -> Output:
+    my_deps = dict(deps) if deps else {}
+    my_deps["processed"] = True  # Safe
+```
+
+### Tight Coupling
+
+Avoid coupling to specific implementations:
+
+```python
+# Bad - coupled to specific class
+if isinstance(deps.get("db"), PostgresDatabase):
+    # PostgreSQL-specific code
+
+# Good - depend on interface/protocol
+db = deps.get("db")
+if hasattr(db, "execute"):
+    # Works with any database that has execute method
+```
+
+## See Also
+
+- [Testing Bricks](testing-bricks.qmd) - Testing with mock dependencies
+- [Basic Pipeline](basic-pipeline.qmd) - How deps flow through pipelines
+- [Error Handling](error-handling.qmd) - Handling missing dependencies
+- [Composition Patterns](composition-patterns.qmd) - Advanced dependency patterns

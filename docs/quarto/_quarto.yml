@@ -14,6 +14,8 @@ website:
         text: Tutorial
       - href: sdk-guide.qmd
         text: SDK Guide
+      - href: cookbook/index.qmd
+        text: Cookbook
       - href: roadmap.qmd
         text: Roadmap
       - text: "More"
@@ -35,6 +37,14 @@ website:
           - tutorial.qmd
           - task-system.qmd
           - distribution.qmd
+      - section: "Cookbook"
+        contents:
+          - cookbook/index.qmd
+          - cookbook/basic-pipeline.qmd
+          - cookbook/dependency-injection.qmd
+          - cookbook/error-handling.qmd
+          - cookbook/testing-bricks.qmd
+          - cookbook/composition-patterns.qmd
       - section: "Building Systems"
         contents:
           - sdk-guide.qmd

@@ -674,13 +674,13 @@
   {
     "objectID": "roadmap.html",
     "href": "roadmap.html",
-    "title": "Implementation Roadmap",
+    "title": "Nanobricks Roadmap",
     "section": "",
-    "text": "The Nanobricks implementation follows a phased approach, prioritizing core functionality before advanced features.",
+    "text": "This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.",
     "crumbs": [
       "Home",
       "Evolution",
-      "Implementation Roadmap"
+      "Nanobricks Roadmap"
     ]
   },
   {
@@ -770,13 +770,13 @@
   {
     "objectID": "roadmap.html#success-metrics",
     "href": "roadmap.html#success-metrics",
-    "title": "Implementation Roadmap",
+    "title": "Nanobricks Roadmap",
     "section": "Success Metrics",
-    "text": "Success Metrics\n\nTechnical\n\nType safety: 100% of compositions type-check\nPerformance: &lt;1ms overhead per composition\nTest coverage: &gt;90% for core components\nDocumentation: All public APIs documented\n\n\n\nAdoption\n\n10+ example nanobricks\n3+ real-world integrations\nActive community contributions\nPositive developer feedback",
+    "text": "Success Metrics\n\nDeveloper Satisfaction: &gt;4.5/5 in surveys\nAdoption: 10k+ GitHub stars, 100k+ monthly downloads\nPerformance: &lt;1% overhead vs hand-written code\nReliability: 99.99% uptime in production deployments\nCommunity: 100+ contributors, 1000+ third-party bricks",
     "crumbs": [
       "Home",
       "Evolution",
-      "Implementation Roadmap"
+      "Nanobricks Roadmap"
     ]
   },
   {
@@ -3156,6 +3156,880 @@
       "Home",
       "Getting Started",
       "Task System & Commands"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#introduction",
+    "href": "roadmap.html#introduction",
+    "title": "Nanobricks Roadmap",
+    "section": "",
+    "text": "This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#current-state-v0.1.0",
+    "href": "roadmap.html#current-state-v0.1.0",
+    "title": "Nanobricks Roadmap",
+    "section": "Current State: v0.1.0",
+    "text": "Current State: v0.1.0\n\nWhat’s Working Well\n\nCore Protocol: The NanobrickSimple[Input, Output] abstraction is intuitive and powerful\nSkills System: The @skill decorator pattern for cross-cutting concerns is a major hit\nType Safety: Generic typing provides excellent IDE support and catch errors early\nAsync-First: Modern design that works well with contemporary Python patterns\n\n\n\nKey Achievements\n\nSuccessfully used to build production-grade applications (nano-scorm)\n~55% code reduction compared to manual implementation\n70% reduction in API boilerplate through skills system\nProven composition patterns for complex workflows",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#immediate-priorities",
+    "href": "roadmap.html#immediate-priorities",
+    "title": "Nanobricks Roadmap",
+    "section": "Immediate Priorities",
+    "text": "Immediate Priorities\nBased on real-world feedback, we’re taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.1.1-documentation-examples-january-2025",
+    "href": "roadmap.html#version-0.1.1-documentation-examples-january-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.1.1: Documentation & Examples (January 2025)",
+    "text": "Version 0.1.1: Documentation & Examples (January 2025)\nTheme: Zero code changes, maximum clarity\n\nPriority Documentation\n\nCookbook Examples: Step-by-step guides for common patterns\nDependency Injection Guide: Clear documentation on using the deps parameter\nError Handling Patterns: Best practices for exceptions vs Result types\nTesting Patterns: How to test individual bricks and pipelines\nArchitecture Decision Guide: When to use composition vs inheritance",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.1.2-type-improvements-january-2025",
+    "href": "roadmap.html#version-0.1.2-type-improvements-january-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.1.2: Type Improvements (January 2025)",
+    "text": "Version 0.1.2: Type Improvements (January 2025)\nTheme: Backwards-compatible enhancements to reduce friction\n\nType System Enhancements\n\nType Adapter Utilities: Helper functions to adapt between mismatched types for pipe operator\nGeneric Result Type: Optional Result[T, E] import for standardized error handling\nBetter Error Messages: Improved type mismatch errors for pipe operator\nType Conversion Helpers: Common adapters for string↔︎dict, list↔︎tuple, etc.",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.0-composition-revolution-february-2025",
+    "href": "roadmap.html#version-0.2.0-composition-revolution-february-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.0: Composition Revolution (February 2025)",
+    "text": "Version 0.2.0: Composition Revolution (February 2025)\nTheme: Address the #1 pain point - strict pipe operator type alignment\n\nCore Enhancements\n\nPipeline Builder API: Fluent interface for complex compositions\npipeline = (\n    Pipeline.start_with(Parser())\n    .branch(Validator(), Analyzer())\n    .merge_with(CombineResults())\n    .build()\n)\nParallel/Branch Support: Built-in support for fan-out/fan-in patterns\nComposition Debugger: Visualize pipeline flow and type mismatches\nFlexible Pipe Operator: More permissive type matching with runtime validation",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.1-standard-patterns-library-march-2025",
+    "href": "roadmap.html#version-0.2.1-standard-patterns-library-march-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.1: Standard Patterns Library (March 2025)",
+    "text": "Version 0.2.1: Standard Patterns Library (March 2025)\nTheme: Common bricks to accelerate development\n\nBatteries Included\n\nCommon Validators: Email, URL, phone, regex, range validators\nCommon Transformers: JSON adapters, type converters, normalizers\nFile Processing Bricks: CSV, JSON, XML, YAML readers/writers\nHTTP Client Brick: Basic requests wrapper with retry logic\nData Manipulation: Filter, map, reduce, aggregate bricks",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.3.0-developer-experience-q2-2025",
+    "href": "roadmap.html#version-0.3.0-developer-experience-q2-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.3.0: Developer Experience (Q2 2025)",
+    "text": "Version 0.3.0: Developer Experience (Q2 2025)\nTheme: Superior tooling and development workflow\n\nCLI Enhancements\n\nInteractive Scaffolding: nanobrick new --interactive\nProject Templates: Full application templates (API service, data processor, etc.)\nSkill Generation: nanobrick add-skill logging to retrofit existing bricks\n\n\n\nDevelopment Tools\n\nPipeline Visualizer: Generate diagrams from code\nPerformance Profiler: Identify bottlenecks in pipelines\nType Stub Generator: Better IDE support for dynamic features\nVS Code Extension: Snippets, navigation, and debugging support\n\n\n\nDependency Injection\n\nClear Patterns: Documentation and examples for the deps parameter\nService Registry: Built-in IoC container for shared resources\nConfiguration Injection: Standardized config management\nTesting Utilities: Mock injectors for unit tests",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.4.0-standard-library-q3-2025",
+    "href": "roadmap.html#version-0.4.0-standard-library-q3-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.4.0: Standard Library (Q3 2025)",
+    "text": "Version 0.4.0: Standard Library (Q3 2025)\nTheme: Batteries-included ecosystem\n\nCommon Bricks Library\n\nData Validation: Email, phone, URL, schema validators\nHTTP Operations: Request/response handling, retries, rate limiting\nDatabase Access: Connection pooling, query builders, ORMs\nFile Processing: CSV, JSON, XML, Excel readers/writers\nMessage Queues: Kafka, RabbitMQ, Redis pub/sub\nCaching: In-memory, Redis, distributed caches\n\n\n\nIntegration Patterns\n\nThird-party Libraries: Adapters for popular packages\nFramework Bridges: Integration with FastAPI, Django, Flask\nCloud Services: AWS, GCP, Azure service bricks",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.5.0-advanced-features-q4-2025",
+    "href": "roadmap.html#version-0.5.0-advanced-features-q4-2025",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.5.0: Advanced Features (Q4 2025)",
+    "text": "Version 0.5.0: Advanced Features (Q4 2025)\nTheme: Production-scale capabilities\n\nStreaming Support\nclass StreamProcessor(NanobrickStream[bytes, ProcessedItem]):\n    async def invoke_stream(\n        self, \n        input_stream: AsyncIterator[bytes]\n    ) -&gt; AsyncIterator[ProcessedItem]:\n        async for chunk in input_stream:\n            yield await self.process_chunk(chunk)\n\n\nState Management\n\nStateful Bricks: Clear patterns for maintaining state\nState Persistence: Save/restore capabilities\nDistributed State: Coordination across instances\n\n\n\nResource Lifecycle\n\nSetup/Teardown Hooks: Manage expensive resources\nConnection Pooling: Built-in resource pools\nGraceful Shutdown: Proper cleanup on termination",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-1.0.0-production-ready-q1-2026",
+    "href": "roadmap.html#version-1.0.0-production-ready-q1-2026",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 1.0.0: Production Ready (Q1 2026)",
+    "text": "Version 1.0.0: Production Ready (Q1 2026)\nTheme: Enterprise-grade stability\n\nPerformance Optimizations\n\nZero-Copy Operations: Efficient data passing\nParallel Execution: Automatic parallelization where possible\nMemory Management: Streaming and chunking for large datasets\nProfiling Tools: Built-in performance monitoring\n\n\n\nObservability\n\nDistributed Tracing: Full OpenTelemetry integration\nMetrics Collection: Prometheus-compatible metrics\nHealth Checks: Standardized health/readiness probes\nDebugging Tools: Enhanced error messages and stack traces\n\n\n\nEnterprise Features\n\nSecurity: Sandboxing, permission models, audit trails\nCompliance: GDPR, SOC2, HIPAA helpers\nMulti-tenancy: Isolation and resource limits\nHigh Availability: Clustering and failover support",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#future-vision-beyond-1.0",
+    "href": "roadmap.html#future-vision-beyond-1.0",
+    "title": "Nanobricks Roadmap",
+    "section": "Future Vision (Beyond 1.0)",
+    "text": "Future Vision (Beyond 1.0)\n\nAI-Native Framework\n\nLLM Integration: First-class support for AI models\nPrompt Management: Version and test prompts\nRAG Pipelines: Built-in retrieval-augmented generation\nAgent Frameworks: Multi-agent orchestration\n\n\n\nDistributed Computing\n\nCluster Mode: Scale across multiple machines\nWorkflow Engine: Complex DAG execution\nEvent Sourcing: Built-in event store\nCQRS Support: Command/query separation\n\n\n\nLanguage Expansion\n\nType Hints: Full runtime validation with beartype\nRust Extensions: Performance-critical components\nWebAssembly: Run bricks in browsers\nCross-Language: Polyglot brick composition",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#community-ecosystem",
+    "href": "roadmap.html#community-ecosystem",
+    "title": "Nanobricks Roadmap",
+    "section": "Community & Ecosystem",
+    "text": "Community & Ecosystem\n\nGovernance\n\nRFC Process: Community-driven feature development\nStability Guarantee: Clear deprecation policies\nSecurity Process: Vulnerability disclosure and fixes\nRelease Cadence: Predictable release schedule\n\n\n\nEcosystem Growth\n\nPlugin Registry: Discover and share bricks\nCertification Program: Quality standards for third-party bricks\nCorporate Sponsors: Sustainable development funding\nAcademic Partnerships: Research and education",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#migration-strategy",
+    "href": "roadmap.html#migration-strategy",
+    "title": "Nanobricks Roadmap",
+    "section": "Migration Strategy",
+    "text": "Migration Strategy\n\nVersion Compatibility\n\nSemantic Versioning: Strict adherence to SemVer\nDeprecation Warnings: Two minor versions before removal\nMigration Tools: Automated upgrades where possible\nCompatibility Layer: Support for older brick versions\n\n\n\nAdoption Path\n\nEarly Adopters (now): Feedback and iteration\nProduction Users (v0.3+): Stable core with good tooling\n\nEnterprise (v0.5+): Advanced features and support\nMainstream (v1.0+): Mature ecosystem",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#getting-involved",
+    "href": "roadmap.html#getting-involved",
+    "title": "Nanobricks Roadmap",
+    "section": "Getting Involved",
+    "text": "Getting Involved\n\nGitHub Discussions: Share ideas and feedback\nRFC Process: Propose new features\nContributing: Code, documentation, examples\nSponsorship: Support sustainable development\n\n\nThis roadmap is a living document. We’ll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html",
+    "href": "cookbook/dependency-injection.html",
+    "title": "Dependency Injection",
+    "section": "",
+    "text": "Your nanobricks need access to shared resources like: - Database connections - Configuration settings - External services (APIs, caches, message queues) - Loggers and monitoring tools - Authentication/authorization context\nYou want to inject these dependencies without: - Hard-coding them into bricks - Creating global variables - Breaking testability - Coupling bricks to specific implementations",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#problem",
+    "href": "cookbook/dependency-injection.html#problem",
+    "title": "Dependency Injection",
+    "section": "",
+    "text": "Your nanobricks need access to shared resources like: - Database connections - Configuration settings - External services (APIs, caches, message queues) - Loggers and monitoring tools - Authentication/authorization context\nYou want to inject these dependencies without: - Hard-coding them into bricks - Creating global variables - Breaking testability - Coupling bricks to specific implementations",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#solution",
+    "href": "cookbook/dependency-injection.html#solution",
+    "title": "Dependency Injection",
+    "section": "Solution",
+    "text": "Solution\nUse the deps parameter in the invoke method to pass dependencies:\nasync def invoke(self, input: T, *, deps: Optional[Dict[str, Any]] = None) -&gt; U:\n    db = deps.get(\"db\") if deps else None\n    config = deps.get(\"config\", default_config) if deps else default_config\n    # Use injected dependencies",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#core-concepts",
+    "href": "cookbook/dependency-injection.html#core-concepts",
+    "title": "Dependency Injection",
+    "section": "Core Concepts",
+    "text": "Core Concepts\n\nThe deps Parameter\nEvery nanobrick’s invoke method accepts an optional deps parameter:\nclass MyBrick(NanobrickSimple[Input, Output]):\n    async def invoke(\n        self, \n        input: Input, \n        *, \n        deps: Optional[Dict[str, Any]] = None\n    ) -&gt; Output:\n        # Access dependencies from deps dict\n        pass\n\n\nDependency Flow in Pipelines\nWhen using the pipe operator, deps flow through all stages:\n# deps are automatically passed to each stage\npipeline = BrickA() | BrickB() | BrickC()\nresult = await pipeline.invoke(input, deps={\"db\": db_conn})",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#common-patterns",
+    "href": "cookbook/dependency-injection.html#common-patterns",
+    "title": "Dependency Injection",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nPattern 1: Database Connections\nclass DatabaseBrick(NanobrickSimple[Query, Results]):\n    async def invoke(self, query: Query, *, deps=None) -&gt; Results:\n        if not deps or \"db\" not in deps:\n            raise ValueError(\"Database connection required in deps['db']\")\n        \n        db = deps[\"db\"]\n        return await db.execute(query)\n\n# Usage\ndeps = {\"db\": database_connection}\nresults = await brick.invoke(query, deps=deps)\n\n\nPattern 2: Configuration Objects\n@dataclass\nclass Config:\n    api_key: str\n    timeout: int = 30\n    retry_count: int = 3\n\nclass APIBrick(NanobrickSimple[Request, Response]):\n    async def invoke(self, request: Request, *, deps=None) -&gt; Response:\n        config = Config()  # Default\n        if deps and \"config\" in deps:\n            config = deps[\"config\"]\n        \n        # Use configuration\n        return await make_api_call(\n            request, \n            api_key=config.api_key,\n            timeout=config.timeout\n        )\n\n\nPattern 3: Multiple Services\nclass NotificationBrick(NanobrickSimple[Message, bool]):\n    async def invoke(self, message: Message, *, deps=None) -&gt; bool:\n        if not deps:\n            raise ValueError(\"Dependencies required\")\n        \n        # Extract multiple services\n        email_service = deps.get(\"email_service\")\n        sms_service = deps.get(\"sms_service\")\n        logger = deps.get(\"logger\")\n        \n        # Use services as needed\n        if message.type == \"email\" and email_service:\n            result = await email_service.send(message)\n        elif message.type == \"sms\" and sms_service:\n            result = await sms_service.send(message)\n        else:\n            raise ValueError(f\"No service for {message.type}\")\n        \n        # Optional logging\n        if logger:\n            logger.info(f\"Sent {message.type} notification\")\n        \n        return result\n\n\nPattern 4: Environment-Specific Dependencies\ndef create_dependencies(environment: str) -&gt; Dict[str, Any]:\n    \"\"\"Create environment-specific dependencies.\"\"\"\n    if environment == \"production\":\n        return {\n            \"db\": ProductionDatabase(),\n            \"cache\": RedisCache(\"prod.redis.com\"),\n            \"config\": load_config(\"prod.yaml\")\n        }\n    elif environment == \"development\":\n        return {\n            \"db\": SQLiteDatabase(\":memory:\"),\n            \"cache\": InMemoryCache(),\n            \"config\": load_config(\"dev.yaml\")\n        }\n    else:\n        raise ValueError(f\"Unknown environment: {environment}\")\n\n# Use appropriate deps for environment\ndeps = create_dependencies(os.getenv(\"ENVIRONMENT\", \"development\"))\nresult = await pipeline.invoke(data, deps=deps)",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#advanced-patterns",
+    "href": "cookbook/dependency-injection.html#advanced-patterns",
+    "title": "Dependency Injection",
+    "section": "Advanced Patterns",
+    "text": "Advanced Patterns\n\nDependency Container\nCreate a container class to manage complex dependencies:\nclass DependencyContainer:\n    \"\"\"Manages application dependencies with lazy initialization.\"\"\"\n    \n    def __init__(self, config_path: str):\n        self.config = load_config(config_path)\n        self._db = None\n        self._cache = None\n        self._services = {}\n    \n    @property\n    def db(self):\n        \"\"\"Lazy database connection.\"\"\"\n        if not self._db:\n            self._db = create_db_connection(self.config.database)\n        return self._db\n    \n    @property\n    def cache(self):\n        \"\"\"Lazy cache initialization.\"\"\"\n        if not self._cache:\n            self._cache = create_cache(self.config.cache)\n        return self._cache\n    \n    def get_service(self, name: str):\n        \"\"\"Get or create named service.\"\"\"\n        if name not in self._services:\n            self._services[name] = create_service(name, self.config)\n        return self._services[name]\n    \n    def as_dict(self) -&gt; Dict[str, Any]:\n        \"\"\"Convert to deps dictionary.\"\"\"\n        return {\n            \"db\": self.db,\n            \"cache\": self.cache,\n            \"config\": self.config,\n            \"container\": self  # Include self for dynamic service access\n        }\n\n# Usage\ncontainer = DependencyContainer(\"config/prod.yaml\")\nresult = await pipeline.invoke(data, deps=container.as_dict())\n\n\nDependency Injection in Pipelines\nWhen building complex pipelines, you might want different deps for different stages:\nclass SmartPipeline(NanobrickSimple[Input, Output]):\n    def __init__(self):\n        self.stage1 = Stage1Brick()\n        self.stage2 = Stage2Brick()\n        self.stage3 = Stage3Brick()\n    \n    async def invoke(self, input: Input, *, deps=None) -&gt; Output:\n        # Stage 1 needs database\n        stage1_deps = {\"db\": deps.get(\"db\")} if deps else None\n        result1 = await self.stage1.invoke(input, deps=stage1_deps)\n        \n        # Stage 2 needs cache and config\n        stage2_deps = {\n            \"cache\": deps.get(\"cache\"),\n            \"config\": deps.get(\"config\")\n        } if deps else None\n        result2 = await self.stage2.invoke(result1, deps=stage2_deps)\n        \n        # Stage 3 needs everything\n        result3 = await self.stage3.invoke(result2, deps=deps)\n        \n        return result3",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#testing-with-dependencies",
+    "href": "cookbook/dependency-injection.html#testing-with-dependencies",
+    "title": "Dependency Injection",
+    "section": "Testing with Dependencies",
+    "text": "Testing with Dependencies\nDependency injection makes testing much easier:\n# test_my_brick.py\nimport pytest\nfrom unittest.mock import AsyncMock, Mock\n\nclass TestDatabaseBrick:\n    @pytest.mark.asyncio\n    async def test_with_mock_database(self):\n        # Create mock dependencies\n        mock_db = AsyncMock()\n        mock_db.execute.return_value = [{\"id\": 1, \"name\": \"Test\"}]\n        \n        mock_logger = Mock()\n        \n        deps = {\n            \"db\": mock_db,\n            \"logger\": mock_logger\n        }\n        \n        # Test the brick\n        brick = DatabaseBrick()\n        result = await brick.invoke(\"SELECT * FROM users\", deps=deps)\n        \n        # Verify behavior\n        assert len(result) == 1\n        mock_db.execute.assert_called_once_with(\"SELECT * FROM users\")\n        \n    @pytest.mark.asyncio\n    async def test_missing_dependencies(self):\n        brick = DatabaseBrick()\n        \n        # Should raise when deps missing\n        with pytest.raises(ValueError, match=\"Database connection required\"):\n            await brick.invoke(\"SELECT *\", deps={})",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#best-practices",
+    "href": "cookbook/dependency-injection.html#best-practices",
+    "title": "Dependency Injection",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Document Required Dependencies\nAlways document what dependencies your brick expects:\nclass MyBrick(NanobrickSimple[Input, Output]):\n    \"\"\"\n    Processes data using external services.\n    \n    Required dependencies:\n        - db: Database connection\n        - config: Configuration object\n        \n    Optional dependencies:\n        - logger: Logger instance\n        - cache: Cache service\n    \"\"\"\n\n\n2. Provide Sensible Defaults\nWhen possible, provide defaults for optional dependencies:\nasync def invoke(self, input: Input, *, deps=None) -&gt; Output:\n    # Required dependency - fail fast\n    if not deps or \"db\" not in deps:\n        raise ValueError(\"db is required in deps\")\n    \n    # Optional with default\n    config = deps.get(\"config\", self.default_config) if deps else self.default_config\n    logger = deps.get(\"logger\", null_logger) if deps else null_logger\n\n\n3. Type Your Dependencies\nConsider using TypedDict for better type safety:\nfrom typing import TypedDict, Optional\n\nclass BrickDeps(TypedDict, total=False):\n    db: DatabaseConnection\n    config: Config\n    logger: Logger\n    cache: Optional[Cache]\n\nclass TypedBrick(NanobrickSimple[Input, Output]):\n    async def invoke(self, input: Input, *, deps: Optional[BrickDeps] = None) -&gt; Output:\n        # Now you get type hints for deps!\n        if deps:\n            db = deps.get(\"db\")  # Type: Optional[DatabaseConnection]\n\n\n4. Avoid Over-Injection\nDon’t inject things that should be: - Constructor parameters (brick configuration) - Part of the input data - Internal implementation details\n# Good - injecting shared resource\ndeps = {\"db\": database_connection}\n\n# Bad - this should be input data\ndeps = {\"user_id\": 123}  # Should be part of input\n\n# Bad - this should be constructor param\ndeps = {\"batch_size\": 100}  # Should be MyBrick(batch_size=100)",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#common-pitfalls",
+    "href": "cookbook/dependency-injection.html#common-pitfalls",
+    "title": "Dependency Injection",
+    "section": "Common Pitfalls",
+    "text": "Common Pitfalls\n\nModifying Deps\nDon’t modify the deps dictionary:\n# Bad - modifies shared deps\nasync def invoke(self, input: Input, *, deps=None) -&gt; Output:\n    if deps:\n        deps[\"processed\"] = True  # Don't do this!\n    \n# Good - create new dict if needed\nasync def invoke(self, input: Input, *, deps=None) -&gt; Output:\n    my_deps = dict(deps) if deps else {}\n    my_deps[\"processed\"] = True  # Safe\n\n\nTight Coupling\nAvoid coupling to specific implementations:\n# Bad - coupled to specific class\nif isinstance(deps.get(\"db\"), PostgresDatabase):\n    # PostgreSQL-specific code\n\n# Good - depend on interface/protocol\ndb = deps.get(\"db\")\nif hasattr(db, \"execute\"):\n    # Works with any database that has execute method",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/dependency-injection.html#see-also",
+    "href": "cookbook/dependency-injection.html#see-also",
+    "title": "Dependency Injection",
+    "section": "See Also",
+    "text": "See Also\n\nTesting Bricks - Testing with mock dependencies\nBasic Pipeline - How deps flow through pipelines\nError Handling - Handling missing dependencies\nComposition Patterns - Advanced dependency patterns",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Dependency Injection"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html",
+    "href": "cookbook/index.html",
+    "title": "Nanobricks Cookbook",
+    "section": "",
+    "text": "Welcome to the Nanobricks Cookbook! This collection of practical examples and patterns will help you get the most out of the framework. Each recipe addresses a specific use case or pattern that emerged from real-world usage.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#introduction",
+    "href": "cookbook/index.html#introduction",
+    "title": "Nanobricks Cookbook",
+    "section": "",
+    "text": "Welcome to the Nanobricks Cookbook! This collection of practical examples and patterns will help you get the most out of the framework. Each recipe addresses a specific use case or pattern that emerged from real-world usage.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#quick-navigation",
+    "href": "cookbook/index.html#quick-navigation",
+    "title": "Nanobricks Cookbook",
+    "section": "Quick Navigation",
+    "text": "Quick Navigation\n\n🚀 Getting Started\n\nBasic Pipeline - Your first nanobrick pipeline\nManual Composition - When the pipe operator isn’t enough\n\n\n\n🔧 Core Patterns\n\nDependency Injection - Using the deps parameter effectively\nError Handling - Exceptions vs validation results\nTesting Bricks - Unit and integration testing strategies\n\n\n\n🎯 Advanced Patterns\n\nBranching Pipelines - Parallel and conditional flows\nSkill Patterns - Creating and applying skills\nComposition vs Inheritance - Architecture decisions",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#how-to-use-this-cookbook",
+    "href": "cookbook/index.html#how-to-use-this-cookbook",
+    "title": "Nanobricks Cookbook",
+    "section": "How to Use This Cookbook",
+    "text": "How to Use This Cookbook\nEach recipe follows a consistent format:\n\nProblem: What challenge are we solving?\nSolution: The recommended approach\nExample: Complete, runnable code\nDiscussion: Why this approach works\nVariations: Alternative patterns\nSee Also: Related recipes",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#code-examples",
+    "href": "cookbook/index.html#code-examples",
+    "title": "Nanobricks Cookbook",
+    "section": "Code Examples",
+    "text": "Code Examples\nAll examples in this cookbook are: - ✅ Tested with the current version of nanobricks - ✅ Type-checked with mypy - ✅ Available in the examples/cookbook/ directory - ✅ Designed to be copy-paste ready",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#common-questions",
+    "href": "cookbook/index.html#common-questions",
+    "title": "Nanobricks Cookbook",
+    "section": "Common Questions",
+    "text": "Common Questions\n\n“When should I use the pipe operator vs manual composition?”\nThe pipe operator (|) is great when: - Types align perfectly between stages - You want a clean, linear flow - Each stage has a single input/output\nUse manual composition when: - You need to branch or merge data flows - Types don’t align naturally - You need complex error handling - You want more control over the flow\n\n\n“How do I handle errors in my pipelines?”\nWe recommend two patterns: 1. Let exceptions bubble - Good for unexpected errors 2. Return validation results - Good for expected failures\nSee the Error Handling recipe for details.\n\n\n“How do I test my nanobricks?”\nTesting strategies depend on your brick’s complexity: - Unit tests for individual bricks - Integration tests for pipelines - Mock dependencies for isolated testing\nSee the Testing Bricks recipe for patterns.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#contributing",
+    "href": "cookbook/index.html#contributing",
+    "title": "Nanobricks Cookbook",
+    "section": "Contributing",
+    "text": "Contributing\nFound a pattern that others might benefit from? We welcome cookbook contributions!\n\nCreate an example in examples/cookbook/\nDocument it in docs/quarto/cookbook/\nEnsure it follows our format\nSubmit a pull request",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/index.html#need-help",
+    "href": "cookbook/index.html#need-help",
+    "title": "Nanobricks Cookbook",
+    "section": "Need Help?",
+    "text": "Need Help?\n\n📚 Check the SDK Guide for comprehensive documentation\n💬 Ask questions in GitHub Discussions\n🐛 Report issues on GitHub\n🚀 See the Roadmap for upcoming features\n\n\nHappy cooking with nanobricks! 🧱",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Nanobricks Cookbook"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html",
+    "href": "cookbook/basic-pipeline.html",
+    "title": "Basic Pipeline",
+    "section": "",
+    "text": "You want to process data through multiple stages, where each stage transforms the data in a specific way. For example, cleaning text, tokenizing it, and then analyzing it.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#problem",
+    "href": "cookbook/basic-pipeline.html#problem",
+    "title": "Basic Pipeline",
+    "section": "",
+    "text": "You want to process data through multiple stages, where each stage transforms the data in a specific way. For example, cleaning text, tokenizing it, and then analyzing it.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#solution",
+    "href": "cookbook/basic-pipeline.html#solution",
+    "title": "Basic Pipeline",
+    "section": "Solution",
+    "text": "Solution\nUse the pipe operator (|) to compose nanobricks when the output type of one stage matches the input type of the next stage.\npipeline = TextCleaner() | WordTokenizer() | WordCounter()\nresult = await pipeline.invoke(input_text)",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#complete-example",
+    "href": "cookbook/basic-pipeline.html#complete-example",
+    "title": "Basic Pipeline",
+    "section": "Complete Example",
+    "text": "Complete Example\nLet’s build a text analysis pipeline that: 1. Cleans messy text 2. Splits it into words 3. Counts word frequencies\nimport asyncio\nfrom typing import List, Dict\nfrom nanobricks import NanobrickSimple\n\n\nclass TextCleaner(NanobrickSimple[str, str]):\n    \"\"\"Removes extra whitespace and normalizes text.\"\"\"\n    \n    name = \"text_cleaner\"\n    version = \"1.0.0\"\n    \n    async def invoke(self, input: str, *, deps=None) -&gt; str:\n        return \" \".join(input.split())\n\n\nclass WordTokenizer(NanobrickSimple[str, List[str]]):\n    \"\"\"Splits text into individual words.\"\"\"\n    \n    name = \"word_tokenizer\"\n    version = \"1.0.0\"\n    \n    async def invoke(self, input: str, *, deps=None) -&gt; List[str]:\n        return input.lower().split()\n\n\nclass WordCounter(NanobrickSimple[List[str], Dict[str, int]]):\n    \"\"\"Counts word frequencies.\"\"\"\n    \n    name = \"word_counter\"\n    version = \"1.0.0\"\n    \n    async def invoke(self, input: List[str], *, deps=None) -&gt; Dict[str, int]:\n        word_freq = {}\n        for word in input:\n            word_freq[word] = word_freq.get(word, 0) + 1\n        return word_freq\n\n\n# Compose the pipeline\npipeline = TextCleaner() | WordTokenizer() | WordCounter()\n\n# Use it\nasync def analyze_text(text: str):\n    return await pipeline.invoke(text)",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#how-it-works",
+    "href": "cookbook/basic-pipeline.html#how-it-works",
+    "title": "Basic Pipeline",
+    "section": "How It Works",
+    "text": "How It Works\n\nType Flow\nThe pipe operator works because the types align perfectly:\nTextCleaner:    str → str\nWordTokenizer:  str → List[str]\nWordCounter:    List[str] → Dict[str, int]\n\nPipeline:       str → Dict[str, int]\n\n\nBehind the Scenes\nWhen you use |, nanobricks: 1. Creates a composite brick that chains the invoke calls 2. Passes the output of each stage as input to the next 3. Maintains async compatibility throughout 4. Combines metadata (names, versions) from all stages",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#common-patterns",
+    "href": "cookbook/basic-pipeline.html#common-patterns",
+    "title": "Basic Pipeline",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nPattern 1: Linear Processing\nPerfect for straightforward transformations:\n# Data processing pipeline\npipeline = (\n    CSVParser() |      # str → List[Dict]\n    DataValidator() |  # List[Dict] → List[Dict]\n    DataTransformer()  # List[Dict] → DataFrame\n)\n\n\nPattern 2: Reusable Pipelines\nCreate factory functions for common pipelines:\ndef create_etl_pipeline(config: dict):\n    return (\n        Extractor(config[\"source\"]) |\n        Transformer(config[\"rules\"]) |\n        Loader(config[\"destination\"])\n    )\n\n# Use with different configurations\nsales_pipeline = create_etl_pipeline(sales_config)\ninventory_pipeline = create_etl_pipeline(inventory_config)\n\n\nPattern 3: Partial Pipelines\nBuild pipelines incrementally:\n# Start with cleaning\nbase_pipeline = TextCleaner() | TextNormalizer()\n\n# Add analysis for one use case\nsentiment_pipeline = base_pipeline | SentimentAnalyzer()\n\n# Add different analysis for another\nsummary_pipeline = base_pipeline | TextSummarizer()",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#when-to-use-this-pattern",
+    "href": "cookbook/basic-pipeline.html#when-to-use-this-pattern",
+    "title": "Basic Pipeline",
+    "section": "When to Use This Pattern",
+    "text": "When to Use This Pattern\n✅ Use pipe operator when: - Types naturally align between stages - You want clean, readable code - The flow is linear (no branching) - Each stage has single input/output\n❌ Don’t use when: - You need complex branching logic - Types don’t align without conversion - You need error recovery between stages - You need access to intermediate results",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#troubleshooting",
+    "href": "cookbook/basic-pipeline.html#troubleshooting",
+    "title": "Basic Pipeline",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nType Mismatch Errors\nIf you get type errors when composing:\n# This won't work - types don't align\nbad_pipeline = TextCleaner() | WordCounter()  # str → str | List[str] → Dict\nSolution: Add an adapter or use manual composition (see Manual Composition)\n\n\nAccessing Intermediate Results\nIf you need intermediate values:\n# Instead of a pipeline, use individual bricks\ncleaner = TextCleaner()\ntokenizer = WordTokenizer()\n\ncleaned = await cleaner.invoke(raw_text)\nprint(f\"After cleaning: {cleaned}\")  # Intermediate result\n\ntokens = await tokenizer.invoke(cleaned)\nprint(f\"Tokens: {tokens}\")  # Another intermediate",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#performance-considerations",
+    "href": "cookbook/basic-pipeline.html#performance-considerations",
+    "title": "Basic Pipeline",
+    "section": "Performance Considerations",
+    "text": "Performance Considerations\nThe pipe operator has minimal overhead: - Each stage is called sequentially (no unnecessary parallelism) - No intermediate storage unless needed - Async operations are properly chained\nFor parallel processing, see Branching Pipelines.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#try-it-yourself",
+    "href": "cookbook/basic-pipeline.html#try-it-yourself",
+    "title": "Basic Pipeline",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\nRun the example: python examples/cookbook/01_simple_pipeline.py\nModify the pipeline to add a stage that filters stop words\nCreate a pipeline for your own use case",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/basic-pipeline.html#see-also",
+    "href": "cookbook/basic-pipeline.html#see-also",
+    "title": "Basic Pipeline",
+    "section": "See Also",
+    "text": "See Also\n\nManual Composition - When types don’t align\nError Handling - Adding error recovery\nTesting Bricks - Testing your pipelines\nBranching Pipelines - Non-linear flows",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Basic Pipeline"
+    ]
+  },
+  {
+    "objectID": "cookbook/error-handling.html",
+    "href": "cookbook/error-handling.html",
+    "title": "Error Handling Patterns",
+    "section": "",
+    "text": "Your nanobricks need to handle various error scenarios: - Invalid input data - Missing dependencies - External service failures - Business rule violations - Partial failures in batch processing\nYou need to decide between: - Raising exceptions (fail fast) - Returning error results (explicit handling) - Logging and continuing - Providing fallback behaviors"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#problem",
+    "href": "cookbook/error-handling.html#problem",
+    "title": "Error Handling Patterns",
+    "section": "",
+    "text": "Your nanobricks need to handle various error scenarios: - Invalid input data - Missing dependencies - External service failures - Business rule violations - Partial failures in batch processing\nYou need to decide between: - Raising exceptions (fail fast) - Returning error results (explicit handling) - Logging and continuing - Providing fallback behaviors"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#solution",
+    "href": "cookbook/error-handling.html#solution",
+    "title": "Error Handling Patterns",
+    "section": "Solution",
+    "text": "Solution\nChoose your error handling strategy based on the error type:\n\nExceptions for unexpected/unrecoverable errors\nResult types for expected/business errors\nFallbacks for resilient systems\nError boundaries for pipeline isolation"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#core-patterns",
+    "href": "cookbook/error-handling.html#core-patterns",
+    "title": "Error Handling Patterns",
+    "section": "Core Patterns",
+    "text": "Core Patterns\n\nPattern 1: Exception-Based (Fail Fast)\nBest for unexpected errors that should stop processing:\nclass StrictValidator(NanobrickSimple[Data, ValidData]):\n    async def invoke(self, data: Data, *, deps=None) -&gt; ValidData:\n        if not data.is_valid():\n            raise ValueError(f\"Invalid data: {data.errors}\")\n        \n        if data.size &gt; self.max_size:\n            raise ValueError(f\"Data too large: {data.size}\")\n        \n        return ValidData(data)\nWhen to use: - Data integrity violations - Programming errors - Missing required dependencies - Constraint violations\n\n\nPattern 2: Result-Based (Explicit Handling)\nBest for expected errors that callers should handle:\n@dataclass\nclass Result:\n    success: bool\n    data: Optional[Any] = None\n    error: Optional[str] = None\n    \nclass SafeProcessor(NanobrickSimple[Input, Result]):\n    async def invoke(self, input: Input, *, deps=None) -&gt; Result:\n        if not self.validate(input):\n            return Result(\n                success=False, \n                error=\"Validation failed\"\n            )\n        \n        try:\n            data = self.process(input)\n            return Result(success=True, data=data)\n        except ProcessingError as e:\n            return Result(success=False, error=str(e))\nWhen to use: - User input validation - Business rule failures - Partial batch processing - External API errors\n\n\nPattern 3: Typed Result Pattern\nMore sophisticated result types with type safety:\nfrom typing import Generic, TypeVar, Union\n\nT = TypeVar('T')\nE = TypeVar('E')\n\n@dataclass\nclass Ok(Generic[T]):\n    value: T\n\n@dataclass\nclass Err(Generic[E]):\n    error: E\n\nResult = Union[Ok[T], Err[E]]\n\nclass TypedProcessor(NanobrickSimple[str, Result[ProcessedData, str]]):\n    async def invoke(self, input: str, *, deps=None) -&gt; Result[ProcessedData, str]:\n        if not input:\n            return Err(\"Input cannot be empty\")\n        \n        try:\n            data = ProcessedData(input)\n            return Ok(data)\n        except Exception as e:\n            return Err(f\"Processing failed: {e}\")\n\n# Usage with pattern matching (Python 3.10+)\nresult = await processor.invoke(\"data\")\nmatch result:\n    case Ok(value):\n        print(f\"Success: {value}\")\n    case Err(error):\n        print(f\"Failed: {error}\")"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#advanced-patterns",
+    "href": "cookbook/error-handling.html#advanced-patterns",
+    "title": "Error Handling Patterns",
+    "section": "Advanced Patterns",
+    "text": "Advanced Patterns\n\nError Recovery with Fallbacks\nBuild resilient systems that try multiple approaches:\nclass ResilientFetcher(NanobrickSimple[Query, Data]):\n    def __init__(self):\n        self.primary_source = PrimaryAPI()\n        self.cache = CacheService()\n        self.fallback_source = SecondaryAPI()\n    \n    async def invoke(self, query: Query, *, deps=None) -&gt; Data:\n        logger = deps.get(\"logger\") if deps else None\n        \n        # Try primary source\n        try:\n            return await self.primary_source.fetch(query)\n        except Exception as e:\n            if logger:\n                logger.warning(f\"Primary source failed: {e}\")\n        \n        # Try cache\n        try:\n            cached = await self.cache.get(query.key)\n            if cached and not cached.is_stale():\n                return cached.data\n        except Exception as e:\n            if logger:\n                logger.warning(f\"Cache failed: {e}\")\n        \n        # Last resort - fallback source\n        try:\n            return await self.fallback_source.fetch(query)\n        except Exception as e:\n            # All options exhausted\n            raise ServiceUnavailable(\n                \"All data sources failed\",\n                attempts=[\n                    \"primary_api\", \n                    \"cache\", \n                    \"secondary_api\"\n                ]\n            )\n\n\nError Boundaries in Pipelines\nIsolate failures to prevent cascade:\nclass ErrorBoundary(NanobrickSimple[T, Union[T, ErrorInfo]]):\n    \"\"\"Wraps a brick to catch and handle its errors.\"\"\"\n    \n    def __init__(self, brick: NanobrickSimple[T, U], on_error=None):\n        self.brick = brick\n        self.on_error = on_error or self.default_error_handler\n    \n    async def invoke(self, input: T, *, deps=None) -&gt; Union[U, ErrorInfo]:\n        try:\n            return await self.brick.invoke(input, deps=deps)\n        except Exception as e:\n            return self.on_error(e, input, deps)\n    \n    def default_error_handler(self, error, input, deps):\n        return ErrorInfo(\n            error_type=type(error).__name__,\n            message=str(error),\n            input_data=str(input)[:100]  # Truncate for safety\n        )\n\n# Usage\npipeline = (\n    Parser() |\n    ErrorBoundary(RiskyTransformer()) |  # Isolate risky operation\n    Validator()\n)\n\n\nBatch Processing with Partial Failures\nHandle errors in batch operations:\n@dataclass\nclass BatchResult:\n    successful: List[ProcessedItem]\n    failed: List[FailedItem]\n    stats: Dict[str, int]\n\nclass BatchProcessor(NanobrickSimple[List[Item], BatchResult]):\n    async def invoke(self, items: List[Item], *, deps=None) -&gt; BatchResult:\n        successful = []\n        failed = []\n        \n        for item in items:\n            try:\n                processed = await self.process_item(item)\n                successful.append(processed)\n            except ValidationError as e:\n                failed.append(FailedItem(\n                    item=item,\n                    error=\"Validation failed\",\n                    details=str(e)\n                ))\n            except ProcessingError as e:\n                failed.append(FailedItem(\n                    item=item,\n                    error=\"Processing failed\",\n                    details=str(e),\n                    recoverable=True\n                ))\n            except Exception as e:\n                # Unexpected error - might want to stop\n                if self.fail_fast:\n                    raise\n                failed.append(FailedItem(\n                    item=item,\n                    error=\"Unexpected error\",\n                    details=str(e),\n                    recoverable=False\n                ))\n        \n        return BatchResult(\n            successful=successful,\n            failed=failed,\n            stats={\n                \"total\": len(items),\n                \"succeeded\": len(successful),\n                \"failed\": len(failed),\n                \"success_rate\": len(successful) / len(items)\n            }\n        )"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#custom-exception-types",
+    "href": "cookbook/error-handling.html#custom-exception-types",
+    "title": "Error Handling Patterns",
+    "section": "Custom Exception Types",
+    "text": "Custom Exception Types\nDefine domain-specific exceptions for better error handling:\nclass BrickException(Exception):\n    \"\"\"Base exception for all brick errors.\"\"\"\n    pass\n\nclass ValidationException(BrickException):\n    \"\"\"Input validation failed.\"\"\"\n    def __init__(self, message: str, field: str = None, value: Any = None):\n        super().__init__(message)\n        self.field = field\n        self.value = value\n\nclass DependencyException(BrickException):\n    \"\"\"Required dependency missing.\"\"\"\n    def __init__(self, missing: List[str]):\n        super().__init__(f\"Missing dependencies: {', '.join(missing)}\")\n        self.missing = missing\n\nclass ProcessingException(BrickException):\n    \"\"\"Processing logic failed.\"\"\"\n    def __init__(self, message: str, recoverable: bool = False):\n        super().__init__(message)\n        self.recoverable = recoverable\n\n# Usage\nclass StrictBrick(NanobrickSimple[Input, Output]):\n    async def invoke(self, input: Input, *, deps=None) -&gt; Output:\n        # Check dependencies\n        required_deps = [\"db\", \"cache\"]\n        missing = [d for d in required_deps if not deps or d not in deps]\n        if missing:\n            raise DependencyException(missing)\n        \n        # Validate input\n        if not input.id:\n            raise ValidationException(\n                \"ID is required\",\n                field=\"id\",\n                value=input.id\n            )\n        \n        # Process\n        try:\n            return self.process(input)\n        except RecoverableError as e:\n            raise ProcessingException(str(e), recoverable=True)\n        except FatalError as e:\n            raise ProcessingException(str(e), recoverable=False)"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#error-handling-in-pipelines",
+    "href": "cookbook/error-handling.html#error-handling-in-pipelines",
+    "title": "Error Handling Patterns",
+    "section": "Error Handling in Pipelines",
+    "text": "Error Handling in Pipelines\n\nSequential Error Propagation\nDefault behavior - first error stops the pipeline:\n# Any error stops the pipeline\npipeline = Parser() | Validator() | Processor()\n\ntry:\n    result = await pipeline.invoke(data)\nexcept ValidationException as e:\n    # Handle validation errors\n    logger.error(f\"Validation failed: {e}\")\nexcept Exception as e:\n    # Handle other errors\n    logger.error(f\"Pipeline failed: {e}\")\n\n\nParallel Error Collection\nCollect errors from parallel operations:\nclass ParallelProcessor(NanobrickSimple[Data, Results]):\n    async def invoke(self, data: Data, *, deps=None) -&gt; Results:\n        # Run operations in parallel\n        tasks = [\n            self.process_a(data),\n            self.process_b(data),\n            self.process_c(data)\n        ]\n        \n        results = []\n        errors = []\n        \n        # Gather results, catching exceptions\n        outcomes = await asyncio.gather(*tasks, return_exceptions=True)\n        \n        for outcome in outcomes:\n            if isinstance(outcome, Exception):\n                errors.append(outcome)\n            else:\n                results.append(outcome)\n        \n        if errors and self.all_must_succeed:\n            raise MultipleErrors(errors)\n        \n        return Results(\n            data=results,\n            errors=errors,\n            partial_success=len(errors) &gt; 0\n        )"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#best-practices",
+    "href": "cookbook/error-handling.html#best-practices",
+    "title": "Error Handling Patterns",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Be Consistent\nChoose a primary error handling strategy and stick to it:\n# If using exceptions, use them consistently\nclass ExceptionBased(NanobrickSimple[A, B]):\n    async def invoke(self, input: A, *, deps=None) -&gt; B:\n        if not valid(input):\n            raise ValidationException(\"Invalid input\")\n        return process(input)\n\n# If using results, use them consistently  \nclass ResultBased(NanobrickSimple[A, Result[B]]):\n    async def invoke(self, input: A, *, deps=None) -&gt; Result[B]:\n        if not valid(input):\n            return Result(success=False, error=\"Invalid input\")\n        return Result(success=True, data=process(input))\n\n\n2. Document Error Behavior\nAlways document what errors your brick can raise:\nclass DocumentedBrick(NanobrickSimple[Input, Output]):\n    \"\"\"\n    Processes input data.\n    \n    Raises:\n        ValidationException: If input is invalid\n        DependencyException: If required deps missing\n        ProcessingException: If processing fails\n    \n    Returns:\n        Processed output data\n    \"\"\"\n\n\n3. Provide Context\nInclude helpful context in error messages:\n# Bad\nraise ValueError(\"Invalid data\")\n\n# Good\nraise ValueError(\n    f\"Invalid data: expected positive integer, got {value} (type: {type(value)})\"\n)\n\n# Better\nraise ValidationException(\n    message=\"Value must be a positive integer\",\n    field=\"user_id\",\n    value=value,\n    expected_type=int,\n    constraints={\"min\": 1}\n)\n\n\n4. Handle Async Errors\nRemember to handle async-specific errors:\nclass AsyncAwareBrick(NanobrickSimple[Input, Output]):\n    async def invoke(self, input: Input, *, deps=None) -&gt; Output:\n        try:\n            return await self.async_operation(input)\n        except asyncio.TimeoutError:\n            raise ProcessingException(\"Operation timed out\", recoverable=True)\n        except asyncio.CancelledError:\n            # Clean up and re-raise\n            await self.cleanup()\n            raise"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#testing-error-handling",
+    "href": "cookbook/error-handling.html#testing-error-handling",
+    "title": "Error Handling Patterns",
+    "section": "Testing Error Handling",
+    "text": "Testing Error Handling\nWrite tests for both success and failure cases:\nimport pytest\n\nclass TestErrorHandling:\n    @pytest.mark.asyncio\n    async def test_validation_error(self):\n        brick = StrictValidator()\n        \n        with pytest.raises(ValidationException) as exc_info:\n            await brick.invoke(invalid_data)\n        \n        assert \"Invalid data\" in str(exc_info.value)\n        assert exc_info.value.field == \"expected_field\"\n    \n    @pytest.mark.asyncio\n    async def test_result_based_error(self):\n        brick = SafeProcessor()\n        \n        result = await brick.invoke(invalid_data)\n        \n        assert not result.success\n        assert result.error == \"Validation failed\"\n        assert result.data is None\n    \n    @pytest.mark.asyncio  \n    async def test_error_recovery(self):\n        brick = ResilientProcessor()\n        \n        # Mock primary failure\n        brick.primary.fail = True\n        \n        # Should still succeed via fallback\n        result = await brick.invoke(query)\n        assert result is not None"
+  },
+  {
+    "objectID": "cookbook/error-handling.html#see-also",
+    "href": "cookbook/error-handling.html#see-also",
+    "title": "Error Handling Patterns",
+    "section": "See Also",
+    "text": "See Also\n\nTesting Bricks - Testing error scenarios\nDependency Injection - Handling missing dependencies\nBasic Pipeline - Error propagation in pipelines\nBranching Pipelines - Parallel error handling"
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html",
+    "href": "cookbook/testing-bricks.html",
+    "title": "Testing Patterns",
+    "section": "",
+    "text": "You need to test your nanobricks to ensure they: - Handle inputs correctly - Manage dependencies properly - Propagate errors as expected - Work correctly in pipelines - Perform well under load\nTesting async code and dependency injection adds complexity that requires specific patterns.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#problem",
+    "href": "cookbook/testing-bricks.html#problem",
+    "title": "Testing Patterns",
+    "section": "",
+    "text": "You need to test your nanobricks to ensure they: - Handle inputs correctly - Manage dependencies properly - Propagate errors as expected - Work correctly in pipelines - Perform well under load\nTesting async code and dependency injection adds complexity that requires specific patterns.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#solution",
+    "href": "cookbook/testing-bricks.html#solution",
+    "title": "Testing Patterns",
+    "section": "Solution",
+    "text": "Solution\nUse pytest with async support and strategic mocking:\nimport pytest\nfrom unittest.mock import Mock, AsyncMock\n\nclass TestMyBrick:\n    @pytest.mark.asyncio\n    async def test_basic_functionality(self):\n        brick = MyBrick()\n        result = await brick.invoke(input_data)\n        assert result == expected_output",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#basic-testing-patterns",
+    "href": "cookbook/testing-bricks.html#basic-testing-patterns",
+    "title": "Testing Patterns",
+    "section": "Basic Testing Patterns",
+    "text": "Basic Testing Patterns\n\nTesting Individual Bricks\nStart with simple unit tests for each brick:\nclass TestTextProcessor:\n    @pytest.fixture\n    def brick(self):\n        \"\"\"Create a fresh brick instance for each test.\"\"\"\n        return TextProcessor()\n    \n    @pytest.mark.asyncio\n    async def test_basic_processing(self, brick):\n        result = await brick.invoke(\"hello world\")\n        assert result == \"HELLO WORLD\"\n    \n    @pytest.mark.asyncio\n    async def test_error_handling(self, brick):\n        with pytest.raises(ValueError, match=\"Text cannot be empty\"):\n            await brick.invoke(\"\")\n\n\nTesting with Dependencies\nMock dependencies to test in isolation:\nclass TestDatabaseBrick:\n    @pytest.fixture\n    def mock_db(self):\n        \"\"\"Create a mock database.\"\"\"\n        db = AsyncMock()\n        db.execute.return_value = [{\"id\": 1, \"name\": \"Test\"}]\n        return db\n    \n    @pytest.mark.asyncio\n    async def test_with_database(self, mock_db):\n        brick = DatabaseBrick()\n        deps = {\"db\": mock_db}\n        \n        result = await brick.invoke(\"SELECT * FROM users\", deps=deps)\n        \n        assert len(result) == 1\n        mock_db.execute.assert_called_once_with(\"SELECT * FROM users\")\n\n\nTesting Pipelines\nTest composed pipelines end-to-end:\nclass TestPipeline:\n    @pytest.fixture\n    def pipeline(self):\n        return Parser() | Validator() | Transformer()\n    \n    @pytest.mark.asyncio\n    async def test_full_pipeline(self, pipeline):\n        input_data = \"raw input\"\n        result = await pipeline.invoke(input_data)\n        \n        assert result.processed == True\n        assert result.valid == True",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#advanced-testing-patterns",
+    "href": "cookbook/testing-bricks.html#advanced-testing-patterns",
+    "title": "Testing Patterns",
+    "section": "Advanced Testing Patterns",
+    "text": "Advanced Testing Patterns\n\nParametrized Tests\nTest multiple scenarios efficiently:\n@pytest.mark.parametrize(\"input,expected\", [\n    (\"hello\", \"HELLO\"),\n    (\"Hello World\", \"HELLO WORLD\"),\n    (\"  spaces  \", \"SPACES\"),\n    (\"123\", \"123\"),\n])\n@pytest.mark.asyncio\nasync def test_various_inputs(input, expected):\n    brick = TextProcessor()\n    result = await brick.invoke(input)\n    assert result == expected\n\n\nTesting Error Scenarios\nEnsure errors are handled correctly:\nclass TestErrorHandling:\n    @pytest.mark.asyncio\n    async def test_missing_dependencies(self):\n        brick = RequiresDependencies()\n        \n        # Test missing deps\n        with pytest.raises(ValueError, match=\"Database required\"):\n            await brick.invoke(\"query\")\n    \n    @pytest.mark.asyncio\n    async def test_partial_dependencies(self):\n        brick = RequiresDependencies()\n        deps = {\"logger\": Mock()}  # Missing required 'db'\n        \n        with pytest.raises(ValueError):\n            await brick.invoke(\"query\", deps=deps)\n\n\nTesting Async Behavior\nTest concurrent execution and timeouts:\nclass TestAsyncBehavior:\n    @pytest.mark.asyncio\n    async def test_concurrent_execution(self):\n        brick = ProcessorBrick()\n        \n        # Run multiple invocations concurrently\n        tasks = [\n            brick.invoke(f\"input-{i}\")\n            for i in range(10)\n        ]\n        \n        results = await asyncio.gather(*tasks)\n        assert len(results) == 10\n        assert all(r.startswith(\"PROCESSED\") for r in results)\n    \n    @pytest.mark.asyncio\n    async def test_timeout_handling(self):\n        brick = SlowBrick()\n        \n        with pytest.raises(asyncio.TimeoutError):\n            await asyncio.wait_for(\n                brick.invoke(\"input\"),\n                timeout=0.1\n            )",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#mocking-strategies",
+    "href": "cookbook/testing-bricks.html#mocking-strategies",
+    "title": "Testing Patterns",
+    "section": "Mocking Strategies",
+    "text": "Mocking Strategies\n\nComplete Mock Replacement\nReplace entire bricks for testing:\n@pytest.mark.asyncio\nasync def test_with_mock_brick():\n    # Create a mock brick\n    mock_brick = AsyncMock()\n    mock_brick.invoke.return_value = {\"mocked\": True}\n    \n    # Use in pipeline\n    pipeline = RealBrick() | mock_brick | AnotherRealBrick()\n    \n    result = await pipeline.invoke(\"input\")\n    mock_brick.invoke.assert_called_once()\n\n\nPartial Mocking\nMock specific methods while keeping others:\n@pytest.mark.asyncio\nasync def test_partial_mock():\n    brick = ComplexBrick()\n    \n    # Mock only the external call\n    with patch.object(brick, '_call_external_api') as mock_api:\n        mock_api.return_value = {\"status\": \"ok\"}\n        \n        result = await brick.invoke(\"input\")\n        assert result[\"processed\"] == True\n        mock_api.assert_called_once()\n\n\nSpy Pattern\nMonitor calls without changing behavior:\n@pytest.mark.asyncio\nasync def test_spy_on_brick():\n    brick = MyBrick()\n    original_invoke = brick.invoke\n    \n    calls = []\n    async def spy_invoke(*args, **kwargs):\n        calls.append((args, kwargs))\n        return await original_invoke(*args, **kwargs)\n    \n    brick.invoke = spy_invoke\n    \n    # Use the brick\n    await brick.invoke(\"test\", deps={\"x\": 1})\n    \n    # Verify calls\n    assert len(calls) == 1\n    assert calls[0][0][0] == \"test\"\n    assert calls[0][1][\"deps\"][\"x\"] == 1",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#test-fixtures",
+    "href": "cookbook/testing-bricks.html#test-fixtures",
+    "title": "Testing Patterns",
+    "section": "Test Fixtures",
+    "text": "Test Fixtures\n\nReusable Fixtures\nCreate fixtures for common test needs:\n@pytest.fixture\ndef mock_dependencies():\n    \"\"\"Standard mock dependencies.\"\"\"\n    return {\n        \"logger\": Mock(spec=Logger),\n        \"db\": AsyncMock(spec=Database),\n        \"cache\": AsyncMock(spec=Cache),\n        \"config\": {\"debug\": True, \"timeout\": 30}\n    }\n\n@pytest.fixture\nasync def real_dependencies():\n    \"\"\"Real dependencies for integration tests.\"\"\"\n    db = await create_test_database()\n    cache = InMemoryCache()\n    \n    yield {\n        \"db\": db,\n        \"cache\": cache,\n        \"logger\": TestLogger()\n    }\n    \n    # Cleanup\n    await db.close()\n    cache.clear()\n\n\nFixture Composition\nBuild complex fixtures from simpler ones:\n@pytest.fixture\ndef base_config():\n    return {\"environment\": \"test\"}\n\n@pytest.fixture\ndef db_config(base_config):\n    return {**base_config, \"db_url\": \"sqlite:///:memory:\"}\n\n@pytest.fixture\nasync def configured_brick(db_config, mock_dependencies):\n    brick = ConfigurableBrick(db_config)\n    await brick.initialize()\n    yield brick\n    await brick.cleanup()",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#integration-testing",
+    "href": "cookbook/testing-bricks.html#integration-testing",
+    "title": "Testing Patterns",
+    "section": "Integration Testing",
+    "text": "Integration Testing\n\nTesting Complete Workflows\nTest realistic scenarios:\nclass TestIntegration:\n    @pytest.mark.asyncio\n    async def test_complete_workflow(self, mock_dependencies):\n        # Setup\n        parser = Parser()\n        validator = Validator()\n        processor = Processor()\n        storage = Storage()\n        \n        # Execute workflow\n        raw_data = '{\"user\": \"test\", \"action\": \"create\"}'\n        \n        parsed = await parser.invoke(raw_data, deps=mock_dependencies)\n        validated = await validator.invoke(parsed, deps=mock_dependencies)\n        processed = await processor.invoke(validated, deps=mock_dependencies)\n        stored = await storage.invoke(processed, deps=mock_dependencies)\n        \n        # Verify\n        assert stored[\"success\"] == True\n        assert mock_dependencies[\"db\"].save.called\n\n\nTesting with Real Dependencies\nSometimes you need real dependencies:\n@pytest.mark.integration\nclass TestWithRealDependencies:\n    @pytest.mark.asyncio\n    async def test_real_database_operations(self, real_dependencies):\n        brick = DatabaseBrick()\n        \n        # Insert test data\n        await brick.invoke(\n            \"INSERT INTO test VALUES (1, 'test')\",\n            deps=real_dependencies\n        )\n        \n        # Query and verify\n        results = await brick.invoke(\n            \"SELECT * FROM test\",\n            deps=real_dependencies\n        )\n        \n        assert len(results) == 1\n        assert results[0][\"id\"] == 1",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#performance-testing",
+    "href": "cookbook/testing-bricks.html#performance-testing",
+    "title": "Testing Patterns",
+    "section": "Performance Testing",
+    "text": "Performance Testing\n\nBasic Performance Tests\nEnsure bricks meet performance requirements:\nimport time\n\nclass TestPerformance:\n    @pytest.mark.asyncio\n    async def test_processing_speed(self):\n        brick = FastProcessor()\n        input_data = \"x\" * 1000  # 1KB of data\n        \n        start = time.time()\n        result = await brick.invoke(input_data)\n        duration = time.time() - start\n        \n        assert duration &lt; 0.1  # Should process in under 100ms\n    \n    @pytest.mark.asyncio\n    async def test_throughput(self):\n        brick = BatchProcessor()\n        items = [f\"item-{i}\" for i in range(1000)]\n        \n        start = time.time()\n        results = await brick.invoke(items)\n        duration = time.time() - start\n        \n        throughput = len(items) / duration\n        assert throughput &gt; 100  # Should process &gt;100 items/second\n\n\nLoad Testing\nTest behavior under load:\n@pytest.mark.load\nclass TestUnderLoad:\n    @pytest.mark.asyncio\n    async def test_concurrent_load(self):\n        brick = ThreadSafeBrick()\n        \n        # Create many concurrent requests\n        async def make_request(i):\n            return await brick.invoke(f\"request-{i}\")\n        \n        tasks = [make_request(i) for i in range(100)]\n        results = await asyncio.gather(*tasks)\n        \n        # All should succeed\n        assert len(results) == 100\n        assert all(r[\"success\"] for r in results)",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#test-organization",
+    "href": "cookbook/testing-bricks.html#test-organization",
+    "title": "Testing Patterns",
+    "section": "Test Organization",
+    "text": "Test Organization\n\nDirectory Structure\nOrganize tests to mirror your source:\ntests/\n├── unit/\n│   ├── test_transformers.py\n│   ├── test_validators.py\n│   └── test_processors.py\n├── integration/\n│   ├── test_pipelines.py\n│   └── test_workflows.py\n├── fixtures/\n│   ├── __init__.py\n│   └── common.py\n└── conftest.py\n\n\nShared Test Utilities\nCreate utilities for common testing needs:\n# tests/utils.py\nasync def create_test_brick(brick_class, **config):\n    \"\"\"Factory for creating configured test bricks.\"\"\"\n    brick = brick_class(**config)\n    await brick.initialize()\n    return brick\n\ndef assert_valid_result(result):\n    \"\"\"Common assertions for results.\"\"\"\n    assert result is not None\n    assert \"error\" not in result\n    assert result.get(\"success\", False)\n\nclass BrickTestCase:\n    \"\"\"Base class for brick tests.\"\"\"\n    \n    @pytest.fixture\n    async def brick(self):\n        \"\"\"Override in subclasses.\"\"\"\n        raise NotImplementedError\n    \n    @pytest.mark.asyncio\n    async def test_has_required_attributes(self, brick):\n        assert hasattr(brick, \"name\")\n        assert hasattr(brick, \"version\")\n        assert hasattr(brick, \"invoke\")",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#best-practices",
+    "href": "cookbook/testing-bricks.html#best-practices",
+    "title": "Testing Patterns",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Test Isolation\nEach test should be independent:\n# Good - isolated test\n@pytest.mark.asyncio\nasync def test_processing():\n    brick = MyBrick()  # Fresh instance\n    result = await brick.invoke(\"test\")\n    assert result == \"expected\"\n\n# Bad - shared state\nprocessor = MyBrick()  # Shared instance\n\n@pytest.mark.asyncio\nasync def test_one():\n    await processor.invoke(\"test1\")  # Might affect test_two\n\n@pytest.mark.asyncio\nasync def test_two():\n    await processor.invoke(\"test2\")  # Depends on test_one\n\n\n2. Clear Test Names\nUse descriptive test names:\n# Good - describes what is being tested\nasync def test_empty_input_raises_validation_error()\nasync def test_concurrent_requests_are_handled_safely()\nasync def test_database_connection_timeout_is_respected()\n\n# Bad - unclear what is being tested\nasync def test_1()\nasync def test_error()\nasync def test_works()\n\n\n3. Arrange-Act-Assert\nStructure tests clearly:\n@pytest.mark.asyncio\nasync def test_user_creation():\n    # Arrange\n    brick = UserCreator()\n    user_data = {\"name\": \"Alice\", \"email\": \"alice@example.com\"}\n    mock_db = AsyncMock()\n    deps = {\"db\": mock_db}\n    \n    # Act\n    result = await brick.invoke(user_data, deps=deps)\n    \n    # Assert\n    assert result[\"created\"] == True\n    assert result[\"user_id\"] is not None\n    mock_db.insert.assert_called_once()\n\n\n4. Test Edge Cases\nDon’t just test the happy path:\n@pytest.mark.parametrize(\"input,should_fail\", [\n    (\"\", True),                    # Empty\n    (None, True),                  # None\n    (\"a\" * 1000, False),          # Very long\n    (\"unicode: 你好\", False),      # Unicode\n    (\"\\n\\t\\r\", True),             # Only whitespace\n    (\"valid input\", False),        # Normal case\n])\n@pytest.mark.asyncio\nasync def test_input_validation(input, should_fail):\n    brick = InputValidator()\n    \n    if should_fail:\n        with pytest.raises(ValueError):\n            await brick.invoke(input)\n    else:\n        result = await brick.invoke(input)\n        assert result is not None",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#common-pitfalls",
+    "href": "cookbook/testing-bricks.html#common-pitfalls",
+    "title": "Testing Patterns",
+    "section": "Common Pitfalls",
+    "text": "Common Pitfalls\n\nForgetting await\nAlways await async calls in tests:\n# Wrong - test will pass even if brick fails!\n@pytest.mark.asyncio\nasync def test_wrong():\n    brick = MyBrick()\n    result = brick.invoke(\"test\")  # Missing await!\n    assert result == \"expected\"  # This compares a coroutine object\n\n# Correct\n@pytest.mark.asyncio\nasync def test_correct():\n    brick = MyBrick()\n    result = await brick.invoke(\"test\")\n    assert result == \"expected\"\n\n\nNot Cleaning Up\nAlways clean up resources:\n@pytest.fixture\nasync def database():\n    db = await create_database()\n    yield db\n    await db.close()  # Cleanup happens automatically\n\n# Or in the test\n@pytest.mark.asyncio\nasync def test_with_cleanup():\n    db = await create_database()\n    try:\n        # Test code\n        pass\n    finally:\n        await db.close()",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/testing-bricks.html#see-also",
+    "href": "cookbook/testing-bricks.html#see-also",
+    "title": "Testing Patterns",
+    "section": "See Also",
+    "text": "See Also\n\nError Handling - Testing error scenarios\nDependency Injection - Mocking dependencies\nBasic Pipeline - Testing composed pipelines\nexamples/cookbook/05_testing_example.py - Complete test examples",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Testing Patterns"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html",
+    "href": "cookbook/composition-patterns.html",
+    "title": "Composition vs Inheritance",
+    "section": "",
+    "text": "You need to decide how to structure your nanobricks: - When should you compose existing bricks? - When should you inherit from a base brick? - When should you create a new brick from scratch? - How do you balance reusability with clarity?\nThese decisions significantly impact maintainability, testability, and flexibility.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#problem",
+    "href": "cookbook/composition-patterns.html#problem",
+    "title": "Composition vs Inheritance",
+    "section": "",
+    "text": "You need to decide how to structure your nanobricks: - When should you compose existing bricks? - When should you inherit from a base brick? - When should you create a new brick from scratch? - How do you balance reusability with clarity?\nThese decisions significantly impact maintainability, testability, and flexibility.",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#solution",
+    "href": "cookbook/composition-patterns.html#solution",
+    "title": "Composition vs Inheritance",
+    "section": "Solution",
+    "text": "Solution\nFollow these guidelines:\n\nPrefer composition for combining functionality\nUse inheritance for specializing behavior\nCreate new bricks for atomic, reusable units\nMix approaches when it makes sense",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#decision-framework",
+    "href": "cookbook/composition-patterns.html#decision-framework",
+    "title": "Composition vs Inheritance",
+    "section": "Decision Framework",
+    "text": "Decision Framework\n\nWhen to Use Composition\nComposition is best when you’re combining distinct functionalities:\n# Good use of composition - combining distinct steps\nclass DataPipeline(NanobrickSimple[RawData, Report]):\n    def __init__(self):\n        self.validator = DataValidator()\n        self.transformer = DataTransformer()\n        self.analyzer = DataAnalyzer()\n        self.reporter = ReportGenerator()\n    \n    async def invoke(self, data: RawData, *, deps=None) -&gt; Report:\n        validated = await self.validator.invoke(data, deps=deps)\n        transformed = await self.transformer.invoke(validated, deps=deps)\n        analysis = await self.analyzer.invoke(transformed, deps=deps)\n        return await self.reporter.invoke(analysis, deps=deps)\nUse composition when: - ✅ Combining multiple distinct operations - ✅ Steps can be reused independently - ✅ You need flexibility to swap implementations - ✅ The workflow might change\n\n\nWhen to Use Inheritance\nInheritance is best when you’re specializing existing behavior:\n# Good use of inheritance - specializing behavior\nclass StrictValidator(Validator):\n    \"\"\"A validator with stricter rules than the base.\"\"\"\n    \n    async def invoke(self, data: Data, *, deps=None) -&gt; ValidationResult:\n        # First run parent validation\n        result = await super().invoke(data, deps=deps)\n        \n        if not result.is_valid:\n            return result\n        \n        # Add additional strict checks\n        if len(data.items) &lt; 10:\n            result.errors.append(\"Strict mode requires at least 10 items\")\n            result.is_valid = False\n        \n        return result\nUse inheritance when: - ✅ Extending existing behavior - ✅ Adding specialization to a general brick - ✅ Maintaining the same interface - ✅ Following Liskov Substitution Principle\n\n\nWhen to Use the Pipe Operator\nThe pipe operator is best for linear workflows:\n# Good use of pipe operator - linear flow with matching types\npipeline = (\n    CSVParser() |        # str -&gt; DataFrame\n    DataCleaner() |      # DataFrame -&gt; DataFrame\n    FeatureExtractor() | # DataFrame -&gt; Features\n    ModelPredictor()     # Features -&gt; Predictions\n)\nUse pipe operator when: - ✅ Types naturally align - ✅ Flow is strictly linear - ✅ No branching or conditions - ✅ Each stage has single input/output",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#common-patterns",
+    "href": "cookbook/composition-patterns.html#common-patterns",
+    "title": "Composition vs Inheritance",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nPattern 1: Strategy Pattern with Composition\nUse composition to swap algorithms:\nclass DataProcessor(NanobrickSimple[Data, ProcessedData]):\n    def __init__(self, \n                 validator: Validator = None,\n                 transformer: Transformer = None):\n        self.validator = validator or DefaultValidator()\n        self.transformer = transformer or DefaultTransformer()\n    \n    async def invoke(self, data: Data, *, deps=None) -&gt; ProcessedData:\n        valid_data = await self.validator.invoke(data, deps=deps)\n        return await self.transformer.invoke(valid_data, deps=deps)\n\n# Different strategies\nproduction_processor = DataProcessor(\n    validator=StrictValidator(),\n    transformer=OptimizedTransformer()\n)\n\ndevelopment_processor = DataProcessor(\n    validator=LenientValidator(),\n    transformer=DebugTransformer()\n)\n\n\nPattern 2: Template Method with Inheritance\nUse inheritance for workflows with customization points:\nclass BaseETLPipeline(NanobrickSimple[Source, Result]):\n    \"\"\"Template for ETL pipelines.\"\"\"\n    \n    async def invoke(self, source: Source, *, deps=None) -&gt; Result:\n        # Template method defining the workflow\n        raw_data = await self.extract(source, deps)\n        transformed = await self.transform(raw_data, deps)\n        result = await self.load(transformed, deps)\n        await self.cleanup(deps)\n        return result\n    \n    async def extract(self, source: Source, deps) -&gt; RawData:\n        \"\"\"Override in subclasses.\"\"\"\n        raise NotImplementedError\n    \n    async def transform(self, data: RawData, deps) -&gt; TransformedData:\n        \"\"\"Override in subclasses.\"\"\"\n        raise NotImplementedError\n    \n    async def load(self, data: TransformedData, deps) -&gt; Result:\n        \"\"\"Override in subclasses.\"\"\"\n        raise NotImplementedError\n    \n    async def cleanup(self, deps):\n        \"\"\"Optional cleanup, override if needed.\"\"\"\n        pass\n\nclass SalesETLPipeline(BaseETLPipeline):\n    \"\"\"Specific implementation for sales data.\"\"\"\n    \n    async def extract(self, source: Source, deps) -&gt; RawData:\n        # Sales-specific extraction\n        return await fetch_sales_data(source)\n    \n    async def transform(self, data: RawData, deps) -&gt; TransformedData:\n        # Sales-specific transformations\n        return calculate_revenue_metrics(data)\n    \n    async def load(self, data: TransformedData, deps) -&gt; Result:\n        # Sales-specific loading\n        return await save_to_sales_warehouse(data)\n\n\nPattern 3: Decorator Pattern with Composition\nAdd functionality without modifying the original:\nclass LoggingBrick(NanobrickSimple[T, U]):\n    \"\"\"Adds logging to any brick.\"\"\"\n    \n    def __init__(self, brick: NanobrickSimple[T, U]):\n        self.brick = brick\n        self.name = f\"logged_{brick.name}\"\n        self.version = brick.version\n    \n    async def invoke(self, input: T, *, deps=None) -&gt; U:\n        logger = deps.get(\"logger\") if deps else print\n        \n        logger(f\"Starting {self.brick.name} with input type {type(input)}\")\n        start = time.time()\n        \n        try:\n            result = await self.brick.invoke(input, deps=deps)\n            logger(f\"Completed {self.brick.name} in {time.time()-start:.2f}s\")\n            return result\n        except Exception as e:\n            logger(f\"Error in {self.brick.name}: {e}\")\n            raise\n\n# Usage\nprocessor = DataProcessor()\nlogged_processor = LoggingBrick(processor)\n\n\nPattern 4: Mixin Pattern\nCombine inheritance with composition for shared functionality:\nclass CacheableMixin:\n    \"\"\"Mixin for adding caching capability.\"\"\"\n    \n    def __init__(self, *args, cache_ttl=300, **kwargs):\n        super().__init__(*args, **kwargs)\n        self.cache_ttl = cache_ttl\n        self._cache = {}\n    \n    async def get_from_cache(self, key: str) -&gt; Optional[Any]:\n        if key in self._cache:\n            value, timestamp = self._cache[key]\n            if time.time() - timestamp &lt; self.cache_ttl:\n                return value\n        return None\n    \n    async def set_cache(self, key: str, value: Any):\n        self._cache[key] = (value, time.time())\n\nclass CachedProcessor(CacheableMixin, DataProcessor):\n    \"\"\"Data processor with caching.\"\"\"\n    \n    async def invoke(self, data: Data, *, deps=None) -&gt; ProcessedData:\n        # Check cache first\n        cache_key = hash(str(data))\n        cached = await self.get_from_cache(cache_key)\n        if cached:\n            return cached\n        \n        # Process if not cached\n        result = await super().invoke(data, deps=deps)\n        \n        # Cache the result\n        await self.set_cache(cache_key, result)\n        return result",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#decision-examples",
+    "href": "cookbook/composition-patterns.html#decision-examples",
+    "title": "Composition vs Inheritance",
+    "section": "Decision Examples",
+    "text": "Decision Examples\n\nExample 1: Building a Text Analysis System\n# Approach 1: Composition (Recommended)\nclass TextAnalysisPipeline(NanobrickSimple[str, AnalysisResult]):\n    \"\"\"Composes specialized bricks for text analysis.\"\"\"\n    \n    def __init__(self, language=\"en\"):\n        self.tokenizer = Tokenizer(language=language)\n        self.pos_tagger = POSTagger(language=language)\n        self.sentiment = SentimentAnalyzer()\n        self.summarizer = TextSummarizer()\n    \n    async def invoke(self, text: str, *, deps=None) -&gt; AnalysisResult:\n        tokens = await self.tokenizer.invoke(text, deps=deps)\n        tagged = await self.pos_tagger.invoke(tokens, deps=deps)\n        sentiment = await self.sentiment.invoke(text, deps=deps)\n        summary = await self.summarizer.invoke(text, deps=deps)\n        \n        return AnalysisResult(\n            tokens=tokens,\n            pos_tags=tagged,\n            sentiment=sentiment,\n            summary=summary\n        )\n\n# Approach 2: Inheritance (Not recommended for this case)\nclass TextAnalyzer(Tokenizer, POSTagger, SentimentAnalyzer):\n    # Multiple inheritance creates complexity\n    # Hard to understand which method comes from where\n    pass\n\n\nExample 2: Extending Validation\n# Approach 1: Inheritance (Recommended)\nclass EmailValidator(Validator):\n    \"\"\"Specializes validation for email addresses.\"\"\"\n    \n    async def invoke(self, email: str, *, deps=None) -&gt; ValidationResult:\n        # First run general validation\n        result = await super().invoke(email, deps=deps)\n        \n        # Add email-specific validation\n        if \"@\" not in email:\n            result.errors.append(\"Invalid email format\")\n        \n        return result\n\n# Approach 2: Composition (Over-engineered for this case)\nclass EmailValidator(NanobrickSimple[str, ValidationResult]):\n    def __init__(self):\n        self.base_validator = Validator()\n        self.email_checker = EmailFormatChecker()\n        self.domain_validator = DomainValidator()\n    # Too complex for a simple extension",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#anti-patterns-to-avoid",
+    "href": "cookbook/composition-patterns.html#anti-patterns-to-avoid",
+    "title": "Composition vs Inheritance",
+    "section": "Anti-Patterns to Avoid",
+    "text": "Anti-Patterns to Avoid\n\n1. Deep Inheritance Hierarchies\n# Bad - too many levels\nclass Processor(NanobrickBase): pass\nclass DataProcessor(Processor): pass\nclass StructuredDataProcessor(DataProcessor): pass\nclass JSONProcessor(StructuredDataProcessor): pass\nclass SecureJSONProcessor(JSONProcessor): pass\n\n# Good - flat hierarchy with composition\nclass JSONProcessor(NanobrickSimple[str, dict]):\n    def __init__(self, secure=False):\n        self.parser = JSONParser()\n        self.validator = SecureValidator() if secure else Validator()\n\n\n2. God Bricks\n# Bad - doing too much\nclass DoEverythingBrick(NanobrickSimple[Any, Any]):\n    async def invoke(self, input: Any, *, deps=None) -&gt; Any:\n        # 500 lines of code doing 10 different things\n        pass\n\n# Good - single responsibility\nclass Parser(NanobrickSimple[str, Data]): pass\nclass Validator(NanobrickSimple[Data, ValidData]): pass\nclass Processor(NanobrickSimple[ValidData, Result]): pass\n\n\n3. Inheritance for Code Reuse Only\n# Bad - inheriting just to reuse code\nclass ReportGenerator(DatabaseConnection):\n    # DatabaseConnection has connection pooling we want\n    # But ReportGenerator is not a DatabaseConnection!\n\n# Good - composition for code reuse\nclass ReportGenerator(NanobrickSimple[Query, Report]):\n    def __init__(self):\n        self.db = DatabaseConnection()  # Use, don't inherit",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#guidelines-summary",
+    "href": "cookbook/composition-patterns.html#guidelines-summary",
+    "title": "Composition vs Inheritance",
+    "section": "Guidelines Summary",
+    "text": "Guidelines Summary\n\nChoose Composition When:\n\nCombining multiple operations\nBuilding flexible pipelines\nOperations are independent\nYou need runtime flexibility\nFollowing “has-a” relationships\n\n\n\nChoose Inheritance When:\n\nSpecializing existing behavior\nExtending with minimal changes\nMaintaining interface compatibility\nFollowing “is-a” relationships\nCreating framework extension points\n\n\n\nChoose Pipe Operator When:\n\nBuilding linear pipelines\nTypes align naturally\nNo branching logic needed\nCreating reusable workflows\n\n\n\nMix Approaches When:\n\nDifferent parts have different needs\nOptimizing for both flexibility and simplicity\nBuilding complex systems with clear boundaries",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#testing-considerations",
+    "href": "cookbook/composition-patterns.html#testing-considerations",
+    "title": "Composition vs Inheritance",
+    "section": "Testing Considerations",
+    "text": "Testing Considerations\n\nTesting Composed Bricks\nclass TestComposedPipeline:\n    @pytest.mark.asyncio\n    async def test_with_mocked_components(self):\n        # Mock individual components\n        mock_validator = AsyncMock()\n        mock_processor = AsyncMock()\n        \n        pipeline = DataPipeline()\n        pipeline.validator = mock_validator\n        pipeline.processor = mock_processor\n        \n        # Test the composition logic\n        await pipeline.invoke(test_data)\n        \n        mock_validator.invoke.assert_called_once()\n        mock_processor.invoke.assert_called_once()\n\n\nTesting Inherited Bricks\nclass TestInheritedBrick:\n    @pytest.mark.asyncio\n    async def test_calls_parent_method(self):\n        brick = StrictValidator()\n        \n        # Spy on parent method\n        with patch.object(Validator, 'invoke', new_callable=AsyncMock) as mock_parent:\n            mock_parent.return_value = ValidationResult(is_valid=True)\n            \n            result = await brick.invoke(test_data)\n            \n            # Verify parent was called\n            mock_parent.assert_called_once()",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
+    ]
+  },
+  {
+    "objectID": "cookbook/composition-patterns.html#see-also",
+    "href": "cookbook/composition-patterns.html#see-also",
+    "title": "Composition vs Inheritance",
+    "section": "See Also",
+    "text": "See Also\n\nBasic Pipeline - Using the pipe operator\nTesting Bricks - Testing strategies\nDependency Injection - Managing dependencies\nSDK Guide - Overall architecture patterns",
+    "crumbs": [
+      "Home",
+      "Cookbook",
+      "Composition vs Inheritance"
     ]
   }
 ]

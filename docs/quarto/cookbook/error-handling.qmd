@@ -1,0 +1,502 @@
+---
+title: "Error Handling Patterns"
+subtitle: "Best Practices for Exceptions vs Result Types"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+## Problem
+
+Your nanobricks need to handle various error scenarios:
+- Invalid input data
+- Missing dependencies
+- External service failures
+- Business rule violations
+- Partial failures in batch processing
+
+You need to decide between:
+- Raising exceptions (fail fast)
+- Returning error results (explicit handling)
+- Logging and continuing
+- Providing fallback behaviors
+
+## Solution
+
+Choose your error handling strategy based on the error type:
+
+1. **Exceptions** for unexpected/unrecoverable errors
+2. **Result types** for expected/business errors
+3. **Fallbacks** for resilient systems
+4. **Error boundaries** for pipeline isolation
+
+## Core Patterns
+
+### Pattern 1: Exception-Based (Fail Fast)
+
+Best for unexpected errors that should stop processing:
+
+```python
+class StrictValidator(NanobrickSimple[Data, ValidData]):
+    async def invoke(self, data: Data, *, deps=None) -> ValidData:
+        if not data.is_valid():
+            raise ValueError(f"Invalid data: {data.errors}")
+        
+        if data.size > self.max_size:
+            raise ValueError(f"Data too large: {data.size}")
+        
+        return ValidData(data)
+```
+
+**When to use:**
+- Data integrity violations
+- Programming errors
+- Missing required dependencies
+- Constraint violations
+
+### Pattern 2: Result-Based (Explicit Handling)
+
+Best for expected errors that callers should handle:
+
+```python
+@dataclass
+class Result:
+    success: bool
+    data: Optional[Any] = None
+    error: Optional[str] = None
+    
+class SafeProcessor(NanobrickSimple[Input, Result]):
+    async def invoke(self, input: Input, *, deps=None) -> Result:
+        if not self.validate(input):
+            return Result(
+                success=False, 
+                error="Validation failed"
+            )
+        
+        try:
+            data = self.process(input)
+            return Result(success=True, data=data)
+        except ProcessingError as e:
+            return Result(success=False, error=str(e))
+```
+
+**When to use:**
+- User input validation
+- Business rule failures
+- Partial batch processing
+- External API errors
+
+### Pattern 3: Typed Result Pattern
+
+More sophisticated result types with type safety:
+
+```python
+from typing import Generic, TypeVar, Union
+
+T = TypeVar('T')
+E = TypeVar('E')
+
+@dataclass
+class Ok(Generic[T]):
+    value: T
+
+@dataclass
+class Err(Generic[E]):
+    error: E
+
+Result = Union[Ok[T], Err[E]]
+
+class TypedProcessor(NanobrickSimple[str, Result[ProcessedData, str]]):
+    async def invoke(self, input: str, *, deps=None) -> Result[ProcessedData, str]:
+        if not input:
+            return Err("Input cannot be empty")
+        
+        try:
+            data = ProcessedData(input)
+            return Ok(data)
+        except Exception as e:
+            return Err(f"Processing failed: {e}")
+
+# Usage with pattern matching (Python 3.10+)
+result = await processor.invoke("data")
+match result:
+    case Ok(value):
+        print(f"Success: {value}")
+    case Err(error):
+        print(f"Failed: {error}")
+```
+
+## Advanced Patterns
+
+### Error Recovery with Fallbacks
+
+Build resilient systems that try multiple approaches:
+
+```python
+class ResilientFetcher(NanobrickSimple[Query, Data]):
+    def __init__(self):
+        self.primary_source = PrimaryAPI()
+        self.cache = CacheService()
+        self.fallback_source = SecondaryAPI()
+    
+    async def invoke(self, query: Query, *, deps=None) -> Data:
+        logger = deps.get("logger") if deps else None
+        
+        # Try primary source
+        try:
+            return await self.primary_source.fetch(query)
+        except Exception as e:
+            if logger:
+                logger.warning(f"Primary source failed: {e}")
+        
+        # Try cache
+        try:
+            cached = await self.cache.get(query.key)
+            if cached and not cached.is_stale():
+                return cached.data
+        except Exception as e:
+            if logger:
+                logger.warning(f"Cache failed: {e}")
+        
+        # Last resort - fallback source
+        try:
+            return await self.fallback_source.fetch(query)
+        except Exception as e:
+            # All options exhausted
+            raise ServiceUnavailable(
+                "All data sources failed",
+                attempts=[
+                    "primary_api", 
+                    "cache", 
+                    "secondary_api"
+                ]
+            )
+```
+
+### Error Boundaries in Pipelines
+
+Isolate failures to prevent cascade:
+
+```python
+class ErrorBoundary(NanobrickSimple[T, Union[T, ErrorInfo]]):
+    """Wraps a brick to catch and handle its errors."""
+    
+    def __init__(self, brick: NanobrickSimple[T, U], on_error=None):
+        self.brick = brick
+        self.on_error = on_error or self.default_error_handler
+    
+    async def invoke(self, input: T, *, deps=None) -> Union[U, ErrorInfo]:
+        try:
+            return await self.brick.invoke(input, deps=deps)
+        except Exception as e:
+            return self.on_error(e, input, deps)
+    
+    def default_error_handler(self, error, input, deps):
+        return ErrorInfo(
+            error_type=type(error).__name__,
+            message=str(error),
+            input_data=str(input)[:100]  # Truncate for safety
+        )
+
+# Usage
+pipeline = (
+    Parser() |
+    ErrorBoundary(RiskyTransformer()) |  # Isolate risky operation
+    Validator()
+)
+```
+
+### Batch Processing with Partial Failures
+
+Handle errors in batch operations:
+
+```python
+@dataclass
+class BatchResult:
+    successful: List[ProcessedItem]
+    failed: List[FailedItem]
+    stats: Dict[str, int]
+
+class BatchProcessor(NanobrickSimple[List[Item], BatchResult]):
+    async def invoke(self, items: List[Item], *, deps=None) -> BatchResult:
+        successful = []
+        failed = []
+        
+        for item in items:
+            try:
+                processed = await self.process_item(item)
+                successful.append(processed)
+            except ValidationError as e:
+                failed.append(FailedItem(
+                    item=item,
+                    error="Validation failed",
+                    details=str(e)
+                ))
+            except ProcessingError as e:
+                failed.append(FailedItem(
+                    item=item,
+                    error="Processing failed",
+                    details=str(e),
+                    recoverable=True
+                ))
+            except Exception as e:
+                # Unexpected error - might want to stop
+                if self.fail_fast:
+                    raise
+                failed.append(FailedItem(
+                    item=item,
+                    error="Unexpected error",
+                    details=str(e),
+                    recoverable=False
+                ))
+        
+        return BatchResult(
+            successful=successful,
+            failed=failed,
+            stats={
+                "total": len(items),
+                "succeeded": len(successful),
+                "failed": len(failed),
+                "success_rate": len(successful) / len(items)
+            }
+        )
+```
+
+## Custom Exception Types
+
+Define domain-specific exceptions for better error handling:
+
+```python
+class BrickException(Exception):
+    """Base exception for all brick errors."""
+    pass
+
+class ValidationException(BrickException):
+    """Input validation failed."""
+    def __init__(self, message: str, field: str = None, value: Any = None):
+        super().__init__(message)
+        self.field = field
+        self.value = value
+
+class DependencyException(BrickException):
+    """Required dependency missing."""
+    def __init__(self, missing: List[str]):
+        super().__init__(f"Missing dependencies: {', '.join(missing)}")
+        self.missing = missing
+
+class ProcessingException(BrickException):
+    """Processing logic failed."""
+    def __init__(self, message: str, recoverable: bool = False):
+        super().__init__(message)
+        self.recoverable = recoverable
+
+# Usage
+class StrictBrick(NanobrickSimple[Input, Output]):
+    async def invoke(self, input: Input, *, deps=None) -> Output:
+        # Check dependencies
+        required_deps = ["db", "cache"]
+        missing = [d for d in required_deps if not deps or d not in deps]
+        if missing:
+            raise DependencyException(missing)
+        
+        # Validate input
+        if not input.id:
+            raise ValidationException(
+                "ID is required",
+                field="id",
+                value=input.id
+            )
+        
+        # Process
+        try:
+            return self.process(input)
+        except RecoverableError as e:
+            raise ProcessingException(str(e), recoverable=True)
+        except FatalError as e:
+            raise ProcessingException(str(e), recoverable=False)
+```
+
+## Error Handling in Pipelines
+
+### Sequential Error Propagation
+
+Default behavior - first error stops the pipeline:
+
+```python
+# Any error stops the pipeline
+pipeline = Parser() | Validator() | Processor()
+
+try:
+    result = await pipeline.invoke(data)
+except ValidationException as e:
+    # Handle validation errors
+    logger.error(f"Validation failed: {e}")
+except Exception as e:
+    # Handle other errors
+    logger.error(f"Pipeline failed: {e}")
+```
+
+### Parallel Error Collection
+
+Collect errors from parallel operations:
+
+```python
+class ParallelProcessor(NanobrickSimple[Data, Results]):
+    async def invoke(self, data: Data, *, deps=None) -> Results:
+        # Run operations in parallel
+        tasks = [
+            self.process_a(data),
+            self.process_b(data),
+            self.process_c(data)
+        ]
+        
+        results = []
+        errors = []
+        
+        # Gather results, catching exceptions
+        outcomes = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        for outcome in outcomes:
+            if isinstance(outcome, Exception):
+                errors.append(outcome)
+            else:
+                results.append(outcome)
+        
+        if errors and self.all_must_succeed:
+            raise MultipleErrors(errors)
+        
+        return Results(
+            data=results,
+            errors=errors,
+            partial_success=len(errors) > 0
+        )
+```
+
+## Best Practices
+
+### 1. Be Consistent
+
+Choose a primary error handling strategy and stick to it:
+
+```python
+# If using exceptions, use them consistently
+class ExceptionBased(NanobrickSimple[A, B]):
+    async def invoke(self, input: A, *, deps=None) -> B:
+        if not valid(input):
+            raise ValidationException("Invalid input")
+        return process(input)
+
+# If using results, use them consistently  
+class ResultBased(NanobrickSimple[A, Result[B]]):
+    async def invoke(self, input: A, *, deps=None) -> Result[B]:
+        if not valid(input):
+            return Result(success=False, error="Invalid input")
+        return Result(success=True, data=process(input))
+```
+
+### 2. Document Error Behavior
+
+Always document what errors your brick can raise:
+
+```python
+class DocumentedBrick(NanobrickSimple[Input, Output]):
+    """
+    Processes input data.
+    
+    Raises:
+        ValidationException: If input is invalid
+        DependencyException: If required deps missing
+        ProcessingException: If processing fails
+    
+    Returns:
+        Processed output data
+    """
+```
+
+### 3. Provide Context
+
+Include helpful context in error messages:
+
+```python
+# Bad
+raise ValueError("Invalid data")
+
+# Good
+raise ValueError(
+    f"Invalid data: expected positive integer, got {value} (type: {type(value)})"
+)
+
+# Better
+raise ValidationException(
+    message="Value must be a positive integer",
+    field="user_id",
+    value=value,
+    expected_type=int,
+    constraints={"min": 1}
+)
+```
+
+### 4. Handle Async Errors
+
+Remember to handle async-specific errors:
+
+```python
+class AsyncAwareBrick(NanobrickSimple[Input, Output]):
+    async def invoke(self, input: Input, *, deps=None) -> Output:
+        try:
+            return await self.async_operation(input)
+        except asyncio.TimeoutError:
+            raise ProcessingException("Operation timed out", recoverable=True)
+        except asyncio.CancelledError:
+            # Clean up and re-raise
+            await self.cleanup()
+            raise
+```
+
+## Testing Error Handling
+
+Write tests for both success and failure cases:
+
+```python
+import pytest
+
+class TestErrorHandling:
+    @pytest.mark.asyncio
+    async def test_validation_error(self):
+        brick = StrictValidator()
+        
+        with pytest.raises(ValidationException) as exc_info:
+            await brick.invoke(invalid_data)
+        
+        assert "Invalid data" in str(exc_info.value)
+        assert exc_info.value.field == "expected_field"
+    
+    @pytest.mark.asyncio
+    async def test_result_based_error(self):
+        brick = SafeProcessor()
+        
+        result = await brick.invoke(invalid_data)
+        
+        assert not result.success
+        assert result.error == "Validation failed"
+        assert result.data is None
+    
+    @pytest.mark.asyncio  
+    async def test_error_recovery(self):
+        brick = ResilientProcessor()
+        
+        # Mock primary failure
+        brick.primary.fail = True
+        
+        # Should still succeed via fallback
+        result = await brick.invoke(query)
+        assert result is not None
+```
+
+## See Also
+
+- [Testing Bricks](testing-bricks.qmd) - Testing error scenarios
+- [Dependency Injection](dependency-injection.qmd) - Handling missing dependencies
+- [Basic Pipeline](basic-pipeline.qmd) - Error propagation in pipelines
+- [Branching Pipelines](branching-pipelines.qmd) - Parallel error handling

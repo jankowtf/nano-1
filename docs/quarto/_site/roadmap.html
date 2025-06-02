@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-01-06">
 
-<title>Implementation Roadmap – Nanobricks Wiki</title>
+<title>Nanobricks Roadmap – Nanobricks Wiki</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,6 +141,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./sdk-guide.html"> 
 <span class="menu-text">SDK Guide</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./cookbook/index.html"> 
+<span class="menu-text">Cookbook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./roadmap.html"> 
+<span class="menu-text">Roadmap</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-more" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">More</span>
@@ -157,10 +166,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./architecture-diagrams.html">
  <span class="dropdown-text">Architecture Diagrams</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./roadmap.html">
- <span class="dropdown-text">Roadmap</span></a>
-  </li>  
     </ul>
   </li>
 </ul>
@@ -174,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project-history.html">Evolution</a></li><li class="breadcrumb-item"><a href="./roadmap.html">Implementation Roadmap</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project-history.html">Evolution</a></li><li class="breadcrumb-item"><a href="./roadmap.html">Nanobricks Roadmap</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -223,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-system.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System &amp; Commands</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distribution &amp; Deployment</span></a>
   </div>
@@ -242,6 +253,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./sdk-guide.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nanobricks SDK Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./multi-project-development.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multi-Project Development</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -388,7 +405,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./roadmap.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Implementation Roadmap</span></a>
+ <span class="menu-text">Nanobricks Roadmap</span></a>
   </div>
 </li>
       </ul>
@@ -403,62 +420,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#phase-1-core-framework-week-1-2" id="toc-phase-1-core-framework-week-1-2" class="nav-link" data-scroll-target="#phase-1-core-framework-week-1-2">Phase 1: Core Framework (Week 1-2)</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#current-state-v0.1.0" id="toc-current-state-v0.1.0" class="nav-link" data-scroll-target="#current-state-v0.1.0">Current State: v0.1.0</a>
   <ul class="collapse">
-  <li><a href="#milestone-1.1-basic-protocol" id="toc-milestone-1.1-basic-protocol" class="nav-link" data-scroll-target="#milestone-1.1-basic-protocol">Milestone 1.1: Basic Protocol</a></li>
-  <li><a href="#milestone-1.2-type-safety" id="toc-milestone-1.2-type-safety" class="nav-link" data-scroll-target="#milestone-1.2-type-safety">Milestone 1.2: Type Safety</a></li>
-  <li><a href="#milestone-1.3-first-examples" id="toc-milestone-1.3-first-examples" class="nav-link" data-scroll-target="#milestone-1.3-first-examples">Milestone 1.3: First Examples</a></li>
+  <li><a href="#whats-working-well" id="toc-whats-working-well" class="nav-link" data-scroll-target="#whats-working-well">What’s Working Well</a></li>
+  <li><a href="#key-achievements" id="toc-key-achievements" class="nav-link" data-scroll-target="#key-achievements">Key Achievements</a></li>
   </ul></li>
-  <li><a href="#phase-2-skill-system-week-3-4" id="toc-phase-2-skill-system-week-3-4" class="nav-link" data-scroll-target="#phase-2-skill-system-week-3-4">Phase 2: Skill System (Week 3-4)</a>
+  <li><a href="#immediate-priorities" id="toc-immediate-priorities" class="nav-link" data-scroll-target="#immediate-priorities">Immediate Priorities</a></li>
+  <li><a href="#version-0.1.1-documentation-examples-january-2025" id="toc-version-0.1.1-documentation-examples-january-2025" class="nav-link" data-scroll-target="#version-0.1.1-documentation-examples-january-2025">Version 0.1.1: Documentation &amp; Examples (January 2025)</a>
   <ul class="collapse">
-  <li><a href="#milestone-2.1-skill-interface" id="toc-milestone-2.1-skill-interface" class="nav-link" data-scroll-target="#milestone-2.1-skill-interface">Milestone 2.1: Skill Interface</a></li>
-  <li><a href="#milestone-2.2-core-skills" id="toc-milestone-2.2-core-skills" class="nav-link" data-scroll-target="#milestone-2.2-core-skills">Milestone 2.2: Core Skills</a></li>
-  <li><a href="#milestone-2.3-integration-patterns" id="toc-milestone-2.3-integration-patterns" class="nav-link" data-scroll-target="#milestone-2.3-integration-patterns">Milestone 2.3: Integration Patterns</a></li>
+  <li><a href="#priority-documentation" id="toc-priority-documentation" class="nav-link" data-scroll-target="#priority-documentation">Priority Documentation</a></li>
   </ul></li>
-  <li><a href="#phase-3-standard-library-week-5-6" id="toc-phase-3-standard-library-week-5-6" class="nav-link" data-scroll-target="#phase-3-standard-library-week-5-6">Phase 3: Standard Library (Week 5-6)</a>
+  <li><a href="#version-0.1.2-type-improvements-january-2025" id="toc-version-0.1.2-type-improvements-january-2025" class="nav-link" data-scroll-target="#version-0.1.2-type-improvements-january-2025">Version 0.1.2: Type Improvements (January 2025)</a>
   <ul class="collapse">
-  <li><a href="#milestone-3.1-common-nanobricks" id="toc-milestone-3.1-common-nanobricks" class="nav-link" data-scroll-target="#milestone-3.1-common-nanobricks">Milestone 3.1: Common Nanobricks</a></li>
-  <li><a href="#milestone-3.2-collections" id="toc-milestone-3.2-collections" class="nav-link" data-scroll-target="#milestone-3.2-collections">Milestone 3.2: Collections</a></li>
+  <li><a href="#type-system-enhancements" id="toc-type-system-enhancements" class="nav-link" data-scroll-target="#type-system-enhancements">Type System Enhancements</a></li>
   </ul></li>
-  <li><a href="#phase-4-scaffolding-tools-week-7-8" id="toc-phase-4-scaffolding-tools-week-7-8" class="nav-link" data-scroll-target="#phase-4-scaffolding-tools-week-7-8">Phase 4: Scaffolding &amp; Tools (Week 7-8)</a>
+  <li><a href="#version-0.2.0-composition-revolution-february-2025" id="toc-version-0.2.0-composition-revolution-february-2025" class="nav-link" data-scroll-target="#version-0.2.0-composition-revolution-february-2025">Version 0.2.0: Composition Revolution (February 2025)</a>
   <ul class="collapse">
-  <li><a href="#milestone-4.1-project-generator" id="toc-milestone-4.1-project-generator" class="nav-link" data-scroll-target="#milestone-4.1-project-generator">Milestone 4.1: Project Generator</a></li>
-  <li><a href="#milestone-4.2-development-tools" id="toc-milestone-4.2-development-tools" class="nav-link" data-scroll-target="#milestone-4.2-development-tools">Milestone 4.2: Development Tools</a></li>
+  <li><a href="#core-enhancements" id="toc-core-enhancements" class="nav-link" data-scroll-target="#core-enhancements">Core Enhancements</a></li>
   </ul></li>
-  <li><a href="#phase-5-ai-integration-week-9-10" id="toc-phase-5-ai-integration-week-9-10" class="nav-link" data-scroll-target="#phase-5-ai-integration-week-9-10">Phase 5: AI Integration (Week 9-10)</a>
+  <li><a href="#version-0.2.1-standard-patterns-library-march-2025" id="toc-version-0.2.1-standard-patterns-library-march-2025" class="nav-link" data-scroll-target="#version-0.2.1-standard-patterns-library-march-2025">Version 0.2.1: Standard Patterns Library (March 2025)</a>
   <ul class="collapse">
-  <li><a href="#milestone-5.1-mcp-support" id="toc-milestone-5.1-mcp-support" class="nav-link" data-scroll-target="#milestone-5.1-mcp-support">Milestone 5.1: MCP Support</a></li>
-  <li><a href="#milestone-5.2-advanced-ai" id="toc-milestone-5.2-advanced-ai" class="nav-link" data-scroll-target="#milestone-5.2-advanced-ai">Milestone 5.2: Advanced AI</a></li>
+  <li><a href="#batteries-included" id="toc-batteries-included" class="nav-link" data-scroll-target="#batteries-included">Batteries Included</a></li>
   </ul></li>
-  <li><a href="#phase-6-ecosystem-week-11-12" id="toc-phase-6-ecosystem-week-11-12" class="nav-link" data-scroll-target="#phase-6-ecosystem-week-11-12">Phase 6: Ecosystem (Week 11-12)</a>
+  <li><a href="#version-0.3.0-developer-experience-q2-2025" id="toc-version-0.3.0-developer-experience-q2-2025" class="nav-link" data-scroll-target="#version-0.3.0-developer-experience-q2-2025">Version 0.3.0: Developer Experience (Q2 2025)</a>
   <ul class="collapse">
-  <li><a href="#milestone-6.1-registry" id="toc-milestone-6.1-registry" class="nav-link" data-scroll-target="#milestone-6.1-registry">Milestone 6.1: Registry</a></li>
-  <li><a href="#milestone-6.2-community" id="toc-milestone-6.2-community" class="nav-link" data-scroll-target="#milestone-6.2-community">Milestone 6.2: Community</a></li>
+  <li><a href="#cli-enhancements" id="toc-cli-enhancements" class="nav-link" data-scroll-target="#cli-enhancements">CLI Enhancements</a></li>
+  <li><a href="#development-tools" id="toc-development-tools" class="nav-link" data-scroll-target="#development-tools">Development Tools</a></li>
+  <li><a href="#dependency-injection" id="toc-dependency-injection" class="nav-link" data-scroll-target="#dependency-injection">Dependency Injection</a></li>
   </ul></li>
-  <li><a href="#success-metrics" id="toc-success-metrics" class="nav-link" data-scroll-target="#success-metrics">Success Metrics</a>
+  <li><a href="#version-0.4.0-standard-library-q3-2025" id="toc-version-0.4.0-standard-library-q3-2025" class="nav-link" data-scroll-target="#version-0.4.0-standard-library-q3-2025">Version 0.4.0: Standard Library (Q3 2025)</a>
   <ul class="collapse">
-  <li><a href="#technical" id="toc-technical" class="nav-link" data-scroll-target="#technical">Technical</a></li>
-  <li><a href="#adoption" id="toc-adoption" class="nav-link" data-scroll-target="#adoption">Adoption</a></li>
+  <li><a href="#common-bricks-library" id="toc-common-bricks-library" class="nav-link" data-scroll-target="#common-bricks-library">Common Bricks Library</a></li>
+  <li><a href="#integration-patterns" id="toc-integration-patterns" class="nav-link" data-scroll-target="#integration-patterns">Integration Patterns</a></li>
   </ul></li>
-  <li><a href="#risk-mitigation" id="toc-risk-mitigation" class="nav-link" data-scroll-target="#risk-mitigation">Risk Mitigation</a>
+  <li><a href="#version-0.5.0-advanced-features-q4-2025" id="toc-version-0.5.0-advanced-features-q4-2025" class="nav-link" data-scroll-target="#version-0.5.0-advanced-features-q4-2025">Version 0.5.0: Advanced Features (Q4 2025)</a>
   <ul class="collapse">
-  <li><a href="#technical-risks" id="toc-technical-risks" class="nav-link" data-scroll-target="#technical-risks">Technical Risks</a></li>
-  <li><a href="#adoption-risks" id="toc-adoption-risks" class="nav-link" data-scroll-target="#adoption-risks">Adoption Risks</a></li>
+  <li><a href="#streaming-support" id="toc-streaming-support" class="nav-link" data-scroll-target="#streaming-support">Streaming Support</a></li>
+  <li><a href="#state-management" id="toc-state-management" class="nav-link" data-scroll-target="#state-management">State Management</a></li>
+  <li><a href="#resource-lifecycle" id="toc-resource-lifecycle" class="nav-link" data-scroll-target="#resource-lifecycle">Resource Lifecycle</a></li>
   </ul></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
-  <li><a href="#how-to-contribute" id="toc-how-to-contribute" class="nav-link" data-scroll-target="#how-to-contribute">How to Contribute</a></li>
-  <li><a href="#questions-for-discussion" id="toc-questions-for-discussion" class="nav-link" data-scroll-target="#questions-for-discussion">Questions for Discussion</a></li>
+  <li><a href="#version-1.0.0-production-ready-q1-2026" id="toc-version-1.0.0-production-ready-q1-2026" class="nav-link" data-scroll-target="#version-1.0.0-production-ready-q1-2026">Version 1.0.0: Production Ready (Q1 2026)</a>
+  <ul class="collapse">
+  <li><a href="#performance-optimizations" id="toc-performance-optimizations" class="nav-link" data-scroll-target="#performance-optimizations">Performance Optimizations</a></li>
+  <li><a href="#observability" id="toc-observability" class="nav-link" data-scroll-target="#observability">Observability</a></li>
+  <li><a href="#enterprise-features" id="toc-enterprise-features" class="nav-link" data-scroll-target="#enterprise-features">Enterprise Features</a></li>
+  </ul></li>
+  <li><a href="#future-vision-beyond-1.0" id="toc-future-vision-beyond-1.0" class="nav-link" data-scroll-target="#future-vision-beyond-1.0">Future Vision (Beyond 1.0)</a>
+  <ul class="collapse">
+  <li><a href="#ai-native-framework" id="toc-ai-native-framework" class="nav-link" data-scroll-target="#ai-native-framework">AI-Native Framework</a></li>
+  <li><a href="#distributed-computing" id="toc-distributed-computing" class="nav-link" data-scroll-target="#distributed-computing">Distributed Computing</a></li>
+  <li><a href="#language-expansion" id="toc-language-expansion" class="nav-link" data-scroll-target="#language-expansion">Language Expansion</a></li>
+  </ul></li>
+  <li><a href="#community-ecosystem" id="toc-community-ecosystem" class="nav-link" data-scroll-target="#community-ecosystem">Community &amp; Ecosystem</a>
+  <ul class="collapse">
+  <li><a href="#governance" id="toc-governance" class="nav-link" data-scroll-target="#governance">Governance</a></li>
+  <li><a href="#ecosystem-growth" id="toc-ecosystem-growth" class="nav-link" data-scroll-target="#ecosystem-growth">Ecosystem Growth</a></li>
+  </ul></li>
+  <li><a href="#migration-strategy" id="toc-migration-strategy" class="nav-link" data-scroll-target="#migration-strategy">Migration Strategy</a>
+  <ul class="collapse">
+  <li><a href="#version-compatibility" id="toc-version-compatibility" class="nav-link" data-scroll-target="#version-compatibility">Version Compatibility</a></li>
+  <li><a href="#adoption-path" id="toc-adoption-path" class="nav-link" data-scroll-target="#adoption-path">Adoption Path</a></li>
+  </ul></li>
+  <li><a href="#success-metrics" id="toc-success-metrics" class="nav-link" data-scroll-target="#success-metrics">Success Metrics</a></li>
+  <li><a href="#getting-involved" id="toc-getting-involved" class="nav-link" data-scroll-target="#getting-involved">Getting Involved</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project-history.html">Evolution</a></li><li class="breadcrumb-item"><a href="./roadmap.html">Implementation Roadmap</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./project-history.html">Evolution</a></li><li class="breadcrumb-item"><a href="./roadmap.html">Nanobricks Roadmap</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Implementation Roadmap</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">From concept to reality</p>
+<div class="quarto-title-block"><div><h1 class="title">Nanobricks Roadmap</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">From v0.1.0 to Production-Ready Framework</p>
 </div>
 
 
@@ -466,6 +501,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 6, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -475,220 +516,302 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>The Nanobricks implementation follows a phased approach, prioritizing core functionality before advanced features.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.</p>
 </section>
-<section id="phase-1-core-framework-week-1-2" class="level2">
-<h2 class="anchored" data-anchor-id="phase-1-core-framework-week-1-2">Phase 1: Core Framework (Week 1-2)</h2>
-<section id="milestone-1.1-basic-protocol" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-1.1-basic-protocol">Milestone 1.1: Basic Protocol</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Define <code>Nanobrick</code> protocol with generics</label></li>
-<li><label><input type="checkbox">Implement <code>__or__</code> operator for composition</label></li>
-<li><label><input type="checkbox">Create basic <code>invoke()</code> method</label></li>
-<li><label><input type="checkbox">Set up <code>nanobricks-core</code> package with uv</label></li>
+<section id="current-state-v0.1.0" class="level2">
+<h2 class="anchored" data-anchor-id="current-state-v0.1.0">Current State: v0.1.0</h2>
+<section id="whats-working-well" class="level3">
+<h3 class="anchored" data-anchor-id="whats-working-well">What’s Working Well</h3>
+<ul>
+<li><strong>Core Protocol</strong>: The <code>NanobrickSimple[Input, Output]</code> abstraction is intuitive and powerful</li>
+<li><strong>Skills System</strong>: The <code>@skill</code> decorator pattern for cross-cutting concerns is a major hit</li>
+<li><strong>Type Safety</strong>: Generic typing provides excellent IDE support and catch errors early</li>
+<li><strong>Async-First</strong>: Modern design that works well with contemporary Python patterns</li>
 </ul>
 </section>
-<section id="milestone-1.2-type-safety" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-1.2-type-safety">Milestone 1.2: Type Safety</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Integrate beartype for runtime checking</label></li>
-<li><label><input type="checkbox">Configure mypy for static analysis</label></li>
-<li><label><input type="checkbox">Create type-safe composition operators</label></li>
-<li><label><input type="checkbox">Document type patterns</label></li>
-</ul>
-</section>
-<section id="milestone-1.3-first-examples" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-1.3-first-examples">Milestone 1.3: First Examples</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Create <code>ValidatorData</code> nanobrick</label></li>
-<li><label><input type="checkbox">Create <code>DataTransformer</code> nanobrick</label></li>
-<li><label><input type="checkbox">Demonstrate basic pipeline</label></li>
-<li><label><input type="checkbox">Write initial tests</label></li>
+<section id="key-achievements" class="level3">
+<h3 class="anchored" data-anchor-id="key-achievements">Key Achievements</h3>
+<ul>
+<li>Successfully used to build production-grade applications (nano-scorm)</li>
+<li>~55% code reduction compared to manual implementation</li>
+<li>70% reduction in API boilerplate through skills system</li>
+<li>Proven composition patterns for complex workflows</li>
 </ul>
 </section>
 </section>
-<section id="phase-2-skill-system-week-3-4" class="level2">
-<h2 class="anchored" data-anchor-id="phase-2-skill-system-week-3-4">Phase 2: Skill System (Week 3-4)</h2>
-<section id="milestone-2.1-skill-interface" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-2.1-skill-interface">Milestone 2.1: Skill Interface</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Define <code>Skill</code> protocol</label></li>
-<li><label><input type="checkbox">Implement <code>enhance()</code> method</label></li>
-<li><label><input type="checkbox">Create skill registry</label></li>
-<li><label><input type="checkbox">Add activation logic</label></li>
-</ul>
+<section id="immediate-priorities" class="level2">
+<h2 class="anchored" data-anchor-id="immediate-priorities">Immediate Priorities</h2>
+<p>Based on real-world feedback, we’re taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.</p>
 </section>
-<section id="milestone-2.2-core-skills" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-2.2-core-skills">Milestone 2.2: Core Skills</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Implement <code>SkillAPI</code> (FastAPI)</label></li>
-<li><label><input type="checkbox">Implement <code>SkillCLI</code> (Typer)</label></li>
-<li><label><input type="checkbox">Implement <code>SkillUI</code> (Streamlit)</label></li>
-<li><label><input type="checkbox">Create examples for each</label></li>
-</ul>
-</section>
-<section id="milestone-2.3-integration-patterns" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-2.3-integration-patterns">Milestone 2.3: Integration Patterns</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Mount patterns for APIs</label></li>
-<li><label><input type="checkbox">Command patterns for CLIs</label></li>
-<li><label><input type="checkbox">Component patterns for UIs</label></li>
-<li><label><input type="checkbox">Test compositions</label></li>
+<section id="version-0.1.1-documentation-examples-january-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.1.1-documentation-examples-january-2025">Version 0.1.1: Documentation &amp; Examples (January 2025)</h2>
+<p><strong>Theme</strong>: Zero code changes, maximum clarity</p>
+<section id="priority-documentation" class="level3">
+<h3 class="anchored" data-anchor-id="priority-documentation">Priority Documentation</h3>
+<ul>
+<li><strong>Cookbook Examples</strong>: Step-by-step guides for common patterns</li>
+<li><strong>Dependency Injection Guide</strong>: Clear documentation on using the <code>deps</code> parameter</li>
+<li><strong>Error Handling Patterns</strong>: Best practices for exceptions vs Result types</li>
+<li><strong>Testing Patterns</strong>: How to test individual bricks and pipelines</li>
+<li><strong>Architecture Decision Guide</strong>: When to use composition vs inheritance</li>
 </ul>
 </section>
 </section>
-<section id="phase-3-standard-library-week-5-6" class="level2">
-<h2 class="anchored" data-anchor-id="phase-3-standard-library-week-5-6">Phase 3: Standard Library (Week 5-6)</h2>
-<section id="milestone-3.1-common-nanobricks" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-3.1-common-nanobricks">Milestone 3.1: Common Nanobricks</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Validators (email, phone, etc.)</label></li>
-<li><label><input type="checkbox">Transformers (JSON, CSV, etc.)</label></li>
-<li><label><input type="checkbox">Filters (data cleaning)</label></li>
-<li><label><input type="checkbox">Aggregators (statistics)</label></li>
-</ul>
-</section>
-<section id="milestone-3.2-collections" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-3.2-collections">Milestone 3.2: Collections</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Create <code>nanobricks-validators</code></label></li>
-<li><label><input type="checkbox">Create <code>nanobricks-transformers</code></label></li>
-<li><label><input type="checkbox">Create <code>nanobricks-connectors</code></label></li>
-<li><label><input type="checkbox">Publish to PyPI</label></li>
+<section id="version-0.1.2-type-improvements-january-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.1.2-type-improvements-january-2025">Version 0.1.2: Type Improvements (January 2025)</h2>
+<p><strong>Theme</strong>: Backwards-compatible enhancements to reduce friction</p>
+<section id="type-system-enhancements" class="level3">
+<h3 class="anchored" data-anchor-id="type-system-enhancements">Type System Enhancements</h3>
+<ul>
+<li><strong>Type Adapter Utilities</strong>: Helper functions to adapt between mismatched types for pipe operator</li>
+<li><strong>Generic Result Type</strong>: Optional <code>Result[T, E]</code> import for standardized error handling</li>
+<li><strong>Better Error Messages</strong>: Improved type mismatch errors for pipe operator</li>
+<li><strong>Type Conversion Helpers</strong>: Common adapters for string↔︎dict, list↔︎tuple, etc.</li>
 </ul>
 </section>
 </section>
-<section id="phase-4-scaffolding-tools-week-7-8" class="level2">
-<h2 class="anchored" data-anchor-id="phase-4-scaffolding-tools-week-7-8">Phase 4: Scaffolding &amp; Tools (Week 7-8)</h2>
-<section id="milestone-4.1-project-generator" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-4.1-project-generator">Milestone 4.1: Project Generator</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Create <code>nanobrick-new</code> CLI</label></li>
-<li><label><input type="checkbox">Templates for different brick types</label></li>
-<li><label><input type="checkbox">go-task automation</label></li>
-<li><label><input type="checkbox">VS Code integration</label></li>
-</ul>
-</section>
-<section id="milestone-4.2-development-tools" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-4.2-development-tools">Milestone 4.2: Development Tools</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Testing framework</label></li>
-<li><label><input type="checkbox">Documentation generator</label></li>
-<li><label><input type="checkbox">Type stub generator</label></li>
-<li><label><input type="checkbox">Performance profiler</label></li>
-</ul>
-</section>
-</section>
-<section id="phase-5-ai-integration-week-9-10" class="level2">
-<h2 class="anchored" data-anchor-id="phase-5-ai-integration-week-9-10">Phase 5: AI Integration (Week 9-10)</h2>
-<section id="milestone-5.1-mcp-support" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-5.1-mcp-support">Milestone 5.1: MCP Support</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">MCP server skill</label></li>
-<li><label><input type="checkbox">Tool/prompt exposure</label></li>
-<li><label><input type="checkbox">Example AI nanobricks</label></li>
-<li><label><input type="checkbox">Documentation</label></li>
-</ul>
-</section>
-<section id="milestone-5.2-advanced-ai" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-5.2-advanced-ai">Milestone 5.2: Advanced AI</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Memory management</label></li>
-<li><label><input type="checkbox">Reasoning traces</label></li>
-<li><label><input type="checkbox">Multi-agent support</label></li>
-<li><label><input type="checkbox">Cost optimization</label></li>
+<section id="version-0.2.0-composition-revolution-february-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.2.0-composition-revolution-february-2025">Version 0.2.0: Composition Revolution (February 2025)</h2>
+<p><strong>Theme</strong>: Address the #1 pain point - strict pipe operator type alignment</p>
+<section id="core-enhancements" class="level3">
+<h3 class="anchored" data-anchor-id="core-enhancements">Core Enhancements</h3>
+<ul>
+<li><p><strong>Pipeline Builder API</strong>: Fluent interface for complex compositions</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    Pipeline.start_with(Parser())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    .branch(Validator(), Analyzer())</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    .merge_with(CombineResults())</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    .build()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Parallel/Branch Support</strong>: Built-in support for fan-out/fan-in patterns</p></li>
+<li><p><strong>Composition Debugger</strong>: Visualize pipeline flow and type mismatches</p></li>
+<li><p><strong>Flexible Pipe Operator</strong>: More permissive type matching with runtime validation</p></li>
 </ul>
 </section>
 </section>
-<section id="phase-6-ecosystem-week-11-12" class="level2">
-<h2 class="anchored" data-anchor-id="phase-6-ecosystem-week-11-12">Phase 6: Ecosystem (Week 11-12)</h2>
-<section id="milestone-6.1-registry" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-6.1-registry">Milestone 6.1: Registry</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Package registry design</label></li>
-<li><label><input type="checkbox">Discovery mechanisms</label></li>
-<li><label><input type="checkbox">Version management</label></li>
-<li><label><input type="checkbox">Dependency resolution</label></li>
+<section id="version-0.2.1-standard-patterns-library-march-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.2.1-standard-patterns-library-march-2025">Version 0.2.1: Standard Patterns Library (March 2025)</h2>
+<p><strong>Theme</strong>: Common bricks to accelerate development</p>
+<section id="batteries-included" class="level3">
+<h3 class="anchored" data-anchor-id="batteries-included">Batteries Included</h3>
+<ul>
+<li><strong>Common Validators</strong>: Email, URL, phone, regex, range validators</li>
+<li><strong>Common Transformers</strong>: JSON adapters, type converters, normalizers</li>
+<li><strong>File Processing Bricks</strong>: CSV, JSON, XML, YAML readers/writers</li>
+<li><strong>HTTP Client Brick</strong>: Basic requests wrapper with retry logic</li>
+<li><strong>Data Manipulation</strong>: Filter, map, reduce, aggregate bricks</li>
 </ul>
 </section>
-<section id="milestone-6.2-community" class="level3">
-<h3 class="anchored" data-anchor-id="milestone-6.2-community">Milestone 6.2: Community</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">Example gallery</label></li>
-<li><label><input type="checkbox">Tutorial series</label></li>
-<li><label><input type="checkbox">Contribution guide</label></li>
-<li><label><input type="checkbox">Discord/Slack community</label></li>
+</section>
+<section id="version-0.3.0-developer-experience-q2-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.3.0-developer-experience-q2-2025">Version 0.3.0: Developer Experience (Q2 2025)</h2>
+<p><strong>Theme</strong>: Superior tooling and development workflow</p>
+<section id="cli-enhancements" class="level3">
+<h3 class="anchored" data-anchor-id="cli-enhancements">CLI Enhancements</h3>
+<ul>
+<li><strong>Interactive Scaffolding</strong>: <code>nanobrick new --interactive</code></li>
+<li><strong>Project Templates</strong>: Full application templates (API service, data processor, etc.)</li>
+<li><strong>Skill Generation</strong>: <code>nanobrick add-skill logging</code> to retrofit existing bricks</li>
 </ul>
+</section>
+<section id="development-tools" class="level3">
+<h3 class="anchored" data-anchor-id="development-tools">Development Tools</h3>
+<ul>
+<li><strong>Pipeline Visualizer</strong>: Generate diagrams from code</li>
+<li><strong>Performance Profiler</strong>: Identify bottlenecks in pipelines</li>
+<li><strong>Type Stub Generator</strong>: Better IDE support for dynamic features</li>
+<li><strong>VS Code Extension</strong>: Snippets, navigation, and debugging support</li>
+</ul>
+</section>
+<section id="dependency-injection" class="level3">
+<h3 class="anchored" data-anchor-id="dependency-injection">Dependency Injection</h3>
+<ul>
+<li><strong>Clear Patterns</strong>: Documentation and examples for the <code>deps</code> parameter</li>
+<li><strong>Service Registry</strong>: Built-in IoC container for shared resources</li>
+<li><strong>Configuration Injection</strong>: Standardized config management</li>
+<li><strong>Testing Utilities</strong>: Mock injectors for unit tests</li>
+</ul>
+</section>
+</section>
+<section id="version-0.4.0-standard-library-q3-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.4.0-standard-library-q3-2025">Version 0.4.0: Standard Library (Q3 2025)</h2>
+<p><strong>Theme</strong>: Batteries-included ecosystem</p>
+<section id="common-bricks-library" class="level3">
+<h3 class="anchored" data-anchor-id="common-bricks-library">Common Bricks Library</h3>
+<ul>
+<li><strong>Data Validation</strong>: Email, phone, URL, schema validators</li>
+<li><strong>HTTP Operations</strong>: Request/response handling, retries, rate limiting</li>
+<li><strong>Database Access</strong>: Connection pooling, query builders, ORMs</li>
+<li><strong>File Processing</strong>: CSV, JSON, XML, Excel readers/writers</li>
+<li><strong>Message Queues</strong>: Kafka, RabbitMQ, Redis pub/sub</li>
+<li><strong>Caching</strong>: In-memory, Redis, distributed caches</li>
+</ul>
+</section>
+<section id="integration-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="integration-patterns">Integration Patterns</h3>
+<ul>
+<li><strong>Third-party Libraries</strong>: Adapters for popular packages</li>
+<li><strong>Framework Bridges</strong>: Integration with FastAPI, Django, Flask</li>
+<li><strong>Cloud Services</strong>: AWS, GCP, Azure service bricks</li>
+</ul>
+</section>
+</section>
+<section id="version-0.5.0-advanced-features-q4-2025" class="level2">
+<h2 class="anchored" data-anchor-id="version-0.5.0-advanced-features-q4-2025">Version 0.5.0: Advanced Features (Q4 2025)</h2>
+<p><strong>Theme</strong>: Production-scale capabilities</p>
+<section id="streaming-support" class="level3">
+<h3 class="anchored" data-anchor-id="streaming-support">Streaming Support</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="state-management" class="level3">
+<h3 class="anchored" data-anchor-id="state-management">State Management</h3>
+<ul>
+<li><strong>Stateful Bricks</strong>: Clear patterns for maintaining state</li>
+<li><strong>State Persistence</strong>: Save/restore capabilities</li>
+<li><strong>Distributed State</strong>: Coordination across instances</li>
+</ul>
+</section>
+<section id="resource-lifecycle" class="level3">
+<h3 class="anchored" data-anchor-id="resource-lifecycle">Resource Lifecycle</h3>
+<ul>
+<li><strong>Setup/Teardown Hooks</strong>: Manage expensive resources</li>
+<li><strong>Connection Pooling</strong>: Built-in resource pools</li>
+<li><strong>Graceful Shutdown</strong>: Proper cleanup on termination</li>
+</ul>
+</section>
+</section>
+<section id="version-1.0.0-production-ready-q1-2026" class="level2">
+<h2 class="anchored" data-anchor-id="version-1.0.0-production-ready-q1-2026">Version 1.0.0: Production Ready (Q1 2026)</h2>
+<p><strong>Theme</strong>: Enterprise-grade stability</p>
+<section id="performance-optimizations" class="level3">
+<h3 class="anchored" data-anchor-id="performance-optimizations">Performance Optimizations</h3>
+<ul>
+<li><strong>Zero-Copy Operations</strong>: Efficient data passing</li>
+<li><strong>Parallel Execution</strong>: Automatic parallelization where possible</li>
+<li><strong>Memory Management</strong>: Streaming and chunking for large datasets</li>
+<li><strong>Profiling Tools</strong>: Built-in performance monitoring</li>
+</ul>
+</section>
+<section id="observability" class="level3">
+<h3 class="anchored" data-anchor-id="observability">Observability</h3>
+<ul>
+<li><strong>Distributed Tracing</strong>: Full OpenTelemetry integration</li>
+<li><strong>Metrics Collection</strong>: Prometheus-compatible metrics</li>
+<li><strong>Health Checks</strong>: Standardized health/readiness probes</li>
+<li><strong>Debugging Tools</strong>: Enhanced error messages and stack traces</li>
+</ul>
+</section>
+<section id="enterprise-features" class="level3">
+<h3 class="anchored" data-anchor-id="enterprise-features">Enterprise Features</h3>
+<ul>
+<li><strong>Security</strong>: Sandboxing, permission models, audit trails</li>
+<li><strong>Compliance</strong>: GDPR, SOC2, HIPAA helpers</li>
+<li><strong>Multi-tenancy</strong>: Isolation and resource limits</li>
+<li><strong>High Availability</strong>: Clustering and failover support</li>
+</ul>
+</section>
+</section>
+<section id="future-vision-beyond-1.0" class="level2">
+<h2 class="anchored" data-anchor-id="future-vision-beyond-1.0">Future Vision (Beyond 1.0)</h2>
+<section id="ai-native-framework" class="level3">
+<h3 class="anchored" data-anchor-id="ai-native-framework">AI-Native Framework</h3>
+<ul>
+<li><strong>LLM Integration</strong>: First-class support for AI models</li>
+<li><strong>Prompt Management</strong>: Version and test prompts</li>
+<li><strong>RAG Pipelines</strong>: Built-in retrieval-augmented generation</li>
+<li><strong>Agent Frameworks</strong>: Multi-agent orchestration</li>
+</ul>
+</section>
+<section id="distributed-computing" class="level3">
+<h3 class="anchored" data-anchor-id="distributed-computing">Distributed Computing</h3>
+<ul>
+<li><strong>Cluster Mode</strong>: Scale across multiple machines</li>
+<li><strong>Workflow Engine</strong>: Complex DAG execution</li>
+<li><strong>Event Sourcing</strong>: Built-in event store</li>
+<li><strong>CQRS Support</strong>: Command/query separation</li>
+</ul>
+</section>
+<section id="language-expansion" class="level3">
+<h3 class="anchored" data-anchor-id="language-expansion">Language Expansion</h3>
+<ul>
+<li><strong>Type Hints</strong>: Full runtime validation with beartype</li>
+<li><strong>Rust Extensions</strong>: Performance-critical components</li>
+<li><strong>WebAssembly</strong>: Run bricks in browsers</li>
+<li><strong>Cross-Language</strong>: Polyglot brick composition</li>
+</ul>
+</section>
+</section>
+<section id="community-ecosystem" class="level2">
+<h2 class="anchored" data-anchor-id="community-ecosystem">Community &amp; Ecosystem</h2>
+<section id="governance" class="level3">
+<h3 class="anchored" data-anchor-id="governance">Governance</h3>
+<ul>
+<li><strong>RFC Process</strong>: Community-driven feature development</li>
+<li><strong>Stability Guarantee</strong>: Clear deprecation policies</li>
+<li><strong>Security Process</strong>: Vulnerability disclosure and fixes</li>
+<li><strong>Release Cadence</strong>: Predictable release schedule</li>
+</ul>
+</section>
+<section id="ecosystem-growth" class="level3">
+<h3 class="anchored" data-anchor-id="ecosystem-growth">Ecosystem Growth</h3>
+<ul>
+<li><strong>Plugin Registry</strong>: Discover and share bricks</li>
+<li><strong>Certification Program</strong>: Quality standards for third-party bricks</li>
+<li><strong>Corporate Sponsors</strong>: Sustainable development funding</li>
+<li><strong>Academic Partnerships</strong>: Research and education</li>
+</ul>
+</section>
+</section>
+<section id="migration-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="migration-strategy">Migration Strategy</h2>
+<section id="version-compatibility" class="level3">
+<h3 class="anchored" data-anchor-id="version-compatibility">Version Compatibility</h3>
+<ul>
+<li><strong>Semantic Versioning</strong>: Strict adherence to SemVer</li>
+<li><strong>Deprecation Warnings</strong>: Two minor versions before removal</li>
+<li><strong>Migration Tools</strong>: Automated upgrades where possible</li>
+<li><strong>Compatibility Layer</strong>: Support for older brick versions</li>
+</ul>
+</section>
+<section id="adoption-path" class="level3">
+<h3 class="anchored" data-anchor-id="adoption-path">Adoption Path</h3>
+<ol type="1">
+<li><strong>Early Adopters</strong> (now): Feedback and iteration</li>
+<li><strong>Production Users</strong> (v0.3+): Stable core with good tooling<br>
+</li>
+<li><strong>Enterprise</strong> (v0.5+): Advanced features and support</li>
+<li><strong>Mainstream</strong> (v1.0+): Mature ecosystem</li>
+</ol>
 </section>
 </section>
 <section id="success-metrics" class="level2">
 <h2 class="anchored" data-anchor-id="success-metrics">Success Metrics</h2>
-<section id="technical" class="level3">
-<h3 class="anchored" data-anchor-id="technical">Technical</h3>
 <ul>
-<li>Type safety: 100% of compositions type-check</li>
-<li>Performance: &lt;1ms overhead per composition</li>
-<li>Test coverage: &gt;90% for core components</li>
-<li>Documentation: All public APIs documented</li>
+<li><strong>Developer Satisfaction</strong>: &gt;4.5/5 in surveys</li>
+<li><strong>Adoption</strong>: 10k+ GitHub stars, 100k+ monthly downloads</li>
+<li><strong>Performance</strong>: &lt;1% overhead vs hand-written code</li>
+<li><strong>Reliability</strong>: 99.99% uptime in production deployments</li>
+<li><strong>Community</strong>: 100+ contributors, 1000+ third-party bricks</li>
 </ul>
 </section>
-<section id="adoption" class="level3">
-<h3 class="anchored" data-anchor-id="adoption">Adoption</h3>
+<section id="getting-involved" class="level2">
+<h2 class="anchored" data-anchor-id="getting-involved">Getting Involved</h2>
 <ul>
-<li>10+ example nanobricks</li>
-<li>3+ real-world integrations</li>
-<li>Active community contributions</li>
-<li>Positive developer feedback</li>
+<li><strong>GitHub Discussions</strong>: Share ideas and feedback</li>
+<li><strong>RFC Process</strong>: Propose new features</li>
+<li><strong>Contributing</strong>: Code, documentation, examples</li>
+<li><strong>Sponsorship</strong>: Support sustainable development</li>
 </ul>
-</section>
-</section>
-<section id="risk-mitigation" class="level2">
-<h2 class="anchored" data-anchor-id="risk-mitigation">Risk Mitigation</h2>
-<section id="technical-risks" class="level3">
-<h3 class="anchored" data-anchor-id="technical-risks">Technical Risks</h3>
-<ol type="1">
-<li><strong>Type complexity</strong>: Start simple, add gradually</li>
-<li><strong>Performance overhead</strong>: Profile early, optimize later</li>
-<li><strong>API stability</strong>: Mark experimental features clearly</li>
-</ol>
-</section>
-<section id="adoption-risks" class="level3">
-<h3 class="anchored" data-anchor-id="adoption-risks">Adoption Risks</h3>
-<ol type="1">
-<li><strong>Learning curve</strong>: Comprehensive tutorials</li>
-<li><strong>Migration path</strong>: From existing code</li>
-<li><strong>Ecosystem</strong>: Seed with quality examples</li>
-</ol>
-</section>
-</section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<ol type="1">
-<li>Set up development environment</li>
-<li>Create <code>nanobricks-core</code> package</li>
-<li>Implement basic protocol</li>
-<li>Build first working example</li>
-</ol>
-</section>
-<section id="how-to-contribute" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-contribute">How to Contribute</h2>
-<ul>
-<li>Review and comment on design</li>
-<li>Implement example nanobricks</li>
-<li>Test early versions</li>
-<li>Provide feedback</li>
-</ul>
-</section>
-<section id="questions-for-discussion" class="level2">
-<h2 class="anchored" data-anchor-id="questions-for-discussion">Questions for Discussion</h2>
-<ol type="1">
-<li>Should we prioritize breadth or depth?</li>
-<li>Which skills are most critical?</li>
-<li>How do we ensure quality standards?</li>
-<li>What’s the MVP for launch?</li>
-</ol>
+<hr>
+<p><em>This roadmap is a living document. We’ll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!</em></p>
 
 
 <!-- -->
@@ -1146,157 +1269,260 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Implementation Roadmap"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "From concept to reality"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overview</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The Nanobricks implementation follows a phased approach, prioritizing core functionality before advanced features.</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 1: Core Framework (Week 1-2)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 1.1: Basic Protocol</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Define <span class="in">`Nanobrick`</span> protocol with generics</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Implement <span class="in">`__or__`</span> operator for composition</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create basic <span class="in">`invoke()`</span> method</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Set up <span class="in">`nanobricks-core`</span> package with uv</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 1.2: Type Safety</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Integrate beartype for runtime checking</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Configure mypy for static analysis</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create type-safe composition operators</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Document type patterns</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 1.3: First Examples</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`ValidatorData`</span> nanobrick</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`DataTransformer`</span> nanobrick</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Demonstrate basic pipeline</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Write initial tests</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 2: Skill System (Week 3-4)</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 2.1: Skill Interface</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Define <span class="in">`Skill`</span> protocol</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Implement <span class="in">`enhance()`</span> method</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create skill registry</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Add activation logic</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 2.2: Core Skills</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Implement <span class="in">`SkillAPI`</span> (FastAPI)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Implement <span class="in">`SkillCLI`</span> (Typer)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Implement <span class="in">`SkillUI`</span> (Streamlit)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create examples for each</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 2.3: Integration Patterns</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Mount patterns for APIs</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Command patterns for CLIs</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Component patterns for UIs</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Test compositions</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 3: Standard Library (Week 5-6)</span></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 3.1: Common Nanobricks</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Validators (email, phone, etc.)</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Transformers (JSON, CSV, etc.)</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Filters (data cleaning)</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Aggregators (statistics)</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 3.2: Collections</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`nanobricks-validators`</span></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`nanobricks-transformers`</span></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`nanobricks-connectors`</span></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Publish to PyPI</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 4: Scaffolding &amp; Tools (Week 7-8)</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 4.1: Project Generator</span></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create <span class="in">`nanobrick-new`</span> CLI</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Templates for different brick types</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> go-task automation</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> VS Code integration</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 4.2: Development Tools</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Testing framework</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Documentation generator</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Type stub generator</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Performance profiler</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 5: AI Integration (Week 9-10)</span></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 5.1: MCP Support</span></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> MCP server skill</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Tool/prompt exposure</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Example AI nanobricks</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Documentation</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 5.2: Advanced AI</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Memory management</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Reasoning traces</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Multi-agent support</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Cost optimization</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Phase 6: Ecosystem (Week 11-12)</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 6.1: Registry</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Package registry design</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Discovery mechanisms</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Version management</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Dependency resolution</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="fu">### Milestone 6.2: Community</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Example gallery</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Tutorial series</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Contribution guide</span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Discord/Slack community</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="fu">## Success Metrics</span></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technical</span></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Type safety: 100% of compositions type-check</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Performance: &lt;1ms overhead per composition</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Test coverage: &gt;90% for core components</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Documentation: All public APIs documented</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adoption</span></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>10+ example nanobricks</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>3+ real-world integrations</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Active community contributions</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Positive developer feedback</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Risk Mitigation</span></span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### Technical Risks</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Type complexity**: Start simple, add gradually</span>
-<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Performance overhead**: Profile early, optimize later</span>
-<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**API stability**: Mark experimental features clearly</span>
-<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adoption Risks</span></span>
-<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Learning curve**: Comprehensive tutorials</span>
-<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Migration path**: From existing code</span>
-<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Ecosystem**: Seed with quality examples</span>
-<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a><span class="fu">## Next Steps</span></span>
-<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Set up development environment</span>
-<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Create <span class="in">`nanobricks-core`</span> package</span>
-<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Implement basic protocol</span>
-<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Build first working example</span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Contribute</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Review and comment on design</span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Implement example nanobricks</span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Test early versions</span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Provide feedback</span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="fu">## Questions for Discussion</span></span>
-<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Should we prioritize breadth or depth?</span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Which skills are most critical?</span>
-<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>How do we ensure quality standards?</span>
-<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>What's the MVP for launch?</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Nanobricks Roadmap"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "From v0.1.0 to Production-Ready Framework"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2025-01-06"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework's core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Current State: v0.1.0</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### What's Working Well</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Core Protocol**: The <span class="in">`NanobrickSimple[Input, Output]`</span> abstraction is intuitive and powerful</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skills System**: The <span class="in">`@skill`</span> decorator pattern for cross-cutting concerns is a major hit</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Safety**: Generic typing provides excellent IDE support and catch errors early</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Async-First**: Modern design that works well with contemporary Python patterns</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Achievements</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Successfully used to build production-grade applications (nano-scorm)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>~55% code reduction compared to manual implementation</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>70% reduction in API boilerplate through skills system</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Proven composition patterns for complex workflows</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Immediate Priorities</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.1.1: Documentation &amp; Examples (January 2025)</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>**Theme**: Zero code changes, maximum clarity</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">### Priority Documentation</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cookbook Examples**: Step-by-step guides for common patterns</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Dependency Injection Guide**: Clear documentation on using the <span class="in">`deps`</span> parameter</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error Handling Patterns**: Best practices for exceptions vs Result types</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Testing Patterns**: How to test individual bricks and pipelines</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Architecture Decision Guide**: When to use composition vs inheritance</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.1.2: Type Improvements (January 2025)</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>**Theme**: Backwards-compatible enhancements to reduce friction</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Type System Enhancements</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Adapter Utilities**: Helper functions to adapt between mismatched types for pipe operator</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Generic Result Type**: Optional <span class="in">`Result[T, E]`</span> import for standardized error handling</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Better Error Messages**: Improved type mismatch errors for pipe operator</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.0: Composition Revolution (February 2025)</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>**Theme**: Address the #1 pain point - strict pipe operator type alignment</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Core Enhancements</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pipeline Builder API**: Fluent interface for complex compositions</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  <span class="in">```python</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  pipeline <span class="op">=</span> (</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>      Pipeline.start_with(Parser())</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>      .branch(Validator(), Analyzer())</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>      .merge_with(CombineResults())</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>      .build()</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="in">```</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel/Branch Support**: Built-in support for fan-out/fan-in patterns</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Composition Debugger**: Visualize pipeline flow and type mismatches</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Flexible Pipe Operator**: More permissive type matching with runtime validation</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.1: Standard Patterns Library (March 2025)</span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>**Theme**: Common bricks to accelerate development</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### Batteries Included</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Validators**: Email, URL, phone, regex, range validators</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Transformers**: JSON adapters, type converters, normalizers</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing Bricks**: CSV, JSON, XML, YAML readers/writers</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Client Brick**: Basic requests wrapper with retry logic</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Manipulation**: Filter, map, reduce, aggregate bricks</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.3.0: Developer Experience (Q2 2025)</span></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>**Theme**: Superior tooling and development workflow</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="fu">### CLI Enhancements</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interactive Scaffolding**: <span class="in">`nanobrick new --interactive`</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Project Templates**: Full application templates (API service, data processor, etc.)</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skill Generation**: <span class="in">`nanobrick add-skill logging`</span> to retrofit existing bricks</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### Development Tools</span></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pipeline Visualizer**: Generate diagrams from code</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Performance Profiler**: Identify bottlenecks in pipelines</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Stub Generator**: Better IDE support for dynamic features</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**VS Code Extension**: Snippets, navigation, and debugging support</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dependency Injection</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clear Patterns**: Documentation and examples for the <span class="in">`deps`</span> parameter</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Service Registry**: Built-in IoC container for shared resources</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Configuration Injection**: Standardized config management</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Testing Utilities**: Mock injectors for unit tests</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.4.0: Standard Library (Q3 2025)</span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>**Theme**: Batteries-included ecosystem</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Bricks Library</span></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Validation**: Email, phone, URL, schema validators</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Operations**: Request/response handling, retries, rate limiting</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Database Access**: Connection pooling, query builders, ORMs</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing**: CSV, JSON, XML, Excel readers/writers</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Message Queues**: Kafka, RabbitMQ, Redis pub/sub</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Caching**: In-memory, Redis, distributed caches</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### Integration Patterns</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Third-party Libraries**: Adapters for popular packages</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Framework Bridges**: Integration with FastAPI, Django, Flask</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cloud Services**: AWS, GCP, Azure service bricks</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.5.0: Advanced Features (Q4 2025)</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>**Theme**: Production-scale capabilities</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Streaming Support</span></span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### State Management</span></span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stateful Bricks**: Clear patterns for maintaining state</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**State Persistence**: Save/restore capabilities</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed State**: Coordination across instances</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="fu">### Resource Lifecycle</span></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Setup/Teardown Hooks**: Manage expensive resources</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Connection Pooling**: Built-in resource pools</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Graceful Shutdown**: Proper cleanup on termination</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 1.0.0: Production Ready (Q1 2026)</span></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>**Theme**: Enterprise-grade stability</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a><span class="fu">### Performance Optimizations</span></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Zero-Copy Operations**: Efficient data passing</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel Execution**: Automatic parallelization where possible</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Memory Management**: Streaming and chunking for large datasets</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Profiling Tools**: Built-in performance monitoring</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Observability</span></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed Tracing**: Full OpenTelemetry integration</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Metrics Collection**: Prometheus-compatible metrics</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Health Checks**: Standardized health/readiness probes</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Debugging Tools**: Enhanced error messages and stack traces</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="fu">### Enterprise Features</span></span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security**: Sandboxing, permission models, audit trails</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Compliance**: GDPR, SOC2, HIPAA helpers</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multi-tenancy**: Isolation and resource limits</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**High Availability**: Clustering and failover support</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="fu">## Future Vision (Beyond 1.0)</span></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Native Framework</span></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LLM Integration**: First-class support for AI models</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prompt Management**: Version and test prompts</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG Pipelines**: Built-in retrieval-augmented generation</span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Frameworks**: Multi-agent orchestration</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distributed Computing</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cluster Mode**: Scale across multiple machines</span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Workflow Engine**: Complex DAG execution</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Event Sourcing**: Built-in event store</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CQRS Support**: Command/query separation</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Language Expansion</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Hints**: Full runtime validation with beartype</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rust Extensions**: Performance-critical components</span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**WebAssembly**: Run bricks in browsers</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cross-Language**: Polyglot brick composition</span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## Community &amp; Ecosystem</span></span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Governance</span></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RFC Process**: Community-driven feature development</span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stability Guarantee**: Clear deprecation policies</span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security Process**: Vulnerability disclosure and fixes</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Release Cadence**: Predictable release schedule</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ecosystem Growth</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Plugin Registry**: Discover and share bricks</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Certification Program**: Quality standards for third-party bricks</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Corporate Sponsors**: Sustainable development funding</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Academic Partnerships**: Research and education</span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="fu">## Migration Strategy</span></span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version Compatibility</span></span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Semantic Versioning**: Strict adherence to SemVer</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deprecation Warnings**: Two minor versions before removal</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Migration Tools**: Automated upgrades where possible</span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Compatibility Layer**: Support for older brick versions</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adoption Path</span></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Early Adopters** (now): Feedback and iteration</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Production Users** (v0.3+): Stable core with good tooling  </span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Enterprise** (v0.5+): Advanced features and support</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Mainstream** (v1.0+): Mature ecosystem</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="fu">## Success Metrics</span></span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Developer Satisfaction**: &gt;4.5/5 in surveys</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Adoption**: 10k+ GitHub stars, 100k+ monthly downloads</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Performance**: &lt;1% overhead vs hand-written code</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reliability**: 99.99% uptime in production deployments</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Community**: 100+ contributors, 1000+ third-party bricks</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Involved</span></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**GitHub Discussions**: Share ideas and feedback</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RFC Process**: Propose new features</span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Contributing**: Code, documentation, examples</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sponsorship**: Support sustainable development</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>*This roadmap is a living document. We'll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!*</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

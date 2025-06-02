@@ -1,0 +1,440 @@
+---
+title: "Composition vs Inheritance"
+subtitle: "Architecture Decision Guide for Nanobricks"
+format:
+  html:
+    toc: true
+    code-fold: false
+---
+
+## Problem
+
+You need to decide how to structure your nanobricks:
+- When should you compose existing bricks?
+- When should you inherit from a base brick?
+- When should you create a new brick from scratch?
+- How do you balance reusability with clarity?
+
+These decisions significantly impact maintainability, testability, and flexibility.
+
+## Solution
+
+Follow these guidelines:
+
+1. **Prefer composition** for combining functionality
+2. **Use inheritance** for specializing behavior
+3. **Create new bricks** for atomic, reusable units
+4. **Mix approaches** when it makes sense
+
+## Decision Framework
+
+### When to Use Composition
+
+Composition is best when you're **combining** distinct functionalities:
+
+```python
+# Good use of composition - combining distinct steps
+class DataPipeline(NanobrickSimple[RawData, Report]):
+    def __init__(self):
+        self.validator = DataValidator()
+        self.transformer = DataTransformer()
+        self.analyzer = DataAnalyzer()
+        self.reporter = ReportGenerator()
+    
+    async def invoke(self, data: RawData, *, deps=None) -> Report:
+        validated = await self.validator.invoke(data, deps=deps)
+        transformed = await self.transformer.invoke(validated, deps=deps)
+        analysis = await self.analyzer.invoke(transformed, deps=deps)
+        return await self.reporter.invoke(analysis, deps=deps)
+```
+
+**Use composition when:**
+- ✅ Combining multiple distinct operations
+- ✅ Steps can be reused independently
+- ✅ You need flexibility to swap implementations
+- ✅ The workflow might change
+
+### When to Use Inheritance
+
+Inheritance is best when you're **specializing** existing behavior:
+
+```python
+# Good use of inheritance - specializing behavior
+class StrictValidator(Validator):
+    """A validator with stricter rules than the base."""
+    
+    async def invoke(self, data: Data, *, deps=None) -> ValidationResult:
+        # First run parent validation
+        result = await super().invoke(data, deps=deps)
+        
+        if not result.is_valid:
+            return result
+        
+        # Add additional strict checks
+        if len(data.items) < 10:
+            result.errors.append("Strict mode requires at least 10 items")
+            result.is_valid = False
+        
+        return result
+```
+
+**Use inheritance when:**
+- ✅ Extending existing behavior
+- ✅ Adding specialization to a general brick
+- ✅ Maintaining the same interface
+- ✅ Following Liskov Substitution Principle
+
+### When to Use the Pipe Operator
+
+The pipe operator is best for **linear workflows**:
+
+```python
+# Good use of pipe operator - linear flow with matching types
+pipeline = (
+    CSVParser() |        # str -> DataFrame
+    DataCleaner() |      # DataFrame -> DataFrame
+    FeatureExtractor() | # DataFrame -> Features
+    ModelPredictor()     # Features -> Predictions
+)
+```
+
+**Use pipe operator when:**
+- ✅ Types naturally align
+- ✅ Flow is strictly linear
+- ✅ No branching or conditions
+- ✅ Each stage has single input/output
+
+## Common Patterns
+
+### Pattern 1: Strategy Pattern with Composition
+
+Use composition to swap algorithms:
+
+```python
+class DataProcessor(NanobrickSimple[Data, ProcessedData]):
+    def __init__(self, 
+                 validator: Validator = None,
+                 transformer: Transformer = None):
+        self.validator = validator or DefaultValidator()
+        self.transformer = transformer or DefaultTransformer()
+    
+    async def invoke(self, data: Data, *, deps=None) -> ProcessedData:
+        valid_data = await self.validator.invoke(data, deps=deps)
+        return await self.transformer.invoke(valid_data, deps=deps)
+
+# Different strategies
+production_processor = DataProcessor(
+    validator=StrictValidator(),
+    transformer=OptimizedTransformer()
+)
+
+development_processor = DataProcessor(
+    validator=LenientValidator(),
+    transformer=DebugTransformer()
+)
+```
+
+### Pattern 2: Template Method with Inheritance
+
+Use inheritance for workflows with customization points:
+
+```python
+class BaseETLPipeline(NanobrickSimple[Source, Result]):
+    """Template for ETL pipelines."""
+    
+    async def invoke(self, source: Source, *, deps=None) -> Result:
+        # Template method defining the workflow
+        raw_data = await self.extract(source, deps)
+        transformed = await self.transform(raw_data, deps)
+        result = await self.load(transformed, deps)
+        await self.cleanup(deps)
+        return result
+    
+    async def extract(self, source: Source, deps) -> RawData:
+        """Override in subclasses."""
+        raise NotImplementedError
+    
+    async def transform(self, data: RawData, deps) -> TransformedData:
+        """Override in subclasses."""
+        raise NotImplementedError
+    
+    async def load(self, data: TransformedData, deps) -> Result:
+        """Override in subclasses."""
+        raise NotImplementedError
+    
+    async def cleanup(self, deps):
+        """Optional cleanup, override if needed."""
+        pass
+
+class SalesETLPipeline(BaseETLPipeline):
+    """Specific implementation for sales data."""
+    
+    async def extract(self, source: Source, deps) -> RawData:
+        # Sales-specific extraction
+        return await fetch_sales_data(source)
+    
+    async def transform(self, data: RawData, deps) -> TransformedData:
+        # Sales-specific transformations
+        return calculate_revenue_metrics(data)
+    
+    async def load(self, data: TransformedData, deps) -> Result:
+        # Sales-specific loading
+        return await save_to_sales_warehouse(data)
+```
+
+### Pattern 3: Decorator Pattern with Composition
+
+Add functionality without modifying the original:
+
+```python
+class LoggingBrick(NanobrickSimple[T, U]):
+    """Adds logging to any brick."""
+    
+    def __init__(self, brick: NanobrickSimple[T, U]):
+        self.brick = brick
+        self.name = f"logged_{brick.name}"
+        self.version = brick.version
+    
+    async def invoke(self, input: T, *, deps=None) -> U:
+        logger = deps.get("logger") if deps else print
+        
+        logger(f"Starting {self.brick.name} with input type {type(input)}")
+        start = time.time()
+        
+        try:
+            result = await self.brick.invoke(input, deps=deps)
+            logger(f"Completed {self.brick.name} in {time.time()-start:.2f}s")
+            return result
+        except Exception as e:
+            logger(f"Error in {self.brick.name}: {e}")
+            raise
+
+# Usage
+processor = DataProcessor()
+logged_processor = LoggingBrick(processor)
+```
+
+### Pattern 4: Mixin Pattern
+
+Combine inheritance with composition for shared functionality:
+
+```python
+class CacheableMixin:
+    """Mixin for adding caching capability."""
+    
+    def __init__(self, *args, cache_ttl=300, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cache_ttl = cache_ttl
+        self._cache = {}
+    
+    async def get_from_cache(self, key: str) -> Optional[Any]:
+        if key in self._cache:
+            value, timestamp = self._cache[key]
+            if time.time() - timestamp < self.cache_ttl:
+                return value
+        return None
+    
+    async def set_cache(self, key: str, value: Any):
+        self._cache[key] = (value, time.time())
+
+class CachedProcessor(CacheableMixin, DataProcessor):
+    """Data processor with caching."""
+    
+    async def invoke(self, data: Data, *, deps=None) -> ProcessedData:
+        # Check cache first
+        cache_key = hash(str(data))
+        cached = await self.get_from_cache(cache_key)
+        if cached:
+            return cached
+        
+        # Process if not cached
+        result = await super().invoke(data, deps=deps)
+        
+        # Cache the result
+        await self.set_cache(cache_key, result)
+        return result
+```
+
+## Decision Examples
+
+### Example 1: Building a Text Analysis System
+
+```python
+# Approach 1: Composition (Recommended)
+class TextAnalysisPipeline(NanobrickSimple[str, AnalysisResult]):
+    """Composes specialized bricks for text analysis."""
+    
+    def __init__(self, language="en"):
+        self.tokenizer = Tokenizer(language=language)
+        self.pos_tagger = POSTagger(language=language)
+        self.sentiment = SentimentAnalyzer()
+        self.summarizer = TextSummarizer()
+    
+    async def invoke(self, text: str, *, deps=None) -> AnalysisResult:
+        tokens = await self.tokenizer.invoke(text, deps=deps)
+        tagged = await self.pos_tagger.invoke(tokens, deps=deps)
+        sentiment = await self.sentiment.invoke(text, deps=deps)
+        summary = await self.summarizer.invoke(text, deps=deps)
+        
+        return AnalysisResult(
+            tokens=tokens,
+            pos_tags=tagged,
+            sentiment=sentiment,
+            summary=summary
+        )
+
+# Approach 2: Inheritance (Not recommended for this case)
+class TextAnalyzer(Tokenizer, POSTagger, SentimentAnalyzer):
+    # Multiple inheritance creates complexity
+    # Hard to understand which method comes from where
+    pass
+```
+
+### Example 2: Extending Validation
+
+```python
+# Approach 1: Inheritance (Recommended)
+class EmailValidator(Validator):
+    """Specializes validation for email addresses."""
+    
+    async def invoke(self, email: str, *, deps=None) -> ValidationResult:
+        # First run general validation
+        result = await super().invoke(email, deps=deps)
+        
+        # Add email-specific validation
+        if "@" not in email:
+            result.errors.append("Invalid email format")
+        
+        return result
+
+# Approach 2: Composition (Over-engineered for this case)
+class EmailValidator(NanobrickSimple[str, ValidationResult]):
+    def __init__(self):
+        self.base_validator = Validator()
+        self.email_checker = EmailFormatChecker()
+        self.domain_validator = DomainValidator()
+    # Too complex for a simple extension
+```
+
+## Anti-Patterns to Avoid
+
+### 1. Deep Inheritance Hierarchies
+
+```python
+# Bad - too many levels
+class Processor(NanobrickBase): pass
+class DataProcessor(Processor): pass
+class StructuredDataProcessor(DataProcessor): pass
+class JSONProcessor(StructuredDataProcessor): pass
+class SecureJSONProcessor(JSONProcessor): pass
+
+# Good - flat hierarchy with composition
+class JSONProcessor(NanobrickSimple[str, dict]):
+    def __init__(self, secure=False):
+        self.parser = JSONParser()
+        self.validator = SecureValidator() if secure else Validator()
+```
+
+### 2. God Bricks
+
+```python
+# Bad - doing too much
+class DoEverythingBrick(NanobrickSimple[Any, Any]):
+    async def invoke(self, input: Any, *, deps=None) -> Any:
+        # 500 lines of code doing 10 different things
+        pass
+
+# Good - single responsibility
+class Parser(NanobrickSimple[str, Data]): pass
+class Validator(NanobrickSimple[Data, ValidData]): pass
+class Processor(NanobrickSimple[ValidData, Result]): pass
+```
+
+### 3. Inheritance for Code Reuse Only
+
+```python
+# Bad - inheriting just to reuse code
+class ReportGenerator(DatabaseConnection):
+    # DatabaseConnection has connection pooling we want
+    # But ReportGenerator is not a DatabaseConnection!
+
+# Good - composition for code reuse
+class ReportGenerator(NanobrickSimple[Query, Report]):
+    def __init__(self):
+        self.db = DatabaseConnection()  # Use, don't inherit
+```
+
+## Guidelines Summary
+
+### Choose Composition When:
+- Combining multiple operations
+- Building flexible pipelines
+- Operations are independent
+- You need runtime flexibility
+- Following "has-a" relationships
+
+### Choose Inheritance When:
+- Specializing existing behavior
+- Extending with minimal changes
+- Maintaining interface compatibility
+- Following "is-a" relationships
+- Creating framework extension points
+
+### Choose Pipe Operator When:
+- Building linear pipelines
+- Types align naturally
+- No branching logic needed
+- Creating reusable workflows
+
+### Mix Approaches When:
+- Different parts have different needs
+- Optimizing for both flexibility and simplicity
+- Building complex systems with clear boundaries
+
+## Testing Considerations
+
+### Testing Composed Bricks
+
+```python
+class TestComposedPipeline:
+    @pytest.mark.asyncio
+    async def test_with_mocked_components(self):
+        # Mock individual components
+        mock_validator = AsyncMock()
+        mock_processor = AsyncMock()
+        
+        pipeline = DataPipeline()
+        pipeline.validator = mock_validator
+        pipeline.processor = mock_processor
+        
+        # Test the composition logic
+        await pipeline.invoke(test_data)
+        
+        mock_validator.invoke.assert_called_once()
+        mock_processor.invoke.assert_called_once()
+```
+
+### Testing Inherited Bricks
+
+```python
+class TestInheritedBrick:
+    @pytest.mark.asyncio
+    async def test_calls_parent_method(self):
+        brick = StrictValidator()
+        
+        # Spy on parent method
+        with patch.object(Validator, 'invoke', new_callable=AsyncMock) as mock_parent:
+            mock_parent.return_value = ValidationResult(is_valid=True)
+            
+            result = await brick.invoke(test_data)
+            
+            # Verify parent was called
+            mock_parent.assert_called_once()
+```
+
+## See Also
+
+- [Basic Pipeline](basic-pipeline.qmd) - Using the pipe operator
+- [Testing Bricks](testing-bricks.qmd) - Testing strategies
+- [Dependency Injection](dependency-injection.qmd) - Managing dependencies
+- [SDK Guide](../sdk-guide.qmd) - Overall architecture patterns
