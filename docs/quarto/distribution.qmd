@@ -1,0 +1,390 @@
+---
+title: "Distribution & Deployment"
+description: "Complete guide to using Nanobricks in your projects"
+order: 4
+---
+
+## Quick Start {#sec-quickstart}
+
+The fastest way to start using Nanobricks in your project:
+
+### Option 1: Using uv init (Recommended)
+
+```bash
+# From anywhere on your system
+task -d /path/to/nanobricks dist:new:project:uv NAME=my-awesome-app DIR=/path/to/workspace
+
+# Or if you're already in the Nanobricks directory
+task dist:new:project:uv NAME=my-awesome-app DIR=/path/to/workspace
+
+# The project will be created at: /path/to/workspace/my-awesome-app
+# The task automatically creates a Python 3.13 venv and installs dependencies
+
+cd /path/to/workspace/my-awesome-app
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Verify it works
+task dev:test
+
+# Or without activation
+uv run task dev:test
+```
+
+### Option 2: Manual project structure
+
+```bash
+# From anywhere on your system
+task -d /path/to/nanobricks dist:new:project NAME=my-awesome-app DIR=/path/to/workspace
+
+# Or if you're already in the Nanobricks directory
+task dist:new:project NAME=my-awesome-app DIR=/path/to/workspace
+
+# The project will be created at: /path/to/workspace/my-awesome-app
+cd /path/to/workspace/my-awesome-app
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install -e .
+
+# Verify it works
+task dev:test
+```
+
+**Important**: The `DIR` parameter is required to specify where to create your project. Without it, the task will fail to prevent accidentally creating projects inside the Nanobricks directory.
+
+## Task-Based Distribution System
+
+Nanobricks uses [Task](https://taskfile.dev) for all distribution operations. All distribution tasks are namespaced under `dist:`.
+
+### Available Tasks
+
+```bash
+# Core distribution tasks
+task dist:build              # Build wheel and source distributions
+task dist:new:project        # Create a new project with Nanobricks
+task dist:new:project:uv     # Create a new project using uv init
+task dist:install:local      # Install Nanobricks in editable mode
+task dist:install:wheel      # Install from built wheel
+task dist:verify            # Verify installation works
+task dist:clean             # Clean build artifacts
+
+# Additional tasks
+task dist:local:repo        # Set up local package repository
+task dist:publish:test      # Test package publishing (dry run)
+task dist:publish:pypi      # Publish to PyPI (requires credentials)
+```
+
+## Creating New Projects
+
+### Using the Project Generator
+
+#### With uv init (Recommended)
+
+Use `uv init` for full compatibility with uv's workflow:
+
+```bash
+# From the Nanobricks directory
+task dist:new:project:uv NAME=my-app DIR=/path/to/workspace
+
+# From anywhere else
+task -d /path/to/nanobricks dist:new:project:uv NAME=my-app DIR=/path/to/workspace
+```
+
+#### Manual structure
+
+Create the project structure manually:
+
+```bash
+# From the Nanobricks directory
+task dist:new:project NAME=my-app DIR=/path/to/workspace
+
+# From anywhere else
+task -d /path/to/nanobricks dist:new:project NAME=my-app DIR=/path/to/workspace
+```
+
+**Note**: The `DIR` parameter is required for both commands to specify where to create your project.
+
+This creates the project at `DIR/NAME`:
+
+```
+my-app/
+├── Taskfile.yml         # Project tasks
+├── pyproject.toml       # With Nanobricks dependency
+├── README.md           
+├── .gitignore
+├── src/
+│   └── my_app/
+│       └── __init__.py  # Example brick included
+└── tests/
+    └── test_example.py  # Example test
+```
+
+### Manual Setup
+
+If you prefer manual setup, add to your `pyproject.toml`:
+
+```toml
+[project]
+dependencies = [
+    # For development (editable install)
+    "nanobricks @ file:///path/to/nanobricks",
+    
+    # For stable install from wheel
+    # "nanobricks @ file:///path/to/nanobricks/dist/nanobricks-0.1.0-py3-none-any.whl",
+    
+    # From Git (when available)
+    # "nanobricks @ git+https://github.com/yourusername/nanobricks.git@main",
+]
+
+# For uv compatibility
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.7.0",
+    "mypy>=1.9",
+]
+```
+
+## Installation Methods
+
+### Editable Install (Development)
+
+Best for active development where you might modify Nanobricks:
+
+```bash
+task dist:install:local PROJECT_PATH=/path/to/your/project
+```
+
+Or manually with uv:
+
+```bash
+uv pip install -e /path/to/nanobricks
+```
+
+### Wheel Install (Stable)
+
+For production-like installations:
+
+```bash
+# Build and install wheel
+task dist:install:wheel PROJECT_PATH=/path/to/your/project
+```
+
+### Git-Based Install
+
+When sharing via Git:
+
+```toml
+[project]
+dependencies = [
+    # HTTPS
+    "nanobricks @ git+https://github.com/yourusername/nanobricks.git@main",
+    
+    # SSH
+    "nanobricks @ git+ssh://git@github.com/yourusername/nanobricks.git@main",
+    
+    # Specific tag/version
+    "nanobricks @ git+https://github.com/yourusername/nanobricks.git@v0.1.0",
+]
+```
+
+## Building Packages
+
+Build wheel and source distributions:
+
+```bash
+task dist:build
+
+# Output will be in:
+# - dist/nanobricks-0.1.0-py3-none-any.whl
+# - dist/nanobricks-0.1.0.tar.gz
+```
+
+## Your First Nanobrick
+
+After installation, create a simple brick:
+
+```python
+# my_bricks.py
+from nanobricks import NanobrickSimple, Pipeline
+
+class GreetingBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str) -> str:
+        return f"Hello, {input}!"
+
+class ShoutBrick(NanobrickSimple[str, str]):
+    async def invoke(self, input: str) -> str:
+        return input.upper() + "!!!"
+
+# Create pipeline
+greeting_pipeline = GreetingBrick() | ShoutBrick()
+
+# Test it
+import asyncio
+result = asyncio.run(greeting_pipeline.invoke("World"))
+print(result)  # "HELLO, WORLD!!!"
+```
+
+## Docker Integration
+
+### Dockerfile Example
+
+```dockerfile
+# Option 1: Copy wheel
+COPY ./nanobricks-0.1.0-py3-none-any.whl /tmp/
+RUN pip install /tmp/nanobricks-0.1.0-py3-none-any.whl
+
+# Option 2: Install from local path (development)
+COPY ./nanobricks /app/nanobricks
+RUN pip install -e /app/nanobricks
+
+# Option 3: Install from git
+RUN pip install git+https://github.com/user/nanobricks.git
+```
+
+### Docker Compose Development
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      # Mount Nanobricks for development
+      - /path/to/nanobricks:/app/nanobricks
+    environment:
+      - PYTHONPATH=/app/nanobricks/src:$PYTHONPATH
+```
+
+## Local Package Repository
+
+Set up a local package index:
+
+```bash
+# Create local repo
+task dist:local:repo
+
+# Install in projects with:
+pip install nanobricks --find-links file://$HOME/.nanobricks-repo
+```
+
+## Publishing
+
+### Test Publishing
+
+Validate packages before publishing:
+
+```bash
+task dist:publish:test
+```
+
+### Publish to PyPI
+
+When ready to share publicly:
+
+```bash
+# Requires PyPI credentials
+task dist:publish:pypi
+```
+
+## Verification
+
+Verify Nanobricks is properly installed:
+
+```bash
+# In your project's virtual environment
+python -c "import nanobricks; print(nanobricks.__version__)"
+
+# Or use the verification task
+cd /path/to/nanobricks
+task dist:verify
+```
+
+## SDK Use Cases
+
+Nanobricks is designed as an SDK for building composable Python systems:
+
+### Database Layer
+```python
+from nanobricks import NanobrickSimple, with_skill
+from nanobricks.skills import DatabaseSkill
+
+@with_skill(DatabaseSkill)
+class UserRepository(NanobrickSimple[dict, User]):
+    async def invoke(self, query: dict) -> User:
+        # Your DB logic here
+        pass
+```
+
+### API Gateway
+```python
+from nanobricks.skills import ApiSkill
+
+@with_skill(ApiSkill)
+class ApiGateway(NanobrickSimple[Request, Response]):
+    async def invoke(self, request: Request) -> Response:
+        # Route to appropriate service
+        pass
+```
+
+### Data Pipeline
+```python
+# Compose transformers
+pipeline = (
+    CSVReader() |
+    DataValidator() |
+    Transformer() |
+    DatabaseWriter()
+)
+```
+
+### Microservices
+```python
+from nanobricks.skills import MicroserviceSkill
+
+@with_skill(MicroserviceSkill)
+class OrderService(NanobrickSimple[Order, OrderResult]):
+    async def invoke(self, order: Order) -> OrderResult:
+        # Process order
+        pass
+```
+
+## Troubleshooting
+
+### Import Errors
+1. Ensure you're in the correct virtual environment
+2. Check the installation path in pyproject.toml
+3. Run `task dist:verify` to test the installation
+
+### Task Not Found
+Run task commands from the Nanobricks root directory:
+
+```bash
+cd /path/to/nanobricks
+task dist:new:project NAME=myapp DIR=/path/to/workspace
+```
+
+Or use the -d flag from anywhere:
+
+```bash
+task -d /path/to/nanobricks dist:new:project NAME=myapp DIR=/path/to/workspace
+```
+
+### Python Version
+Ensure you're using Python 3.13:
+
+```bash
+python --version  # Should show Python 3.13.x
+```
+
+## Next Steps
+
+1. **Explore examples**: Check the `examples/` directory for real-world patterns
+2. **Read the guides**: 
+   - [Tutorial](tutorial.qmd) for step-by-step learning
+   - [SDK Guide](sdk-guide.qmd) for building applications
+   - [Patterns](patterns.qmd) for advanced composition
+3. **Build something**: Create your own bricks and share them!
+
+Happy building with Nanobricks! 🧱

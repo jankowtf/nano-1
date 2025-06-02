@@ -133,8 +133,12 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
 
 ### Documentation
 
+- Generally put all documentation in the @docs/ cs folder and favor @quarto/ qmds over one-off the Markdown files 
 - Quarto-based documentation in `quarto/` directory
 - Design documents in `docs/` directory
 - Each nanobrick should have inline documentation explaining its purpose and usage
 - Ensure that all examples in `examples/` and `quarto/human.qmd` are always
   kept in sync with the implementation state of the codebase
+
+## Memories
+- Remember that echo statements in go-task files cannot have `:`

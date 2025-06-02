@@ -1,0 +1,176 @@
+---
+title: "Multi-Project Development"
+description: "Work on Nanobricks and dependent projects simultaneously"
+order: 15
+---
+
+## Overview
+
+When developing a project that uses Nanobricks, you often need to:
+
+1. Make changes to Nanobricks itself
+2. Test those changes in your project immediately
+3. Access both codebases for reference
+
+Our task-based linking system makes this seamless by creating symbolic links between projects.
+
+## Setting Up Links
+
+### From Nanobricks Directory
+
+Link a project that uses Nanobricks:
+
+```bash
+# Link your project
+task dev:link:project PATH=/path/to/your/project
+
+# Or with relative path
+task dev:link:project PATH=../nano-scorm
+
+# List all linked projects
+task dev:list:linked
+
+# Remove a link
+task dev:unlink:project NAME=nano-scorm
+```
+
+### From Your Project Directory
+
+Projects created with `dist:new:project:uv` already include linking tasks:
+
+```bash
+# Link back to Nanobricks (path already configured)
+task link:nanobricks
+
+# Update after Nanobricks changes
+task sync:nanobricks
+
+# Remove the link
+task unlink:nanobricks
+```
+
+## Workflow Example
+
+### 1. Create Your Project
+
+```bash
+task dist:new:project:uv NAME=my-app DIR=/path/to/workspace
+```
+
+### 2. Link the Projects
+
+From Nanobricks directory:
+```bash
+task dev:link:project PATH=/path/to/workspace/my-app
+```
+
+### 3. Work in Both Directories
+
+- **In Nanobricks**: Access your project at `linked-projects/my-app/`
+- **In your project**: Access Nanobricks at `linked-nanobricks/`
+
+### 4. Sync Changes
+
+After making Nanobricks changes, from your project directory:
+```bash
+task sync:nanobricks
+```
+
+## Benefits
+
+::: {.callout-note}
+## Key Advantages
+- **Single IDE Session**: Work on both codebases without switching directories
+- **Immediate Testing**: Changes to Nanobricks are immediately available
+- **Easy Navigation**: Browse both codebases seamlessly
+- **Clean Git**: Links are gitignored, keeping repositories clean
+:::
+
+## Directory Structure
+
+After linking, you'll see:
+
+```{.bash filename="Directory Structure"}
+nanobricks/
+├── src/nanobricks/        # Framework source
+├── linked-projects/       # Your linked projects
+│   └── my-app -> /path/to/my-app
+└── ...
+
+my-app/
+├── src/my_app/           # Your app source
+├── linked-nanobricks -> /path/to/nanobricks
+└── ...
+```
+
+## Tips and Best Practices
+
+### Use Relative Paths
+When possible, use relative paths for portability:
+```bash
+task dev:link:project PATH=../my-app
+```
+
+### Multiple Projects
+Link multiple projects to test Nanobricks changes across different use cases:
+```bash
+task dev:link:project PATH=../project-a
+task dev:link:project PATH=../project-b
+task dev:list:linked
+```
+
+### IDE Integration
+Most IDEs will follow symbolic links, giving you full code intelligence across both codebases.
+
+### Version Control
+Both `linked-projects/` and `linked-nanobricks` are automatically added to `.gitignore`.
+
+## Troubleshooting
+
+::: {.callout-warning}
+## Common Issues
+
+### "Project directory not found"
+- Use full paths or paths relative to the Nanobricks directory
+- Tilde (`~`) expansion might not work - use full paths instead
+
+### "Link already exists"
+- The task will automatically remove old links and create new ones
+- This is normal and expected behavior
+
+### Changes not reflected
+- Run `task sync:nanobricks` from your project after Nanobricks changes
+- This runs `uv sync` to update the installation
+:::
+
+## Example: Developing a Feature
+
+Here's a complete workflow for developing a new Nanobricks feature:
+
+```bash
+# 1. Create test project
+task dist:new:project:uv NAME=test-feature DIR=../
+
+# 2. Link projects (from Nanobricks)
+task dev:link:project PATH=../test-feature
+
+# 3. Develop new feature in Nanobricks
+# Edit files in src/nanobricks/...
+
+# 4. Test in your project
+cd linked-projects/test-feature
+task sync:nanobricks
+task dev:test
+
+# 5. Iterate until complete
+```
+
+## Integration with Claude Code
+
+This linking approach works particularly well with AI assistants like Claude Code that are limited to a single root directory. By using symbolic links, the AI can access and work with both codebases seamlessly.
+
+## Next Steps
+
+- Learn about [Distribution & Deployment](distribution.qmd) for packaging your projects
+- Explore [SDK Guide](sdk-guide.qmd) for building applications with Nanobricks
+- Check [Production Examples](production-examples.qmd) for real-world patterns

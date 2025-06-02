@@ -167,13 +167,27 @@ safe_processor = DataProcessor() | fallback(
 )
 ```
 
-## =� Documentation
 
-- [<� Architecture Guide](https://your-github-pages-url.github.io/nanobricks/architecture)
-- [<� Design Patterns](https://your-github-pages-url.github.io/nanobricks/patterns)
-- [� Configuration](https://your-github-pages-url.github.io/nanobricks/configuration)
-- [> AI Integration](https://your-github-pages-url.github.io/nanobricks/ai-integration)
-- [=� Full API Reference](https://your-github-pages-url.github.io/nanobricks/api)
+## 📚 Documentation
+
+Full documentation is available at [https://your-github-pages-url.github.io/nanobricks](https://your-github-pages-url.github.io/nanobricks)
+
+### Quick Links
+
+- [🚀 Quick Start Guide](https://your-github-pages-url.github.io/nanobricks/quickstart) - Get up and running fast
+- [📦 Distribution & Deployment](https://your-github-pages-url.github.io/nanobricks/distribution) - Using Nanobricks in your projects
+- [📖 Tutorial](https://your-github-pages-url.github.io/nanobricks/tutorial) - Step-by-step learning
+- [🛠️ SDK Guide](https://your-github-pages-url.github.io/nanobricks/sdk-guide) - Building applications
+- [🏛️ Architecture Overview](https://your-github-pages-url.github.io/nanobricks/architecture) - How it all works
+- [💡 Design Philosophy](https://your-github-pages-url.github.io/nanobricks/design-philosophy) - Why we built it this way
+
+### Building Documentation Locally
+
+```bash
+task docs:preview  # Live preview with hot reload
+task docs:render   # Build static site
+task docs:open     # Open built docs in browser
+```
 
 ## =� Development Setup
 

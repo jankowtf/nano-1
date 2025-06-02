@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+activate/
+
+# Linked projects for development
+linked-projects/
+linked-nanobricks

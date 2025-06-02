@@ -1,0 +1,254 @@
+---
+title: "Nanobricks Roadmap"
+subtitle: "From v0.1.0 to Production-Ready Framework"
+date: "2025-01-06"
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+## Introduction
+
+This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework's core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.
+
+## Current State: v0.1.0
+
+### What's Working Well
+
+- **Core Protocol**: The `NanobrickSimple[Input, Output]` abstraction is intuitive and powerful
+- **Skills System**: The `@skill` decorator pattern for cross-cutting concerns is a major hit
+- **Type Safety**: Generic typing provides excellent IDE support and catch errors early
+- **Async-First**: Modern design that works well with contemporary Python patterns
+
+### Key Achievements
+
+- Successfully used to build production-grade applications (nano-scorm)
+- ~55% code reduction compared to manual implementation
+- 70% reduction in API boilerplate through skills system
+- Proven composition patterns for complex workflows
+
+## Immediate Priorities
+
+Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.
+
+## Version 0.1.1: Documentation & Examples (January 2025)
+
+**Theme**: Zero code changes, maximum clarity
+
+### Priority Documentation
+- **Cookbook Examples**: Step-by-step guides for common patterns
+- **Dependency Injection Guide**: Clear documentation on using the `deps` parameter
+- **Error Handling Patterns**: Best practices for exceptions vs Result types
+- **Testing Patterns**: How to test individual bricks and pipelines
+- **Architecture Decision Guide**: When to use composition vs inheritance
+
+## Version 0.1.2: Type Improvements (January 2025)
+
+**Theme**: Backwards-compatible enhancements to reduce friction
+
+### Type System Enhancements
+- **Type Adapter Utilities**: Helper functions to adapt between mismatched types for pipe operator
+- **Generic Result Type**: Optional `Result[T, E]` import for standardized error handling
+- **Better Error Messages**: Improved type mismatch errors for pipe operator
+- **Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.
+
+## Version 0.2.0: Composition Revolution (February 2025)
+
+**Theme**: Address the #1 pain point - strict pipe operator type alignment
+
+### Core Enhancements
+
+- **Pipeline Builder API**: Fluent interface for complex compositions
+  ```python
+  pipeline = (
+      Pipeline.start_with(Parser())
+      .branch(Validator(), Analyzer())
+      .merge_with(CombineResults())
+      .build()
+  )
+  ```
+- **Parallel/Branch Support**: Built-in support for fan-out/fan-in patterns
+- **Composition Debugger**: Visualize pipeline flow and type mismatches
+- **Flexible Pipe Operator**: More permissive type matching with runtime validation
+
+## Version 0.2.1: Standard Patterns Library (March 2025)
+
+**Theme**: Common bricks to accelerate development
+
+### Batteries Included
+- **Common Validators**: Email, URL, phone, regex, range validators
+- **Common Transformers**: JSON adapters, type converters, normalizers
+- **File Processing Bricks**: CSV, JSON, XML, YAML readers/writers
+- **HTTP Client Brick**: Basic requests wrapper with retry logic
+- **Data Manipulation**: Filter, map, reduce, aggregate bricks
+
+## Version 0.3.0: Developer Experience (Q2 2025)
+
+**Theme**: Superior tooling and development workflow
+
+### CLI Enhancements
+
+- **Interactive Scaffolding**: `nanobrick new --interactive`
+- **Project Templates**: Full application templates (API service, data processor, etc.)
+- **Skill Generation**: `nanobrick add-skill logging` to retrofit existing bricks
+
+### Development Tools
+
+- **Pipeline Visualizer**: Generate diagrams from code
+- **Performance Profiler**: Identify bottlenecks in pipelines
+- **Type Stub Generator**: Better IDE support for dynamic features
+- **VS Code Extension**: Snippets, navigation, and debugging support
+
+### Dependency Injection
+
+- **Clear Patterns**: Documentation and examples for the `deps` parameter
+- **Service Registry**: Built-in IoC container for shared resources
+- **Configuration Injection**: Standardized config management
+- **Testing Utilities**: Mock injectors for unit tests
+
+## Version 0.4.0: Standard Library (Q3 2025)
+
+**Theme**: Batteries-included ecosystem
+
+### Common Bricks Library
+
+- **Data Validation**: Email, phone, URL, schema validators
+- **HTTP Operations**: Request/response handling, retries, rate limiting
+- **Database Access**: Connection pooling, query builders, ORMs
+- **File Processing**: CSV, JSON, XML, Excel readers/writers
+- **Message Queues**: Kafka, RabbitMQ, Redis pub/sub
+- **Caching**: In-memory, Redis, distributed caches
+
+### Integration Patterns
+
+- **Third-party Libraries**: Adapters for popular packages
+- **Framework Bridges**: Integration with FastAPI, Django, Flask
+- **Cloud Services**: AWS, GCP, Azure service bricks
+
+## Version 0.5.0: Advanced Features (Q4 2025)
+
+**Theme**: Production-scale capabilities
+
+### Streaming Support
+
+```python
+class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
+    async def invoke_stream(
+        self, 
+        input_stream: AsyncIterator[bytes]
+    ) -> AsyncIterator[ProcessedItem]:
+        async for chunk in input_stream:
+            yield await self.process_chunk(chunk)
+```
+
+### State Management
+
+- **Stateful Bricks**: Clear patterns for maintaining state
+- **State Persistence**: Save/restore capabilities
+- **Distributed State**: Coordination across instances
+
+### Resource Lifecycle
+
+- **Setup/Teardown Hooks**: Manage expensive resources
+- **Connection Pooling**: Built-in resource pools
+- **Graceful Shutdown**: Proper cleanup on termination
+
+## Version 1.0.0: Production Ready (Q1 2026)
+
+**Theme**: Enterprise-grade stability
+
+### Performance Optimizations
+
+- **Zero-Copy Operations**: Efficient data passing
+- **Parallel Execution**: Automatic parallelization where possible
+- **Memory Management**: Streaming and chunking for large datasets
+- **Profiling Tools**: Built-in performance monitoring
+
+### Observability
+
+- **Distributed Tracing**: Full OpenTelemetry integration
+- **Metrics Collection**: Prometheus-compatible metrics
+- **Health Checks**: Standardized health/readiness probes
+- **Debugging Tools**: Enhanced error messages and stack traces
+
+### Enterprise Features
+
+- **Security**: Sandboxing, permission models, audit trails
+- **Compliance**: GDPR, SOC2, HIPAA helpers
+- **Multi-tenancy**: Isolation and resource limits
+- **High Availability**: Clustering and failover support
+
+## Future Vision (Beyond 1.0)
+
+### AI-Native Framework
+
+- **LLM Integration**: First-class support for AI models
+- **Prompt Management**: Version and test prompts
+- **RAG Pipelines**: Built-in retrieval-augmented generation
+- **Agent Frameworks**: Multi-agent orchestration
+
+### Distributed Computing
+
+- **Cluster Mode**: Scale across multiple machines
+- **Workflow Engine**: Complex DAG execution
+- **Event Sourcing**: Built-in event store
+- **CQRS Support**: Command/query separation
+
+### Language Expansion
+
+- **Type Hints**: Full runtime validation with beartype
+- **Rust Extensions**: Performance-critical components
+- **WebAssembly**: Run bricks in browsers
+- **Cross-Language**: Polyglot brick composition
+
+## Community & Ecosystem
+
+### Governance
+
+- **RFC Process**: Community-driven feature development
+- **Stability Guarantee**: Clear deprecation policies
+- **Security Process**: Vulnerability disclosure and fixes
+- **Release Cadence**: Predictable release schedule
+
+### Ecosystem Growth
+
+- **Plugin Registry**: Discover and share bricks
+- **Certification Program**: Quality standards for third-party bricks
+- **Corporate Sponsors**: Sustainable development funding
+- **Academic Partnerships**: Research and education
+
+## Migration Strategy
+
+### Version Compatibility
+
+- **Semantic Versioning**: Strict adherence to SemVer
+- **Deprecation Warnings**: Two minor versions before removal
+- **Migration Tools**: Automated upgrades where possible
+- **Compatibility Layer**: Support for older brick versions
+
+### Adoption Path
+
+1. **Early Adopters** (now): Feedback and iteration
+2. **Production Users** (v0.3+): Stable core with good tooling  
+3. **Enterprise** (v0.5+): Advanced features and support
+4. **Mainstream** (v1.0+): Mature ecosystem
+
+## Success Metrics
+
+- **Developer Satisfaction**: >4.5/5 in surveys
+- **Adoption**: 10k+ GitHub stars, 100k+ monthly downloads
+- **Performance**: <1% overhead vs hand-written code
+- **Reliability**: 99.99% uptime in production deployments
+- **Community**: 100+ contributors, 1000+ third-party bricks
+
+## Getting Involved
+
+- **GitHub Discussions**: Share ideas and feedback
+- **RFC Process**: Propose new features
+- **Contributing**: Code, documentation, examples
+- **Sponsorship**: Support sustainable development
+
+---
+
+*This roadmap is a living document. We'll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!*

@@ -2,6 +2,7 @@
 
 import re
 import unicodedata
+from collections.abc import Callable
 
 from nanobricks.transformers.base import TransformerBase
 
@@ -156,7 +157,7 @@ class TokenNormalizer(TransformerBase[list[str], list[str]]):
         lowercase: bool = True,
         remove_numbers: bool = False,
         keep_alphanumeric: bool = True,
-        custom_filter: callable | None = None,
+        custom_filter: Callable | None = None,
         name: str = "token_normalizer",
         version: str = "1.0.0",
     ):

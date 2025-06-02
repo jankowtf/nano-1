@@ -1,0 +1,243 @@
+---
+title: "Task System & Commands"
+description: "Comprehensive guide to Nanobricks task structure and commands"
+order: 5
+---
+
+## Overview
+
+Nanobricks uses [Task](https://taskfile.dev/) for all build automation and development workflows. We follow a consistent **component:action[:target]** naming structure that makes commands intuitive and discoverable.
+
+## Naming Convention
+
+All tasks follow this pattern:
+
+```
+component:action[:target]
+```
+
+Where:
+- **component** - The system/module being operated on (e.g., `docs`, `dev`, `package`)
+- **action** - The verb/operation (e.g., `create`, `build`, `test`, `link`)
+- **target** - Optional specific target (e.g., `local`, `wheel`, `pypi`, `unit`)
+
+### Benefits
+
+1. **Intuitive** - "I want to work with X and do Y to it"
+2. **Discoverable** - `task --list` groups related tasks naturally
+3. **Extensible** - Easy to add new actions or targets
+4. **Consistent** - One pattern throughout all Taskfiles
+
+## Common Tasks Reference
+
+### Documentation Management
+
+```bash
+task docs:render      # Build Quarto documentation
+task docs:preview     # Live preview with hot reload
+task docs:publish     # Deploy to GitHub Pages
+task docs:clean       # Remove generated docs
+task docs:open        # Open in browser
+```
+
+### Development Workflow
+
+```bash
+task dev:setup              # Initial environment setup
+task dev:test               # Run all tests
+task dev:test:unit          # Unit tests only
+task dev:test:integration   # Integration tests only
+task dev:test:coverage      # Tests with coverage report
+task dev:lint               # Run linters (ruff + mypy)
+task dev:format             # Format code
+task dev:typecheck          # Strict type checking
+task dev:all                # Run all checks
+```
+
+### Project Creation
+
+::: {.callout-tip}
+## Recommended: Use uv
+The `project:create:uv` task is the preferred method as it automatically sets up Python 3.13, creates a virtual environment, and installs dependencies.
+:::
+
+```bash
+# Create new project with uv (recommended)
+task dist:project:create:uv NAME=my-app DIR=~/projects
+
+# Manual project creation
+task dist:project:create NAME=my-app DIR=~/projects
+```
+
+### Multi-Project Development
+
+From the Nanobricks directory:
+```bash
+task dev:project:link PATH=../my-app    # Link a project
+task dev:project:list                   # List all linked projects
+task dev:project:unlink NAME=my-app     # Remove a link
+```
+
+From your project directory:
+```bash
+task link:nanobricks      # Link to Nanobricks source
+task sync:nanobricks      # Update after Nanobricks changes
+task unlink:nanobricks    # Remove the link
+```
+
+### Building & Distribution
+
+```bash
+task dist:package:build           # Build wheel and sdist
+task dist:package:clean           # Clean build artifacts
+task dist:package:verify          # Verify installation
+
+# Install in another project
+task dist:package:install:local PROJECT_PATH=/path/to/project
+task dist:package:install:wheel PROJECT_PATH=/path/to/project
+
+# Publishing
+task dist:publish:test            # Validate package (dry run)
+task dist:publish:pypi            # Publish to PyPI
+```
+
+### Component Scaffolding
+
+```bash
+task nanobrick:create NAME=my_component    # Create new nanobrick
+```
+
+### Version Management
+
+```bash
+task version:bump             # Bump patch version
+task version:bump PART=minor  # Bump minor version
+task version:bump PART=major  # Bump major version
+```
+
+## Quick Aliases
+
+For convenience, common tasks have short aliases:
+
+```bash
+task test     # Alias for dev:test
+task lint     # Alias for dev:lint
+task format   # Alias for dev:format
+```
+
+## Task Discovery
+
+Explore available tasks:
+
+```bash
+task --list           # Show all public tasks
+task --list-all       # Include internal tasks
+task --summary [task] # Show task description
+```
+
+## Project Tasks
+
+When you create a new project with Nanobricks, it includes these tasks:
+
+```bash
+task dev:test         # Run project tests
+task dev:lint         # Lint project code
+task dev:format       # Format project code
+task link:nanobricks  # Link to Nanobricks source
+task sync:nanobricks  # Update Nanobricks dependency
+```
+
+## Task Organization
+
+Tasks are organized across multiple Taskfiles:
+
+- **Taskfile.yml** - Core development tasks
+- **Taskfile.dist.yml** - Distribution and project creation
+- **Taskfile.dev.yml** - Development utilities and helpers
+
+All are included in the main Taskfile, so you access them with their namespace prefix:
+
+```bash
+task dev:test              # From main Taskfile
+task dist:package:build    # From Taskfile.dist.yml
+task dev:project:link      # From Taskfile.dev.yml
+```
+
+## Advanced Features
+
+### Watch Mode
+
+For rapid development:
+```bash
+task dev:watch:test    # Auto-run tests on file changes
+task dev:watch:docs    # Auto-rebuild docs (same as preview)
+```
+
+### Quick Checks
+
+```bash
+task dev:check:all     # Run all checks (lint, typecheck, test)
+task dev:check:quick   # Quick lint check only
+```
+
+### Local Repository
+
+Create a local package repository:
+```bash
+task dist:repo:create:local
+# Then install with:
+uv pip install nanobricks --find-links file://~/.nanobricks-repo
+```
+
+## Best Practices
+
+1. **Use uv for project creation** - It handles Python version and dependencies automatically
+2. **Link projects during development** - Makes testing changes immediate
+3. **Run checks before commits** - Use `task dev:check:all`
+4. **Use watch mode** - For TDD workflow with `task dev:watch:test`
+
+## Extension Pattern
+
+When adding new functionality, maintain the component:action pattern:
+
+```yaml
+# Good examples
+cache:clear:
+cache:warm:
+cache:invalidate:redis:
+benchmark:run:
+benchmark:compare:
+
+# Avoid these patterns
+clear-cache:
+warm_cache:
+invalidateRedisCache:
+run-benchmarks:
+```
+
+This ensures consistency and discoverability as the project grows.
+
+## Troubleshooting
+
+::: {.callout-warning}
+## Common Issues
+
+### "Please specify DIR"
+When creating projects, always specify the parent directory to avoid creating projects inside Nanobricks:
+```bash
+# Good
+task dist:project:create:uv NAME=my-app DIR=~/projects
+
+# Will fail
+task dist:project:create:uv NAME=my-app
+```
+
+### Variable expansion in generated Taskfiles
+If `task link:nanobricks` fails with empty variables in your project, regenerate the project with the latest Nanobricks version.
+:::
+
+## Next Steps
+
+- Review the [Quickstart Guide](quickstart.qmd) for a hands-on introduction
+- Explore [Multi-Project Development](multi-project-development.qmd) for advanced workflows
+- See [Distribution Guide](distribution.qmd) for packaging and deployment

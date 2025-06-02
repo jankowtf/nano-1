@@ -1,8 +1,19 @@
 version: '3'
 
+silent: true
+
 vars:
-  QUARTO_DIR: quarto
-  SITE_DIR: quarto/_site
+  QUARTO_DIR: docs/quarto
+  SITE_DIR: docs/quarto/_site
+  ROOT_DIR:
+    sh: pwd
+  HOME:
+    sh: echo $HOME
+
+includes:
+  dist: ./Taskfile.dist.yml
+  dev: ./Taskfile.dev.yml
+  semver: ./Taskfile.semver.yml
 
 tasks:
   default:
@@ -10,7 +21,7 @@ tasks:
     cmds:
       - task --list
 
-  # Quarto documentation tasks
+  # Documentation tasks
   docs:render:
     desc: Render Quarto documentation
     dir: '{{.QUARTO_DIR}}'
@@ -48,7 +59,7 @@ tasks:
     cmds:
       - quarto publish gh-pages
 
-  # Development tasks
+  # Core development tasks
   dev:setup:
     desc: Set up development environment
     cmds:
@@ -60,23 +71,23 @@ tasks:
     cmds:
       - pytest tests/ -v
 
-  dev:test-unit:
+  dev:test:unit:
     desc: Run unit tests only
     cmds:
       - pytest tests/unit/ -v
 
-  dev:test-integration:
+  dev:test:integration:
     desc: Run integration tests only
     cmds:
       - pytest tests/integration/ -v
 
-  dev:test-cov:
+  dev:test:coverage:
     desc: Run tests with coverage report
     cmds:
       - pytest tests/ --cov=nanobricks --cov-report=html --cov-report=term
 
   dev:lint:
-    desc: Run linters
+    desc: Run linters (ruff + mypy)
     cmds:
       - ruff check src/ tests/
       - mypy src/
@@ -92,11 +103,18 @@ tasks:
     cmds:
       - mypy src/ --strict
 
-  # Nanobrick scaffolding tasks
-  brick:new:
-    desc: Create a new nanobrick
+  dev:all:
+    desc: Run all checks (lint, test, docs)
+    cmds:
+      - task: dev:lint
+      - task: dev:test
+      - task: docs:render
+
+  # Nanobrick scaffolding
+  nanobrick:create:
+    desc: Create a new nanobrick component
     vars:
-      BRICK_NAME: '{{.BRICK_NAME | default "my_brick"}}'
+      BRICK_NAME: '{{.NAME | default "my_brick"}}'
     cmds:
       - mkdir -p src/{{.BRICK_NAME}}
       - |
@@ -126,18 +144,21 @@ tasks:
                 return input
         EOF
 
-  # Version management
-  version:bump:
-    desc: Bump version
-    vars:
-      PART: '{{.PART | default "patch"}}'
-    cmds:
-      - bumpver update --{{.PART}}
+  # Version management (moved to Taskfile.semver.yml)
+  # Use: task version:current, task version:bump:patch, etc.
 
-  # Combined tasks
-  dev:all:
-    desc: Run all checks and render docs
+  # Quick aliases for common tasks
+  test:
+    desc: Alias for dev:test
+    cmds:
+      - task: dev:test
+
+  lint:
+    desc: Alias for dev:lint
     cmds:
       - task: dev:lint
-      - task: dev:test
-      - task: docs:render
+
+  format:
+    desc: Alias for dev:format
+    cmds:
+      - task: dev:format

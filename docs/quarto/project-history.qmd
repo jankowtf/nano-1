@@ -1,0 +1,107 @@
+---
+title: "Project History"
+description: "The origin story and evolution of Nanobricks"
+order: 20
+---
+
+## The Original Vision
+
+In the beginning, there was a dream:
+
+> "I'm dreaming of accomplishing this: Coming up with a Python package design that is the code equivalent of 'antifragile nanobots.' I call it 'nanobricks': atomic, self-sufficient components..."
+
+This vision laid the foundation for what Nanobricks has become today.
+
+## Initial Concept
+
+The original concept outlined five key characteristics:
+
+1. **Simple** — Designed and implemented in a straightforward way, easy for both humans and AIs to reason about
+
+2. **Standardized** — Consistent interfaces, like a "Lego Connector Mechanism" for code
+
+3. **Composable** — Easily combined to form more complex components (API integration, Streamlit features, workflow pipelines)
+
+4. **Batteries included** - Self-contained, modular functionality:
+   - API (FastAPI)
+   - CLI (Typer)
+   - Frontend (Streamlit)
+   - DB interaction (SQLModel)
+
+5. **Scaffoldable** - Instant end-to-end usage, inspired by Rails, powered by Task
+
+## Key Technical Decisions
+
+From the very beginning, certain technical principles were established:
+
+1. **uv-based packages**: Every nanobrick as a Python package
+2. **Directory-based modules**: Top-level modules as directories  
+3. **Absolute imports**: Always use absolute imports
+4. **Design pattern inspiration**: Learn from successful frameworks
+
+## Evolution Timeline
+
+### Phase 1: Core Concept
+- Defined the Nanobrick interface
+- Established the Protocol + ABC hybrid approach
+- Created the pipe operator composition pattern
+
+### Phase 2: Skills System
+- Evolved "batteries" into optional "skills"
+- Implemented progressive enhancement
+- Added skill activation patterns
+
+### Phase 3: Type Safety
+- Added Python generics support
+- Implemented runtime validation strategy
+- Created type-safe composition
+
+### Phase 4: AI Integration
+- Researched AI protocols (MCP, A2A, AG-UI, ACP)
+- Chose multi-protocol strategy
+- Implemented AI skills
+
+### Phase 5: Production Features
+- Added security and performance features
+- Implemented hot-swapping
+- Created registry system
+
+### Phase 6: Distribution System
+- Built task-based distribution
+- Created project scaffolding
+- Established multiple installation methods
+
+## Lessons Learned
+
+### What Worked Well
+
+1. **Protocol + ABC Hybrid**: Provides both type checking and runtime enforcement
+2. **Skills Pattern**: Keeps core simple while enabling rich features
+3. **Task-based Automation**: Consistent, powerful build system
+4. **Type Safety Strategy**: Balance between static and runtime checking
+
+### Key Insights
+
+1. **Simplicity Enables Complexity**: Simple rules lead to emergent behaviors
+2. **Optional Everything**: Skills activate only when needed
+3. **Convention Over Configuration**: Sensible defaults everywhere
+4. **AI-First Design**: Patterns that both humans and AI understand
+
+## The Present
+
+Today, Nanobricks is:
+- A complete SDK for building composable Python systems
+- Ready for real-world applications
+- Distributed via multiple methods
+- Actively growing its ecosystem
+
+## The Future
+
+The journey continues with:
+- Community contributions
+- More built-in skills
+- Enhanced AI capabilities
+- Visual composition tools
+- Global nanobrick registry
+
+The dream of "antifragile nanobots" for code has become reality, and this is just the beginning.

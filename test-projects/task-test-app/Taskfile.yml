@@ -1,0 +1,18 @@
+version: '3'
+
+tasks:
+  dev:test:
+    desc: Run tests
+    cmds:
+      - pytest tests/ -v
+  
+  dev:lint:
+    desc: Run linters
+    cmds:
+      - ruff check src/ tests/
+      - mypy src/
+  
+  dev:format:
+    desc: Format code
+    cmds:
+      - ruff format src/ tests/

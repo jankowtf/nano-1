@@ -1,0 +1,120 @@
+version: '3'
+
+silent: true
+
+# Development utilities for working with linked projects
+# This file is meant to be included in the main Taskfile.yml
+
+tasks:
+  # Project linking tasks
+  project:link:
+    desc: Create a symbolic link to a project that uses Nanobricks
+    summary: |
+      Link a project that uses Nanobricks for easier development.
+      The project will be linked in the linked-projects/ directory.
+      
+      Usage:
+        task dev:project:link PATH=/path/to/your/project
+        task dev:project:link PATH=../nano-scorm
+    vars:
+      PROJECT_PATH: '{{.PATH}}'
+      PROJECT_NAME:
+        sh: basename "{{.PROJECT_PATH}}"
+      LINK_DIR: 'linked-projects'
+      LINK_PATH: '{{.LINK_DIR}}/{{.PROJECT_NAME}}'
+    cmds:
+      - |
+        if [ -z "{{.PROJECT_PATH}}" ]; then
+          echo "❌ Please specify the project PATH"
+          echo "Usage: task dev:project:link PATH=/path/to/project"
+          exit 1
+        fi
+      - |
+        if [ ! -d "{{.PROJECT_PATH}}" ]; then
+          echo "❌ Project directory not found: {{.PROJECT_PATH}}"
+          exit 1
+        fi
+      - mkdir -p {{.LINK_DIR}}
+      - |
+        if [ -L "{{.LINK_PATH}}" ]; then
+          echo "⚠️  Link already exists: {{.LINK_PATH}}"
+          echo "   Removing old link..."
+          rm "{{.LINK_PATH}}"
+        fi
+      - ln -s "$(cd "{{.PROJECT_PATH}}" && pwd)" "{{.LINK_PATH}}"
+      - echo "✅ Linked {{.PROJECT_NAME}} -> {{.LINK_PATH}}"
+      - echo "📁 You can now access the project at {{.LINK_PATH}}"
+
+  project:unlink:
+    desc: Remove a symbolic link to a project
+    summary: |
+      Remove a previously created project link.
+      
+      Usage:
+        task dev:project:unlink NAME=nano-scorm
+    vars:
+      PROJECT_NAME: '{{.NAME}}'
+      LINK_DIR: 'linked-projects'
+      LINK_PATH: '{{.LINK_DIR}}/{{.PROJECT_NAME}}'
+    cmds:
+      - |
+        if [ -z "{{.PROJECT_NAME}}" ]; then
+          echo "❌ Please specify the project NAME"
+          echo "Usage: task dev:project:unlink NAME=project-name"
+          exit 1
+        fi
+      - |
+        if [ ! -L "{{.LINK_PATH}}" ]; then
+          echo "❌ Link not found: {{.LINK_PATH}}"
+          exit 1
+        fi
+      - rm "{{.LINK_PATH}}"
+      - echo "✅ Unlinked {{.PROJECT_NAME}}"
+
+  project:list:
+    desc: List all linked projects
+    vars:
+      LINK_DIR: 'linked-projects'
+    cmds:
+      - |
+        if [ ! -d "{{.LINK_DIR}}" ] || [ -z "$(ls -A {{.LINK_DIR}} 2>/dev/null)" ]; then
+          echo "📭 No linked projects found"
+          exit 0
+        fi
+      - echo "📁 Linked projects:"
+      - |
+        for link in {{.LINK_DIR}}/*; do
+          if [ -L "$link" ]; then
+            name=$(basename "$link")
+            target=$(readlink "$link")
+            if [ -d "$target" ]; then
+              echo "   ✅ $name -> $target"
+            else
+              echo "   ❌ $name -> $target (broken link)"
+            fi
+          fi
+        done
+
+  # Quick check tasks
+  check:all:
+    desc: Run all development checks (lint, typecheck, test)
+    cmds:
+      - task: dev:lint
+      - task: dev:typecheck
+      - task: dev:test
+
+  check:quick:
+    desc: Run quick checks (lint only)
+    cmds:
+      - task: dev:lint
+
+  # Watch tasks for development
+  watch:test:
+    desc: Watch files and run tests on change
+    cmds:
+      - watchexec -e py -w src -w tests -- uv run pytest tests/ -v
+
+  watch:docs:
+    desc: Watch and rebuild documentation on change
+    cmds:
+      - task: docs:preview

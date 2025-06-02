@@ -4,6 +4,7 @@ import asyncio
 import gc
 import time
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
@@ -216,7 +217,7 @@ def profile_brick(
     brick: NanobrickProtocol,
     iterations: int = 100,
     warmup: int = 10,
-    input_generator: callable | None = None,
+    input_generator: Callable | None = None,
 ) -> ProfileStats:
     """Profile a single brick.
 
