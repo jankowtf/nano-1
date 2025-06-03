@@ -600,7 +600,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="770ef8a2" class="cell" data-execution_count="1">
+<div id="8740ff08" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -661,7 +661,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="the-architecture">3. The Architecture</h3>
 <p>We decided on a hybrid approach combining the best of both worlds:</p>
-<div id="3057773b" class="cell" data-execution_count="2">
+<div id="565638f7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For type checking (IDE support, mypy)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Protocol, Generic, TypeVar, runtime_checkable</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -707,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="step-1-hello-nanobrick">Step 1: Hello, Nanobrick! ✅</h3>
 <p><em>Status: Complete</em></p>
 <p>Our first working nanobrick is ready! Here’s how to create one:</p>
-<div id="905c420b" class="cell" data-execution_count="3">
+<div id="e9cd9c66" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import sys</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sys.path.append("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src")</span></span>
@@ -774,7 +774,7 @@ Upper second call (await): HELLO</code></pre>
 <section id="what-makes-a-nanobrick" class="level3">
 <h3 class="anchored" data-anchor-id="what-makes-a-nanobrick">What Makes a Nanobrick?</h3>
 <p>Every nanobrick has: - <strong>A name</strong>: Defaults to the class name - <strong>A version</strong>: Defaults to “0.1.0” - <strong>An async invoke method</strong>: The core processing logic - <strong>Type parameters</strong>: Input type, output type, and optional dependencies</p>
-<div id="43ea53d5" class="cell" data-execution_count="4">
+<div id="f1918eae" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the nanobrick properties</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Name: </span><span class="sc">{</span>echo<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Version: </span><span class="sc">{</span>echo<span class="sc">.</span>version<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -790,7 +790,7 @@ String representation: EchoBrick v0.1.0</code></pre>
 <h3 class="anchored" data-anchor-id="step-2-composition-magic">Step 2: Composition Magic ✅</h3>
 <p><em>Status: Complete</em></p>
 <p>The pipe operator is working! Here’s how to compose nanobricks:</p>
-<div id="8e1c297e" class="cell" data-execution_count="5">
+<div id="8b70978a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -827,7 +827,7 @@ Pipeline (second call): HELLO, PYTHON!</code></pre>
 <section id="advanced-composition" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-composition">Advanced Composition</h3>
 <p>You can chain multiple bricks and even compose different types:</p>
-<div id="246c4208" class="cell" data-execution_count="6">
+<div id="637ca095" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chain multiple bricks</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>excited <span class="op">=</span> greet <span class="op">|</span> shout <span class="op">|</span> shout  <span class="co"># Double shout!</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> excited.invoke(<span class="st">"alice"</span>)</span>
@@ -869,7 +869,7 @@ Caught expected error: Only letters allowed</code></pre>
 <section id="pipeline-class" class="level3">
 <h3 class="anchored" data-anchor-id="pipeline-class">Pipeline Class</h3>
 <p>For longer compositions, use the Pipeline class:</p>
-<div id="35eebb7a" class="cell" data-execution_count="7">
+<div id="d5289a45" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Pipeline</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -893,7 +893,7 @@ Caught expected error: Only letters allowed</code></pre>
 <h3 class="anchored" data-anchor-id="step-3-dependency-injection">Step 3: Dependency Injection ✅</h3>
 <p><em>Status: Complete</em></p>
 <p>Your nanobricks can now share resources! Here’s how dependency injection works:</p>
-<div id="e74e5f76" class="cell" data-execution_count="8">
+<div id="35db2271" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase, StandardDeps, DependencyContainer</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.dependencies <span class="im">import</span> MockDatabase, MockLogger</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -935,7 +935,7 @@ Caught expected error: Only letters allowed</code></pre>
 <section id="dependency-types" class="level3">
 <h3 class="anchored" data-anchor-id="dependency-types">Dependency Types</h3>
 <p>We provide some common dependency types:</p>
-<div id="cb7ed70e" class="cell" data-execution_count="9">
+<div id="ca20e026" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> StandardDeps</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> TypedDict</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -969,7 +969,7 @@ Custom dependency type created successfully!</code></pre>
 <section id="dependencies-in-pipelines" class="level3">
 <h3 class="anchored" data-anchor-id="dependencies-in-pipelines">Dependencies in Pipelines</h3>
 <p>Dependencies flow through entire pipelines automatically:</p>
-<div id="8498ae37" class="cell" data-execution_count="10">
+<div id="d508ac07" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define example bricks for the pipeline</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> EnrichBrick(NanobrickBase[<span class="bu">dict</span>, <span class="bu">dict</span>, StandardDeps]):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, data: <span class="bu">dict</span>, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
@@ -1012,7 +1012,7 @@ Custom dependency type created successfully!</code></pre>
 <p>Nanobricks now supports powerful TOML-based configuration with environment overrides!</p>
 <section id="loading-configuration" class="level4">
 <h4 class="anchored" data-anchor-id="loading-configuration">Loading Configuration</h4>
-<div id="de39cdf1" class="cell" data-execution_count="11">
+<div id="d425b451" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.config <span class="im">import</span> load_config, get_default_config</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load default config (searches for nanobrick.toml, pyproject.toml, etc.)</span></span>
@@ -1070,7 +1070,7 @@ Cached config type: &lt;class 'nanobricks.config.Config'&gt;</code></pre>
 </section>
 <section id="using-config-in-bricks" class="level4">
 <h4 class="anchored" data-anchor-id="using-config-in-bricks">Using Config in Bricks</h4>
-<div id="aca82456" class="cell" data-execution_count="12">
+<div id="3c57ae2f" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.config <span class="im">import</span> get_default_config, Config</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1113,7 +1113,7 @@ Cached config type: &lt;class 'nanobricks.config.Config'&gt;</code></pre>
 </section>
 <section id="real-example-from-examplesconfiguration.py" class="level4">
 <h4 class="anchored" data-anchor-id="real-example-from-examplesconfiguration.py">Real Example from examples/configuration.py</h4>
-<div id="5c39f8d3" class="cell" data-execution_count="13">
+<div id="69922cc1" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Demonstrate Config API features</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.config <span class="im">import</span> Config</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1153,7 +1153,7 @@ As dict type: &lt;class 'dict'&gt;</code></pre>
 </section>
 <section id="working-with-environment-specific-configs" class="level4">
 <h4 class="anchored" data-anchor-id="working-with-environment-specific-configs">Working with Environment-Specific Configs</h4>
-<div id="feb60bcd" class="cell" data-execution_count="14">
+<div id="bf2d5ed3" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of how environment configs work</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.config <span class="im">import</span> Config</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1201,7 +1201,7 @@ Test database: sqlite:///:memory:</code></pre>
 </section>
 <section id="creating-a-skill" class="level4">
 <h4 class="anchored" data-anchor-id="creating-a-skill">Creating a Skill</h4>
-<div id="84f70749" class="cell" data-execution_count="15">
+<div id="201a02ee" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Skill, NanobrickEnhanced, register_skill</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1234,7 +1234,7 @@ Test database: sqlite:///:memory:</code></pre>
 <p>There are three ways to add skills to your bricks:</p>
 <section id="method-chaining" class="level5">
 <h5 class="anchored" data-anchor-id="method-chaining">1. Method Chaining</h5>
-<div id="1815568c" class="cell" data-execution_count="16">
+<div id="7658073a" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple brick</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SlowBrick(Nanobrick[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, <span class="bu">input</span>: <span class="bu">str</span>, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -1257,7 +1257,7 @@ Result: Processed: hello</code></pre>
 </section>
 <section id="function-style" class="level5">
 <h5 class="anchored" data-anchor-id="function-style">2. Function Style</h5>
-<div id="a8259650" class="cell" data-execution_count="17">
+<div id="ce61c62a" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> with_skill</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1302,7 +1302,7 @@ Same results: True</code></pre>
 </section>
 <section id="decorator-style" class="level5">
 <h5 class="anchored" data-anchor-id="decorator-style">3. Decorator Style</h5>
-<div id="f409b695" class="cell" data-execution_count="18">
+<div id="e4df8c16" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> skill</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1339,7 +1339,7 @@ Length of 'hello': 5</code></pre>
 </section>
 <section id="real-example-retry-skill" class="level4">
 <h4 class="anchored" data-anchor-id="real-example-retry-skill">Real Example: Retry Skill</h4>
-<div id="10bc8604" class="cell" data-execution_count="19">
+<div id="d5347e00" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="at">@register_skill</span>(<span class="st">"retry"</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RetrySkill(Skill):</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Adds retry logic to brick invocations."""</span></span>
@@ -1401,7 +1401,7 @@ Success! Result: 42</code></pre>
 <section id="logging-skill" class="level4">
 <h4 class="anchored" data-anchor-id="logging-skill">Logging Skill</h4>
 <p>Automatically log inputs, outputs, and errors with customizable formatting:</p>
-<div id="ad9c71d2" class="cell" data-execution_count="20">
+<div id="0027396b" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Import built-in skills</span></span>
@@ -1431,7 +1431,7 @@ Success! Result: 42</code></pre>
 <section id="api-skill" class="level4">
 <h4 class="anchored" data-anchor-id="api-skill">API Skill</h4>
 <p>Turn any nanobrick into a REST API with FastAPI:</p>
-<div id="82691189" class="cell" data-execution_count="21">
+<div id="656d03b1" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">@skill</span>(<span class="st">"api"</span>, path<span class="op">=</span><span class="st">"/analyze"</span>, port<span class="op">=</span><span class="dv">8080</span>, docs<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TextAnalyzerBrick(Nanobrick[<span class="bu">str</span>, <span class="bu">dict</span>]):</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Analyzes text and returns statistics."""</span></span>
@@ -1461,7 +1461,7 @@ Success! Result: 42</code></pre>
 <section id="cli-skill" class="level4">
 <h4 class="anchored" data-anchor-id="cli-skill">CLI Skill</h4>
 <p>Create command-line interfaces with Typer:</p>
-<div id="ccdda08a" class="cell" data-execution_count="22">
+<div id="960743b1" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="at">@skill</span>(<span class="st">"cli"</span>, command<span class="op">=</span><span class="st">"transform"</span>, input_type<span class="op">=</span><span class="st">"json"</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DataTransformerBrick(Nanobrick[<span class="bu">list</span>, <span class="bu">dict</span>]):</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Transforms data into summary statistics."""</span></span>
@@ -1487,7 +1487,7 @@ Success! Result: 42</code></pre>
 <section id="combining-built-in-skills" class="level4">
 <h4 class="anchored" data-anchor-id="combining-built-in-skills">Combining Built-in Skills</h4>
 <p>The real power comes from combining skills:</p>
-<div id="3ed0e7d8" class="cell" data-execution_count="23">
+<div id="ad300c5b" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="at">@skill</span>(<span class="st">"logging"</span>, level<span class="op">=</span><span class="st">"INFO"</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="at">@skill</span>(<span class="st">"api"</span>, port<span class="op">=</span><span class="dv">8000</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="at">@skill</span>(<span class="st">"cli"</span>, command<span class="op">=</span><span class="st">"process"</span>)</span>
@@ -1605,7 +1605,7 @@ python examples/configuration.py</code></pre>
 <p>Here are some highlights from our working examples:</p>
 <section id="from-basic_pipeline.py" class="level3">
 <h3 class="anchored" data-anchor-id="from-basic_pipeline.py">From basic_pipeline.py</h3>
-<div id="e2acb100" class="cell" data-execution_count="24">
+<div id="b5234453" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
@@ -1662,7 +1662,7 @@ python examples/configuration.py</code></pre>
 </section>
 <section id="from-dependency_injection.py---smart-caching" class="level3">
 <h3 class="anchored" data-anchor-id="from-dependency_injection.py---smart-caching">From dependency_injection.py - Smart Caching</h3>
-<div id="030d4a14" class="cell" data-execution_count="25">
+<div id="ac97dbdc" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Optional</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.dependencies <span class="im">import</span> (</span>
@@ -1758,7 +1758,7 @@ Second call (Cache):
 <section id="docker-skill" class="level4">
 <h4 class="anchored" data-anchor-id="docker-skill">Docker Skill</h4>
 <p>Automatically containerize your nanobricks with zero configuration:</p>
-<div id="f703a578" class="cell" data-execution_count="26">
+<div id="b5efa93b" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills.deployment <span class="im">import</span> SkillDocker, DockerConfig</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1804,7 +1804,7 @@ CMD ["python", "-m", "nanobricks", "run", "mydataprocessor"]</code></pre>
 </div>
 </div>
 <p>With custom configuration:</p>
-<div id="e3f5b463" class="cell" data-execution_count="27">
+<div id="bfbfb69c" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Continue from previous cell - redefine for this cell</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills.deployment <span class="im">import</span> SkillDocker, DockerConfig</span>
@@ -1854,7 +1854,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="kubernetes-skill" class="level4">
 <h4 class="anchored" data-anchor-id="kubernetes-skill">Kubernetes Skill</h4>
 <p>Deploy to Kubernetes with automatic manifest generation:</p>
-<div id="e3f407c6" class="cell" data-execution_count="28">
+<div id="e358c3b0" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills.deployment <span class="im">import</span> SkillKubernetes, KubernetesConfig</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic Kubernetes deployment</span></span>
@@ -1881,7 +1881,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a><span class="co"># - ConfigMap for configuration</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Generate Helm charts for production deployments:</p>
-<div id="35187624" class="cell" data-execution_count="29">
+<div id="bd8a0056" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate complete Helm chart</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>helm_chart <span class="op">=</span> k8s_skill.generate_helm_chart(brick, <span class="st">"myapp:v1.0.0"</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1906,7 +1906,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="complete-deployment-pipeline" class="level4">
 <h4 class="anchored" data-anchor-id="complete-deployment-pipeline">Complete Deployment Pipeline</h4>
 <p>Combine Docker and Kubernetes for full deployment automation:</p>
-<div id="addae3ca" class="cell" data-execution_count="30">
+<div id="025249d1" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills.deployment <span class="im">import</span> SkillDocker, SkillKubernetes</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1958,7 +1958,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="caching" class="level4">
 <h4 class="anchored" data-anchor-id="caching">Caching</h4>
 <p>Add intelligent caching to expensive operations:</p>
-<div id="ce4af180" class="cell" data-execution_count="31">
+<div id="caf2e870" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> with_cache</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1991,7 +1991,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="batching" class="level4">
 <h4 class="anchored" data-anchor-id="batching">Batching</h4>
 <p>Process multiple items efficiently:</p>
-<div id="0d06733e" class="cell" data-execution_count="32">
+<div id="ecfc296a" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> with_batching</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2020,7 +2020,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="pipeline-fusion" class="level4">
 <h4 class="anchored" data-anchor-id="pipeline-fusion">Pipeline Fusion</h4>
 <p>Optimize long pipelines by fusing operations:</p>
-<div id="89f7f3c2" class="cell" data-execution_count="33">
+<div id="deaa90e1" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Pipeline</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> fuse_pipeline</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2043,7 +2043,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="memory-pooling" class="level4">
 <h4 class="anchored" data-anchor-id="memory-pooling">Memory Pooling</h4>
 <p>Reuse objects to reduce allocation overhead:</p>
-<div id="cba68f38" class="cell" data-execution_count="34">
+<div id="f5bae900" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> MemoryPool</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2078,7 +2078,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="combined-optimizations" class="level4">
 <h4 class="anchored" data-anchor-id="combined-optimizations">Combined Optimizations</h4>
 <p>Stack optimizations for maximum performance:</p>
-<div id="bae92912" class="cell" data-execution_count="35">
+<div id="d2f0b381" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> with_cache, fuse_pipeline</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2108,7 +2108,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="csv-transformers" class="level3">
 <h3 class="anchored" data-anchor-id="csv-transformers">CSV Transformers</h3>
 <p>Work with CSV data seamlessly:</p>
-<div id="90a44cdb" class="cell" data-execution_count="36">
+<div id="6d69bf92" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> CSVParser, CSVSerializer</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse CSV text</span></span>
@@ -2126,7 +2126,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="text-normalization" class="level3">
 <h3 class="anchored" data-anchor-id="text-normalization">Text Normalization</h3>
 <p>Clean and normalize text data:</p>
-<div id="e612310c" class="cell" data-execution_count="37">
+<div id="50d3ad16" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> TextNormalizer</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure normalization</span></span>
@@ -2149,7 +2149,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="smart-type-conversion" class="level3">
 <h3 class="anchored" data-anchor-id="smart-type-conversion">Smart Type Conversion</h3>
 <p>Convert between types intelligently:</p>
-<div id="26a64fb7" class="cell" data-execution_count="38">
+<div id="90da11dc" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> SmartTypeConverter, BulkTypeConverter</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Single value conversion</span></span>
@@ -2172,7 +2172,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="dynamic-type-conversion" class="level3">
 <h3 class="anchored" data-anchor-id="dynamic-type-conversion">Dynamic Type Conversion</h3>
 <p>Convert dictionaries with type hints:</p>
-<div id="336bba2e" class="cell" data-execution_count="39">
+<div id="7de9df02" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> DynamicTypeConverter</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure type mappings</span></span>
@@ -2195,7 +2195,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="dataframe-transformers" class="level3">
 <h3 class="anchored" data-anchor-id="dataframe-transformers">DataFrame Transformers</h3>
 <p>Work with pandas DataFrames for powerful data analysis:</p>
-<div id="16a93ec1" class="cell" data-execution_count="40">
+<div id="7cb73964" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> (</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    DataFrameFilter,</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    DataFrameGroupBy,</span>
@@ -2240,7 +2240,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 </div>
 <section id="advanced-dataframe-operations" class="level4">
 <h4 class="anchored" data-anchor-id="advanced-dataframe-operations">Advanced DataFrame Operations</h4>
-<div id="8b46bb06" class="cell" data-execution_count="41">
+<div id="d4c0d265" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Complex filtering with queries</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>complex_filter <span class="op">=</span> DataFrameFilter(</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    query<span class="op">=</span><span class="st">"price &gt; 50 and region == 'North' and quantity &gt;= 5"</span></span>
@@ -2309,7 +2309,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a>    <span class="ex">├──</span> __init__.py</span>
 <span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a>    <span class="ex">└──</span> test_my_awesome_brick.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The generated brick is ready to use:</p>
-<div id="d7ae7518" class="cell" data-execution_count="42">
+<div id="c892b1f6" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> my_awesome_brick <span class="im">import</span> MyAwesomeBrick</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use your new brick</span></span>
@@ -2321,7 +2321,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 <section id="documentation-generation" class="level3">
 <h3 class="anchored" data-anchor-id="documentation-generation">Documentation Generation</h3>
 <p>Automatically generate documentation from your nanobricks:</p>
-<div id="6d99feb0" class="cell" data-execution_count="43">
+<div id="7d12db3e" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.docs <span class="im">import</span> DocumentationGenerator</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate docs for your bricks</span></span>
@@ -2390,7 +2390,7 @@ Compose file includes services, networks, and configuration.</code></pre>
 
 Debug your pipelines step-by-step:
 
-::: {#3eb01d32 .cell execution_count=44}
+::: {#230f292d .cell execution_count=44}
 ``` {.python .cell-code}
 from nanobricks.devtools import BrickDebugger
 
@@ -2431,7 +2431,7 @@ debugger.print_trace()
 <section id="performance-profiler" class="level4">
 <h4 class="anchored" data-anchor-id="performance-profiler">Performance Profiler</h4>
 <p>Profile your bricks to find bottlenecks:</p>
-<div id="7823e8d8" class="cell" data-execution_count="45">
+<div id="e6735a90" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.devtools <span class="im">import</span> BrickProfiler, profile_brick</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create profiler</span></span>
@@ -2468,7 +2468,7 @@ debugger.print_trace()
 <section id="pipeline-visualizer" class="level4">
 <h4 class="anchored" data-anchor-id="pipeline-visualizer">Pipeline Visualizer</h4>
 <p>Visualize your pipeline structure:</p>
-<div id="f51c6930" class="cell" data-execution_count="46">
+<div id="b8b25404" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.devtools <span class="im">import</span> visualize_pipeline</span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a complex pipeline</span></span>
@@ -2528,7 +2528,7 @@ debugger.print_trace()
 <section id="ai-reasoning-skill" class="level3">
 <h3 class="anchored" data-anchor-id="ai-reasoning-skill">AI Reasoning Skill</h3>
 <p>Enhance your nanobricks with AI-powered intelligence:</p>
-<div id="40e3a245" class="cell" data-execution_count="47">
+<div id="a6d0805f" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> create_ai_skill</span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create AI skill with cost controls</span></span>
@@ -2563,7 +2563,7 @@ debugger.print_trace()
 <section id="mcp-server-integration" class="level3">
 <h3 class="anchored" data-anchor-id="mcp-server-integration">MCP Server Integration</h3>
 <p>Expose your nanobricks as tools for LLMs via Model Context Protocol:</p>
-<div id="814dfffe" class="cell" data-execution_count="48">
+<div id="9e3794db" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> create_mcp_server, MCPToolConfig</span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure tool exposure</span></span>
@@ -2592,7 +2592,7 @@ debugger.print_trace()
 <section id="agent-communication" class="level3">
 <h3 class="anchored" data-anchor-id="agent-communication">Agent Communication</h3>
 <p>Build multi-agent systems with nanobricks:</p>
-<div id="94d6165c" class="cell" data-execution_count="49">
+<div id="d01d0699" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.agent <span class="im">import</span> create_agent</span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create agents from bricks</span></span>
@@ -2627,7 +2627,7 @@ debugger.print_trace()
 <section id="adaptive-behavior" class="level3">
 <h3 class="anchored" data-anchor-id="adaptive-behavior">Adaptive Behavior</h3>
 <p>Create self-tuning nanobricks that learn and adapt:</p>
-<div id="21bfaca9" class="cell" data-execution_count="50">
+<div id="48b91290" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.adaptive <span class="im">import</span> create_adaptive_brick</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.adaptive.policies <span class="im">import</span> ThresholdPolicy, MLPolicy</span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2660,7 +2660,7 @@ debugger.print_trace()
 <h3 class="anchored" data-anchor-id="ai-powered-examples">AI-Powered Examples</h3>
 <section id="intelligent-validator" class="level4">
 <h4 class="anchored" data-anchor-id="intelligent-validator">Intelligent Validator</h4>
-<div id="22e6591c" class="cell" data-execution_count="51">
+<div id="7ebe5885" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A validator that understands context</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>validator <span class="op">=</span> IntelligentValidator(</span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    context<span class="op">=</span><span class="st">"user registration with email and phone"</span></span>
@@ -2683,7 +2683,7 @@ debugger.print_trace()
 </section>
 <section id="conversational-pipeline-assistant" class="level4">
 <h4 class="anchored" data-anchor-id="conversational-pipeline-assistant">Conversational Pipeline Assistant</h4>
-<div id="1ce309a0" class="cell" data-execution_count="52">
+<div id="2f1c0a88" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a conversational assistant for your pipeline</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>assistant <span class="op">=</span> ConversationalBrick(</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    system_prompt<span class="op">=</span><span class="st">"Help users debug data pipelines"</span></span>
@@ -2707,7 +2707,7 @@ debugger.print_trace()
 <section id="input-sanitization" class="level3">
 <h3 class="anchored" data-anchor-id="input-sanitization">Input Sanitization</h3>
 <p>Prevent injection attacks with automatic sanitization:</p>
-<div id="a57f4fdb" class="cell" data-execution_count="53">
+<div id="2767b6c3" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> InputSanitizer</span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Protect against XSS and SQL injection</span></span>
@@ -2727,7 +2727,7 @@ debugger.print_trace()
 <section id="rate-limiting" class="level3">
 <h3 class="anchored" data-anchor-id="rate-limiting">Rate Limiting</h3>
 <p>Prevent abuse with configurable rate limits:</p>
-<div id="02e0a36d" class="cell" data-execution_count="54">
+<div id="d585fcda" class="cell" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> RateLimiter</span>
 <span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Limit requests per user</span></span>
@@ -2749,7 +2749,7 @@ debugger.print_trace()
 <section id="permission-based-access-control" class="level3">
 <h3 class="anchored" data-anchor-id="permission-based-access-control">Permission-Based Access Control</h3>
 <p>Fine-grained permissions and role-based access:</p>
-<div id="2c5113ea" class="cell" data-execution_count="55">
+<div id="3b19e23d" class="cell" data-execution_count="55">
 <div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> PermissionGuard, Permission, SecurityContext</span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Require specific permissions</span></span>
@@ -2776,7 +2776,7 @@ debugger.print_trace()
 <section id="encryption" class="level3">
 <h3 class="anchored" data-anchor-id="encryption">Encryption</h3>
 <p>Protect sensitive data at rest and in transit:</p>
-<div id="6aa6b86c" class="cell" data-execution_count="56">
+<div id="28a37fb4" class="cell" data-execution_count="56">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> EncryptionBrick</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Encrypt specific fields</span></span>
@@ -2797,7 +2797,7 @@ debugger.print_trace()
 <section id="audit-logging" class="level3">
 <h3 class="anchored" data-anchor-id="audit-logging">Audit Logging</h3>
 <p>Track all operations for compliance and security:</p>
-<div id="13a9dbf4" class="cell" data-execution_count="57">
+<div id="d643b864" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> AuditLogger</span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Log all operations</span></span>
@@ -2822,7 +2822,7 @@ debugger.print_trace()
 <section id="layered-security" class="level3">
 <h3 class="anchored" data-anchor-id="layered-security">Layered Security</h3>
 <p>Apply multiple security layers at once:</p>
-<div id="1ceb840d" class="cell" data-execution_count="58">
+<div id="2ab8bf94" class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> secure_nanobrick</span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply all security features</span></span>
@@ -2843,7 +2843,7 @@ debugger.print_trace()
 <section id="circuit-breakers" class="level3">
 <h3 class="anchored" data-anchor-id="circuit-breakers">Circuit Breakers</h3>
 <p>Prevent cascading failures with automatic circuit breaking:</p>
-<div id="4ace6351" class="cell" data-execution_count="59">
+<div id="5340b3c5" class="cell" data-execution_count="59">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.production <span class="im">import</span> CircuitBreaker</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Protect unreliable services</span></span>
@@ -2866,7 +2866,7 @@ debugger.print_trace()
 <section id="bulkhead-isolation" class="level3">
 <h3 class="anchored" data-anchor-id="bulkhead-isolation">Bulkhead Isolation</h3>
 <p>Isolate resources to prevent total system failure:</p>
-<div id="31bd6138" class="cell" data-execution_count="60">
+<div id="af7539ff" class="cell" data-execution_count="60">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.production <span class="im">import</span> Bulkhead</span>
 <span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Limit concurrent executions</span></span>
@@ -2893,7 +2893,7 @@ debugger.print_trace()
 <section id="health-checks" class="level3">
 <h3 class="anchored" data-anchor-id="health-checks">Health Checks</h3>
 <p>Monitor service health automatically:</p>
-<div id="f390553f" class="cell" data-execution_count="61">
+<div id="c0eafb1a" class="cell" data-execution_count="61">
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.production <span class="im">import</span> HealthCheck</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add health monitoring</span></span>
@@ -2928,7 +2928,7 @@ debugger.print_trace()
 <section id="graceful-shutdown" class="level3">
 <h3 class="anchored" data-anchor-id="graceful-shutdown">Graceful Shutdown</h3>
 <p>Clean shutdown with proper resource cleanup:</p>
-<div id="047e9c8d" class="cell" data-execution_count="62">
+<div id="1d9821e8" class="cell" data-execution_count="62">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.production <span class="im">import</span> GracefulShutdown</span>
 <span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create shutdown manager</span></span>
@@ -2962,7 +2962,7 @@ debugger.print_trace()
 <section id="all-in-one-production-setup" class="level3">
 <h3 class="anchored" data-anchor-id="all-in-one-production-setup">All-in-One Production Setup</h3>
 <p>Apply all production features at once:</p>
-<div id="dae2bae0" class="cell" data-execution_count="63">
+<div id="bc82f3be" class="cell" data-execution_count="63">
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.production <span class="im">import</span> with_production_features</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Make any brick production-ready</span></span>
@@ -2991,7 +2991,7 @@ debugger.print_trace()
 <section id="caching-1" class="level3">
 <h3 class="anchored" data-anchor-id="caching-1">Caching</h3>
 <p>Cache expensive operations with TTL and LRU eviction:</p>
-<div id="2503c4d1" class="cell" data-execution_count="64">
+<div id="90bd366d" class="cell" data-execution_count="64">
 <div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> with_cache</span>
 <span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add caching to any brick</span></span>
@@ -3020,7 +3020,7 @@ debugger.print_trace()
 <section id="connection-pooling" class="level3">
 <h3 class="anchored" data-anchor-id="connection-pooling">Connection Pooling</h3>
 <p>Efficiently manage external resources:</p>
-<div id="e58c3b13" class="cell" data-execution_count="65">
+<div id="2f0863cf" class="cell" data-execution_count="65">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> ConnectionPool</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create connection pool</span></span>
@@ -3053,7 +3053,7 @@ debugger.print_trace()
 <section id="pipeline-fusion-1" class="level3">
 <h3 class="anchored" data-anchor-id="pipeline-fusion-1">Pipeline Fusion</h3>
 <p>Optimize pipeline execution by fusing operations:</p>
-<div id="e3393562" class="cell" data-execution_count="66">
+<div id="73b59b0a" class="cell" data-execution_count="66">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> FusedPipeline</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Regular pipeline</span></span>
@@ -3087,7 +3087,7 @@ debugger.print_trace()
 <section id="performance-profiling" class="level3">
 <h3 class="anchored" data-anchor-id="performance-profiling">Performance Profiling</h3>
 <p>Profile your bricks to identify bottlenecks:</p>
-<div id="98e27795" class="cell" data-execution_count="67">
+<div id="3471a172" class="cell" data-execution_count="67">
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> ProfilerBrick</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Wrap any brick with profiling</span></span>
@@ -3115,7 +3115,7 @@ debugger.print_trace()
 <section id="benchmarking" class="level3">
 <h3 class="anchored" data-anchor-id="benchmarking">Benchmarking</h3>
 <p>Accurately benchmark your nanobricks:</p>
-<div id="419cff63" class="cell" data-execution_count="68">
+<div id="4e163d71" class="cell" data-execution_count="68">
 <div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> Benchmark</span>
 <span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create benchmark</span></span>
@@ -3143,7 +3143,7 @@ debugger.print_trace()
 <section id="system-monitoring" class="level3">
 <h3 class="anchored" data-anchor-id="system-monitoring">System Monitoring</h3>
 <p>Monitor system resources:</p>
-<div id="ff6de63b" class="cell" data-execution_count="69">
+<div id="6f85a2a3" class="cell" data-execution_count="69">
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> get_system_metrics</span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get current system state</span></span>
@@ -3163,7 +3163,7 @@ debugger.print_trace()
 <section id="all-in-one-optimization" class="level3">
 <h3 class="anchored" data-anchor-id="all-in-one-optimization">All-in-One Optimization</h3>
 <p>Apply multiple optimizations at once:</p>
-<div id="2df39c23" class="cell" data-execution_count="70">
+<div id="ef576c9f" class="cell" data-execution_count="70">
 <div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> with_performance_optimizations</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply all optimizations</span></span>
@@ -3208,7 +3208,7 @@ debugger.print_trace()
 <section id="creating-packages" class="level3">
 <h3 class="anchored" data-anchor-id="creating-packages">Creating Packages</h3>
 <p>Package your nanobricks for distribution:</p>
-<div id="bf39f6dd" class="cell" data-execution_count="71">
+<div id="77df3b58" class="cell" data-execution_count="71">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_package_from_brick</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a package from your brick</span></span>
@@ -3234,7 +3234,7 @@ debugger.print_trace()
 <section id="publishing-packages" class="level3">
 <h3 class="anchored" data-anchor-id="publishing-packages">Publishing Packages</h3>
 <p>Share your nanobricks with the community:</p>
-<div id="fd47b8e1" class="cell" data-execution_count="72">
+<div id="110a07da" class="cell" data-execution_count="72">
 <div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> get_registry</span>
 <span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get registry client</span></span>
@@ -3249,7 +3249,7 @@ debugger.print_trace()
 <section id="searching-packages" class="level3">
 <h3 class="anchored" data-anchor-id="searching-packages">Searching Packages</h3>
 <p>Find nanobricks for your needs:</p>
-<div id="ab70be08" class="cell" data-execution_count="73">
+<div id="bbd6e5a1" class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Search by keyword</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> <span class="cf">await</span> registry.search(<span class="st">"validation"</span>, limit<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> result <span class="kw">in</span> results:</span>
@@ -3268,7 +3268,7 @@ debugger.print_trace()
 <section id="installing-packages" class="level3">
 <h3 class="anchored" data-anchor-id="installing-packages">Installing Packages</h3>
 <p>Install nanobricks with version management:</p>
-<div id="92f588bf" class="cell" data-execution_count="74">
+<div id="4ce58152" class="cell" data-execution_count="74">
 <div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install latest stable version</span></span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>package <span class="op">=</span> <span class="cf">await</span> registry.install(<span class="st">"data-validator"</span>)</span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3290,7 +3290,7 @@ debugger.print_trace()
 <section id="version-management" class="level3">
 <h3 class="anchored" data-anchor-id="version-management">Version Management</h3>
 <p>Semantic versioning with constraints:</p>
-<div id="d94deef2" class="cell" data-execution_count="75">
+<div id="4d9ed7ba" class="cell" data-execution_count="75">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.registry <span class="im">import</span> Version, VersionRange</span>
 <span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Parse versions</span></span>
@@ -3326,7 +3326,7 @@ debugger.print_trace()
 <section id="package-metadata" class="level3">
 <h3 class="anchored" data-anchor-id="package-metadata">Package Metadata</h3>
 <p>Rich metadata for discoverability:</p>
-<div id="0aa4dff2" class="cell" data-execution_count="76">
+<div id="1e5aad4c" class="cell" data-execution_count="76">
 <div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.registry <span class="im">import</span> PackageMetadata</span>
 <span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>metadata <span class="op">=</span> PackageMetadata(</span>

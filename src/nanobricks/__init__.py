@@ -11,6 +11,7 @@ __version__ = "0.1.3"
 # Import built-in skills to register them
 import nanobricks.skills  # noqa: F401
 from nanobricks.composition import NanobrickComposite, Pipeline
+from nanobricks.pipeline_builder import PipelineBuilder
 from nanobricks.dependencies import DependencyContainer, StandardDeps
 
 # Performance utilities (optional import)
@@ -68,6 +69,7 @@ __all__ = [
     # Composition
     "NanobrickComposite",
     "Pipeline",
+    "PipelineBuilder",
     # Dependencies
     "DependencyContainer",
     "StandardDeps",

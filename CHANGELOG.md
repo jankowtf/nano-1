@@ -9,7 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Pipeline Builder API**: Fluent interface for complex compositions beyond simple piping
+  - `Pipeline()` function creates a builder for method chaining
+  - `.branch()` for conditional routing with custom condition functions
+  - `.parallel()` for concurrent execution of multiple bricks
+  - `.merge_with()` to combine results from parallel/branching operations
+  - `.catch_errors()` for error boundaries at any pipeline stage
+  - `.adapt()` for explicit type conversions between incompatible stages
+  - `.visualize()` and `.explain()` for pipeline introspection
+  - Comprehensive test suite covering all builder features
 - **Migration Script**: `migrate_pipe_operator.py` to convert code from `|` to `>>`
+- **Example**: `pipeline_builder_demo.py` showcasing all PipelineBuilder features
 
 ### Changed
 - **Pipe operator changed from `|` to `>>`**: More intuitive arrow syntax (with deprecation period)

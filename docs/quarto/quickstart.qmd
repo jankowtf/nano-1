@@ -72,10 +72,34 @@ class ExclamationBrick(Nanobrick[str, str]):
         return f"{text}!!!"
 
 # Compose them!
-pipeline = GreeterBrick() >> UppercaseBrick() | ExclamationBrick()
+pipeline = GreeterBrick() >> UppercaseBrick() >> ExclamationBrick()
 
 # Produces: "HELLO, ALICE!!!"
 result = await pipeline.invoke("Alice")
+```
+
+## Advanced Composition: Pipeline Builder
+
+For complex pipelines, use the fluent PipelineBuilder API:
+
+```{python}
+#| eval: false
+from nanobricks import Pipeline
+
+# Build a complex pipeline with branching and error handling
+pipeline = (
+    Pipeline()
+    .start_with(DataParser())
+    .then(Validator())
+    .catch_errors(ErrorHandler())
+    .branch(
+        ("email", EmailProcessor()),
+        ("phone", PhoneProcessor()),
+        ("default", DefaultProcessor())
+    )
+    .then(Formatter())
+    .build()
+)
 ```
 
 ## Adding Skills

@@ -109,7 +109,7 @@ class ValidatorEmailSmart(ValidatorEmail):
 ### Sequential Composition
 ```python
 # Data flows through each step
-pipeline = input | step1 | step2 | output
+pipeline = input >> step1 >> step2 >> output
 ```
 
 ### Parallel Composition
@@ -121,7 +121,7 @@ result = await (validator & enricher & scorer).invoke(data)
 ### Conditional Composition
 ```python
 # Branch based on conditions
-pipeline = input | validator | (transformer if condition else passthrough) | output
+pipeline = input >> validator >> (transformer if condition else passthrough) >> output
 ```
 
 ### Recursive Composition
@@ -136,6 +136,149 @@ class Workflow(Nanobrick):
         for step in self.steps:
             result = await step.invoke(result)
         return result
+```
+
+## Advanced Composition: Pipeline Builder
+
+### Fluent Interface Pattern (v0.2.0+)
+
+The PipelineBuilder provides a fluent interface for complex compositions that go beyond simple linear pipelines:
+
+```python
+from nanobricks import Pipeline
+
+# Complex pipeline with branching, parallel execution, and error handling
+pipeline = (
+    Pipeline()
+    .start_with(DataLoader())
+    .then(Validator())
+    .catch_errors(ErrorHandler())
+    .branch(
+        ("email", EmailProcessor() >> EmailFormatter()),
+        ("phone", PhoneProcessor() >> PhoneFormatter()), 
+        ("default", DefaultProcessor())
+    )
+    .parallel(
+        SentimentAnalyzer(),
+        LanguageDetector(),
+        TopicClassifier()
+    )
+    .merge_with(ResultCombiner())
+    .then(FinalFormatter())
+    .name("ComplexDataPipeline")
+    .build()
+)
+```
+
+### Type Adaptation
+
+Automatically handle type mismatches between pipeline stages:
+
+```python
+pipeline = (
+    Pipeline()
+    .start_with(StringInput())           # outputs str
+    .adapt(string_to_dict())            # converts str -> dict
+    .then(DictProcessor())              # expects dict
+    .adapt(dict_to_json(indent=2))     # converts dict -> str
+    .then(StringOutput())               # expects str
+    .build()
+)
+```
+
+### Branching Pattern
+
+Route data through different processing paths based on conditions:
+
+```python
+# Default branching (checks 'type' field)
+pipeline = (
+    Pipeline()
+    .start_with(Parser())
+    .branch(
+        ("typeA", ProcessorA()),
+        ("typeB", ProcessorB()),
+        ("default", DefaultProcessor())
+    )
+    .build()
+)
+
+# Custom condition function
+def route_by_size(data):
+    if len(data) > 1000:
+        return "large"
+    elif len(data) > 100:
+        return "medium"
+    else:
+        return "small"
+
+pipeline = (
+    Pipeline()
+    .start_with(DataLoader())
+    .branch(
+        ("large", HeavyProcessor()),
+        ("medium", StandardProcessor()),
+        ("small", LightProcessor()),
+        condition_func=route_by_size
+    )
+    .build()
+)
+```
+
+### Error Boundaries
+
+Add error handling at any point in the pipeline:
+
+```python
+pipeline = (
+    Pipeline()
+    .start_with(DataLoader())
+    .then(Validator())
+    .catch_errors(
+        ValidationErrorHandler(),
+        catch_types=(ValidationError, ValueError)
+    )
+    .then(Processor())
+    .catch_errors(
+        GeneralErrorHandler(),
+        catch_types=(Exception,)
+    )
+    .build()
+)
+```
+
+### Pipeline Introspection
+
+Visualize and understand complex pipelines:
+
+```python
+builder = (
+    Pipeline()
+    .start_with(Input())
+    .branch(("a", PathA()), ("b", PathB()))
+    .parallel(Check1(), Check2(), Check3())
+    .merge_with(Combiner())
+)
+
+# Visualize the pipeline structure
+print(builder.visualize())
+# Output:
+# Pipeline Visualization:
+# ==================================================
+# ┌─ Input
+# ├─ [Branch Condition]
+# ├─ [Branch Executor]
+#    ├─ a: PathA
+#    ├─ b: PathB
+# ├─ [Parallel Execution]
+#    ├─ Check1
+#    ├─ Check2
+#    ├─ Check3
+# └─ Combiner
+
+# Get detailed explanation
+print(builder.explain())
+# Output: Step-by-step explanation with type information
 ```
 
 ## Anti-Patterns to Avoid
