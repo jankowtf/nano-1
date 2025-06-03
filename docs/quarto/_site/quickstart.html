@@ -532,7 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="your-first-nanobrick" class="level2">
 <h2 class="anchored" data-anchor-id="your-first-nanobrick">Your First Nanobrick</h2>
 <p>Every nanobrick is a self-contained unit of functionality:</p>
-<div id="f0083ba9" class="cell" data-execution_count="1">
+<div id="a7d9d08a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: This example uses async/await syntax. </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In a Jupyter notebook, you can run this directly with 'await'.</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># In a Python script, wrap in asyncio.run() or use invoke_sync().</span></span>
@@ -563,7 +563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="composing-nanobricks" class="level2">
 <h2 class="anchored" data-anchor-id="composing-nanobricks">Composing Nanobricks</h2>
 <p>The real power comes from composition using the pipe operator:</p>
-<div id="8aeac2cc" class="cell" data-execution_count="2">
+<div id="10c420c3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UppercaseBrick(Nanobrick[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
@@ -575,7 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">!!!"</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose them!</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> GreeterBrick() <span class="op">|</span> UppercaseBrick() <span class="op">|</span> ExclamationBrick()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> GreeterBrick() <span class="op">&gt;&gt;</span> UppercaseBrick() <span class="op">|</span> ExclamationBrick()</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Produces: "HELLO, ALICE!!!"</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> pipeline.invoke(<span class="st">"Alice"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -584,7 +584,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="adding-skills" class="level2">
 <h2 class="anchored" data-anchor-id="adding-skills">Adding Skills</h2>
 <p>Skills add capabilities without changing your brick’s core logic:</p>
-<div id="2747fe6c" class="cell" data-execution_count="3">
+<div id="3c0cf100" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add logging</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>logged_greeter <span class="op">=</span> greeter.with_skill(<span class="st">"logging"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -606,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-real-applications" class="level2">
 <h2 class="anchored" data-anchor-id="building-real-applications">Building Real Applications</h2>
 <p>Here’s a complete data validation service in under 20 lines:</p>
-<div id="b08300c0" class="cell" data-execution_count="4">
+<div id="8399d979" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.validators <span class="im">import</span> EmailValidator, TypeValidator</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -664,7 +664,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quick-examples">Quick Examples</h2>
 <section id="data-pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="data-pipeline">Data Pipeline</h3>
-<div id="d9b506b4" class="cell" data-execution_count="5">
+<div id="33c6c927" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> CSVParser, TypeConverter</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.validators <span class="im">import</span> SchemaValidator</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -678,7 +678,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="rest-api-gateway" class="level3">
 <h3 class="anchored" data-anchor-id="rest-api-gateway">REST API Gateway</h3>
-<div id="ea424c2c" class="cell" data-execution_count="6">
+<div id="8f4dfd4d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> create_api_gateway</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>api <span class="op">=</span> create_api_gateway(</span>
@@ -697,7 +697,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="microservice" class="level3">
 <h3 class="anchored" data-anchor-id="microservice">Microservice</h3>
-<div id="33becaf3" class="cell" data-execution_count="7">
+<div id="567c6697" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_microservice</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>service <span class="op">=</span> create_microservice(</span>
@@ -1253,7 +1253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">!!!"</span></span>
 <span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose them!</span></span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> GreeterBrick() <span class="op">|</span> UppercaseBrick() <span class="op">|</span> ExclamationBrick()</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> GreeterBrick() <span class="op">&gt;&gt;</span> UppercaseBrick() <span class="op">|</span> ExclamationBrick()</span>
 <span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Produces: "HELLO, ALICE!!!"</span></span>
 <span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> pipeline.invoke(<span class="st">"Alice"</span>)</span>

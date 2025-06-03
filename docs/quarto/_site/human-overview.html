@@ -557,7 +557,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="universal-composition" class="level3">
 <h3 class="anchored" data-anchor-id="universal-composition">🔗 Universal Composition</h3>
-<p>All nanobricks share the same interface. Combine them with the pipe operator (<code>|</code>) to build complex systems from simple parts.</p>
+<p>All nanobricks share the same interface. Combine them with the pipe operator (<code>&gt;&gt;</code>) to build complex systems from simple parts.</p>
 </section>
 <section id="progressive-enhancement" class="level3">
 <h3 class="anchored" data-anchor-id="progressive-enhancement">🚀 Progressive Enhancement</h3>
@@ -574,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="quick-example" class="level2">
 <h2 class="anchored" data-anchor-id="quick-example">Quick Example</h2>
-<div id="f7c0d3bd" class="cell" data-execution_count="1">
+<div id="dcd8d760" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a nanobrick</span></span>
@@ -649,7 +649,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="use-cases">Use Cases</h2>
 <section id="build-a-rest-api" class="level3">
 <h3 class="anchored" data-anchor-id="build-a-rest-api">Build a REST API</h3>
-<div id="bca433a8" class="cell" data-execution_count="2">
+<div id="c39f19fb" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>api <span class="op">=</span> create_rest_api(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    endpoints<span class="op">=</span>[UserEndpoints(), OrderEndpoints()],</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    middleware<span class="op">=</span>[RateLimiter(), Authenticator()],</span>
@@ -659,7 +659,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="create-a-data-pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-data-pipeline">Create a Data Pipeline</h3>
-<div id="195efebf" class="cell" data-execution_count="3">
+<div id="1e899702" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    S3Loader(bucket<span class="op">=</span><span class="st">"raw-data"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> CSVParser()</span>
@@ -671,7 +671,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="design-a-microservice" class="level3">
 <h3 class="anchored" data-anchor-id="design-a-microservice">Design a Microservice</h3>
-<div id="b1a7ef35" class="cell" data-execution_count="4">
+<div id="9c4aa626" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>service <span class="op">=</span> create_microservice(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"payment-processor"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    handlers<span class="op">=</span>{</span>
@@ -1194,7 +1194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>Every nanobrick does ONE thing well. No bloated classes, no complex inheritance - just simple, focused components.</span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### 🔗 Universal Composition</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>All nanobricks share the same interface. Combine them with the pipe operator (<span class="in">`|`</span>) to build complex systems from simple parts.</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>All nanobricks share the same interface. Combine them with the pipe operator (<span class="in">`&gt;&gt;`</span>) to build complex systems from simple parts.</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### 🚀 Progressive Enhancement</span></span>
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>Start simple, add capabilities as needed. Skills like logging, API endpoints, and monitoring can be added without changing your code.</span>

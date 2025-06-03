@@ -12,15 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Migration Script**: `migrate_pipe_operator.py` to convert code from `|` to `>>`
 
 ### Changed
-- **BREAKING: Pipe operator changed from `|` to `>>`**: More intuitive arrow syntax
-  - All `__or__` methods changed to `__rshift__`
+- **Pipe operator changed from `|` to `>>`**: More intuitive arrow syntax (with deprecation period)
+  - Added `__rshift__` method for `>>` operator support
   - Visual arrow metaphor (`>>`) better represents data flow
   - Less ambiguity compared to `|` (which often means "OR")
   - Migration script provided for easy conversion
 - **Composite naming**: Pipeline names now show `Brick1>>Brick2` instead of `Brick1|Brick2`
 
 ### Deprecated
-- The `|` operator for composition - Use `>>` instead (removed immediately as this is pre-1.0)
+- The `|` operator for composition - Use `>>` instead (will be removed in v0.3.0)
+  - Both operators work during transition period
+  - Using `|` will emit a DeprecationWarning
 
 ## [0.1.3] - 2025-01-06
 

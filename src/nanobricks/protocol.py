@@ -71,6 +71,20 @@ class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
         """
         ...
 
+    def __or__(
+        self, other: "NanobrickProtocol[T_out, Any, T_deps]"
+    ) -> "NanobrickProtocol[T_in, Any, T_deps]":
+        """
+        Compose this nanobrick with another using the | pipe operator.
+
+        Args:
+            other: The nanobrick to compose with
+
+        Returns:
+            A new composite nanobrick
+        """
+        ...
+
 
 class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
     """
@@ -153,6 +167,30 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
         from nanobricks.composition import NanobrickComposite
 
         return NanobrickComposite(self, other)
+    
+    def __or__(
+        self, other: "NanobrickProtocol[T_out, Any, T_deps]"
+    ) -> "NanobrickProtocol[T_in, Any, T_deps]":
+        """
+        Compose this nanobrick with another using the | pipe operator.
+        
+        DEPRECATED: Use >> operator instead. This method is provided for backwards
+        compatibility and will be removed in v0.3.0.
+
+        Args:
+            other: The nanobrick to compose with
+
+        Returns:
+            A new composite nanobrick that runs both in sequence
+        """
+        import warnings
+        warnings.warn(
+            "The | operator for nanobrick composition is deprecated. "
+            "Use >> instead. This will be removed in v0.3.0.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.__rshift__(other)
 
     def __repr__(self) -> str:
         """String representation of the nanobrick."""
@@ -184,7 +222,8 @@ class Nanobrick(NanobrickBase[T_in, T_out, None]):
 class NanobrickSimple(Nanobrick[T_in, T_out]):
     """
     Deprecated: Use `Nanobrick` instead.
-    
+
     This alias is provided for backwards compatibility and will be removed in v0.2.0.
     """
+
     pass
