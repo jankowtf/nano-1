@@ -1162,7 +1162,7 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solution</span></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>Use the pipe operator (<span class="in">`|`</span>) to compose nanobricks when the output type of one stage matches the input type of the next stage.</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>Use the pipe operator (<span class="in">`&gt;&gt;`</span>) to compose nanobricks when the output type of one stage matches the input type of the next stage.</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">|</span> WordTokenizer() <span class="op">|</span> WordCounter()</span>
@@ -1216,7 +1216,7 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose the pipeline</span></span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">|</span> WordTokenizer() <span class="op">|</span> WordCounter()</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">&gt;&gt;</span> WordTokenizer() <span class="op">&gt;&gt;</span> WordCounter()</span>
 <span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Use it</span></span>
 <span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> analyze_text(text: <span class="bu">str</span>):</span>

@@ -72,7 +72,7 @@ class ExclamationBrick(Nanobrick[str, str]):
         return f"{text}!!!"
 
 # Compose them!
-pipeline = GreeterBrick() | UppercaseBrick() | ExclamationBrick()
+pipeline = GreeterBrick() >> UppercaseBrick() | ExclamationBrick()
 
 # Produces: "HELLO, ALICE!!!"
 result = await pipeline.invoke("Alice")

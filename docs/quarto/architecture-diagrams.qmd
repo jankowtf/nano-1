@@ -90,7 +90,7 @@ graph LR
 
 **Code:**
 ```python
-pipeline = ValidateBrick() | TransformBrick() | EnrichBrick() | SaveBrick()
+pipeline = ValidateBrick() >> TransformBrick() >> EnrichBrick() >> SaveBrick()
 ```
 
 ### Branching Pattern

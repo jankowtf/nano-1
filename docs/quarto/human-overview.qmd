@@ -21,7 +21,7 @@ Nanobricks is a Python SDK that lets you build production-ready systems from sma
 Every nanobrick does ONE thing well. No bloated classes, no complex inheritance - just simple, focused components.
 
 ### 🔗 Universal Composition
-All nanobricks share the same interface. Combine them with the pipe operator (`|`) to build complex systems from simple parts.
+All nanobricks share the same interface. Combine them with the pipe operator (`>>`) to build complex systems from simple parts.
 
 ### 🚀 Progressive Enhancement
 Start simple, add capabilities as needed. Skills like logging, API endpoints, and monitoring can be added without changing your code.

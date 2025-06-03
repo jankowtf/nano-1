@@ -201,8 +201,7 @@ class ErrorBoundary(Nanobrick[T, Union[T, ErrorInfo]]):
 
 # Usage
 pipeline = (
-    Parser() |
-    ErrorBoundary(RiskyTransformer()) |  # Isolate risky operation
+    Parser() >> ErrorBoundary(RiskyTransformer()) |  # Isolate risky operation
     Validator()
 )
 ```
@@ -325,7 +324,7 @@ Default behavior - first error stops the pipeline:
 
 ```python
 # Any error stops the pipeline
-pipeline = Parser() | Validator() | Processor()
+pipeline = Parser() >> Validator() >> Processor()
 
 try:
     result = await pipeline.invoke(data)

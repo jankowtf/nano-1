@@ -57,7 +57,7 @@ When using the pipe operator, deps flow through all stages:
 
 ```python
 # deps are automatically passed to each stage
-pipeline = BrickA() | BrickB() | BrickC()
+pipeline = BrickA() >> BrickB() >> BrickC()
 result = await pipeline.invoke(input, deps={"db": db_conn})
 ```
 

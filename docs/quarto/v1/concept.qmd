@@ -202,7 +202,7 @@ class DataTransformer(Nanobrick[Dict, Dict, None]):
         return transformed_data
 
 # Compose using pipe operator (LCEL-style)
-pipeline = ValidatorData() | DataTransformer()
+pipeline = ValidatorData() >> DataTransformer()
 
 # Use in multiple ways
 app = pipeline.as_api()  # FastAPI app

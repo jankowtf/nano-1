@@ -113,10 +113,10 @@ class ConfigProcessor(Nanobrick[dict, dict]):
         }
 
 # Without adapter: TYPE ERROR!
-# pipeline = ConfigReader() | ConfigProcessor()  # str -> dict mismatch
+# pipeline = ConfigReader() >> ConfigProcessor()  # str -> dict mismatch
 
 # With adapter: Works perfectly!
-pipeline = ConfigReader() | string_to_dict() | ConfigProcessor()
+pipeline = ConfigReader() >> string_to_dict() >> ConfigProcessor()
 result = await pipeline.invoke("config.ini")
 # {"host": "localhost", "port": 8080, "debug": true}
 ```

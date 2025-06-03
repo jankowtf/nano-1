@@ -1384,7 +1384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a><span class="co"># deps are automatically passed to each stage</span></span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> BrickA() <span class="op">|</span> BrickB() <span class="op">|</span> BrickC()</span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> BrickA() <span class="op">&gt;&gt;</span> BrickB() <span class="op">&gt;&gt;</span> BrickC()</span>
 <span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> pipeline.invoke(<span class="bu">input</span>, deps<span class="op">=</span>{<span class="st">"db"</span>: db_conn})</span>
 <span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a></span>

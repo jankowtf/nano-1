@@ -50,7 +50,7 @@ All examples in this cookbook are:
 
 ### "When should I use the pipe operator vs manual composition?"
 
-The pipe operator (`|`) is great when:
+The pipe operator (`>>`) is great when:
 - Types align perfectly between stages
 - You want a clean, linear flow
 - Each stage has a single input/output

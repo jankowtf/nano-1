@@ -90,7 +90,7 @@ Test composed pipelines end-to-end:
 class TestPipeline:
     @pytest.fixture
     def pipeline(self):
-        return Parser() | Validator() | Transformer()
+        return Parser() >> Validator() >> Transformer()
     
     @pytest.mark.asyncio
     async def test_full_pipeline(self, pipeline):

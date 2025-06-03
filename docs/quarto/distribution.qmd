@@ -217,7 +217,7 @@ class ShoutBrick(Nanobrick[str, str]):
         return input.upper() + "!!!"
 
 # Create pipeline
-greeting_pipeline = GreetingBrick() | ShoutBrick()
+greeting_pipeline = GreetingBrick() >> ShoutBrick()
 
 # Test it
 import asyncio

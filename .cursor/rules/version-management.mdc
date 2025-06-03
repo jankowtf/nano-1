@@ -1,0 +1,209 @@
+# Version Management Rules for Nanobricks
+
+## Core Principles
+
+1. **NEVER** manually edit version numbers in files
+2. **ALWAYS** use the Task system for version management
+3. **ALWAYS** update CHANGELOG.md before releasing
+4. The version in `pyproject.toml` is the single source of truth
+
+## Release Workflow
+
+### Step 1: Prepare for Release
+
+Before starting a release, ensure:
+- All tests pass: `task core:dev:test`
+- Code is formatted: `task core:dev:format`
+- Linting passes: `task core:dev:lint`
+- Documentation is updated
+- Examples work correctly
+
+### Step 2: Choose Version Bump Type
+
+Decide on the version bump based on changes:
+- **PATCH** (0.1.0 → 0.1.1): Bug fixes, documentation updates
+- **MINOR** (0.1.0 → 0.2.0): New features, backwards-compatible changes
+- **MAJOR** (0.1.0 → 1.0.0): Breaking changes, major redesigns
+
+### Step 3: Execute Release
+
+```bash
+# 1. Check current version
+task version:current
+
+# 2. Bump the version (choose one)
+task version:bump:patch
+task version:bump:minor
+task version:bump:major
+
+# 3. MANUALLY update __version__ in src/nanobricks/__init__.py to match
+
+# 4. Update CHANGELOG.md:
+#    - Move items from [Unreleased] to [X.Y.Z] - YYYY-MM-DD
+#    - Add comparison links at bottom
+#    - Keep [Unreleased] section empty for future changes
+
+# 5. Release everything
+task version:release
+```
+
+## CHANGELOG Format
+
+### Structure
+```markdown
+## [Unreleased]
+
+## [X.Y.Z] - YYYY-MM-DD
+
+### Added
+- New features
+
+### Changed
+- Changes in existing functionality
+
+### Deprecated
+- Soon-to-be removed features
+
+### Removed
+- Removed features
+
+### Fixed
+- Bug fixes
+
+### Security
+- Security fixes
+```
+
+### Example Entry
+```markdown
+## [0.1.3] - 2025-01-06
+
+### Added
+- Enhanced Git Integration with smart commit messages
+- Migration script for updating imports
+
+### Changed
+- Renamed `NanobrickSimple` to `Nanobrick` for clarity
+- Updated all examples to use new naming
+
+### Deprecated
+- `NanobrickSimple` - Use `Nanobrick` instead (removal in v0.2.0)
+```
+
+## Task Commands Reference
+
+### Information
+- `task version:current` - Display current version
+
+### Version Bumping
+- `task version:bump:patch` - Increment patch version
+- `task version:bump:minor` - Increment minor version
+- `task version:bump:major` - Increment major version
+
+### Git Operations
+- `task version:commit:version` - Commit with auto-generated message
+- `task version:tag:create` - Create annotated git tag
+- `task version:release` - Full release (commit, tag, push)
+
+## Common Scenarios
+
+### Hotfix Release
+```bash
+# 1. Fix the bug on a hotfix branch
+git checkout -b hotfix/fix-critical-bug
+
+# 2. Make fixes and test
+# ... make changes ...
+task core:dev:test
+
+# 3. Bump patch version
+task version:bump:patch
+
+# 4. Update __version__ and CHANGELOG
+# ... manual edits ...
+
+# 5. Release
+task version:release
+```
+
+### Feature Release
+```bash
+# 1. Develop on feature branch
+git checkout -b feature/new-capability
+
+# 2. When ready to release, merge to main
+git checkout main
+git merge feature/new-capability
+
+# 3. Bump minor version
+task version:bump:minor
+
+# 4. Update __version__ and CHANGELOG
+# ... manual edits ...
+
+# 5. Release
+task version:release
+```
+
+### Breaking Change Release
+```bash
+# 1. Ensure migration guide is written
+# 2. Update deprecation warnings from previous versions
+
+# 3. Bump major version
+task version:bump:major
+
+# 4. Update __version__ and CHANGELOG with:
+#    - Clear breaking changes section
+#    - Migration instructions
+#    - Removal of deprecated features
+
+# 5. Release
+task version:release
+```
+
+## Important Reminders
+
+1. **Version Sync**: The `__version__` in `src/nanobricks/__init__.py` must be manually updated after bumping
+2. **CHANGELOG Date**: Use the actual release date (task uses system date automatically)
+3. **Git State**: Ensure clean working directory before release
+4. **Tag Format**: Tags are created as `vX.Y.Z` (with 'v' prefix)
+5. **Push Order**: The release task pushes both commits and tags
+
+## Error Recovery
+
+### If version bump fails:
+- Check `pyproject.toml` for syntax errors
+- Ensure you have write permissions
+- Verify clean git state
+
+### If commit fails:
+- Check for uncommitted changes
+- Verify CHANGELOG.md format
+- Ensure version numbers match
+
+### If tag creation fails:
+- Check if tag already exists: `git tag -l vX.Y.Z`
+- Delete local tag if needed: `git tag -d vX.Y.Z`
+- Ensure previous steps completed successfully
+
+### If push fails:
+- Check remote permissions
+- Verify branch protection rules
+- Ensure you're on the correct branch (usually main)
+
+## DO NOT:
+- Edit version numbers manually in any file
+- Create tags manually with git tag
+- Push without using the task system
+- Skip CHANGELOG updates
+- Use different date formats in CHANGELOG
+- Forget to update __version__ in __init__.py
+
+## ALWAYS:
+- Use task commands for version management
+- Keep CHANGELOG up to date
+- Follow semantic versioning principles
+- Test before releasing
+- Update documentation for new features
+- Add deprecation warnings before removing features

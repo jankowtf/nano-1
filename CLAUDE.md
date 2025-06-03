@@ -36,7 +36,7 @@ Nanobricks is a Python framework for creating "antifragile code components" - at
 
 - **Nanobricks**: Self-contained modules implementing the Runnable protocol
 - **Skills**: Optional capabilities (API, CLI, UI, DB, AI, logging, observability, deployment) that activate when needed
-- **Composition**: Modules compose via pipe operator (`|`) and other patterns (branching, parallel, fan-out/fan-in)
+- **Composition**: Modules compose via pipe operator (`>>`) and other patterns (branching, parallel, fan-out/fan-in)
 - **Antifragility**: Components that gain strength from stress through self-healing and adaptation
 
 ### Key Architectural Decisions
@@ -87,7 +87,7 @@ class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
 
     async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
     def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
-    def __or__(self, other: 'NanobrickProtocol') -> 'NanobrickProtocol': ...
+    def __rshift__(self, other: 'NanobrickProtocol') -> 'NanobrickProtocol': ...
 
 class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
     """Base class with runtime enforcement"""

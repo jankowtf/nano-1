@@ -13,7 +13,7 @@ You want to process data through multiple stages, where each stage transforms th
 
 ## Solution
 
-Use the pipe operator (`|`) to compose nanobricks when the output type of one stage matches the input type of the next stage.
+Use the pipe operator (`>>`) to compose nanobricks when the output type of one stage matches the input type of the next stage.
 
 ```python
 pipeline = TextCleaner() | WordTokenizer() | WordCounter()
@@ -67,7 +67,7 @@ class WordCounter(Nanobrick[List[str], Dict[str, int]]):
 
 
 # Compose the pipeline
-pipeline = TextCleaner() | WordTokenizer() | WordCounter()
+pipeline = TextCleaner() >> WordTokenizer() >> WordCounter()
 
 # Use it
 async def analyze_text(text: str):

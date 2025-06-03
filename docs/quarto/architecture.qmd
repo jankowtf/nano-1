@@ -122,9 +122,7 @@ result = brick.invoke(data, deps={"db": db, "cache": cache})
 
 # Dependency injection through composition
 pipeline = (
-    ValidateBrick()
-    | TransformBrick()
-    | PersistBrick()
+    ValidateBrick() >> TransformBrick() >> PersistBrick()
 ).with_deps(MyDeps(db=db, cache=cache, logger=logger))
 
 # Partial dependency override
@@ -142,9 +140,7 @@ TransformedData = NewType('TransformedData', dict)
 
 # Explicit typing for deep pipelines
 pipeline: Nanobrick[RawData, FinalResult, MyDeps] = (
-    Validator[RawData, ValidatedData, MyDeps]()
-    | Transformer[ValidatedData, TransformedData, MyDeps]()
-    | Persister[TransformedData, FinalResult, MyDeps]()
+    Validator[RawData, ValidatedData, MyDeps]() >> Transformer[ValidatedData, TransformedData, MyDeps]() >> Persister[TransformedData, FinalResult, MyDeps]()
 )
 
 # Type hints for intermediate results

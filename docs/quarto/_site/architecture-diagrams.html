@@ -2474,7 +2474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a><span class="st">**Code:**</span></span>
 <span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a><span class="st">```python</span></span>
-<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a><span class="st">pipeline = ValidateBrick() | TransformBrick() | EnrichBrick() | SaveBrick()</span></span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a><span class="st">pipeline = ValidateBrick() &gt;&gt; TransformBrick() &gt;&gt; EnrichBrick() &gt;&gt; SaveBrick()</span></span>
 <span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
 <span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a><span class="st">### Branching Pattern</span></span>

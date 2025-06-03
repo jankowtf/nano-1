@@ -427,7 +427,7 @@ class UserValidateBrick(NanobrickBase[dict, dict, StandardDeps]):
 
 
 # All bricks in the pipeline receive the same deps
-pipeline = UserValidateBrick() | EnrichBrick() | SaveBrick()
+pipeline = UserValidateBrick() >> EnrichBrick() | SaveBrick()
 data = {"id": 123, "name": "Alice"}
 result = await pipeline.invoke(data, deps=deps.to_dict())
 print(f"Pipeline result: {result}")

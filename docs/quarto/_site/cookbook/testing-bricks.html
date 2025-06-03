@@ -1633,7 +1633,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TestPipeline:</span>
 <span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">@pytest.fixture</span></span>
 <span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> pipeline(<span class="va">self</span>):</span>
-<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Parser() <span class="op">|</span> Validator() <span class="op">|</span> Transformer()</span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Transformer()</span>
 <span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">@pytest.mark.asyncio</span></span>
 <span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> test_full_pipeline(<span class="va">self</span>, pipeline):</span>

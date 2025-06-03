@@ -15,7 +15,7 @@ Nanobricks is a revolutionary SDK that lets you build production-ready Python sy
 Every nanobrick does ONE thing well. No bloated classes, no complex inheritance - just simple, focused components that you can understand at a glance.
 
 ### 🔗 **Universal Composition**
-All nanobricks share the same interface. Combine them with the pipe operator (`|`) to build complex systems from simple parts. What works alone works in combination.
+All nanobricks share the same interface. Combine them with the pipe operator (`>>`) to build complex systems from simple parts. What works alone works in combination.
 
 ### 🚀 **Progressive Enhancement**
 Start simple, add capabilities as needed. Skills like logging, API endpoints, and monitoring can be added to any nanobrick without changing its code.
@@ -41,9 +41,7 @@ class UserService(Nanobrick[dict, dict]):
     def __init__(self):
         super().__init__()
         self.pipeline = (
-            ValidateUser()
-            | EnrichUser()
-            | SaveUser()
+            ValidateUser() >> EnrichUser() >> SaveUser()
         ).with_skill("retry", max_attempts=3)
     
     async def invoke(self, user: dict, *, deps=None) -> dict:

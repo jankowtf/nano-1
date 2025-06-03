@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Pipeline Builder API**: Fluent interface for complex compositions beyond simple piping
+- **Migration Script**: `migrate_pipe_operator.py` to convert code from `|` to `>>`
+
+### Changed
+- **BREAKING: Pipe operator changed from `|` to `>>`**: More intuitive arrow syntax
+  - All `__or__` methods changed to `__rshift__`
+  - Visual arrow metaphor (`>>`) better represents data flow
+  - Less ambiguity compared to `|` (which often means "OR")
+  - Migration script provided for easy conversion
+- **Composite naming**: Pipeline names now show `Brick1>>Brick2` instead of `Brick1|Brick2`
+
+### Deprecated
+- The `|` operator for composition - Use `>>` instead (removed immediately as this is pre-1.0)
+
 ## [0.1.3] - 2025-01-06
 
 ### Added
@@ -87,7 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Logging skill with structured output
   - CLI skill for Typer integration
   - Observability skill with OpenTelemetry support
-- Composition patterns with pipe operator (`|`)
+- Composition patterns with pipe operator (`|`) [Changed to `>>` in v0.2.0]
 - Built-in transformers and validators
 - Type-safe generics support
 - Configuration system with TOML support

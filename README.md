@@ -7,7 +7,7 @@ Nanobricks is a Python framework for creating atomic, self-sufficient code compo
 ## ( Key Features
 
 - **= Protocol-First Design**: Clean interfaces with runtime enforcement via Protocol + ABC hybrid
-- **= Composable by Default**: Chain components with the pipe operator (`|`) for elegant data flows
+- **= Composable by Default**: Chain components with the pipe operator (`>>`) for elegant data flows
 - **=� Antifragile Architecture**: Components that self-heal and adapt under stress
 - **<� Zero Dependencies**: Each brick is self-contained  add only what you need
 - **� Async-First**: Built for modern Python with full async/await support
@@ -73,7 +73,7 @@ class Exclaim(Nanobrick[str, str, None]):
         return f"{input}!!!"
 
 # Compose them!
-pipeline = Greeter() | Uppercase() | Exclaim()
+pipeline = Greeter() >> Uppercase() >> Exclaim()
 result = await pipeline.invoke("nanobricks")  # "HELLO, NANOBRICKS!!!"
 ```
 
@@ -108,7 +108,7 @@ class ConfigValidator(Nanobrick[dict, dict]):
         return {"validated": True, **input}
 
 # Type adapter makes it work!
-config_pipeline = ConfigParser() | string_to_dict() | ConfigValidator() | dict_to_json()
+config_pipeline = ConfigParser() >> string_to_dict() >> ConfigValidator() >> dict_to_json()
 result = await config_pipeline.invoke("config.ini")
 # {"validated": true, "host": "localhost", "port": "8080"}
 ```
@@ -174,7 +174,7 @@ class AgeTransformer(Transformer[UserInput, UserInput, None]):
         return input
 
 # Compose validation and transformation
-pipeline = UserValidator() | AgeTransformer() | DataProcessor()
+pipeline = UserValidator() >> AgeTransformer() >> DataProcessor()
 ```
 
 ### Advanced Composition
