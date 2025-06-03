@@ -1,0 +1,367 @@
+---
+description: Best practices for Quarto-focused task automation using go-task in documentation projects
+globs: 
+  - "Taskfile.docs.yml"
+  - "docs/**/*.qmd"
+  - "_quarto.yml"
+alwaysApply: true
+---
+
+# Quarto Documentation Task System
+
+## Overview
+
+This rule defines best practices for managing Quarto documentation projects using go-task, focusing on the `docs:*` namespace for documentation-specific workflows.
+
+## Core Quarto Task Patterns
+
+### Site Management (`docs:site:*`)
+
+Essential tasks for Quarto site lifecycle:
+
+```yaml
+docs:site:render:
+  desc: Render Quarto documentation
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto render
+  sources:
+    - '{{.QUARTO_DIR}}/**/*.qmd'
+    - '{{.QUARTO_DIR}}/**/*.yml'
+    - '{{.QUARTO_DIR}}/**/*.css'
+  generates:
+    - '{{.SITE_DIR}}/**/*'
+
+docs:site:preview:
+  desc: Preview with live reload (development)
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto preview
+
+docs:site:clean:
+  desc: Clean generated documentation
+  cmds:
+    - rm -rf '{{.SITE_DIR}}'
+
+docs:site:publish:
+  desc: Publish to GitHub Pages
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto publish gh-pages
+```
+
+### Content Management (`docs:content:*`)
+
+Tasks for content validation and maintenance:
+
+```yaml
+docs:content:validate:
+  desc: Validate all Quarto documents
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - find . -name "*.qmd" -exec echo "Checking {}" \;
+
+docs:content:spellcheck:
+  desc: Run spellcheck on documentation
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - |
+      if command -v aspell >/dev/null 2>&1; then
+        find . -name "*.qmd" -exec aspell check {} \;
+      else
+        echo "⚠️ aspell not found"
+      fi
+```
+
+### Development Tasks (`docs:dev:*`)
+
+Development-focused documentation tasks:
+
+```yaml
+docs:dev:serve:
+  desc: Start development server
+  cmds:
+    - task: docs:site:preview
+
+docs:dev:build:
+  desc: Clean build for production
+  cmds:
+    - task: docs:site:clean
+    - task: docs:site:render
+
+docs:dev:check:
+  desc: Check documentation build
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto check
+```
+
+## Essential Configuration
+
+### Required Variables
+
+Always define these variables in your main Taskfile.yml:
+
+```yaml
+vars:
+  QUARTO_DIR: docs/quarto
+  SITE_DIR: docs/quarto/_site
+```
+
+### File Organization
+
+Keep documentation tasks in a separate file:
+
+```yaml
+# In main Taskfile.yml
+includes:
+  docs: ./Taskfile.docs.yml
+
+# In Taskfile.docs.yml
+version: '3'
+silent: true
+```
+
+## Quarto-Specific Best Practices
+
+### Directory Management
+
+- Always use `dir: '{{.QUARTO_DIR}}'` for Quarto commands
+- Define consistent directory variables
+- Use relative paths within the Quarto directory
+
+### File Watching
+
+Leverage go-task's file watching with proper source definitions:
+
+```yaml
+docs:site:render:
+  sources:
+    - '{{.QUARTO_DIR}}/**/*.qmd'    # Quarto markdown files
+    - '{{.QUARTO_DIR}}/**/*.yml'    # Configuration files
+    - '{{.QUARTO_DIR}}/**/*.css'    # Style files
+    - '{{.QUARTO_DIR}}/**/*.js'     # JavaScript files
+  generates:
+    - '{{.SITE_DIR}}/**/*'
+```
+
+### Preconditions and Error Handling
+
+Add preconditions for tasks that depend on previous builds:
+
+```yaml
+docs:site:open:
+  preconditions:
+    - sh: test -f '{{.SITE_DIR}}/index.html'
+      msg: "Documentation not rendered. Run 'task docs:site:render' first."
+    - sh: command -v quarto
+      msg: "Quarto is required but not installed"
+```
+
+## Common Quarto Workflows
+
+### Development Workflow
+
+```yaml
+# Live development
+task docs:site:preview    # Start live preview server
+
+# Production build
+task docs:dev:build       # Clean build for production
+task docs:site:publish    # Publish to GitHub Pages
+```
+
+### Content Maintenance
+
+```yaml
+# Content validation
+task docs:content:validate    # Check all documents
+task docs:content:spellcheck  # Run spellcheck
+
+# Site maintenance
+task docs:site:clean         # Clean generated files
+task docs:dev:check          # Validate build setup
+```
+
+## Integration with Main Project
+
+### Cross-Task Dependencies
+
+Reference documentation tasks from main development workflow:
+
+```yaml
+# In main Taskfile.yml
+core:dev:all:
+  desc: Run all checks including docs
+  cmds:
+    - task: core:dev:lint
+    - task: core:dev:test  
+    - task: docs:site:render  # Include docs in full check
+```
+
+### Aliases for Common Tasks
+
+Provide convenient aliases:
+
+```yaml
+# In main Taskfile.yml
+preview:
+  desc: Alias for docs:site:preview
+  cmds:
+    - task: docs:site:preview
+
+serve:
+  desc: Alias for docs:dev:serve  
+  cmds:
+    - task: docs:dev:serve
+```
+
+## Deployment Patterns
+
+### Staging and Production
+
+```yaml
+docs:deploy:staging:
+  desc: Deploy to staging environment
+  deps: [site:render]
+  cmds:
+    - echo "🚀 Deploying to staging..."
+    # Add staging deployment logic
+
+docs:deploy:production:
+  desc: Deploy to production
+  cmds:
+    - task: docs:site:publish
+```
+
+### Multi-Environment Publishing
+
+```yaml
+docs:site:publish:github:
+  desc: Publish to GitHub Pages
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto publish gh-pages
+
+docs:site:publish:netlify:
+  desc: Publish to Netlify
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto publish netlify
+```
+
+## Error Handling and Validation
+
+### Content Validation
+
+```yaml
+docs:content:validate:
+  desc: Comprehensive content validation
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - |
+      echo "🔍 Validating Quarto documents..."
+      # Check for broken internal links
+      if command -v linkchecker >/dev/null 2>&1; then
+        quarto render --to html
+        linkchecker {{.SITE_DIR}}/index.html
+      fi
+      # Validate YAML frontmatter
+      find . -name "*.qmd" -exec grep -l "^---" {} \; | \
+        xargs -I {} sh -c 'echo "Checking YAML in {}" && head -20 "{}" | grep -A 20 "^---"'
+```
+
+### Build Verification
+
+```yaml
+docs:site:verify:
+  desc: Verify site build completeness
+  cmds:
+    - |
+      if [ ! -d "{{.SITE_DIR}}" ]; then
+        echo "❌ Site directory not found"
+        exit 1
+      fi
+      if [ ! -f "{{.SITE_DIR}}/index.html" ]; then
+        echo "❌ Index file not found"
+        exit 1
+      fi
+      echo "✅ Site build verified"
+```
+
+## Performance Optimization
+
+### Incremental Builds
+
+Use file watching effectively for incremental builds:
+
+```yaml
+docs:dev:watch:
+  desc: Watch for changes and rebuild incrementally
+  cmds:
+    - |
+      watchexec \
+        --exts qmd,yml,yaml,css,js \
+        --watch {{.QUARTO_DIR}} \
+        --ignore {{.SITE_DIR}} \
+        -- task docs:site:render
+```
+
+### Parallel Processing
+
+For large documentation projects:
+
+```yaml
+docs:site:render:fast:
+  desc: Render with parallel processing
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto render --execute-daemon
+```
+
+## Echo Statement Rules for Quarto Tasks
+
+### CRITICAL: Colon Usage in Echo Statements
+
+Follow the same rules as main Taskfile system:
+
+```yaml
+# ✅ Good - Use dashes in descriptive text
+echo "Rendering docs - quarto render"
+echo "Error - Quarto not found" 
+echo "Usage - task docs:site:preview"
+
+# ❌ Bad - Colons in descriptive text
+echo "Rendering docs: quarto render"
+echo "Error: Quarto not found"
+echo "Usage: task docs:site:preview"
+```
+
+### Quarto-Specific Examples
+
+```yaml
+docs:site:render:
+  cmds:
+    - echo "🏗️ Building documentation - quarto render"
+    - quarto render
+    - echo "✅ Build complete - site available at {{.SITE_DIR}}"
+
+docs:content:validate:
+  cmds:
+    - echo "🔍 Validating content - checking all .qmd files"
+    - echo "❌ Validation failed - missing frontmatter"  # If error
+```
+
+## Summary
+
+1. **Organize documentation tasks in separate `Taskfile.docs.yml`**
+2. **Use consistent `docs:component:action` naming pattern**
+3. **Always set `dir: '{{.QUARTO_DIR}}'` for Quarto commands**
+4. **Define proper sources and generates for file watching**
+5. **Include preconditions for tool availability**
+6. **Provide both development and production workflows**
+7. **Integrate with main project development workflow**
+8. **Add content validation and error handling**
+9. **Follow echo statement colon rules consistently**
+
+This system provides a comprehensive, maintainable approach to managing Quarto documentation projects with go-task.

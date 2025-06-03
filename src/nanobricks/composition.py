@@ -4,11 +4,16 @@ Composition utilities for nanobricks.
 This module provides the CompositeBrick class and other composition patterns.
 """
 
-from typing import Any, TypeVar, cast
+from typing import Any, TypeVar, cast, Type, get_type_hints
 
 from beartype import beartype
 
 from nanobricks.protocol import NanobrickBase, NanobrickProtocol
+from nanobricks.typing import (
+    TypeMismatchError,
+    check_type_compatibility,
+    suggest_adapter,
+)
 
 T_in = TypeVar("T_in")
 T_mid = TypeVar("T_mid")
@@ -39,6 +44,35 @@ class NanobrickComposite(NanobrickBase[T_in, T_out, T_deps]):
         super().__init__(name=f"{first.name}|{second.name}", version="composite")
         self.first = first
         self.second = second
+
+        # Enhanced type checking with better error messages
+        self._validate_type_compatibility()
+
+    def _validate_type_compatibility(self) -> None:
+        """Validate type compatibility between bricks with helpful error messages."""
+        try:
+            # Try to get type hints from the invoke method
+            first_hints = get_type_hints(self.first.invoke)
+            second_hints = get_type_hints(self.second.invoke)
+
+            # Get return type of first and input type of second
+            first_output = first_hints.get("return", Any)
+            second_input = second_hints.get("input", Any)
+
+            # Check compatibility
+            if not check_type_compatibility(first_output, second_input):
+                suggestion = suggest_adapter(first_output, second_input)
+                raise TypeMismatchError(
+                    left_brick=self.first.name,
+                    right_brick=self.second.name,
+                    output_type=first_output,
+                    expected_type=second_input,
+                    suggestion=suggestion,
+                )
+        except (AttributeError, TypeError):
+            # If we can't get type hints, skip validation
+            # This maintains backwards compatibility
+            pass
 
     @beartype
     async def invoke(self, input: T_in, *, deps: T_deps | None = None) -> T_out:

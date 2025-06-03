@@ -1,0 +1,148 @@
+# Semantic Versioning Tasks for Nanobricks
+# 
+# This file provides tasks for managing versions and releases following
+# semantic versioning principles. The version in pyproject.toml is the
+# single source of truth.
+#
+# Usage:
+#   task -t Taskfile.semver.yml current    - Show current version
+#   task -t Taskfile.semver.yml bump:patch - Bump patch version (0.1.0 → 0.1.1)
+#   task -t Taskfile.semver.yml bump:minor - Bump minor version (0.1.0 → 0.2.0)
+#   task -t Taskfile.semver.yml bump:major - Bump major version (0.1.0 → 1.0.0)
+#   task -t Taskfile.semver.yml tag:create - Create git tag for current version
+
+version: '3'
+
+vars:
+  PYPROJECT_FILE: pyproject.toml
+  CHANGELOG_FILE: CHANGELOG.md
+
+tasks:
+  current:
+    desc: Show current package version
+    cmds:
+      - |
+        echo "Current version - $(grep -E '^version = ' {{.PYPROJECT_FILE}} | cut -d '"' -f 2)"
+    silent: true
+
+  bump:patch:
+    desc: Bump patch version (e.g., 0.1.0 → 0.1.1)
+    cmds:
+      - task: _bump
+        vars:
+          BUMP_TYPE: patch
+
+  bump:minor:
+    desc: Bump minor version (e.g., 0.1.0 → 0.2.0)
+    cmds:
+      - task: _bump
+        vars:
+          BUMP_TYPE: minor
+
+  bump:major:
+    desc: Bump major version (e.g., 0.1.0 → 1.0.0)
+    cmds:
+      - task: _bump
+        vars:
+          BUMP_TYPE: major
+
+  tag:create:
+    desc: Create git tag for current version
+    cmds:
+      - |
+        VERSION=$(grep -E '^version = ' {{.PYPROJECT_FILE}} | cut -d '"' -f 2)
+        TAG="v$VERSION"
+        
+        if git rev-parse "$TAG" >/dev/null 2>&1; then
+          echo "Error - Tag $TAG already exists"
+          exit 1
+        fi
+        
+        if ! git diff-index --quiet HEAD --; then
+          echo "Error - You have uncommitted changes. Please commit them first."
+          exit 1
+        fi
+        
+        echo "Creating tag $TAG..."
+        git tag -a "$TAG" -m "Release version $VERSION"
+        echo "✓ Created tag $TAG"
+        echo "To push the tag to remote, run - git push origin $TAG"
+
+  commit:version:
+    desc: Commit version changes with appropriate message
+    vars:
+      CURRENT_VERSION:
+        sh: grep -E '^version = ' {{.PYPROJECT_FILE}} | cut -d '"' -f 2
+      CURRENT_DATE:
+        sh: date "+%Y-%m-%d"
+    cmds:
+      - |
+        VERSION="{{.CURRENT_VERSION}}"
+        
+        # Stage all changes
+        git add .
+        
+        # Check if CHANGELOG has the version entry
+        if grep -q "## \[$VERSION\] - {{.CURRENT_DATE}}" {{.CHANGELOG_FILE}}; then
+          echo "✓ CHANGELOG.md has entry for version $VERSION"
+        else
+          echo "Warning - CHANGELOG.md missing entry for version $VERSION"
+        fi
+        
+        # Create commit message
+        git commit -m "chore: release v$VERSION
+
+        - Updated version to $VERSION
+        - See CHANGELOG.md for details"
+        
+        echo "✓ Committed version $VERSION"
+
+  release:
+    desc: Full release workflow - commit, tag, and push
+    vars:
+      CURRENT_VERSION:
+        sh: grep -E '^version = ' {{.PYPROJECT_FILE}} | cut -d '"' -f 2
+    cmds:
+      - task: commit:version
+      - task: tag:create
+      - |
+        VERSION="{{.CURRENT_VERSION}}"
+        TAG="v$VERSION"
+        
+        echo "Pushing commits and tags to origin..."
+        git push origin main
+        git push origin "$TAG"
+        
+        echo "✓ Released version $VERSION"
+        echo ""
+        echo "Next steps -"
+        echo "1. Create GitHub release at https://github.com/yourusername/nanobricks/releases/new"
+        echo "2. Build and publish to PyPI - task build:publish:pypi"
+
+  _bump:
+    internal: true
+    vars:
+      CURRENT_VERSION:
+        sh: grep -E '^version = ' {{.PYPROJECT_FILE}} | cut -d '"' -f 2
+    cmds:
+      - |
+        CURRENT="{{.CURRENT_VERSION}}"
+        IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+        
+        case "{{.BUMP_TYPE}}" in
+          patch) NEW_VERSION="$MAJOR.$MINOR.$((PATCH + 1))" ;;
+          minor) NEW_VERSION="$MAJOR.$((MINOR + 1)).0" ;;
+          major) NEW_VERSION="$((MAJOR + 1)).0.0" ;;
+        esac
+        
+        echo "Bumping version from $CURRENT to $NEW_VERSION..."
+        
+        # Use perl for cross-platform in-place editing
+        perl -i -pe "s/^version = \"[^\"]+\"/version = \"$NEW_VERSION\"/" {{.PYPROJECT_FILE}}
+        
+        echo "✓ Updated {{.PYPROJECT_FILE}}"
+        echo ""
+        echo "Next steps"
+        echo "1. Commit changes - git add -A && git commit -m 'chore: bump version to $NEW_VERSION'"
+        echo "2. Create tag - task -t Taskfile.semver.yml tag:create"
+        echo "3. Push changes - git push && git push --tags" 

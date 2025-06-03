@@ -4031,5 +4031,365 @@
       "Cookbook",
       "Composition vs Inheritance"
     ]
+  },
+  {
+    "objectID": "task-reference.html",
+    "href": "task-reference.html",
+    "title": "Task Reference",
+    "section": "",
+    "text": "Nanobricks uses go-task for task automation with a systematic namespace:component:action:variant design pattern. This creates intuitive, discoverable, and extensible task hierarchies.\n\n\n# Show all available tasks\ntask --list\n\n# Core development workflow\ntask core:dev:setup    # Set up development environment\ntask core:dev:test     # Run all tests\ntask core:dev:lint     # Run linters\ntask core:dev:format   # Format code\n\n# Documentation workflow\ntask docs:site:render  # Render documentation\ntask docs:site:preview # Preview with live reload\n\n# Build and deployment\ntask build:package:create        # Build packages\ntask deploy:package:install:local # Install locally\n\n\n\nAll tasks follow a hierarchical naming pattern that creates systematic organization:\n\nnamespace: Primary domain (core, docs, build, deploy, project, version)\ncomponent: Specific component (dev, site, package, scaffold, semver)\n\naction: What to do (test, render, create, install, bump)\nvariant: Specific variant (unit, local, patch, uv)\n\n\n\n\n\n\nDevelopment workflow tasks for code quality and testing:\n# Environment setup\ntask core:dev:setup              # Set up development environment\n\n# Testing\ntask core:dev:test               # Run all tests\ntask core:dev:test:unit          # Run unit tests only\ntask core:dev:test:integration   # Run integration tests only  \ntask core:dev:test:coverage      # Run tests with coverage report\n\n# Code quality\ntask core:dev:lint               # Run linters (ruff + mypy)\ntask core:dev:format             # Format code (ruff + black)\ntask core:dev:typecheck          # Run strict type checking\n\n# Comprehensive checks\ntask core:dev:all                # Run all checks (lint, test, docs)\ntask core:dev:watch:test         # Watch files and run tests on change\n\n\n\nDocumentation generation and publishing tasks:\n# Site generation\ntask docs:site:render            # Render Quarto documentation\ntask docs:site:preview           # Preview with live reload\ntask docs:site:clean             # Clean generated files\ntask docs:site:open              # Open rendered docs in browser\ntask docs:site:publish           # Publish to GitHub Pages\ntask docs:site:watch             # Watch and rebuild on change\n\n\n\nPackage building and distribution tasks:\n# Package building\ntask build:package:create        # Build wheel and sdist packages\ntask build:package:clean         # Clean build artifacts\ntask build:package:verify        # Verify package installation\n\n# Repository management  \ntask build:repo:create:local     # Set up local package repository\n\n\n\nPackage installation and deployment tasks:\n# Installation\ntask deploy:package:install:local PROJECT_PATH=/path  # Install in another project (editable)\ntask deploy:package:install:wheel PROJECT_PATH=/path  # Install from wheel\n\n# Publishing\ntask deploy:publish:test         # Test package publishing (dry run)\ntask deploy:publish:pypi         # Publish to PyPI (requires credentials)\n\n\n\nProject creation, linking, and scaffolding tasks:\n# Project creation\ntask project:scaffold:create NAME=myproject DIR=/path    # Manual project setup\ntask project:scaffold:create:uv NAME=myproject DIR=/path # Create with uv init\n\n# Project linking (for development)\ntask project:link:add PATH=/path/to/project     # Link external project\ntask project:link:remove NAME=project-name     # Remove project link  \ntask project:link:list                         # List all linked projects\n\n# Quick checks\ntask project:check:all          # Run all development checks\ntask project:check:quick        # Run quick checks (lint only)\n\n\n\nSemantic versioning and release management:\n# Version information\ntask version:semver:current      # Show current version\n\n# Version bumping\ntask version:semver:bump:patch   # Bump patch version (0.1.0 → 0.1.1)\ntask version:semver:bump:minor   # Bump minor version (0.1.0 → 0.2.0) \ntask version:semver:bump:major   # Bump major version (0.1.0 → 1.0.0)\n\n# Git tagging\ntask version:git:tag:create      # Create git tag for current version\n\n\n\nCode generation and component creation:\n# Component creation\ntask scaffold:brick:create NAME=my_brick  # Create new nanobrick component\n\n\n\n\nFor convenience, common tasks have short aliases:\n# Short aliases (backwards compatible)\ntask test      # → task core:dev:test\ntask lint      # → task core:dev:lint  \ntask format    # → task core:dev:format\n\n\n\nThe task system is organized across multiple files for maintainability:\nTaskfile.yml           # Main file with core tasks and includes\nTaskfile.docs.yml      # Documentation tasks (docs:*)\nTaskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)\nTaskfile.dev.yml       # Development utilities (project:*)\nTaskfile.semver.yml    # Version management (version:*)\n\n\n\n\n\n# Initial setup\ntask core:dev:setup\n\n# Regular development cycle\ntask core:dev:format    # Format code\ntask core:dev:lint      # Check code quality\ntask core:dev:test      # Run tests\ntask docs:site:render   # Update docs\n\n# Or run everything at once\ntask core:dev:all\n\n\n\n# Live documentation development\ntask docs:site:preview  # Start live preview server\n\n# Build and publish\ntask docs:site:render   # Build static site\ntask docs:site:publish  # Publish to GitHub Pages\n\n\n\n# Version management\ntask version:semver:current          # Check current version\ntask version:semver:bump:patch       # Bump version\ntask version:git:tag:create          # Create git tag\n\n# Build and publish\ntask build:package:create            # Build packages\ntask deploy:publish:test             # Test publishing\ntask deploy:publish:pypi             # Publish to PyPI\n\n\n\n# Create new project using Nanobricks\ntask project:scaffold:create:uv NAME=myproject DIR=/path/to/parent\n\n# Link existing project for development  \ntask project:link:add PATH=/path/to/existing/project\n\n\n\n\n\n\nMany tasks accept variables for customization:\n# Project creation with custom names\ntask project:scaffold:create NAME=my-awesome-project DIR=~/projects\n\n# Component creation  \ntask scaffold:brick:create NAME=data_processor\n\n# Project linking\ntask project:link:add PATH=../my-other-project\n\n\n\nDevelopment tasks support file watching:\n# Watch and run tests automatically\ntask core:dev:watch:test\n\n# Watch and rebuild docs\ntask docs:site:watch  # Same as docs:site:preview\n\n\n\nSome tasks automatically run dependencies:\n# This will first run build:package:create if needed\ntask deploy:package:install:wheel\n\n\n\n\n\n\nKey variables are defined in Taskfile.yml:\nvars:\n  QUARTO_DIR: docs/quarto\n  SITE_DIR: docs/quarto/_site\n  ROOT_DIR: # Auto-detected from pwd\n\n\n\nTasks can be customized for different environments by modifying variables or using different Taskfile includes.\n\n\n\n\n\n\nWhen writing custom tasks, follow these critical rules for echo statements:\nIMPORTANT: Replace ALL colons in echo statements with dashes, except within task names themselves.\n# ✅ Correct echo statements\necho \"Usage - task core:dev:test\"\necho \"Error - build failed\"\necho \"Status - deployment complete\"\necho \"Next step - task docs:site:render\"\n\n# ❌ Incorrect echo statements  \necho \"Usage: task core:dev:test\"\necho \"Error: build failed\"\necho \"Status: deployment complete\"\necho \"Next step: task docs:site:render\"\n\n\n\nmy:custom:task:\n  desc: Example of a well-formed custom task\n  cmds:\n    - echo \"Starting custom task - processing data\"\n    - |\n      if [ ! -f \"data.json\" ]; then\n        echo \"Error - data.json not found\"\n        echo \"Run - task data:fetch first\"\n        exit 1\n      fi\n    - echo \"Success - task completed\"\n\n\n\n\n\n\nTask not found: Ensure you’re in the project root directory where Taskfile.yml exists.\nPermission errors: Some tasks may require specific permissions (e.g., publishing to PyPI).\nMissing dependencies: Some tasks have preconditions that check for required tools.\n\n\n\n# List all tasks with descriptions\ntask --list\n\n# Show task details\ntask --summary core:dev:test\n\n# Verbose output (disable silent mode)\ntask --verbose core:dev:test\n\n\n\n\n\n\n# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Set up development environment\ntask core:dev:setup\n\n# Verify everything works\ntask core:dev:all\n\n\n\n# From the Nanobricks directory\ntask project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects\n\n# Navigate to the new project\ncd ~/projects/my-data-pipeline\n\n# Run the generated tests\ntask core:dev:test\n\n\n\n# Make your changes\n# ...\n\n# Check code quality\ntask core:dev:format\ntask core:dev:lint\ntask core:dev:test\n\n# Update documentation if needed\ntask docs:site:render\n\n# Or run everything\ntask core:dev:all\nThis systematic task organization makes Nanobricks development workflows intuitive and discoverable while maintaining backwards compatibility through aliases.",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#quick-start",
+    "href": "task-reference.html#quick-start",
+    "title": "Task Reference",
+    "section": "",
+    "text": "# Show all available tasks\ntask --list\n\n# Core development workflow\ntask core:dev:setup    # Set up development environment\ntask core:dev:test     # Run all tests\ntask core:dev:lint     # Run linters\ntask core:dev:format   # Format code\n\n# Documentation workflow\ntask docs:site:render  # Render documentation\ntask docs:site:preview # Preview with live reload\n\n# Build and deployment\ntask build:package:create        # Build packages\ntask deploy:package:install:local # Install locally",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#design-principle-namespacecomponentactionvariant",
+    "href": "task-reference.html#design-principle-namespacecomponentactionvariant",
+    "title": "Task Reference",
+    "section": "",
+    "text": "All tasks follow a hierarchical naming pattern that creates systematic organization:\n\nnamespace: Primary domain (core, docs, build, deploy, project, version)\ncomponent: Specific component (dev, site, package, scaffold, semver)\n\naction: What to do (test, render, create, install, bump)\nvariant: Specific variant (unit, local, patch, uv)",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#task-namespaces",
+    "href": "task-reference.html#task-namespaces",
+    "title": "Task Reference",
+    "section": "",
+    "text": "Development workflow tasks for code quality and testing:\n# Environment setup\ntask core:dev:setup              # Set up development environment\n\n# Testing\ntask core:dev:test               # Run all tests\ntask core:dev:test:unit          # Run unit tests only\ntask core:dev:test:integration   # Run integration tests only  \ntask core:dev:test:coverage      # Run tests with coverage report\n\n# Code quality\ntask core:dev:lint               # Run linters (ruff + mypy)\ntask core:dev:format             # Format code (ruff + black)\ntask core:dev:typecheck          # Run strict type checking\n\n# Comprehensive checks\ntask core:dev:all                # Run all checks (lint, test, docs)\ntask core:dev:watch:test         # Watch files and run tests on change\n\n\n\nDocumentation generation and publishing tasks:\n# Site generation\ntask docs:site:render            # Render Quarto documentation\ntask docs:site:preview           # Preview with live reload\ntask docs:site:clean             # Clean generated files\ntask docs:site:open              # Open rendered docs in browser\ntask docs:site:publish           # Publish to GitHub Pages\ntask docs:site:watch             # Watch and rebuild on change\n\n\n\nPackage building and distribution tasks:\n# Package building\ntask build:package:create        # Build wheel and sdist packages\ntask build:package:clean         # Clean build artifacts\ntask build:package:verify        # Verify package installation\n\n# Repository management  \ntask build:repo:create:local     # Set up local package repository\n\n\n\nPackage installation and deployment tasks:\n# Installation\ntask deploy:package:install:local PROJECT_PATH=/path  # Install in another project (editable)\ntask deploy:package:install:wheel PROJECT_PATH=/path  # Install from wheel\n\n# Publishing\ntask deploy:publish:test         # Test package publishing (dry run)\ntask deploy:publish:pypi         # Publish to PyPI (requires credentials)\n\n\n\nProject creation, linking, and scaffolding tasks:\n# Project creation\ntask project:scaffold:create NAME=myproject DIR=/path    # Manual project setup\ntask project:scaffold:create:uv NAME=myproject DIR=/path # Create with uv init\n\n# Project linking (for development)\ntask project:link:add PATH=/path/to/project     # Link external project\ntask project:link:remove NAME=project-name     # Remove project link  \ntask project:link:list                         # List all linked projects\n\n# Quick checks\ntask project:check:all          # Run all development checks\ntask project:check:quick        # Run quick checks (lint only)\n\n\n\nSemantic versioning and release management:\n# Version information\ntask version:semver:current      # Show current version\n\n# Version bumping\ntask version:semver:bump:patch   # Bump patch version (0.1.0 → 0.1.1)\ntask version:semver:bump:minor   # Bump minor version (0.1.0 → 0.2.0) \ntask version:semver:bump:major   # Bump major version (0.1.0 → 1.0.0)\n\n# Git tagging\ntask version:git:tag:create      # Create git tag for current version\n\n\n\nCode generation and component creation:\n# Component creation\ntask scaffold:brick:create NAME=my_brick  # Create new nanobrick component",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#backwards-compatibility-aliases",
+    "href": "task-reference.html#backwards-compatibility-aliases",
+    "title": "Task Reference",
+    "section": "",
+    "text": "For convenience, common tasks have short aliases:\n# Short aliases (backwards compatible)\ntask test      # → task core:dev:test\ntask lint      # → task core:dev:lint  \ntask format    # → task core:dev:format",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#file-organization",
+    "href": "task-reference.html#file-organization",
+    "title": "Task Reference",
+    "section": "",
+    "text": "The task system is organized across multiple files for maintainability:\nTaskfile.yml           # Main file with core tasks and includes\nTaskfile.docs.yml      # Documentation tasks (docs:*)\nTaskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)\nTaskfile.dev.yml       # Development utilities (project:*)\nTaskfile.semver.yml    # Version management (version:*)",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#common-workflows",
+    "href": "task-reference.html#common-workflows",
+    "title": "Task Reference",
+    "section": "",
+    "text": "# Initial setup\ntask core:dev:setup\n\n# Regular development cycle\ntask core:dev:format    # Format code\ntask core:dev:lint      # Check code quality\ntask core:dev:test      # Run tests\ntask docs:site:render   # Update docs\n\n# Or run everything at once\ntask core:dev:all\n\n\n\n# Live documentation development\ntask docs:site:preview  # Start live preview server\n\n# Build and publish\ntask docs:site:render   # Build static site\ntask docs:site:publish  # Publish to GitHub Pages\n\n\n\n# Version management\ntask version:semver:current          # Check current version\ntask version:semver:bump:patch       # Bump version\ntask version:git:tag:create          # Create git tag\n\n# Build and publish\ntask build:package:create            # Build packages\ntask deploy:publish:test             # Test publishing\ntask deploy:publish:pypi             # Publish to PyPI\n\n\n\n# Create new project using Nanobricks\ntask project:scaffold:create:uv NAME=myproject DIR=/path/to/parent\n\n# Link existing project for development  \ntask project:link:add PATH=/path/to/existing/project",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#advanced-usage",
+    "href": "task-reference.html#advanced-usage",
+    "title": "Task Reference",
+    "section": "",
+    "text": "Many tasks accept variables for customization:\n# Project creation with custom names\ntask project:scaffold:create NAME=my-awesome-project DIR=~/projects\n\n# Component creation  \ntask scaffold:brick:create NAME=data_processor\n\n# Project linking\ntask project:link:add PATH=../my-other-project\n\n\n\nDevelopment tasks support file watching:\n# Watch and run tests automatically\ntask core:dev:watch:test\n\n# Watch and rebuild docs\ntask docs:site:watch  # Same as docs:site:preview\n\n\n\nSome tasks automatically run dependencies:\n# This will first run build:package:create if needed\ntask deploy:package:install:wheel",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#configuration",
+    "href": "task-reference.html#configuration",
+    "title": "Task Reference",
+    "section": "",
+    "text": "Key variables are defined in Taskfile.yml:\nvars:\n  QUARTO_DIR: docs/quarto\n  SITE_DIR: docs/quarto/_site\n  ROOT_DIR: # Auto-detected from pwd\n\n\n\nTasks can be customized for different environments by modifying variables or using different Taskfile includes.",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#writing-custom-tasks",
+    "href": "task-reference.html#writing-custom-tasks",
+    "title": "Task Reference",
+    "section": "",
+    "text": "When writing custom tasks, follow these critical rules for echo statements:\nIMPORTANT: Replace ALL colons in echo statements with dashes, except within task names themselves.\n# ✅ Correct echo statements\necho \"Usage - task core:dev:test\"\necho \"Error - build failed\"\necho \"Status - deployment complete\"\necho \"Next step - task docs:site:render\"\n\n# ❌ Incorrect echo statements  \necho \"Usage: task core:dev:test\"\necho \"Error: build failed\"\necho \"Status: deployment complete\"\necho \"Next step: task docs:site:render\"\n\n\n\nmy:custom:task:\n  desc: Example of a well-formed custom task\n  cmds:\n    - echo \"Starting custom task - processing data\"\n    - |\n      if [ ! -f \"data.json\" ]; then\n        echo \"Error - data.json not found\"\n        echo \"Run - task data:fetch first\"\n        exit 1\n      fi\n    - echo \"Success - task completed\"",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#troubleshooting",
+    "href": "task-reference.html#troubleshooting",
+    "title": "Task Reference",
+    "section": "",
+    "text": "Task not found: Ensure you’re in the project root directory where Taskfile.yml exists.\nPermission errors: Some tasks may require specific permissions (e.g., publishing to PyPI).\nMissing dependencies: Some tasks have preconditions that check for required tools.\n\n\n\n# List all tasks with descriptions\ntask --list\n\n# Show task details\ntask --summary core:dev:test\n\n# Verbose output (disable silent mode)\ntask --verbose core:dev:test",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "task-reference.html#examples",
+    "href": "task-reference.html#examples",
+    "title": "Task Reference",
+    "section": "",
+    "text": "# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Set up development environment\ntask core:dev:setup\n\n# Verify everything works\ntask core:dev:all\n\n\n\n# From the Nanobricks directory\ntask project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects\n\n# Navigate to the new project\ncd ~/projects/my-data-pipeline\n\n# Run the generated tests\ntask core:dev:test\n\n\n\n# Make your changes\n# ...\n\n# Check code quality\ntask core:dev:format\ntask core:dev:lint\ntask core:dev:test\n\n# Update documentation if needed\ntask docs:site:render\n\n# Or run everything\ntask core:dev:all\nThis systematic task organization makes Nanobricks development workflows intuitive and discoverable while maintaining backwards compatibility through aliases.",
+    "crumbs": [
+      "Home",
+      "Getting Started",
+      "Task Reference"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.1.1-documentation-examples",
+    "href": "roadmap.html#version-0.1.1-documentation-examples",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.1.1: Documentation & Examples",
+    "text": "Version 0.1.1: Documentation & Examples\nTheme: Zero code changes, maximum clarity\n\nPriority Documentation\n\nCookbook Examples: Step-by-step guides for common patterns\nDependency Injection Guide: Clear documentation on using the deps parameter\nError Handling Patterns: Best practices for exceptions vs Result types\nTesting Patterns: How to test individual bricks and pipelines\nArchitecture Decision Guide: When to use composition vs inheritance",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.1.2-type-improvements",
+    "href": "roadmap.html#version-0.1.2-type-improvements",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.1.2: Type Improvements",
+    "text": "Version 0.1.2: Type Improvements\nTheme: Backwards-compatible enhancements to reduce friction\n\nType System Enhancements\n\nType Adapter Utilities: Helper functions to adapt between mismatched types for pipe operator\nGeneric Result Type: Optional Result[T, E] import for standardized error handling\nBetter Error Messages: Improved type mismatch errors for pipe operator\nType Conversion Helpers: Common adapters for string↔︎dict, list↔︎tuple, etc.",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.0-composition-revolution",
+    "href": "roadmap.html#version-0.2.0-composition-revolution",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.0: Composition Revolution",
+    "text": "Version 0.2.0: Composition Revolution\nTheme: Address the #1 pain point - strict pipe operator type alignment\n\nCore Enhancements\n\nPipeline Builder API: Fluent interface for complex compositions\npipeline = (\n    Pipeline.start_with(Parser())\n    .branch(Validator(), Analyzer())\n    .merge_with(CombineResults())\n    .build()\n)\nParallel/Branch Support: Built-in support for fan-out/fan-in patterns\nComposition Debugger: Visualize pipeline flow and type mismatches\nFlexible Pipe Operator: More permissive type matching with runtime validation",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.1-standard-patterns-library",
+    "href": "roadmap.html#version-0.2.1-standard-patterns-library",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.1: Standard Patterns Library",
+    "text": "Version 0.2.1: Standard Patterns Library\nTheme: Common bricks to accelerate development\n\nBatteries Included\n\nCommon Validators: Email, URL, phone, regex, range validators\nCommon Transformers: JSON adapters, type converters, normalizers\nFile Processing Bricks: CSV, JSON, XML, YAML readers/writers\nHTTP Client Brick: Basic requests wrapper with retry logic\nData Manipulation: Filter, map, reduce, aggregate bricks",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.3.0-developer-experience",
+    "href": "roadmap.html#version-0.3.0-developer-experience",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.3.0: Developer Experience",
+    "text": "Version 0.3.0: Developer Experience\nTheme: Superior tooling and development workflow\n\nCLI Enhancements\n\nInteractive Scaffolding: nanobrick new --interactive\nProject Templates: Full application templates (API service, data processor, etc.)\nSkill Generation: nanobrick add-skill logging to retrofit existing bricks\n\n\n\nDevelopment Tools\n\nPipeline Visualizer: Generate diagrams from code\nPerformance Profiler: Identify bottlenecks in pipelines\nType Stub Generator: Better IDE support for dynamic features\nVS Code Extension: Snippets, navigation, and debugging support\n\n\n\nDependency Injection\n\nClear Patterns: Documentation and examples for the deps parameter\nService Registry: Built-in IoC container for shared resources\nConfiguration Injection: Standardized config management\nTesting Utilities: Mock injectors for unit tests",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.4.0-standard-library",
+    "href": "roadmap.html#version-0.4.0-standard-library",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.4.0: Standard Library",
+    "text": "Version 0.4.0: Standard Library\nTheme: Batteries-included ecosystem\n\nCommon Bricks Library\n\nData Validation: Email, phone, URL, schema validators\nHTTP Operations: Request/response handling, retries, rate limiting\nDatabase Access: Connection pooling, query builders, ORMs\nFile Processing: CSV, JSON, XML, Excel readers/writers\nMessage Queues: Kafka, RabbitMQ, Redis pub/sub\nCaching: In-memory, Redis, distributed caches\n\n\n\nIntegration Patterns\n\nThird-party Libraries: Adapters for popular packages\nFramework Bridges: Integration with FastAPI, Django, Flask\nCloud Services: AWS, GCP, Azure service bricks",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.5.0-advanced-features",
+    "href": "roadmap.html#version-0.5.0-advanced-features",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.5.0: Advanced Features",
+    "text": "Version 0.5.0: Advanced Features\nTheme: Production-scale capabilities\n\nStreaming Support\nclass StreamProcessor(NanobrickStream[bytes, ProcessedItem]):\n    async def invoke_stream(\n        self, \n        input_stream: AsyncIterator[bytes]\n    ) -&gt; AsyncIterator[ProcessedItem]:\n        async for chunk in input_stream:\n            yield await self.process_chunk(chunk)\n\n\nState Management\n\nStateful Bricks: Clear patterns for maintaining state\nState Persistence: Save/restore capabilities\nDistributed State: Coordination across instances\n\n\n\nResource Lifecycle\n\nSetup/Teardown Hooks: Manage expensive resources\nConnection Pooling: Built-in resource pools\nGraceful Shutdown: Proper cleanup on termination",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-1.0.0-production-ready",
+    "href": "roadmap.html#version-1.0.0-production-ready",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 1.0.0: Production Ready",
+    "text": "Version 1.0.0: Production Ready\nTheme: Enterprise-grade stability\n\nPerformance Optimizations\n\nZero-Copy Operations: Efficient data passing\nParallel Execution: Automatic parallelization where possible\nMemory Management: Streaming and chunking for large datasets\nProfiling Tools: Built-in performance monitoring\n\n\n\nObservability\n\nDistributed Tracing: Full OpenTelemetry integration\nMetrics Collection: Prometheus-compatible metrics\nHealth Checks: Standardized health/readiness probes\nDebugging Tools: Enhanced error messages and stack traces\n\n\n\nEnterprise Features\n\nSecurity: Sandboxing, permission models, audit trails\nCompliance: GDPR, SOC2, HIPAA helpers\nMulti-tenancy: Isolation and resource limits\nHigh Availability: Clustering and failover support",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html",
+    "href": "type-utilities.html",
+    "title": "Type Utilities",
+    "section": "",
+    "text": "Version 0.1.2 introduces powerful type utilities to reduce friction when composing nanobricks. These utilities help you:\n\nHandle errors explicitly with the Result type\nAutomatically convert between common types\nGet clear error messages when types don’t match\nWrite type-safe pipelines with less boilerplate",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#overview",
+    "href": "type-utilities.html#overview",
+    "title": "Type Utilities",
+    "section": "",
+    "text": "Version 0.1.2 introduces powerful type utilities to reduce friction when composing nanobricks. These utilities help you:\n\nHandle errors explicitly with the Result type\nAutomatically convert between common types\nGet clear error messages when types don’t match\nWrite type-safe pipelines with less boilerplate",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#result-type",
+    "href": "type-utilities.html#result-type",
+    "title": "Type Utilities",
+    "section": "Result Type",
+    "text": "Result Type\nThe Result[T, E] type provides Rust-inspired error handling:\nfrom nanobricks import Result, NanobrickSimple\n\nclass SafeParser(NanobrickSimple[str, Result[dict, str]]):\n    \"\"\"Parse JSON with explicit error handling\"\"\"\n    \n    name = \"safe_parser\"\n    \n    async def invoke(self, input: str) -&gt; Result[dict, str]:\n        try:\n            import json\n            data = json.loads(input)\n            return Result.ok(data)\n        except Exception as e:\n            return Result.err(f\"Parse error: {e}\")\n\n# Usage\nparser = SafeParser()\nresult = await parser.invoke('{\"valid\": true}')\n\nif result.is_ok:\n    data = result.unwrap()  # Get the successful value\nelse:\n    error = result.unwrap_err()  # Get the error message\n\nResult Methods\n\nResult.ok(value) - Create a successful result\nResult.err(error) - Create an error result\nis_ok / is_err - Check result status\nunwrap() - Get value or raise if error\nunwrap_or(default) - Get value or return default\nmap(func) - Transform successful value\nmap_err(func) - Transform error value",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#type-adapters",
+    "href": "type-utilities.html#type-adapters",
+    "title": "Type Utilities",
+    "section": "Type Adapters",
+    "text": "Type Adapters\nType adapters automatically convert between types to make composition easier:\n\nBuilt-in Adapters\nfrom nanobricks import (\n    string_to_dict,\n    dict_to_string,\n    json_to_dict,\n    dict_to_json,\n    list_to_tuple,\n    tuple_to_list\n)\n\n# String to dictionary\nadapter = string_to_dict()  # Default: comma-separated, = for key-value\nresult = await adapter.invoke(\"a=1,b=2,c=3\")\n# {\"a\": \"1\", \"b\": \"2\", \"c\": \"3\"}\n\n# Custom delimiters\nadapter = string_to_dict(delimiter=';', key_value_sep=':')\nresult = await adapter.invoke(\"a:1;b:2\")\n# {\"a\": \"1\", \"b\": \"2\"}\n\n# JSON conversions\njson_adapter = dict_to_json(indent=2)\nresult = await json_adapter.invoke({\"key\": \"value\"})\n# \"{\\n  \\\"key\\\": \\\"value\\\"\\n}\"\n\n\nUsing Adapters in Pipelines\nfrom nanobricks import NanobrickSimple, string_to_dict\n\nclass ConfigReader(NanobrickSimple[str, str]):\n    \"\"\"Read configuration string\"\"\"\n    name = \"config_reader\"\n    \n    async def invoke(self, input: str) -&gt; str:\n        return \"host=localhost,port=8080,debug=true\"\n\nclass ConfigProcessor(NanobrickSimple[dict, dict]):\n    \"\"\"Process configuration dictionary\"\"\"\n    name = \"config_processor\"\n    \n    async def invoke(self, input: dict) -&gt; dict:\n        # Parse and validate\n        return {\n            \"host\": input.get(\"host\", \"0.0.0.0\"),\n            \"port\": int(input.get(\"port\", \"80\")),\n            \"debug\": input.get(\"debug\") == \"true\"\n        }\n\n# Without adapter: TYPE ERROR!\n# pipeline = ConfigReader() | ConfigProcessor()  # str -&gt; dict mismatch\n\n# With adapter: Works perfectly!\npipeline = ConfigReader() | string_to_dict() | ConfigProcessor()\nresult = await pipeline.invoke(\"config.ini\")\n# {\"host\": \"localhost\", \"port\": 8080, \"debug\": true}",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#custom-type-adapters",
+    "href": "type-utilities.html#custom-type-adapters",
+    "title": "Type Utilities",
+    "section": "Custom Type Adapters",
+    "text": "Custom Type Adapters\nCreate your own type adapters for specific conversions:\nfrom nanobricks import TypeAdapter\n\nclass CSVToList(TypeAdapter[str, list[list[str]]]):\n    \"\"\"Convert CSV string to list of lists\"\"\"\n    \n    def __init__(self):\n        def parse_csv(csv_string: str) -&gt; list[list[str]]:\n            lines = csv_string.strip().split('\\n')\n            return [line.split(',') for line in lines]\n        \n        super().__init__(\n            name=\"csv_to_list\",\n            converter=parse_csv,\n            input_type=str,\n            output_type=list[list[str]]\n        )\n\n# Use in pipeline\ncsv_adapter = CSVToList()\nresult = await csv_adapter.invoke(\"a,b,c\\n1,2,3\\n4,5,6\")\n# [[\"a\", \"b\", \"c\"], [\"1\", \"2\", \"3\"], [\"4\", \"5\", \"6\"]]",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#enhanced-error-messages",
+    "href": "type-utilities.html#enhanced-error-messages",
+    "title": "Type Utilities",
+    "section": "Enhanced Error Messages",
+    "text": "Enhanced Error Messages\nWhen types don’t match in a pipeline, you now get helpful error messages:\n# This will raise a clear error:\n# TypeMismatchError: Type mismatch in pipe operation:\n#   string_producer outputs: str\n#   dict_consumer expects: Dict[str, str]\n#\n# Suggestion: Use string_to_dict() adapter\n\nfrom nanobricks import TypeMismatchError\n\ntry:\n    pipeline = StringProducer() | DictConsumer()\nexcept TypeMismatchError as e:\n    print(f\"Left brick: {e.left_brick}\")\n    print(f\"Right brick: {e.right_brick}\")\n    print(f\"Output type: {e.output_type}\")\n    print(f\"Expected type: {e.expected_type}\")\n    print(f\"Suggestion: {e.suggestion}\")",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#type-compatibility-checking",
+    "href": "type-utilities.html#type-compatibility-checking",
+    "title": "Type Utilities",
+    "section": "Type Compatibility Checking",
+    "text": "Type Compatibility Checking\nUse the type checking utilities for runtime validation:\nfrom nanobricks import check_type_compatibility, auto_adapter\n\n# Check if types are compatible\ncompatible = check_type_compatibility(str, int)  # False\ncompatible = check_type_compatibility(str, Any)  # True (Any matches everything)\n\n# Automatically create adapter if possible\nadapter = auto_adapter(str, int)  # Returns str_to_int adapter\nadapter = auto_adapter(list, dict)  # Returns None (no automatic conversion)",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#best-practices",
+    "href": "type-utilities.html#best-practices",
+    "title": "Type Utilities",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Use Result for Explicit Error Handling\nclass DataFetcher(NanobrickSimple[str, Result[dict, str]]):\n    async def invoke(self, url: str) -&gt; Result[dict, str]:\n        try:\n            # Fetch data...\n            return Result.ok(data)\n        except Exception as e:\n            return Result.err(str(e))\n\nclass DataProcessor(NanobrickSimple[Result[dict, str], str]):\n    async def invoke(self, result: Result[dict, str]) -&gt; str:\n        if result.is_err:\n            return f\"Failed: {result.unwrap_err()}\"\n        \n        data = result.unwrap()\n        # Process data...\n        return \"Success\"\n\n\n2. Place Adapters at Pipeline Boundaries\n# Good: Clear adapter placement\npipeline = (\n    StringProducer() |\n    string_to_dict() |     # Clear conversion point\n    DictProcessor() |\n    dict_to_json()         # Clear output format\n)\n\n# Less clear: Scattered adapters\npipeline = (\n    StringProducer() |\n    SomeProcessor() |\n    string_to_dict() |\n    AnotherProcessor() |\n    dict_to_string() |\n    string_to_dict()       # Multiple conversions\n)\n\n\n3. Create Domain-Specific Adapters\nclass UserDTOToModel(TypeAdapter[UserDTO, UserModel]):\n    \"\"\"Convert API DTO to domain model\"\"\"\n    \n    def __init__(self):\n        super().__init__(\n            name=\"dto_to_model\",\n            converter=lambda dto: UserModel(\n                id=dto.id,\n                name=dto.name,\n                email=dto.email.lower()\n            ),\n            input_type=UserDTO,\n            output_type=UserModel\n        )",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#migration-guide",
+    "href": "type-utilities.html#migration-guide",
+    "title": "Type Utilities",
+    "section": "Migration Guide",
+    "text": "Migration Guide\nIf you’re upgrading from v0.1.0 or v0.1.1:\n\nNo breaking changes - All existing code continues to work\nOptional adoption - Use type utilities where they add value\nGradual migration - Add Result types and adapters incrementally\n\n\nBefore (v0.1.0)\n# Manual type conversion\nclass Pipeline(NanobrickSimple[str, str]):\n    async def invoke(self, input: str) -&gt; str:\n        # Parse string to dict\n        pairs = input.split(',')\n        data = {}\n        for pair in pairs:\n            k, v = pair.split('=')\n            data[k] = v\n        \n        # Process...\n        \n        # Convert back to string\n        import json\n        return json.dumps(data)\n\n\nAfter (v0.1.2)\n# Automatic conversion with adapters\npipeline = (\n    InputBrick() |\n    string_to_dict() |\n    ProcessBrick() |\n    dict_to_json()\n)",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
+  },
+  {
+    "objectID": "type-utilities.html#examples",
+    "href": "type-utilities.html#examples",
+    "title": "Type Utilities",
+    "section": "Examples",
+    "text": "Examples\nSee the type utilities demo for complete working examples of all features.",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Type Utilities"
+    ]
   }
 ]

@@ -1,0 +1,375 @@
+---
+description: Best practices for designing systematic and intuitive Taskfile systems using namespace:component:action:variant pattern
+globs: 
+  - "Taskfile*.yml"
+  - "Taskfile*.yaml"
+alwaysApply: true
+---
+
+# Taskfile System Design Best Practices
+
+## Core Design Principle: namespace:component:action:variant
+
+All tasks should follow the hierarchical naming pattern: `namespace:component:action:variant`
+
+### Examples:
+- `core:dev:test` - Core development testing
+- `core:dev:test:unit` - Unit testing variant  
+- `docs:site:render` - Documentation site rendering
+- `build:package:create` - Package build creation
+- `deploy:package:install:local` - Local package deployment
+- `project:scaffold:create:uv` - Project scaffolding with uv variant
+
+## File Organization
+
+### Main Taskfile Structure
+```yaml
+version: '3'
+silent: true
+
+vars:
+  # Global variables here
+  ROOT_DIR:
+    sh: pwd
+
+includes:
+  # Organize by primary namespace
+  build: ./Taskfile.dist.yml
+  project: ./Taskfile.dev.yml  
+  version: ./Taskfile.semver.yml
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+```
+
+### Namespace Organization
+- **core:** - Core development tasks (test, lint, format, typecheck)
+- **docs:** - Documentation tasks (render, preview, publish)
+- **build:** - Build and packaging tasks 
+- **deploy:** - Deployment and installation tasks
+- **project:** - Project management (scaffolding, linking)
+- **version:** - Version management (semver, tagging)
+- **scaffold:** - Code generation and scaffolding
+
+## Task Naming Conventions
+
+### Systematic Hierarchy
+```yaml
+# Good - Follows namespace:component:action:variant
+core:dev:setup:
+core:dev:test:
+core:dev:test:unit:
+core:dev:test:integration:
+core:dev:test:coverage:
+core:dev:lint:
+core:dev:format:
+core:dev:typecheck:
+
+docs:site:render:
+docs:site:preview:
+docs:site:clean:
+docs:site:publish:
+
+build:package:create:
+build:package:clean:
+deploy:package:install:local:
+deploy:package:install:wheel:
+```
+
+### Bad Examples
+```yaml
+# Bad - Inconsistent, not systematic
+test:
+lint:
+build:
+docs:
+nanobrick:create:
+project:link:
+```
+
+## Essential Configuration
+
+### Always Include
+```yaml
+version: '3'
+silent: true  # REQUIRED: Prevents verbose output
+
+vars:
+  # Define reusable variables
+  ROOT_DIR:
+    sh: pwd
+
+includes:
+  # Organize related tasks in separate files
+  build: ./Taskfile.dist.yml
+  project: ./Taskfile.dev.yml
+```
+
+### Task Definition Best Practices
+```yaml
+core:dev:test:
+  desc: Run all tests  # Always include description
+  cmds:
+    - pytest tests/ -v
+  sources:  # Optional: for file watching
+    - src/**/*.py
+    - tests/**/*.py
+
+docs:site:render:
+  desc: Render Quarto documentation
+  dir: '{{.QUARTO_DIR}}'  # Set working directory when needed
+  cmds:
+    - quarto render
+  preconditions:  # Validate requirements
+    - sh: command -v quarto
+      msg: "quarto is required but not installed"
+```
+
+## Echo Statement Rules
+
+### CRITICAL: Colons in Echo Statements
+The rule for colons in echo statements:
+
+- ✅ **ALLOWED**: Within task names themselves: `task core:dev:test`
+- ❌ **NOT ALLOWED**: In descriptive text, even before task references
+
+```yaml
+# Good - Use dashes in descriptive text before task references
+echo "Usage - task core:dev:test"
+echo "Next step - task build:package:create"  
+echo "Run - task docs:site:render"
+echo "Error - something failed"
+echo "Status - build complete"
+echo "Next steps"
+
+# Bad - Colons in descriptive text (even before tasks)
+echo "Usage: task core:dev:test"
+echo "Next step: task build:package:create"
+echo "Run: task docs:site:render"  
+echo "Error: something failed"
+echo "Status: build complete"
+echo "Next steps:"
+```
+
+### Task Reference Examples
+
+```yaml
+version:semver:bump:patch:
+  desc: Bump patch version
+  cmds:
+    - echo "Next steps"
+    - echo "1. Commit changes - git commit -m 'bump version'"
+    - echo "2. Create tag - task version:semver:tag:create"  # Use dash before task
+    - echo "3. Push changes - git push && git push --tags"
+```
+
+### The Simple Rule
+**Replace ALL colons in echo statements with dashes, except within the actual task name itself.**
+
+```yaml
+# ✅ Correct
+echo "Usage - task core:dev:test"
+echo "Install with - brew install package"
+echo "Error - build failed"
+
+# ❌ Wrong  
+echo "Usage: task core:dev:test"
+echo "Install with: brew install package"
+echo "Error: build failed"
+```
+
+## Backwards Compatibility
+
+### Provide Aliases for Common Tasks
+```yaml
+# Main systematic tasks
+core:dev:test:
+  desc: Run all tests
+  cmds:
+    - pytest tests/ -v
+
+core:dev:lint:
+  desc: Run linters
+  cmds:
+    - ruff check src/ tests/
+
+# Backwards compatibility aliases
+test:
+  desc: Alias for core:dev:test
+  cmds:
+    - task: core:dev:test
+
+lint:
+  desc: Alias for core:dev:lint  
+  cmds:
+    - task: core:dev:lint
+```
+
+## File Separation Strategy
+
+### Separate by Primary Namespace
+- `Taskfile.yml` - Main file with core tasks and includes
+- `Taskfile.dist.yml` - Build and distribution tasks (build:*, deploy:*)
+- `Taskfile.dev.yml` - Development utilities (project:*)  
+- `Taskfile.semver.yml` - Version management (version:*)
+
+### Include Strategy
+```yaml
+# In main Taskfile.yml
+includes:
+  build: ./Taskfile.dist.yml      # build:* tasks
+  project: ./Taskfile.dev.yml     # project:* tasks  
+  version: ./Taskfile.semver.yml  # version:* tasks
+```
+
+## Common Patterns
+
+### Development Workflow
+```yaml
+core:dev:setup:
+  desc: Set up development environment
+  
+core:dev:test:
+  desc: Run all tests
+  
+core:dev:test:unit:
+  desc: Run unit tests only
+  
+core:dev:test:integration:
+  desc: Run integration tests only
+  
+core:dev:test:coverage:
+  desc: Run tests with coverage
+  
+core:dev:lint:
+  desc: Run linters
+  
+core:dev:format:
+  desc: Format code
+  
+core:dev:all:
+  desc: Run all checks (lint, test, docs)
+  cmds:
+    - task: core:dev:lint
+    - task: core:dev:test
+    - task: docs:site:render
+```
+
+### Documentation Workflow  
+```yaml
+docs:site:render:
+  desc: Render documentation
+  
+docs:site:preview:
+  desc: Preview with live reload
+  
+docs:site:clean:
+  desc: Clean generated files
+  
+docs:site:publish:
+  desc: Publish to GitHub Pages
+```
+
+### Build & Deploy Workflow
+```yaml
+build:package:create:
+  desc: Build distribution packages
+  
+build:package:clean:
+  desc: Clean build artifacts
+  
+deploy:package:install:local:
+  desc: Install locally for development
+  
+deploy:package:verify:
+  desc: Verify installation
+```
+
+## Variables and Templating
+
+### Use Descriptive Variables
+```yaml
+vars:
+  QUARTO_DIR: docs/quarto
+  SITE_DIR: docs/quarto/_site
+  ROOT_DIR:
+    sh: pwd
+  PROJECT_NAME: '{{.NAME | default "my_project"}}'
+```
+
+### Template Usage
+```yaml
+docs:site:render:
+  dir: '{{.QUARTO_DIR}}'
+  cmds:
+    - quarto render
+  sources:
+    - '{{.QUARTO_DIR}}/**/*.qmd'
+  generates:
+    - '{{.SITE_DIR}}/**/*'
+```
+
+## Error Handling
+
+### Preconditions
+```yaml
+docs:site:open:
+  desc: Open rendered documentation
+  cmds:
+    - open '{{.SITE_DIR}}/index.html'
+  preconditions:
+    - sh: test -f '{{.SITE_DIR}}/index.html'
+      msg: "Documentation not rendered. Run 'task docs:site:render' first."
+```
+
+### Input Validation
+```yaml
+project:scaffold:create:
+  vars:
+    PROJECT_NAME: '{{.NAME}}'
+  cmds:
+    - |
+      if [ -z "{{.PROJECT_NAME}}" ]; then
+        echo "Error - Please specify project NAME"
+        echo "Usage - task project-scaffold-create NAME=myproject"
+        exit 1
+      fi
+```
+
+## Performance Optimization
+
+### Use Sources and Generates
+```yaml
+build:package:create:
+  desc: Build distribution packages
+  cmds:
+    - python -m build
+  sources:
+    - src/**/*.py
+    - pyproject.toml
+  generates:
+    - dist/*.whl
+    - dist/*.tar.gz
+```
+
+### Dependency Management
+```yaml
+deploy:package:install:wheel:
+  deps: [build:package:create]  # Auto-run dependency
+  cmds:
+    - pip install dist/*.whl
+```
+
+## Summary
+
+1. **Always use the namespace:component:action:variant pattern**
+2. **Include `silent: true` in all Taskfiles**
+3. **Replace colons with dashes in echo statements when referencing tasks**
+4. **Organize tasks into separate files by primary namespace**
+5. **Provide backwards compatibility aliases for common tasks**
+6. **Use descriptive variable names and validation**
+7. **Include preconditions and error handling**
+8. **Optimize with sources/generates for file watching**

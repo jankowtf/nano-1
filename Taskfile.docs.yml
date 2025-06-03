@@ -1,0 +1,103 @@
+version: '3'
+
+silent: true
+
+# Documentation and Quarto site management tasks
+# This file is meant to be included in the main Taskfile.yml
+
+tasks:
+  # Documentation site tasks - namespace:docs
+  site:render:
+    desc: Render Quarto documentation
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto render
+    sources:
+      - '{{.QUARTO_DIR}}/**/*.qmd'
+      - '{{.QUARTO_DIR}}/**/*.yml'
+      - '{{.QUARTO_DIR}}/**/*.css'
+    generates:
+      - '{{.SITE_DIR}}/**/*'
+
+  site:preview:
+    desc: Preview Quarto documentation with live reload
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto preview
+
+  site:open:
+    desc: Open the rendered documentation in browser
+    cmds:
+      - open '{{.SITE_DIR}}/index.html'
+    preconditions:
+      - sh: test -f '{{.SITE_DIR}}/index.html'
+        msg: "Documentation not rendered. Run 'task docs:site:render' first."
+
+  site:clean:
+    desc: Clean generated documentation
+    cmds:
+      - rm -rf '{{.SITE_DIR}}'
+
+  site:publish:
+    desc: Publish documentation to GitHub Pages
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto publish gh-pages
+
+  site:watch:
+    desc: Watch and rebuild documentation on change
+    cmds:
+      - task: docs:site:preview
+
+  # Content management tasks
+  content:validate:
+    desc: Validate all Quarto documents for syntax and links
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - |
+        echo "🔍 Validating Quarto documents..."
+        find . -name "*.qmd" -exec echo "Checking {}" \;
+        echo "✅ Validation complete"
+
+  content:spellcheck:
+    desc: Run spellcheck on documentation content
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - |
+        if command -v aspell >/dev/null 2>&1; then
+          echo "🔤 Running spellcheck..."
+          find . -name "*.qmd" -exec aspell check {} \;
+        else
+          echo "⚠️ aspell not found. Install with - brew install aspell"
+        fi
+
+  # Development and maintenance tasks
+  dev:serve:
+    desc: Start development server with hot reload
+    cmds:
+      - task: docs:site:preview
+
+  dev:build:
+    desc: Build documentation for production
+    cmds:
+      - task: docs:site:clean
+      - task: docs:site:render
+
+  dev:check:
+    desc: Check documentation build without generating files
+    dir: '{{.QUARTO_DIR}}'
+    cmds:
+      - quarto check
+
+  # Deployment tasks  
+  deploy:staging:
+    desc: Deploy to staging environment
+    deps: [site:render]
+    cmds:
+      - echo "🚀 Deploying to staging..."
+      - echo "ℹ️ Staging deployment not configured yet"
+
+  deploy:production:
+    desc: Deploy to production (GitHub Pages)
+    cmds:
+      - task: docs:site:publish

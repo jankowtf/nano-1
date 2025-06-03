@@ -36,6 +36,7 @@ website:
           - quickstart.qmd
           - tutorial.qmd
           - task-system.qmd
+          - task-reference.qmd
           - distribution.qmd
       - section: "Cookbook"
         contents:
@@ -61,6 +62,7 @@ website:
           - architecture.qmd
           - architecture-diagrams.qmd
           - type-safety.qmd
+          - type-utilities.qmd
           - naming-conventions.qmd
       - section: "Advanced Topics"
         contents:

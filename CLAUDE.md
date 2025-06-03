@@ -140,5 +140,26 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
 - Ensure that all examples in `examples/` and `quarto/human.qmd` are always
   kept in sync with the implementation state of the codebase
 
+## Version Management
+
+**IMPORTANT**: All version management must be done through the Task system, not manually. Follow this workflow:
+
+1. **Check current version**: `task version:current`
+2. **Bump version**: 
+   - Patch: `task version:bump:patch` (bug fixes, 0.1.0 → 0.1.1)
+   - Minor: `task version:bump:minor` (new features, 0.1.0 → 0.2.0)
+   - Major: `task version:bump:major` (breaking changes, 0.1.0 → 1.0.0)
+3. **Update CHANGELOG.md**: Move unreleased changes to new version section with date
+4. **Commit changes**: `git add -A && git commit -m "chore: bump version to X.Y.Z"`
+5. **Create git tag**: `task version:tag:create`
+6. **Push**: `git push && git push --tags`
+
+The version in `pyproject.toml` is the single source of truth. The `__version__` in `src/nanobricks/__init__.py` should be updated manually to match after bumping.
+
 ## Memories
 - Remember that echo statements in go-task files cannot have `:`
+- dude, no...\
+\
+`- echo "2. Create tag: task version:semver:tag:create"` is NOT allowed but `- echo "2. Create tag - task version:semver:tag:create"` is.\
+\
+Try again pls

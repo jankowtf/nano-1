@@ -58,7 +58,13 @@
       "Bash(task dev:link:project PATH=~/Code/kaosmaps/nano/nano-scorm)",
       "Bash(task dev:link:project PATH=/Users/jankothyson/Code/kaosmaps/nano/nano-scorm)",
       "Bash(task dev:list:linked)",
-      "Bash(./fix-project-taskfile.sh:*)"
+      "Bash(./fix-project-taskfile.sh:*)",
+      "Bash(task core:dev:test)",
+      "Bash(task core:dev:lint)",
+      "Bash(task core:dev:format)",
+      "Bash(task version:current)",
+      "Bash(task version:bump:patch)",
+      "Bash(task version:release)"
     ],
     "deny": []
   },

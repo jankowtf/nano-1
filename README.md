@@ -77,6 +77,42 @@ pipeline = Greeter() | Uppercase() | Exclaim()
 result = await pipeline.invoke("nanobricks")  # "HELLO, NANOBRICKS!!!"
 ```
 
+### Type Safety with v0.1.2
+
+Handle type mismatches elegantly with the new type utilities:
+
+```python
+from nanobricks import NanobrickSimple, Result, string_to_dict, dict_to_json
+
+# Use Result for safe error handling
+class SafeDivider(NanobrickSimple[tuple[float, float], Result[float, str]]):
+    name = "divider"
+    
+    async def invoke(self, input: tuple[float, float]) -> Result[float, str]:
+        x, y = input
+        if y == 0:
+            return Result.err("Division by zero")
+        return Result.ok(x / y)
+
+# Use type adapters to connect incompatible bricks
+class ConfigParser(NanobrickSimple[str, str]):
+    name = "parser"
+    
+    async def invoke(self, input: str) -> str:
+        return "host=localhost,port=8080"
+
+class ConfigValidator(NanobrickSimple[dict, dict]):
+    name = "validator"
+    
+    async def invoke(self, input: dict) -> dict:
+        return {"validated": True, **input}
+
+# Type adapter makes it work!
+config_pipeline = ConfigParser() | string_to_dict() | ConfigValidator() | dict_to_json()
+result = await config_pipeline.invoke("config.ini")
+# {"validated": true, "host": "localhost", "port": "8080"}
+```
+
 ## <� Core Concepts
 
 - **Nanobricks**: Self-contained modules implementing the Runnable protocol

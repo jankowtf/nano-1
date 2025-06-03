@@ -40,7 +40,7 @@ tasks:
       - |
         if [ "{{.PROJECT_PATH}}" = "." ]; then
           echo "❌ Please specify PROJECT_PATH"
-          echo "Usage: task dist:package:install:local PROJECT_PATH=/path/to/your/project"
+          echo "Usage - task dist:package:install:local PROJECT_PATH=/path/to/your/project"
           exit 1
         fi
       - echo "📦 Installing Nanobricks in {{.PROJECT_PATH}}"
@@ -60,7 +60,7 @@ tasks:
       - |
         if [ "{{.PROJECT_PATH}}" = "." ]; then
           echo "❌ Please specify PROJECT_PATH"
-          echo "Usage: task dist:package:install:wheel PROJECT_PATH=/path/to/your/project"
+          echo "Usage - task dist:package:install:wheel PROJECT_PATH=/path/to/your/project"
           exit 1
         fi
       - echo "📦 Installing Nanobricks wheel in {{.PROJECT_PATH}}"
@@ -88,12 +88,12 @@ tasks:
       - |
         if [ -z "{{.PROJECT_NAME}}" ]; then
           echo "❌ Please specify project NAME"
-          echo "Usage: task dist:project:create NAME=myproject DIR=/path/to/parent"
+          echo "Usage - task dist:project:create NAME=myproject DIR=/path/to/parent"
           exit 1
         fi
         if [ -z "{{.PARENT_DIR}}" ]; then
           echo "❌ Please specify parent DIR to avoid creating project inside Nanobricks"
-          echo "Usage: task dist:project:create NAME=myproject DIR=/path/to/parent"
+          echo "Usage - task dist:project:create NAME=myproject DIR=/path/to/parent"
           exit 1
         fi
       - echo "🚀 Creating new Nanobricks project - {{.PROJECT_NAME}}"
@@ -139,12 +139,12 @@ tasks:
       - |
         if [ -z "{{.PROJECT_NAME}}" ]; then
           echo "❌ Please specify project NAME"
-          echo "Usage: task dist:project:create:uv NAME=myproject DIR=/path/to/parent"
+          echo "Usage - task dist:project:create:uv NAME=myproject DIR=/path/to/parent"
           exit 1
         fi
         if [ -z "{{.PARENT_DIR}}" ]; then
           echo "❌ Please specify parent DIR to avoid creating project inside Nanobricks"
-          echo "Usage: task dist:project:create:uv NAME=myproject DIR=/path/to/parent"
+          echo "Usage - task dist:project:create:uv NAME=myproject DIR=/path/to/parent"
           exit 1
         fi
       - echo "🚀 Creating new Nanobricks project with uv init - {{.PROJECT_NAME}}"

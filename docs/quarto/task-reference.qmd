@@ -1,0 +1,392 @@
+---
+title: "Task Reference"
+subtitle: "Complete guide to Nanobricks task automation"
+---
+
+# Task System Overview
+
+Nanobricks uses [go-task](https://taskfile.dev) for task automation with a systematic `namespace:component:action:variant` design pattern. This creates intuitive, discoverable, and extensible task hierarchies.
+
+## Quick Start
+
+```bash
+# Show all available tasks
+task --list
+
+# Core development workflow
+task core:dev:setup    # Set up development environment
+task core:dev:test     # Run all tests
+task core:dev:lint     # Run linters
+task core:dev:format   # Format code
+
+# Documentation workflow
+task docs:site:render  # Render documentation
+task docs:site:preview # Preview with live reload
+
+# Build and deployment
+task build:package:create        # Build packages
+task deploy:package:install:local # Install locally
+```
+
+## Design Principle: namespace:component:action:variant
+
+All tasks follow a hierarchical naming pattern that creates systematic organization:
+
+- **namespace**: Primary domain (core, docs, build, deploy, project, version)
+- **component**: Specific component (dev, site, package, scaffold, semver)  
+- **action**: What to do (test, render, create, install, bump)
+- **variant**: Specific variant (unit, local, patch, uv)
+
+## Task Namespaces
+
+### Core Development (`core:*`)
+
+Development workflow tasks for code quality and testing:
+
+```bash
+# Environment setup
+task core:dev:setup              # Set up development environment
+
+# Testing
+task core:dev:test               # Run all tests
+task core:dev:test:unit          # Run unit tests only
+task core:dev:test:integration   # Run integration tests only  
+task core:dev:test:coverage      # Run tests with coverage report
+
+# Code quality
+task core:dev:lint               # Run linters (ruff + mypy)
+task core:dev:format             # Format code (ruff + black)
+task core:dev:typecheck          # Run strict type checking
+
+# Comprehensive checks
+task core:dev:all                # Run all checks (lint, test, docs)
+task core:dev:watch:test         # Watch files and run tests on change
+```
+
+### Documentation (`docs:*`)
+
+Documentation generation and publishing tasks:
+
+```bash
+# Site generation
+task docs:site:render            # Render Quarto documentation
+task docs:site:preview           # Preview with live reload
+task docs:site:clean             # Clean generated files
+task docs:site:open              # Open rendered docs in browser
+task docs:site:publish           # Publish to GitHub Pages
+task docs:site:watch             # Watch and rebuild on change
+```
+
+### Build & Packaging (`build:*`)
+
+Package building and distribution tasks:
+
+```bash
+# Package building
+task build:package:create        # Build wheel and sdist packages
+task build:package:clean         # Clean build artifacts
+task build:package:verify        # Verify package installation
+
+# Repository management  
+task build:repo:create:local     # Set up local package repository
+```
+
+### Deployment (`deploy:*`)
+
+Package installation and deployment tasks:
+
+```bash
+# Installation
+task deploy:package:install:local PROJECT_PATH=/path  # Install in another project (editable)
+task deploy:package:install:wheel PROJECT_PATH=/path  # Install from wheel
+
+# Publishing
+task deploy:publish:test         # Test package publishing (dry run)
+task deploy:publish:pypi         # Publish to PyPI (requires credentials)
+```
+
+### Project Management (`project:*`)
+
+Project creation, linking, and scaffolding tasks:
+
+```bash
+# Project creation
+task project:scaffold:create NAME=myproject DIR=/path    # Manual project setup
+task project:scaffold:create:uv NAME=myproject DIR=/path # Create with uv init
+
+# Project linking (for development)
+task project:link:add PATH=/path/to/project     # Link external project
+task project:link:remove NAME=project-name     # Remove project link  
+task project:link:list                         # List all linked projects
+
+# Quick checks
+task project:check:all          # Run all development checks
+task project:check:quick        # Run quick checks (lint only)
+```
+
+### Version Management (`version:*`)
+
+Semantic versioning and release management:
+
+```bash
+# Version information
+task version:semver:current      # Show current version
+
+# Version bumping
+task version:semver:bump:patch   # Bump patch version (0.1.0 → 0.1.1)
+task version:semver:bump:minor   # Bump minor version (0.1.0 → 0.2.0) 
+task version:semver:bump:major   # Bump major version (0.1.0 → 1.0.0)
+
+# Git tagging
+task version:git:tag:create      # Create git tag for current version
+```
+
+### Scaffolding (`scaffold:*`)
+
+Code generation and component creation:
+
+```bash
+# Component creation
+task scaffold:brick:create NAME=my_brick  # Create new nanobrick component
+```
+
+## Backwards Compatibility Aliases
+
+For convenience, common tasks have short aliases:
+
+```bash
+# Short aliases (backwards compatible)
+task test      # → task core:dev:test
+task lint      # → task core:dev:lint  
+task format    # → task core:dev:format
+```
+
+## File Organization
+
+The task system is organized across multiple files for maintainability:
+
+```
+Taskfile.yml           # Main file with core tasks and includes
+Taskfile.docs.yml      # Documentation tasks (docs:*)
+Taskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)
+Taskfile.dev.yml       # Development utilities (project:*)
+Taskfile.semver.yml    # Version management (version:*)
+```
+
+## Common Workflows
+
+### Development Workflow
+
+```bash
+# Initial setup
+task core:dev:setup
+
+# Regular development cycle
+task core:dev:format    # Format code
+task core:dev:lint      # Check code quality
+task core:dev:test      # Run tests
+task docs:site:render   # Update docs
+
+# Or run everything at once
+task core:dev:all
+```
+
+### Documentation Workflow
+
+```bash
+# Live documentation development
+task docs:site:preview  # Start live preview server
+
+# Build and publish
+task docs:site:render   # Build static site
+task docs:site:publish  # Publish to GitHub Pages
+```
+
+### Release Workflow
+
+```bash
+# Version management
+task version:semver:current          # Check current version
+task version:semver:bump:patch       # Bump version
+task version:git:tag:create          # Create git tag
+
+# Build and publish
+task build:package:create            # Build packages
+task deploy:publish:test             # Test publishing
+task deploy:publish:pypi             # Publish to PyPI
+```
+
+### Project Setup Workflow
+
+```bash
+# Create new project using Nanobricks
+task project:scaffold:create:uv NAME=myproject DIR=/path/to/parent
+
+# Link existing project for development  
+task project:link:add PATH=/path/to/existing/project
+```
+
+## Advanced Usage
+
+### Using Variables
+
+Many tasks accept variables for customization:
+
+```bash
+# Project creation with custom names
+task project:scaffold:create NAME=my-awesome-project DIR=~/projects
+
+# Component creation  
+task scaffold:brick:create NAME=data_processor
+
+# Project linking
+task project:link:add PATH=../my-other-project
+```
+
+### Watching for Changes
+
+Development tasks support file watching:
+
+```bash
+# Watch and run tests automatically
+task core:dev:watch:test
+
+# Watch and rebuild docs
+task docs:site:watch  # Same as docs:site:preview
+```
+
+### Task Dependencies
+
+Some tasks automatically run dependencies:
+
+```bash
+# This will first run build:package:create if needed
+task deploy:package:install:wheel
+```
+
+## Configuration
+
+### Global Variables
+
+Key variables are defined in `Taskfile.yml`:
+
+```yaml
+vars:
+  QUARTO_DIR: docs/quarto
+  SITE_DIR: docs/quarto/_site
+  ROOT_DIR: # Auto-detected from pwd
+```
+
+### Environment-Specific Tasks
+
+Tasks can be customized for different environments by modifying variables or using different Taskfile includes.
+
+## Writing Custom Tasks
+
+### Echo Statement Rules
+
+When writing custom tasks, follow these critical rules for echo statements:
+
+**IMPORTANT: Replace ALL colons in echo statements with dashes, except within task names themselves.**
+
+```yaml
+# ✅ Correct echo statements
+echo "Usage - task core:dev:test"
+echo "Error - build failed"
+echo "Status - deployment complete"
+echo "Next step - task docs:site:render"
+
+# ❌ Incorrect echo statements  
+echo "Usage: task core:dev:test"
+echo "Error: build failed"
+echo "Status: deployment complete"
+echo "Next step: task docs:site:render"
+```
+
+### Custom Task Example
+
+```yaml
+my:custom:task:
+  desc: Example of a well-formed custom task
+  cmds:
+    - echo "Starting custom task - processing data"
+    - |
+      if [ ! -f "data.json" ]; then
+        echo "Error - data.json not found"
+        echo "Run - task data:fetch first"
+        exit 1
+      fi
+    - echo "Success - task completed"
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Task not found**: Ensure you're in the project root directory where `Taskfile.yml` exists.
+
+**Permission errors**: Some tasks may require specific permissions (e.g., publishing to PyPI).
+
+**Missing dependencies**: Some tasks have preconditions that check for required tools.
+
+### Getting Help
+
+```bash
+# List all tasks with descriptions
+task --list
+
+# Show task details
+task --summary core:dev:test
+
+# Verbose output (disable silent mode)
+task --verbose core:dev:test
+```
+
+## Examples
+
+### Setting Up a New Development Environment
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/nanobricks.git
+cd nanobricks
+
+# Set up development environment
+task core:dev:setup
+
+# Verify everything works
+task core:dev:all
+```
+
+### Creating a New Project with Nanobricks
+
+```bash
+# From the Nanobricks directory
+task project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects
+
+# Navigate to the new project
+cd ~/projects/my-data-pipeline
+
+# Run the generated tests
+task core:dev:test
+```
+
+### Contributing to Nanobricks
+
+```bash
+# Make your changes
+# ...
+
+# Check code quality
+task core:dev:format
+task core:dev:lint
+task core:dev:test
+
+# Update documentation if needed
+task docs:site:render
+
+# Or run everything
+task core:dev:all
+```
+
+This systematic task organization makes Nanobricks development workflows intuitive and discoverable while maintaining backwards compatibility through aliases.

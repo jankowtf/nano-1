@@ -1,0 +1,298 @@
+---
+title: "Type Utilities"
+subtitle: "v0.1.2 - Enhanced type support for better composition"
+format: 
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+## Overview
+
+Version 0.1.2 introduces powerful type utilities to reduce friction when composing nanobricks. These utilities help you:
+
+- Handle errors explicitly with the `Result` type
+- Automatically convert between common types
+- Get clear error messages when types don't match
+- Write type-safe pipelines with less boilerplate
+
+## Result Type
+
+The `Result[T, E]` type provides Rust-inspired error handling:
+
+```python
+from nanobricks import Result, NanobrickSimple
+
+class SafeParser(NanobrickSimple[str, Result[dict, str]]):
+    """Parse JSON with explicit error handling"""
+    
+    name = "safe_parser"
+    
+    async def invoke(self, input: str) -> Result[dict, str]:
+        try:
+            import json
+            data = json.loads(input)
+            return Result.ok(data)
+        except Exception as e:
+            return Result.err(f"Parse error: {e}")
+
+# Usage
+parser = SafeParser()
+result = await parser.invoke('{"valid": true}')
+
+if result.is_ok:
+    data = result.unwrap()  # Get the successful value
+else:
+    error = result.unwrap_err()  # Get the error message
+```
+
+### Result Methods
+
+- `Result.ok(value)` - Create a successful result
+- `Result.err(error)` - Create an error result
+- `is_ok` / `is_err` - Check result status
+- `unwrap()` - Get value or raise if error
+- `unwrap_or(default)` - Get value or return default
+- `map(func)` - Transform successful value
+- `map_err(func)` - Transform error value
+
+## Type Adapters
+
+Type adapters automatically convert between types to make composition easier:
+
+### Built-in Adapters
+
+```python
+from nanobricks import (
+    string_to_dict,
+    dict_to_string,
+    json_to_dict,
+    dict_to_json,
+    list_to_tuple,
+    tuple_to_list
+)
+
+# String to dictionary
+adapter = string_to_dict()  # Default: comma-separated, = for key-value
+result = await adapter.invoke("a=1,b=2,c=3")
+# {"a": "1", "b": "2", "c": "3"}
+
+# Custom delimiters
+adapter = string_to_dict(delimiter=';', key_value_sep=':')
+result = await adapter.invoke("a:1;b:2")
+# {"a": "1", "b": "2"}
+
+# JSON conversions
+json_adapter = dict_to_json(indent=2)
+result = await json_adapter.invoke({"key": "value"})
+# "{\n  \"key\": \"value\"\n}"
+```
+
+### Using Adapters in Pipelines
+
+```python
+from nanobricks import NanobrickSimple, string_to_dict
+
+class ConfigReader(NanobrickSimple[str, str]):
+    """Read configuration string"""
+    name = "config_reader"
+    
+    async def invoke(self, input: str) -> str:
+        return "host=localhost,port=8080,debug=true"
+
+class ConfigProcessor(NanobrickSimple[dict, dict]):
+    """Process configuration dictionary"""
+    name = "config_processor"
+    
+    async def invoke(self, input: dict) -> dict:
+        # Parse and validate
+        return {
+            "host": input.get("host", "0.0.0.0"),
+            "port": int(input.get("port", "80")),
+            "debug": input.get("debug") == "true"
+        }
+
+# Without adapter: TYPE ERROR!
+# pipeline = ConfigReader() | ConfigProcessor()  # str -> dict mismatch
+
+# With adapter: Works perfectly!
+pipeline = ConfigReader() | string_to_dict() | ConfigProcessor()
+result = await pipeline.invoke("config.ini")
+# {"host": "localhost", "port": 8080, "debug": true}
+```
+
+## Custom Type Adapters
+
+Create your own type adapters for specific conversions:
+
+```python
+from nanobricks import TypeAdapter
+
+class CSVToList(TypeAdapter[str, list[list[str]]]):
+    """Convert CSV string to list of lists"""
+    
+    def __init__(self):
+        def parse_csv(csv_string: str) -> list[list[str]]:
+            lines = csv_string.strip().split('\n')
+            return [line.split(',') for line in lines]
+        
+        super().__init__(
+            name="csv_to_list",
+            converter=parse_csv,
+            input_type=str,
+            output_type=list[list[str]]
+        )
+
+# Use in pipeline
+csv_adapter = CSVToList()
+result = await csv_adapter.invoke("a,b,c\n1,2,3\n4,5,6")
+# [["a", "b", "c"], ["1", "2", "3"], ["4", "5", "6"]]
+```
+
+## Enhanced Error Messages
+
+When types don't match in a pipeline, you now get helpful error messages:
+
+```python
+# This will raise a clear error:
+# TypeMismatchError: Type mismatch in pipe operation:
+#   string_producer outputs: str
+#   dict_consumer expects: Dict[str, str]
+#
+# Suggestion: Use string_to_dict() adapter
+
+from nanobricks import TypeMismatchError
+
+try:
+    pipeline = StringProducer() | DictConsumer()
+except TypeMismatchError as e:
+    print(f"Left brick: {e.left_brick}")
+    print(f"Right brick: {e.right_brick}")
+    print(f"Output type: {e.output_type}")
+    print(f"Expected type: {e.expected_type}")
+    print(f"Suggestion: {e.suggestion}")
+```
+
+## Type Compatibility Checking
+
+Use the type checking utilities for runtime validation:
+
+```python
+from nanobricks import check_type_compatibility, auto_adapter
+
+# Check if types are compatible
+compatible = check_type_compatibility(str, int)  # False
+compatible = check_type_compatibility(str, Any)  # True (Any matches everything)
+
+# Automatically create adapter if possible
+adapter = auto_adapter(str, int)  # Returns str_to_int adapter
+adapter = auto_adapter(list, dict)  # Returns None (no automatic conversion)
+```
+
+## Best Practices
+
+### 1. Use Result for Explicit Error Handling
+
+```python
+class DataFetcher(NanobrickSimple[str, Result[dict, str]]):
+    async def invoke(self, url: str) -> Result[dict, str]:
+        try:
+            # Fetch data...
+            return Result.ok(data)
+        except Exception as e:
+            return Result.err(str(e))
+
+class DataProcessor(NanobrickSimple[Result[dict, str], str]):
+    async def invoke(self, result: Result[dict, str]) -> str:
+        if result.is_err:
+            return f"Failed: {result.unwrap_err()}"
+        
+        data = result.unwrap()
+        # Process data...
+        return "Success"
+```
+
+### 2. Place Adapters at Pipeline Boundaries
+
+```python
+# Good: Clear adapter placement
+pipeline = (
+    StringProducer() |
+    string_to_dict() |     # Clear conversion point
+    DictProcessor() |
+    dict_to_json()         # Clear output format
+)
+
+# Less clear: Scattered adapters
+pipeline = (
+    StringProducer() |
+    SomeProcessor() |
+    string_to_dict() |
+    AnotherProcessor() |
+    dict_to_string() |
+    string_to_dict()       # Multiple conversions
+)
+```
+
+### 3. Create Domain-Specific Adapters
+
+```python
+class UserDTOToModel(TypeAdapter[UserDTO, UserModel]):
+    """Convert API DTO to domain model"""
+    
+    def __init__(self):
+        super().__init__(
+            name="dto_to_model",
+            converter=lambda dto: UserModel(
+                id=dto.id,
+                name=dto.name,
+                email=dto.email.lower()
+            ),
+            input_type=UserDTO,
+            output_type=UserModel
+        )
+```
+
+## Migration Guide
+
+If you're upgrading from v0.1.0 or v0.1.1:
+
+1. **No breaking changes** - All existing code continues to work
+2. **Optional adoption** - Use type utilities where they add value
+3. **Gradual migration** - Add Result types and adapters incrementally
+
+### Before (v0.1.0)
+
+```python
+# Manual type conversion
+class Pipeline(NanobrickSimple[str, str]):
+    async def invoke(self, input: str) -> str:
+        # Parse string to dict
+        pairs = input.split(',')
+        data = {}
+        for pair in pairs:
+            k, v = pair.split('=')
+            data[k] = v
+        
+        # Process...
+        
+        # Convert back to string
+        import json
+        return json.dumps(data)
+```
+
+### After (v0.1.2)
+
+```python
+# Automatic conversion with adapters
+pipeline = (
+    InputBrick() |
+    string_to_dict() |
+    ProcessBrick() |
+    dict_to_json()
+)
+```
+
+## Examples
+
+See the [type utilities demo](https://github.com/yourusername/nanobricks/blob/main/examples/type_utilities_demo.py) for complete working examples of all features.

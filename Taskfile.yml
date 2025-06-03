@@ -11,9 +11,10 @@ vars:
     sh: echo $HOME
 
 includes:
-  dist: ./Taskfile.dist.yml
-  dev: ./Taskfile.dev.yml
-  semver: ./Taskfile.semver.yml
+  build: ./Taskfile.build.yml
+  project: ./Taskfile.dev.yml
+  version: ./Taskfile.version.yml
+  docs: ./Taskfile.docs.yml
 
 tasks:
   default:
@@ -21,97 +22,64 @@ tasks:
     cmds:
       - task --list
 
-  # Documentation tasks
-  docs:render:
-    desc: Render Quarto documentation
-    dir: '{{.QUARTO_DIR}}'
-    cmds:
-      - quarto render
-    sources:
-      - '{{.QUARTO_DIR}}/**/*.qmd'
-      - '{{.QUARTO_DIR}}/**/*.yml'
-      - '{{.QUARTO_DIR}}/**/*.css'
-    generates:
-      - '{{.SITE_DIR}}/**/*'
-
-  docs:preview:
-    desc: Preview Quarto documentation with live reload
-    dir: '{{.QUARTO_DIR}}'
-    cmds:
-      - quarto preview
-
-  docs:open:
-    desc: Open the rendered documentation in browser
-    cmds:
-      - open '{{.SITE_DIR}}/index.html'
-    preconditions:
-      - sh: test -f '{{.SITE_DIR}}/index.html'
-        msg: "Documentation not rendered. Run 'task docs:render' first."
-
-  docs:clean:
-    desc: Clean generated documentation
-    cmds:
-      - rm -rf '{{.SITE_DIR}}'
-
-  docs:publish:
-    desc: Publish documentation to GitHub Pages
-    dir: '{{.QUARTO_DIR}}'
-    cmds:
-      - quarto publish gh-pages
-
-  # Core development tasks
-  dev:setup:
+  # Core development tasks - namespace:core
+  core:dev:setup:
     desc: Set up development environment
     cmds:
       - uv pip install -e ".[dev]"
       - echo "✅ Development environment ready!"
 
-  dev:test:
+  core:dev:test:
     desc: Run all tests
     cmds:
       - pytest tests/ -v
 
-  dev:test:unit:
+  core:dev:test:unit:
     desc: Run unit tests only
     cmds:
       - pytest tests/unit/ -v
 
-  dev:test:integration:
+  core:dev:test:integration:
     desc: Run integration tests only
     cmds:
       - pytest tests/integration/ -v
 
-  dev:test:coverage:
+  core:dev:test:coverage:
     desc: Run tests with coverage report
     cmds:
       - pytest tests/ --cov=nanobricks --cov-report=html --cov-report=term
 
-  dev:lint:
+  core:dev:lint:
     desc: Run linters (ruff + mypy)
     cmds:
       - ruff check src/ tests/
       - mypy src/
 
-  dev:format:
+  core:dev:format:
     desc: Format code
     cmds:
       - ruff format src/ tests/
       - black src/ tests/
 
-  dev:typecheck:
+  core:dev:typecheck:
     desc: Run strict type checking
     cmds:
       - mypy src/ --strict
 
-  dev:all:
+  core:dev:all:
     desc: Run all checks (lint, test, docs)
     cmds:
-      - task: dev:lint
-      - task: dev:test
-      - task: docs:render
+      - task: core:dev:lint
+      - task: core:dev:test
+      - task: docs:site:render
 
-  # Nanobrick scaffolding
-  nanobrick:create:
+  core:dev:watch:test:
+    desc: Watch files and run tests on change
+    cmds:
+      - watchexec -e py -w src -w tests -- uv run pytest tests/ -v
+
+  # Scaffold tasks - namespace:scaffold  
+  scaffold:brick:create:
     desc: Create a new nanobrick component
     vars:
       BRICK_NAME: '{{.NAME | default "my_brick"}}'
@@ -144,21 +112,18 @@ tasks:
                 return input
         EOF
 
-  # Version management (moved to Taskfile.semver.yml)
-  # Use: task version:current, task version:bump:patch, etc.
-
-  # Quick aliases for common tasks
+  # Quick aliases (backwards compatibility)
   test:
-    desc: Alias for dev:test
+    desc: Alias for core:dev:test
     cmds:
-      - task: dev:test
+      - task: core:dev:test
 
   lint:
-    desc: Alias for dev:lint
+    desc: Alias for core:dev:lint
     cmds:
-      - task: dev:lint
+      - task: core:dev:lint
 
   format:
-    desc: Alias for dev:format
+    desc: Alias for core:dev:format
     cmds:
-      - task: dev:format
+      - task: core:dev:format

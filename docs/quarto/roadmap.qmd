@@ -32,7 +32,7 @@ This roadmap synthesizes feedback from real-world usage of nanobricks (particula
 
 Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.
 
-## Version 0.1.1: Documentation & Examples (January 2025)
+## Version 0.1.1: Documentation & Examples
 
 **Theme**: Zero code changes, maximum clarity
 
@@ -43,7 +43,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Testing Patterns**: How to test individual bricks and pipelines
 - **Architecture Decision Guide**: When to use composition vs inheritance
 
-## Version 0.1.2: Type Improvements (January 2025)
+## Version 0.1.2: Type Improvements
 
 **Theme**: Backwards-compatible enhancements to reduce friction
 
@@ -53,7 +53,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Better Error Messages**: Improved type mismatch errors for pipe operator
 - **Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.
 
-## Version 0.2.0: Composition Revolution (February 2025)
+## Version 0.2.0: Composition Revolution
 
 **Theme**: Address the #1 pain point - strict pipe operator type alignment
 
@@ -72,7 +72,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Composition Debugger**: Visualize pipeline flow and type mismatches
 - **Flexible Pipe Operator**: More permissive type matching with runtime validation
 
-## Version 0.2.1: Standard Patterns Library (March 2025)
+## Version 0.2.1: Standard Patterns Library
 
 **Theme**: Common bricks to accelerate development
 
@@ -83,7 +83,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **HTTP Client Brick**: Basic requests wrapper with retry logic
 - **Data Manipulation**: Filter, map, reduce, aggregate bricks
 
-## Version 0.3.0: Developer Experience (Q2 2025)
+## Version 0.3.0: Developer Experience
 
 **Theme**: Superior tooling and development workflow
 
@@ -107,7 +107,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Configuration Injection**: Standardized config management
 - **Testing Utilities**: Mock injectors for unit tests
 
-## Version 0.4.0: Standard Library (Q3 2025)
+## Version 0.4.0: Standard Library
 
 **Theme**: Batteries-included ecosystem
 
@@ -126,7 +126,7 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Framework Bridges**: Integration with FastAPI, Django, Flask
 - **Cloud Services**: AWS, GCP, Azure service bricks
 
-## Version 0.5.0: Advanced Features (Q4 2025)
+## Version 0.5.0: Advanced Features
 
 **Theme**: Production-scale capabilities
 
@@ -154,7 +154,7 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
 - **Connection Pooling**: Built-in resource pools
 - **Graceful Shutdown**: Proper cleanup on termination
 
-## Version 1.0.0: Production Ready (Q1 2026)
+## Version 1.0.0: Production Ready
 
 **Theme**: Enterprise-grade stability
 

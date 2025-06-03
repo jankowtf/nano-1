@@ -26,18 +26,18 @@ tasks:
       - |
         if [ -z "{{.PROJECT_PATH}}" ]; then
           echo "❌ Please specify the project PATH"
-          echo "Usage: task dev:project:link PATH=/path/to/project"
+          echo "Usage - task dev:project:link PATH=/path/to/project"
           exit 1
         fi
       - |
         if [ ! -d "{{.PROJECT_PATH}}" ]; then
-          echo "❌ Project directory not found: {{.PROJECT_PATH}}"
+          echo "❌ Project directory not found - {{.PROJECT_PATH}}"
           exit 1
         fi
       - mkdir -p {{.LINK_DIR}}
       - |
         if [ -L "{{.LINK_PATH}}" ]; then
-          echo "⚠️  Link already exists: {{.LINK_PATH}}"
+          echo "⚠️  Link already exists - {{.LINK_PATH}}"
           echo "   Removing old link..."
           rm "{{.LINK_PATH}}"
         fi
@@ -60,12 +60,12 @@ tasks:
       - |
         if [ -z "{{.PROJECT_NAME}}" ]; then
           echo "❌ Please specify the project NAME"
-          echo "Usage: task dev:project:unlink NAME=project-name"
+          echo "Usage - task dev:project:unlink NAME=project-name"
           exit 1
         fi
       - |
         if [ ! -L "{{.LINK_PATH}}" ]; then
-          echo "❌ Link not found: {{.LINK_PATH}}"
+          echo "❌ Link not found - {{.LINK_PATH}}"
           exit 1
         fi
       - rm "{{.LINK_PATH}}"
@@ -81,7 +81,7 @@ tasks:
           echo "📭 No linked projects found"
           exit 0
         fi
-      - echo "📁 Linked projects:"
+      - echo "📁 Linked projects"
       - |
         for link in {{.LINK_DIR}}/*; do
           if [ -L "$link" ]; then
