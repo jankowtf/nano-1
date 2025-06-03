@@ -86,7 +86,7 @@ def main():
                 raise ValueError("Input cannot be 'error'")
             return input
     
-    error_pipeline = greet | ErrorBrick(name="check") | shout
+    error_pipeline = greet >> ErrorBrick(name="check") >> shout
     
     try:
         result = error_pipeline.invoke_sync("error")

@@ -184,7 +184,7 @@ class BrickDebugger:
                     # Fall back to string representation
                     return str(obj)
 
-            def __or__(self, other):
+            def __rshift__(self, other):
                 """Compose with debugging."""
                 from nanobricks.composition import Pipeline
 

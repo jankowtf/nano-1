@@ -69,7 +69,7 @@ class TestCompositionDebugger:
     async def test_debug_composite_pipeline(self):
         """Test debugging a composite pipeline."""
         debugger = CompositionDebugger()
-        pipeline = Nanobrick() | DelayNanobrick(delay_ms=5)
+        pipeline = Nanobrick() >> DelayNanobrick(delay_ms=5)
 
         result, trace = await debugger.debug_pipeline(pipeline, "test", show_live=False)
 
@@ -85,7 +85,7 @@ class TestCompositionDebugger:
     async def test_debug_error_pipeline(self):
         """Test debugging a pipeline with errors."""
         debugger = CompositionDebugger()
-        pipeline = Nanobrick() | ErrorNanobrick()
+        pipeline = Nanobrick() >> ErrorNanobrick()
 
         with pytest.raises(ValueError):
             await debugger.debug_pipeline(pipeline, "test", show_live=False)
@@ -152,8 +152,7 @@ class TestPerformanceProfiler:
         # Create pipeline with hotspot
         pipeline = (
             Nanobrick()  # Fast
-            | DelayNanobrick(50)  # Slow (hotspot)
-            | Nanobrick()  # Fast
+            >> DelayNanobrick(50)  # Slow (hotspot) >> Nanobrick()  # Fast
         )
 
         report = await profiler.profile_pipeline(
@@ -219,7 +218,7 @@ class TestPipelineVisualizer:
     def test_text_visualization(self):
         """Test text format visualization."""
         visualizer = PipelineViz(export_format="text", show_types=True)
-        pipeline = Nanobrick() | DelayNanobrick()
+        pipeline = Nanobrick() >> DelayNanobrick()
 
         text = visualizer._render_text(visualizer.analyze_pipeline(pipeline))
 
@@ -230,7 +229,7 @@ class TestPipelineVisualizer:
     def test_mermaid_visualization(self):
         """Test Mermaid diagram generation."""
         visualizer = PipelineViz(export_format="mermaid")
-        pipeline = Nanobrick() | DelayNanobrick()
+        pipeline = Nanobrick() >> DelayNanobrick()
 
         mermaid = visualizer._render_mermaid(visualizer.analyze_pipeline(pipeline))
 
@@ -243,8 +242,8 @@ class TestPipelineVisualizer:
         """Test pipeline comparison."""
         visualizer = PipelineViz()
 
-        pipeline1 = Nanobrick() | DelayNanobrick()
-        pipeline2 = Nanobrick() | DelayNanobrick() | Nanobrick()
+        pipeline1 = Nanobrick() >> DelayNanobrick()
+        pipeline2 = Nanobrick() >> DelayNanobrick() >> Nanobrick()
 
         comparison = visualizer.compare_pipelines(pipeline1, pipeline2)
 

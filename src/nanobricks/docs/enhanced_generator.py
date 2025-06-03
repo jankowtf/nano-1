@@ -716,7 +716,7 @@ class EnhancedDocumentationGenerator:
             md += "## Composition\n\n"
             md += "This brick supports composition using the pipe operator (`|`):\n\n"
             md += "```python\n"
-            md += f"pipeline = {brick.name}() | OtherBrick()\n"
+            md += f"pipeline = {brick.name}() >> OtherBrick()\n"
             md += "result = await pipeline.invoke(input)\n"
             md += "```\n\n"
 

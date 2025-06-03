@@ -64,7 +64,9 @@
       "Bash(task core:dev:format)",
       "Bash(task version:current)",
       "Bash(task version:bump:patch)",
-      "Bash(task version:release)"
+      "Bash(task version:release)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   },

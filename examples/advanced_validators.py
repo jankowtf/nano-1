@@ -275,8 +275,7 @@ async def demo_validation_pipeline():
     
     # Compose pipeline
     registration_pipeline = (
-        NormalizeInputBrick() |
-        EnrichUserBrick()
+        NormalizeInputBrick() >> EnrichUserBrick()
     )
     
     # Test registrations

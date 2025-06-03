@@ -142,19 +142,70 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
 
 ## Version Management
 
-**IMPORTANT**: All version management must be done through the Task system, not manually. Follow this workflow:
+**IMPORTANT**: All version management must be done through the Task system, not manually. The version in `pyproject.toml` is the single source of truth.
 
-1. **Check current version**: `task version:current`
-2. **Bump version**: 
-   - Patch: `task version:bump:patch` (bug fixes, 0.1.0 → 0.1.1)
-   - Minor: `task version:bump:minor` (new features, 0.1.0 → 0.2.0)
-   - Major: `task version:bump:major` (breaking changes, 0.1.0 → 1.0.0)
-3. **Update CHANGELOG.md**: Move unreleased changes to new version section with date
-4. **Commit changes**: `git add -A && git commit -m "chore: bump version to X.Y.Z"`
-5. **Create git tag**: `task version:tag:create`
-6. **Push**: `git push && git push --tags`
+### Complete Release Workflow
 
-The version in `pyproject.toml` is the single source of truth. The `__version__` in `src/nanobricks/__init__.py` should be updated manually to match after bumping.
+#### 1. Prepare Changes
+- Make your code changes on a feature branch
+- Write tests for new features
+- Update documentation as needed
+- Run `task core:dev:all` to ensure all checks pass
+
+#### 2. Update CHANGELOG
+- Keep changes in the `[Unreleased]` section during development
+- Follow [Keep a Changelog](https://keepachangelog.com) format
+- Group changes by: Added, Changed, Fixed, Deprecated, Removed, Security
+
+#### 3. Version Bump and Release
+
+**Option A: Full Automated Release (Recommended)**
+```bash
+# 1. Check current version
+task version:current
+
+# 2. Bump version (choose one)
+task version:bump:patch  # Bug fixes: 0.1.0 → 0.1.1
+task version:bump:minor  # New features: 0.1.0 → 0.2.0  
+task version:bump:major  # Breaking changes: 0.1.0 → 1.0.0
+
+# 3. Update __version__ in src/nanobricks/__init__.py to match
+
+# 4. Move [Unreleased] to new version section in CHANGELOG.md
+# The date will be automatically set to today's date
+
+# 5. Complete release (commit, tag, push)
+task version:release
+```
+
+**Option B: Step-by-Step Release**
+```bash
+# After version bump and CHANGELOG update:
+task version:commit:version  # Commit with auto-generated message
+task version:tag:create      # Create git tag
+git push origin main         # Push commits
+git push origin --tags       # Push tags
+```
+
+### Version Tasks Reference
+
+- `task version:current` - Show current version from pyproject.toml
+- `task version:bump:patch` - Increment patch version (0.1.0 → 0.1.1)
+- `task version:bump:minor` - Increment minor version (0.1.0 → 0.2.0)
+- `task version:bump:major` - Increment major version (0.1.0 → 1.0.0)
+- `task version:commit:version` - Commit changes with version message
+- `task version:tag:create` - Create annotated git tag for current version
+- `task version:release` - Complete release workflow (commit, tag, push)
+
+### Important Notes
+
+1. **Version Sync**: After bumping version with task, manually update `__version__` in `src/nanobricks/__init__.py`
+2. **CHANGELOG Format**: The commit task checks for version entry in CHANGELOG.md
+3. **Clean Working Directory**: Version tasks require a clean git state
+4. **Semantic Versioning**: Follow [SemVer](https://semver.org) principles:
+   - MAJOR: Incompatible API changes
+   - MINOR: Backwards-compatible functionality
+   - PATCH: Backwards-compatible bug fixes
 
 ## Memories
 - Remember that echo statements in go-task files cannot have `:`

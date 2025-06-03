@@ -148,7 +148,7 @@ class CircuitBreaker(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -258,7 +258,7 @@ class Bulkhead(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -406,7 +406,7 @@ class HealthCheck(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 

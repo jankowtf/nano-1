@@ -135,10 +135,8 @@ async def main():
     # So we use string_to_dict() adapter
     
     config_pipeline = (
-        ConfigReader() | 
-        string_to_dict() |  # Adapter makes types compatible!
-        ConfigProcessor() |
-        dict_to_json(indent=2)  # Another adapter for pretty output
+        ConfigReader() >> string_to_dict() >>  # Adapter makes types compatible!
+        ConfigProcessor() >> dict_to_json(indent=2)  # Another adapter for pretty output
     )
     
     result = await config_pipeline.invoke("config.ini")
@@ -149,8 +147,7 @@ async def main():
     print("3. Custom Type Adapters")
     
     flatten_pipeline = (
-        NestedListProducer() |
-        ListFlattener() |  # Custom adapter
+        NestedListProducer() >> ListFlattener() >>  # Custom adapter
         ListSummer()
     )
     
@@ -175,8 +172,7 @@ async def main():
     
     # Chain dict -> json string -> process
     json_pipeline = (
-        DictProducer() |
-        dict_to_json(indent=2) |  # Dict -> str (JSON)
+        DictProducer() >> dict_to_json(indent=2) >>  # Dict -> str (JSON)
         StringConsumer()
     )
     

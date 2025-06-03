@@ -20,7 +20,7 @@ class UppercaseBrick(NanobrickSimple[str, str]):
 
 
 # Example pipeline
-greeting_pipeline = GreetingBrick() | UppercaseBrick()
+greeting_pipeline = GreetingBrick() >> UppercaseBrick()
 
 
 __all__ = ["GreetingBrick", "UppercaseBrick", "greeting_pipeline"]

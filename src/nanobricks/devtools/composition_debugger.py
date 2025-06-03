@@ -200,7 +200,7 @@ class CompositionDebugger:
                 """Synchronous invoke with debugging."""
                 return asyncio.run(self.invoke(input, deps=deps))
 
-            def __or__(self, other):
+            def __rshift__(self, other):
                 """Compose with debugging."""
                 # Wrap the other brick too
                 if not isinstance(other, DebuggedBrick):
@@ -392,7 +392,7 @@ class CompositionDebugger:
             timing_table.add_column("Trace 2 (ms)", style="green")
             timing_table.add_column("Change", style="magenta")
 
-            all_bricks = set(timings1.keys()) | set(timings2.keys())
+            all_bricks = set(timings1.keys()) >> set(timings2.keys())
             for brick in sorted(all_bricks):
                 t1 = timings1.get(brick, 0)
                 t2 = timings2.get(brick, 0)

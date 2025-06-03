@@ -355,7 +355,7 @@ class TestPipeOperatorWithTypeChecking:
                 return str(input)
 
         # This should work fine
-        pipeline = StringToInt() | IntToString()
+        pipeline = StringToInt() >> IntToString()
         assert pipeline.name == "StringToInt|IntToString"
 
     def test_with_type_adapter(self):
@@ -374,5 +374,5 @@ class TestPipeOperatorWithTypeChecking:
                 return f"Got {len(input)} items"
 
         # Use adapter to make types compatible
-        pipeline = ProduceString() | string_to_dict() | ConsumeDict()
+        pipeline = ProduceString() >> string_to_dict() >> ConsumeDict()
         assert "string_to_dict" in pipeline.name

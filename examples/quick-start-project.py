@@ -58,8 +58,8 @@ async def example_validation_pipeline():
     
     # Create pipeline with validators
     pipeline = (
-        JSONParser() |  # Parse JSON string
-        ValidateUser() |  # Custom validation
+        JSONParser() >>  # Parse JSON string
+        ValidateUser() >>  # Custom validation
         EnrichUser()  # Enrich data
     )
     
@@ -132,8 +132,7 @@ async def build_api_service():
     
     # Create service pipeline
     service = (
-        RateLimiter(max_requests=100) |
-        APIHandler()
+        RateLimiter(max_requests=100) >> APIHandler()
     )
     
     # Add production features

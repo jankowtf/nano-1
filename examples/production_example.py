@@ -107,7 +107,7 @@ async def bulkhead_example():
     processor = DataProcessor()
     
     # Create pipeline with bulkhead
-    pipeline = Bulkhead(service, max_concurrent=2) | processor
+    pipeline = Bulkhead(service, max_concurrent=2) >> processor
     
     # Create many concurrent requests
     cities = [f"City{i}" for i in range(10)]

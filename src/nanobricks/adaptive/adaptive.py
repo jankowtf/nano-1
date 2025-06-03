@@ -285,7 +285,7 @@ class AdaptiveBrick(NanobrickProtocol[Any, Any, Any]):
 
         return summary
 
-    def __or__(self, other):
+    def __rshift__(self, other):
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 

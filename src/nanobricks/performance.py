@@ -128,7 +128,7 @@ class NanobrickCached(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous invoke with caching."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: NanobrickProtocol) -> NanobrickProtocol:
+    def __rshift__(self, other: NanobrickProtocol) -> NanobrickProtocol:
         """Compose with another brick."""
         return CompositeBrick(self, other)
 
@@ -207,7 +207,7 @@ class NanobrickBatched(NanobrickProtocol[list[T_in], list[T_out], T_deps]):
         """Synchronous batch invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: NanobrickProtocol) -> NanobrickProtocol:
+    def __rshift__(self, other: NanobrickProtocol) -> NanobrickProtocol:
         """Compose with another brick."""
         return CompositeBrick(self, other)
 
@@ -254,7 +254,7 @@ class FusedPipeline(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous fused invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: NanobrickProtocol) -> NanobrickProtocol:
+    def __rshift__(self, other: NanobrickProtocol) -> NanobrickProtocol:
         """Extend the fused pipeline."""
         if isinstance(other, FusedPipeline):
             return FusedPipeline(self._bricks + other._bricks)

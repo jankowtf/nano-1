@@ -223,7 +223,7 @@ class PerformanceProfiler:
                 """Synchronous invoke with profiling."""
                 return asyncio.run(self.invoke(input, deps=deps))
 
-            def __or__(self, other):
+            def __rshift__(self, other):
                 """Compose with profiling."""
                 # Wrap the other brick too
                 if not isinstance(other, ProfiledBrick):

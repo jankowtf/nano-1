@@ -133,7 +133,7 @@ class BrickProfiler:
                 """Synchronous invoke with profiling."""
                 return asyncio.run(self.invoke(input, deps=deps))
 
-            def __or__(self, other):
+            def __rshift__(self, other):
                 """Compose with profiling."""
                 from nanobricks.composition import Pipeline
 

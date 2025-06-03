@@ -25,7 +25,7 @@ class TestNanobrickProtocol:
             def invoke_sync(self, input, *, deps=None):
                 return input
 
-            def __or__(self, other):
+            def __rshift__(self, other):
                 return self
 
         # Should be recognized as implementing the protocol

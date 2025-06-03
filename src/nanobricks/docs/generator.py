@@ -98,7 +98,7 @@ class DocumentationGenerator:
         doc += (
             "This brick can be composed with other bricks using the pipe operator:\n\n"
         )
-        doc += f"```python\npipeline = {name}() | OtherBrick()\nresult = await pipeline.invoke(input)\n```\n\n"
+        doc += f"```python\npipeline = {name}() >> OtherBrick()\nresult = await pipeline.invoke(input)\n```\n\n"
 
         return doc
 

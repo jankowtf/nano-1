@@ -71,11 +71,7 @@ async def demo_composition_debugger():
     
     # Create pipeline
     pipeline = (
-        JSONParser() |
-        TypeValidator(dict) |
-        DataProcessor(delay_ms=20) |
-        DataEnricher() |
-        LengthValidator(min_length=1)
+        JSONParser() >> TypeValidator(dict) >> DataProcessor(delay_ms=20) >> DataEnricher() >> LengthValidator(min_length=1)
     )
     
     # Debug the pipeline
@@ -109,8 +105,7 @@ async def demo_performance_profiler():
     
     # Create pipeline with varying performance characteristics
     pipeline = (
-        JSONParser() |
-        DataProcessor(delay_ms=5) |    # Fast
+        JSONParser() >> DataProcessor(delay_ms=5) >>    # Fast
         DataProcessor(delay_ms=50) |   # Slow (hotspot)
         DataProcessor(delay_ms=10) |   # Medium
         DataEnricher()
@@ -147,8 +142,8 @@ def demo_pipeline_visualizer():
     
     # Branch based on data type
     branch_pipeline = Branch({
-        lambda x: isinstance(x, str): JSONParser() | UpperCaseTransformer(),
-        lambda x: isinstance(x, dict): DataProcessor() | DataEnricher(),
+        lambda x: isinstance(x, str): JSONParser() >> UpperCaseTransformer(),
+        lambda x: isinstance(x, dict): DataProcessor() >> DataEnricher(),
         lambda x: True: TypeValidator(str)  # Default
     })
     
@@ -220,10 +215,7 @@ async def demo_combined_workflow():
     
     # Create pipeline
     pipeline = (
-        JSONParser() |
-        FilterTransformer(lambda x: 'items' in x) |
-        DataProcessor(delay_ms=15) |
-        DataEnricher()
+        JSONParser() >> FilterTransformer(lambda x: 'items' in x) >> DataProcessor(delay_ms=15) >> DataEnricher()
     )
     
     # 1. Visualize structure

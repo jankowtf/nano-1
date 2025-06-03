@@ -106,7 +106,7 @@ class InputSanitizer(NanobrickProtocol[T_in, T_in, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -176,7 +176,7 @@ class RateLimiter(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -252,7 +252,7 @@ class PermissionGuard(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -359,7 +359,7 @@ class EncryptionBrick(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 
@@ -475,7 +475,7 @@ class AuditLogger(NanobrickProtocol[T_in, T_out, T_deps]):
         """Synchronous version of invoke."""
         return asyncio.run(self.invoke(input, deps=deps))
 
-    def __or__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
+    def __rshift__(self, other: "NanobrickProtocol") -> "NanobrickProtocol":
         """Compose with another brick."""
         from nanobricks.composition import Pipeline
 

@@ -213,7 +213,7 @@ class TestPipeline:
     @pytest.fixture
     def pipeline(self):
         """Create a pipeline of text processor and word counter."""
-        return TextProcessor() | WordCounter()
+        return TextProcessor() >> WordCounter()
     
     @pytest.mark.asyncio
     async def test_pipeline_execution(self, pipeline):

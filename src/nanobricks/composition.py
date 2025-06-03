@@ -41,7 +41,7 @@ class NanobrickComposite(NanobrickBase[T_in, T_out, T_deps]):
             first: The first brick in the pipeline
             second: The second brick in the pipeline
         """
-        super().__init__(name=f"{first.name}|{second.name}", version="composite")
+        super().__init__(name=f"{first.name}>>{second.name}", version="composite")
         self.first = first
         self.second = second
 
@@ -123,7 +123,7 @@ class Pipeline(NanobrickBase[T_in, T_out, T_deps]):
 
         # Build name from all brick names
         names = [brick.name for brick in bricks]
-        super().__init__(name=" | ".join(names), version="pipeline")
+        super().__init__(name=" >> ".join(names), version="pipeline")
         self.bricks = bricks
 
     @beartype

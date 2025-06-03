@@ -81,20 +81,96 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 
 **Theme**: Address the #1 pain point - strict pipe operator type alignment
 
+### Piping Strategy: Hybrid Approach with `>>` Operator
+
+After extensive analysis of piping approaches across languages (Elixir's `|>`, R's `%>%`, Rust discussions, Python libraries), we've decided on a hybrid approach that balances simplicity with power, using the `>>` (right shift) operator instead of `|`:
+
+#### 1. **Switch from `|` to `>>` for Simple Linear Pipelines**
+- **Breaking Change**: Moving from `|` to `>>` for clearer semantics
+- Visual arrow metaphor (`>>`) better represents data flow
+- Less conflict with bitwise OR operations
+- Used by some functional Python libraries (e.g., fn.py)
+
+```python
+# New elegant syntax with >> operator
+result = LoadData() >> ValidateSchema() >> TransformFields() >> SaveOutput()
+```
+
+**Migration from v0.1.x:**
+```python
+# Old (v0.1.x)
+result = Parser() | Validator() | Formatter()
+
+# New (v0.2.0)
+result = Parser() >> Validator() >> Formatter()
+```
+
+#### 2. **Add Pipeline Builder for Advanced Patterns**
+- Fluent interface for complex compositions
+- Solves type alignment issues with explicit adapters
+- Enables branching, merging, and error handling
+
+```python
+# New Pipeline builder for advanced cases
+pipeline = (
+    Pipeline()
+    .start_with(Parser())
+    .adapt(string_to_dict)  # Explicit type adapter
+    .branch(
+        ("email", EmailValidator() >> EmailFormatter()),
+        ("phone", PhoneValidator() >> PhoneFormatter()),
+        ("default", PassthroughValidator())
+    )
+    .merge_with(CombineResults())
+    .catch_errors(ErrorHandler())
+    .build()
+)
+```
+
+#### 3. **Why `>>` Over `|`?**
+
+**Advantages of `>>`:**
+- **Visual Clarity**: Arrow metaphor (`>>`) clearly shows data flow direction
+- **Semantic Alignment**: Better represents "pipe forward" concept
+- **Less Ambiguity**: `|` often means "OR" in many contexts
+- **Precedence Benefits**: Right shift has different precedence than bitwise OR
+
+**Migration Support:**
+- Automated migration script to convert existing code
+- Deprecation period with warnings for `|` usage
+- Clear documentation and examples
+
+#### 4. **Why This Hybrid Approach?**
+
+**Pros:**
+- **Clear Semantics**: `>>` operator is more intuitive for piping
+- **Progressive Complexity**: Simple cases stay simple with `>>`
+- **Type Safety**: Explicit adapters in Pipeline builder
+- **IDE Friendly**: Methods are discoverable and documented
+- **No Conflicts**: Methods don't clash with operators
+- **Familiar Patterns**: Similar to functional programming languages
+
+**Cons Addressed:**
+- Breaking change mitigated by migration tools
+- Verbosity mitigated by keeping operator syntax for simple cases
+- Complexity isolated to advanced use cases only
+
 ### Core Enhancements
 
-- **Pipeline Builder API**: Fluent interface for complex compositions
+- **Automatic Type Adapters**: Smart conversion between compatible types
   ```python
-  pipeline = (
-      Pipeline.start_with(Parser())
-      .branch(Validator(), Analyzer())
-      .merge_with(CombineResults())
-      .build()
-  )
+  # Automatically insert adapters when possible
+  LoadJSON() >> ProcessDict()  # Auto-inserts string_to_dict adapter
   ```
-- **Parallel/Branch Support**: Built-in support for fan-out/fan-in patterns
-- **Composition Debugger**: Visualize pipeline flow and type mismatches
-- **Flexible Pipe Operator**: More permissive type matching with runtime validation
+
+- **Pipeline Debugging**: Visualize and debug compositions
+  ```python
+  pipeline.visualize()  # Shows flow diagram
+  pipeline.explain()    # Details type transformations
+  ```
+
+- **Parallel/Branch Support**: Built-in fan-out/fan-in patterns
+- **Error Boundaries**: Explicit error handling without breaking the pipeline
 
 ## Version 0.2.1: Standard Patterns Library
 

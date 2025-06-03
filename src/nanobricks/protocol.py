@@ -57,11 +57,11 @@ class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
         """
         ...
 
-    def __or__(
+    def __rshift__(
         self, other: "NanobrickProtocol[T_out, Any, T_deps]"
     ) -> "NanobrickProtocol[T_in, Any, T_deps]":
         """
-        Compose this nanobrick with another using the pipe operator.
+        Compose this nanobrick with another using the >> pipe operator.
 
         Args:
             other: The nanobrick to compose with
@@ -135,11 +135,11 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
                 "Use 'await invoke()' instead."
             )
 
-    def __or__(
+    def __rshift__(
         self, other: "NanobrickProtocol[T_out, Any, T_deps]"
     ) -> "NanobrickProtocol[T_in, Any, T_deps]":
         """
-        Compose this nanobrick with another using the pipe operator.
+        Compose this nanobrick with another using the >> pipe operator.
 
         Creates a pipeline where the output of this brick becomes the input of the next.
 

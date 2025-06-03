@@ -2,7 +2,7 @@
 """
 Basic Pipeline Example - Your First Nanobrick Pipeline
 
-This example demonstrates the simplest way to compose nanobricks using the pipe operator.
+This example demonstrates the simplest way to compose nanobricks using the >> pipe operator.
 Perfect for when your types align naturally between stages.
 """
 
@@ -47,7 +47,7 @@ class WordCounter(Nanobrick[List[str], Dict[str, int]]):
         return word_freq
 
 
-# Step 2: Compose bricks using the pipe operator
+# Step 2: Compose bricks using the >> pipe operator
 def create_text_analysis_pipeline():
     """
     Creates a pipeline that:
@@ -57,7 +57,7 @@ def create_text_analysis_pipeline():
     
     Note how the output type of each stage matches the input of the next!
     """
-    return TextCleaner() | WordTokenizer() | WordCounter()
+    return TextCleaner() >> WordTokenizer() >> WordCounter()
 
 
 # Step 3: Use the pipeline
