@@ -40,7 +40,7 @@ async def invoke(self, input: T, *, deps: Optional[Dict[str, Any]] = None) -> U:
 Every nanobrick's `invoke` method accepts an optional `deps` parameter:
 
 ```python
-class MyBrick(NanobrickSimple[Input, Output]):
+class MyBrick(Nanobrick[Input, Output]):
     async def invoke(
         self, 
         input: Input, 
@@ -66,7 +66,7 @@ result = await pipeline.invoke(input, deps={"db": db_conn})
 ### Pattern 1: Database Connections
 
 ```python
-class DatabaseBrick(NanobrickSimple[Query, Results]):
+class DatabaseBrick(Nanobrick[Query, Results]):
     async def invoke(self, query: Query, *, deps=None) -> Results:
         if not deps or "db" not in deps:
             raise ValueError("Database connection required in deps['db']")
@@ -88,7 +88,7 @@ class Config:
     timeout: int = 30
     retry_count: int = 3
 
-class APIBrick(NanobrickSimple[Request, Response]):
+class APIBrick(Nanobrick[Request, Response]):
     async def invoke(self, request: Request, *, deps=None) -> Response:
         config = Config()  # Default
         if deps and "config" in deps:
@@ -105,7 +105,7 @@ class APIBrick(NanobrickSimple[Request, Response]):
 ### Pattern 3: Multiple Services
 
 ```python
-class NotificationBrick(NanobrickSimple[Message, bool]):
+class NotificationBrick(Nanobrick[Message, bool]):
     async def invoke(self, message: Message, *, deps=None) -> bool:
         if not deps:
             raise ValueError("Dependencies required")
@@ -210,7 +210,7 @@ result = await pipeline.invoke(data, deps=container.as_dict())
 When building complex pipelines, you might want different deps for different stages:
 
 ```python
-class SmartPipeline(NanobrickSimple[Input, Output]):
+class SmartPipeline(Nanobrick[Input, Output]):
     def __init__(self):
         self.stage1 = Stage1Brick()
         self.stage2 = Stage2Brick()
@@ -281,7 +281,7 @@ class TestDatabaseBrick:
 Always document what dependencies your brick expects:
 
 ```python
-class MyBrick(NanobrickSimple[Input, Output]):
+class MyBrick(Nanobrick[Input, Output]):
     """
     Processes data using external services.
     
@@ -323,7 +323,7 @@ class BrickDeps(TypedDict, total=False):
     logger: Logger
     cache: Optional[Cache]
 
-class TypedBrick(NanobrickSimple[Input, Output]):
+class TypedBrick(Nanobrick[Input, Output]):
     async def invoke(self, input: Input, *, deps: Optional[BrickDeps] = None) -> Output:
         # Now you get type hints for deps!
         if deps:

@@ -1,11 +1,11 @@
 import asyncio
 
 # Import skills to trigger registration
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 
 @skill("logging", log_inputs=True, log_outputs=True, log_errors=True)
-class TemperatureConverterBrick(NanobrickSimple[float, dict]):
+class TemperatureConverterBrick(Nanobrick[float, dict]):
     """Converts temperature between Celsius, Fahrenheit, and Kelvin."""
 
     async def invoke(self, input: float, *, deps=None) -> dict:
@@ -46,7 +46,7 @@ class TemperatureConverterBrick(NanobrickSimple[float, dict]):
 
 
 @skill("logging", log_inputs=True, log_outputs=True, truncate_at=50)
-class WeatherAnalyzerBrick(NanobrickSimple[dict, str]):
+class WeatherAnalyzerBrick(Nanobrick[dict, str]):
     """Analyzes weather data and provides recommendations."""
 
     async def invoke(self, input: dict, *, deps=None) -> str:

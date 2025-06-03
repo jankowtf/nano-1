@@ -14,7 +14,7 @@ Or in your pyproject.toml:
 import asyncio
 from typing import TypedDict
 
-from nanobricks import NanobrickSimple, Pipeline, NanobrickBase
+from nanobricks import Nanobrick, Pipeline, NanobrickBase
 from nanobricks.validators import EmailValidator, LengthValidator
 from nanobricks.transformers import JSONParser, SnakeCaseTransformer
 from nanobricks.skills import with_skill
@@ -86,7 +86,7 @@ class APIResponse(TypedDict):
     data: dict
 
 
-class RateLimiter(NanobrickSimple[APIRequest, APIRequest]):
+class RateLimiter(Nanobrick[APIRequest, APIRequest]):
     """Simple rate limiter brick."""
     
     def __init__(self, max_requests: int = 10):

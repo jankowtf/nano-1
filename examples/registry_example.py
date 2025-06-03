@@ -3,7 +3,7 @@
 import asyncio
 from pathlib import Path
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 from nanobricks.registry import (
     Package,
     PackageMetadata,
@@ -15,7 +15,7 @@ from nanobricks.registry import (
 
 
 # Example bricks to package
-class TextProcessor(NanobrickSimple[str, str]):
+class TextProcessor(Nanobrick[str, str]):
     """Process text with various transformations."""
     
     def __init__(self):
@@ -26,7 +26,7 @@ class TextProcessor(NanobrickSimple[str, str]):
         return input.strip().lower().replace(" ", "_")
 
 
-class DataValidator(NanobrickSimple[dict, dict]):
+class DataValidator(Nanobrick[dict, dict]):
     """Validate data structures."""
     
     def __init__(self):

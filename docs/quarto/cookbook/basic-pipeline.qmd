@@ -30,10 +30,10 @@ Let's build a text analysis pipeline that:
 ```python
 import asyncio
 from typing import List, Dict
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
-class TextCleaner(NanobrickSimple[str, str]):
+class TextCleaner(Nanobrick[str, str]):
     """Removes extra whitespace and normalizes text."""
     
     name = "text_cleaner"
@@ -43,7 +43,7 @@ class TextCleaner(NanobrickSimple[str, str]):
         return " ".join(input.split())
 
 
-class WordTokenizer(NanobrickSimple[str, List[str]]):
+class WordTokenizer(Nanobrick[str, List[str]]):
     """Splits text into individual words."""
     
     name = "word_tokenizer"
@@ -53,7 +53,7 @@ class WordTokenizer(NanobrickSimple[str, List[str]]):
         return input.lower().split()
 
 
-class WordCounter(NanobrickSimple[List[str], Dict[str, int]]):
+class WordCounter(Nanobrick[List[str], Dict[str, int]]):
     """Counts word frequencies."""
     
     name = "word_counter"

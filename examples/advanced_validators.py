@@ -229,9 +229,9 @@ async def demo_validation_pipeline():
     print("\n=== Validation Pipeline Demo ===\n")
     
     # Create a user registration pipeline
-    from nanobricks import NanobrickSimple
+    from nanobricks import Nanobrick
     
-    class NormalizeInputBrick(NanobrickSimple[Dict[str, Any], Dict[str, Any]]):
+    class NormalizeInputBrick(Nanobrick[Dict[str, Any], Dict[str, Any]]):
         """Normalize user input."""
         
         async def invoke(self, input: Dict[str, Any], *, deps=None) -> Dict[str, Any]:
@@ -244,7 +244,7 @@ async def demo_validation_pipeline():
                     normalized[key] = value
             return normalized
     
-    class EnrichUserBrick(NanobrickSimple[Dict[str, Any], Dict[str, Any]]):
+    class EnrichUserBrick(Nanobrick[Dict[str, Any], Dict[str, Any]]):
         """Add derived fields."""
         
         async def invoke(self, input: Dict[str, Any], *, deps=None) -> Dict[str, Any]:

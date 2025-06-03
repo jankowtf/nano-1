@@ -1,9 +1,9 @@
 # Import skills to trigger registration
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 
 @skill("cli", command="wordcount", input_type="text", output_format="pretty")
-class WordCounterBrick(NanobrickSimple[str, dict]):
+class WordCounterBrick(Nanobrick[str, dict]):
     """Counts words, characters, and lines in text."""
 
     async def invoke(self, input: str, *, deps=None) -> dict:

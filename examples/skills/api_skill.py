@@ -1,9 +1,9 @@
 # Import skills to trigger registration
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 
 @skill("api", path="/analyze", port=8000, docs=True)
-class TextAnalyzerBrick(NanobrickSimple[str, dict]):
+class TextAnalyzerBrick(Nanobrick[str, dict]):
     """Analyzes text and returns statistics."""
 
     async def invoke(self, input: str, *, deps=None) -> dict:

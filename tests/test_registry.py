@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from nanobricks.protocol import NanobrickSimple
+from nanobricks.protocol import Nanobrick
 from nanobricks.registry import (
     LocalRegistry,
     Package,
@@ -242,7 +242,7 @@ class TestPackage:
 
     def test_create_package_from_brick(self):
         """Test creating package from brick."""
-        brick = NanobrickSimple("test", "1.0.0")
+        brick = Nanobrick("test", "1.0.0")
 
         package = create_package_from_brick(
             brick,
@@ -254,7 +254,7 @@ class TestPackage:
 
         assert package.metadata.name == "test-brick"
         assert package.metadata.version == "1.0.0"
-        assert package.metadata.brick_class.endswith("NanobrickSimple")
+        assert package.metadata.brick_class.endswith("Nanobrick")
         assert len(package.files) > 0
 
     def test_package_archive(self):

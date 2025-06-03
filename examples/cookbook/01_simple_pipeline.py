@@ -8,11 +8,11 @@ Perfect for when your types align naturally between stages.
 
 import asyncio
 from typing import List, Dict
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Step 1: Define individual bricks with clear input/output types
-class TextCleaner(NanobrickSimple[str, str]):
+class TextCleaner(Nanobrick[str, str]):
     """Removes extra whitespace and normalizes text."""
     
     name = "text_cleaner"
@@ -23,7 +23,7 @@ class TextCleaner(NanobrickSimple[str, str]):
         return " ".join(input.split())
 
 
-class WordTokenizer(NanobrickSimple[str, List[str]]):
+class WordTokenizer(Nanobrick[str, List[str]]):
     """Splits text into individual words."""
     
     name = "word_tokenizer"
@@ -34,7 +34,7 @@ class WordTokenizer(NanobrickSimple[str, List[str]]):
         return input.lower().split()
 
 
-class WordCounter(NanobrickSimple[List[str], Dict[str, int]]):
+class WordCounter(Nanobrick[List[str], Dict[str, int]]):
     """Counts word frequencies."""
     
     name = "word_counter"

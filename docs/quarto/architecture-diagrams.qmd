@@ -35,7 +35,7 @@ classDiagram
         +with_skill(skill: str, **config) NanobrickEnhanced
     }
     
-    class NanobrickSimple {
+    class Nanobrick {
         +invoke(input: T_in, deps: None) T_out
     }
     
@@ -44,8 +44,8 @@ classDiagram
     }
     
     NanobrickProtocol <|.. NanobrickBase : implements
-    NanobrickBase <|-- NanobrickSimple : extends
-    NanobrickSimple <|-- MyBrick : extends
+    NanobrickBase <|-- Nanobrick : extends
+    Nanobrick <|-- MyBrick : extends
 ```
 
 ### Composition Flow

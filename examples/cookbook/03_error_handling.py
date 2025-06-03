@@ -11,11 +11,11 @@ import asyncio
 from typing import Optional, Union, List, Dict, Any
 from dataclasses import dataclass
 from enum import Enum
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Approach 1: Exception-Based Error Handling
-class StrictParser(NanobrickSimple[str, Dict[str, Any]]):
+class StrictParser(Nanobrick[str, Dict[str, Any]]):
     """Parser that raises exceptions on invalid input."""
     
     name = "strict_parser"
@@ -57,7 +57,7 @@ class ValidationResult:
             self.warnings = []
 
 
-class SafeParser(NanobrickSimple[str, ValidationResult]):
+class SafeParser(Nanobrick[str, ValidationResult]):
     """Parser that returns validation results instead of raising."""
     
     name = "safe_parser"
@@ -104,7 +104,7 @@ class ErrorMode(Enum):
     WARN = "warn"          # Log warnings but continue
 
 
-class ConfigurableParser(NanobrickSimple[str, Union[Dict[str, Any], ValidationResult]]):
+class ConfigurableParser(Nanobrick[str, Union[Dict[str, Any], ValidationResult]]):
     """Parser with configurable error handling mode."""
     
     name = "configurable_parser"
@@ -160,7 +160,7 @@ class ConfigurableParser(NanobrickSimple[str, Union[Dict[str, Any], ValidationRe
 
 
 # Error Recovery with Fallbacks
-class ResilientProcessor(NanobrickSimple[str, Dict[str, Any]]):
+class ResilientProcessor(Nanobrick[str, Dict[str, Any]]):
     """Processor with built-in error recovery."""
     
     name = "resilient_processor"
@@ -193,7 +193,7 @@ class ResilientProcessor(NanobrickSimple[str, Dict[str, Any]]):
 
 
 # Pipeline with Error Boundaries
-class ErrorBoundaryPipeline(NanobrickSimple[List[str], Dict[str, Any]]):
+class ErrorBoundaryPipeline(Nanobrick[List[str], Dict[str, Any]]):
     """Pipeline that handles errors at each stage."""
     
     name = "error_boundary_pipeline"
@@ -263,7 +263,7 @@ class DependencyException(BrickException):
         self.missing_deps = missing_deps
 
 
-class TypedErrorBrick(NanobrickSimple[Dict[str, Any], Dict[str, Any]]):
+class TypedErrorBrick(Nanobrick[Dict[str, Any], Dict[str, Any]]):
     """Brick that uses typed exceptions."""
     
     name = "typed_error_brick"

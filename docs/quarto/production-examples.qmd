@@ -40,7 +40,7 @@ graph LR
 ```{python}
 #| eval: false
 #| code-fold: false
-from nanobricks import NanobrickBase, NanobrickSimple, create_service
+from nanobricks import NanobrickBase, Nanobrick, create_service
 from nanobricks.skills import skill
 from nanobricks.patterns import Pipeline, Branch, Fallback
 from nanobricks.security import hash_password, verify_password
@@ -82,7 +82,7 @@ class LoginRequest(BaseModel):
     password: str
 
 # Core Nanobricks
-class ValidateUserData(NanobrickSimple[UserCreate, UserCreate]):
+class ValidateUserData(Nanobrick[UserCreate, UserCreate]):
     """Validates user registration data."""
     
     async def invoke(self, data: UserCreate, *, deps=None) -> UserCreate:
@@ -108,7 +108,7 @@ class CheckEmailUniqueness(NanobrickBase[UserCreate, UserCreate, ServiceDeps]):
         
         return data
 
-class HashUserPassword(NanobrickSimple[UserCreate, Dict]):
+class HashUserPassword(Nanobrick[UserCreate, Dict]):
     """Hashes the user password securely."""
     
     async def invoke(self, data: UserCreate, *, deps=None) -> Dict:
@@ -192,7 +192,7 @@ class ValidateCredentials(NanobrickBase[LoginRequest, User, ServiceDeps]):
             active=result["active"]
         )
 
-class GenerateJWT(NanobrickSimple[User, Dict]):
+class GenerateJWT(Nanobrick[User, Dict]):
     """Generates JWT token for authenticated user."""
     
     async def invoke(self, user: User, *, deps=None) -> Dict:
@@ -413,7 +413,7 @@ graph TB
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickBase, NanobrickSimple, create_pipeline
+from nanobricks import NanobrickBase, Nanobrick, create_pipeline
 from nanobricks.patterns import Router, Parallel, Window
 from typing import Dict, List, Any
 import aiokafka
@@ -435,7 +435,7 @@ class EnrichedReading(SensorReading):
     anomaly_score: float
 
 # Processing bricks
-class ValidateSensorData(NanobrickSimple[Dict, SensorReading]):
+class ValidateSensorData(Nanobrick[Dict, SensorReading]):
     """Validates and parses raw sensor data."""
     
     async def invoke(self, raw_data: Dict, *, deps=None) -> SensorReading:
@@ -506,7 +506,7 @@ class DetectAnomalies(NanobrickBase[EnrichedReading, EnrichedReading, ServiceDep
         
         return reading
 
-class AggregateReadings(NanobrickSimple[List[EnrichedReading], Dict]):
+class AggregateReadings(Nanobrick[List[EnrichedReading], Dict]):
     """Aggregates readings for analytics."""
     
     async def invoke(self, readings: List[EnrichedReading], *, deps=None) -> Dict:
@@ -599,7 +599,7 @@ class SensorDataPipeline:
             await consumer.stop()
 
 # Monitoring and alerting
-class PipelineMonitor(NanobrickSimple[Dict, None]):
+class PipelineMonitor(Nanobrick[Dict, None]):
     """Monitors pipeline health and sends alerts."""
     
     def __init__(self, thresholds: Dict):
@@ -745,7 +745,7 @@ class CheckInventory(NanobrickBase[Order, Order, ServiceDeps]):
         if reservation_id := order.metadata.get("reservation_id"):
             await deps["inventory_service"].release_reservation(reservation_id)
 
-class CalculatePricing(NanobrickSimple[Order, Order]):
+class CalculatePricing(Nanobrick[Order, Order]):
     """Calculates order total with taxes and discounts."""
     
     def __init__(self, tax_rate: Decimal = Decimal("0.08")):

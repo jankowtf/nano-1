@@ -233,6 +233,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../task-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distribution &amp; Deployment</span></a>
   </div>
@@ -270,6 +276,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../cookbook/error-handling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Error Handling Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cookbook/testing-bricks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Testing Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cookbook/composition-patterns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composition vs Inheritance</span></a>
   </div>
 </li>
       </ul>
@@ -364,6 +382,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../type-safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Type Safety in Nanobricks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../type-utilities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Type Utilities</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -662,7 +686,7 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <ul>
 <li><a href="manual-composition.qmd">Manual Composition</a> - When types don’t align</li>
 <li><a href="../cookbook/error-handling.html">Error Handling</a> - Adding error recovery</li>
-<li><a href="testing-bricks.qmd">Testing Bricks</a> - Testing your pipelines</li>
+<li><a href="../cookbook/testing-bricks.html">Testing Bricks</a> - Testing your pipelines</li>
 <li><a href="branching-pipelines.qmd">Branching Pipelines</a> - Non-linear flows</li>
 </ul>
 
@@ -1154,10 +1178,10 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
 <span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickSimple</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TextCleaner(NanobrickSimple[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TextCleaner(Nanobrick[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
 <span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Removes extra whitespace and normalizes text."""</span></span>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"text_cleaner"</span></span>
@@ -1167,7 +1191,7 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">" "</span>.join(<span class="bu">input</span>.split())</span>
 <span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WordTokenizer(NanobrickSimple[<span class="bu">str</span>, List[<span class="bu">str</span>]]):</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WordTokenizer(Nanobrick[<span class="bu">str</span>, List[<span class="bu">str</span>]]):</span>
 <span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Splits text into individual words."""</span></span>
 <span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"word_tokenizer"</span></span>
@@ -1177,7 +1201,7 @@ Pipeline:       str → Dict[str, int]</code></pre>
 <span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">input</span>.lower().split()</span>
 <span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WordCounter(NanobrickSimple[List[<span class="bu">str</span>], Dict[<span class="bu">str</span>, <span class="bu">int</span>]]):</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WordCounter(Nanobrick[List[<span class="bu">str</span>], Dict[<span class="bu">str</span>, <span class="bu">int</span>]]):</span>
 <span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Counts word frequencies."""</span></span>
 <span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"word_counter"</span></span>

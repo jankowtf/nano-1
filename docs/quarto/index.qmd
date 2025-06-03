@@ -26,18 +26,18 @@ Built-in support for everything you need in production: deployment (Docker, Kube
 ## Quick Example
 
 ```python
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 # Define atomic components
 @skill("logging")
-class ValidateUser(NanobrickSimple[dict, dict]):
+class ValidateUser(Nanobrick[dict, dict]):
     async def invoke(self, user: dict, *, deps=None) -> dict:
         if not user.get("email"):
             raise ValueError("Email required")
         return user
 
 @skill("api", port=8080)
-class UserService(NanobrickSimple[dict, dict]):
+class UserService(Nanobrick[dict, dict]):
     def __init__(self):
         super().__init__()
         self.pipeline = (

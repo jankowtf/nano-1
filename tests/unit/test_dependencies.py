@@ -2,7 +2,7 @@
 Unit tests for dependency injection functionality.
 """
 
-from nanobricks import NanobrickBase, NanobrickSimple
+from nanobricks import NanobrickBase, Nanobrick
 from nanobricks.dependencies import (
     DependencyContainer,
     MockCache,
@@ -138,7 +138,7 @@ class TestDependencyInjection:
         """Test that deps propagate through pipelines."""
         logs = []
 
-        class LogNanobrick(NanobrickSimple[str, str]):
+        class LogNanobrick(Nanobrick[str, str]):
             def __init__(self, name: str):
                 super().__init__(name=name)
 

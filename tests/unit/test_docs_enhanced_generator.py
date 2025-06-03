@@ -22,7 +22,7 @@ class TestBrickDiscovery:
                 '''
 from nanobricks.protocol import NanobrickBase
 
-class NanobrickSimple(NanobrickBase[str, str, None]):
+class Nanobrick(NanobrickBase[str, str, None]):
     """A simple test brick."""
     
     name = "simple"
@@ -53,7 +53,7 @@ class AnotherNanobrick(NanobrickBase[int, int, None]):
             assert len(bricks) == 2
 
             # Check first brick
-            simple_brick = next(b for b in bricks if b.name == "NanobrickSimple")
+            simple_brick = next(b for b in bricks if b.name == "Nanobrick")
             assert simple_brick.source_file == Path(f.name)
             assert simple_brick.docstring == "A simple test brick."
             assert simple_brick.input_type == "str"

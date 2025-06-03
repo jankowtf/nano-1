@@ -38,7 +38,7 @@ Choose your error handling strategy based on the error type:
 Best for unexpected errors that should stop processing:
 
 ```python
-class StrictValidator(NanobrickSimple[Data, ValidData]):
+class StrictValidator(Nanobrick[Data, ValidData]):
     async def invoke(self, data: Data, *, deps=None) -> ValidData:
         if not data.is_valid():
             raise ValueError(f"Invalid data: {data.errors}")
@@ -66,7 +66,7 @@ class Result:
     data: Optional[Any] = None
     error: Optional[str] = None
     
-class SafeProcessor(NanobrickSimple[Input, Result]):
+class SafeProcessor(Nanobrick[Input, Result]):
     async def invoke(self, input: Input, *, deps=None) -> Result:
         if not self.validate(input):
             return Result(
@@ -107,7 +107,7 @@ class Err(Generic[E]):
 
 Result = Union[Ok[T], Err[E]]
 
-class TypedProcessor(NanobrickSimple[str, Result[ProcessedData, str]]):
+class TypedProcessor(Nanobrick[str, Result[ProcessedData, str]]):
     async def invoke(self, input: str, *, deps=None) -> Result[ProcessedData, str]:
         if not input:
             return Err("Input cannot be empty")
@@ -134,7 +134,7 @@ match result:
 Build resilient systems that try multiple approaches:
 
 ```python
-class ResilientFetcher(NanobrickSimple[Query, Data]):
+class ResilientFetcher(Nanobrick[Query, Data]):
     def __init__(self):
         self.primary_source = PrimaryAPI()
         self.cache = CacheService()
@@ -179,10 +179,10 @@ class ResilientFetcher(NanobrickSimple[Query, Data]):
 Isolate failures to prevent cascade:
 
 ```python
-class ErrorBoundary(NanobrickSimple[T, Union[T, ErrorInfo]]):
+class ErrorBoundary(Nanobrick[T, Union[T, ErrorInfo]]):
     """Wraps a brick to catch and handle its errors."""
     
-    def __init__(self, brick: NanobrickSimple[T, U], on_error=None):
+    def __init__(self, brick: Nanobrick[T, U], on_error=None):
         self.brick = brick
         self.on_error = on_error or self.default_error_handler
     
@@ -218,7 +218,7 @@ class BatchResult:
     failed: List[FailedItem]
     stats: Dict[str, int]
 
-class BatchProcessor(NanobrickSimple[List[Item], BatchResult]):
+class BatchProcessor(Nanobrick[List[Item], BatchResult]):
     async def invoke(self, items: List[Item], *, deps=None) -> BatchResult:
         successful = []
         failed = []
@@ -292,7 +292,7 @@ class ProcessingException(BrickException):
         self.recoverable = recoverable
 
 # Usage
-class StrictBrick(NanobrickSimple[Input, Output]):
+class StrictBrick(Nanobrick[Input, Output]):
     async def invoke(self, input: Input, *, deps=None) -> Output:
         # Check dependencies
         required_deps = ["db", "cache"]
@@ -342,7 +342,7 @@ except Exception as e:
 Collect errors from parallel operations:
 
 ```python
-class ParallelProcessor(NanobrickSimple[Data, Results]):
+class ParallelProcessor(Nanobrick[Data, Results]):
     async def invoke(self, data: Data, *, deps=None) -> Results:
         # Run operations in parallel
         tasks = [
@@ -381,14 +381,14 @@ Choose a primary error handling strategy and stick to it:
 
 ```python
 # If using exceptions, use them consistently
-class ExceptionBased(NanobrickSimple[A, B]):
+class ExceptionBased(Nanobrick[A, B]):
     async def invoke(self, input: A, *, deps=None) -> B:
         if not valid(input):
             raise ValidationException("Invalid input")
         return process(input)
 
 # If using results, use them consistently  
-class ResultBased(NanobrickSimple[A, Result[B]]):
+class ResultBased(Nanobrick[A, Result[B]]):
     async def invoke(self, input: A, *, deps=None) -> Result[B]:
         if not valid(input):
             return Result(success=False, error="Invalid input")
@@ -400,7 +400,7 @@ class ResultBased(NanobrickSimple[A, Result[B]]):
 Always document what errors your brick can raise:
 
 ```python
-class DocumentedBrick(NanobrickSimple[Input, Output]):
+class DocumentedBrick(Nanobrick[Input, Output]):
     """
     Processes input data.
     
@@ -442,7 +442,7 @@ raise ValidationException(
 Remember to handle async-specific errors:
 
 ```python
-class AsyncAwareBrick(NanobrickSimple[Input, Output]):
+class AsyncAwareBrick(Nanobrick[Input, Output]):
     async def invoke(self, input: Input, *, deps=None) -> Output:
         try:
             return await self.async_operation(input)

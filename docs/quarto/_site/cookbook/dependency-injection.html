@@ -233,6 +233,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../task-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Distribution &amp; Deployment</span></a>
   </div>
@@ -276,6 +282,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../cookbook/testing-bricks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Testing Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cookbook/composition-patterns.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Composition vs Inheritance</span></a>
   </div>
 </li>
       </ul>
@@ -370,6 +382,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../type-safety.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Type Safety in Nanobricks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../type-utilities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Type Utilities</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -847,7 +865,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="../cookbook/testing-bricks.html">Testing Bricks</a> - Testing with mock dependencies</li>
 <li><a href="../cookbook/basic-pipeline.html">Basic Pipeline</a> - How deps flow through pipelines</li>
 <li><a href="../cookbook/error-handling.html">Error Handling</a> - Handling missing dependencies</li>
-<li><a href="composition-patterns.qmd">Composition Patterns</a> - Advanced dependency patterns</li>
+<li><a href="../cookbook/composition-patterns.html">Composition Patterns</a> - Advanced dependency patterns</li>
 </ul>
 
 
@@ -1348,7 +1366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>Every nanobrick's <span class="in">`invoke`</span> method accepts an optional <span class="in">`deps`</span> parameter:</span>
 <span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyBrick(NanobrickSimple[Input, Output]):</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyBrick(Nanobrick[Input, Output]):</span>
 <span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(</span>
 <span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
 <span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        <span class="bu">input</span>: Input, </span>
@@ -1374,7 +1392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pattern 1: Database Connections</span></span>
 <span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DatabaseBrick(NanobrickSimple[Query, Results]):</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DatabaseBrick(Nanobrick[Query, Results]):</span>
 <span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, query: Query, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> Results:</span>
 <span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> deps <span class="kw">or</span> <span class="st">"db"</span> <span class="kw">not</span> <span class="kw">in</span> deps:</span>
 <span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Database connection required in deps['db']"</span>)</span>
@@ -1396,7 +1414,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>    timeout: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span></span>
 <span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>    retry_count: <span class="bu">int</span> <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> APIBrick(NanobrickSimple[Request, Response]):</span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> APIBrick(Nanobrick[Request, Response]):</span>
 <span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, request: Request, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> Response:</span>
 <span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>        config <span class="op">=</span> Config()  <span class="co"># Default</span></span>
 <span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> deps <span class="kw">and</span> <span class="st">"config"</span> <span class="kw">in</span> deps:</span>
@@ -1413,7 +1431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Pattern 3: Multiple Services</span></span>
 <span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NotificationBrick(NanobrickSimple[Message, <span class="bu">bool</span>]):</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NotificationBrick(Nanobrick[Message, <span class="bu">bool</span>]):</span>
 <span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, message: Message, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">bool</span>:</span>
 <span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> deps:</span>
 <span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Dependencies required"</span>)</span>
@@ -1518,7 +1536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a>When building complex pipelines, you might want different deps for different stages:</span>
 <span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SmartPipeline(NanobrickSimple[Input, Output]):</span>
+<span id="cb17-213"><a href="#cb17-213" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SmartPipeline(Nanobrick[Input, Output]):</span>
 <span id="cb17-214"><a href="#cb17-214" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.stage1 <span class="op">=</span> Stage1Brick()</span>
 <span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.stage2 <span class="op">=</span> Stage2Brick()</span>
@@ -1589,7 +1607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a>Always document what dependencies your brick expects:</span>
 <span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyBrick(NanobrickSimple[Input, Output]):</span>
+<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyBrick(Nanobrick[Input, Output]):</span>
 <span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a><span class="co">    Processes data using external services.</span></span>
 <span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
@@ -1631,7 +1649,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-323"><a href="#cb17-323" aria-hidden="true" tabindex="-1"></a>    logger: Logger</span>
 <span id="cb17-324"><a href="#cb17-324" aria-hidden="true" tabindex="-1"></a>    cache: Optional[Cache]</span>
 <span id="cb17-325"><a href="#cb17-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TypedBrick(NanobrickSimple[Input, Output]):</span>
+<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TypedBrick(Nanobrick[Input, Output]):</span>
 <span id="cb17-327"><a href="#cb17-327" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, <span class="bu">input</span>: Input, <span class="op">*</span>, deps: Optional[BrickDeps] <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> Output:</span>
 <span id="cb17-328"><a href="#cb17-328" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Now you get type hints for deps!</span></span>
 <span id="cb17-329"><a href="#cb17-329" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> deps:</span>

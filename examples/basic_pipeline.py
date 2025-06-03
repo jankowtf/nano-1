@@ -8,11 +8,11 @@ using the pipe operator (|) to create data processing pipelines.
 import asyncio
 from typing import List
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Define some simple nanobricks
-class ValidateEmailBrick(NanobrickSimple[str, str]):
+class ValidateEmailBrick(Nanobrick[str, str]):
     """Validates that input looks like an email."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -21,28 +21,28 @@ class ValidateEmailBrick(NanobrickSimple[str, str]):
         return input
 
 
-class NormalizeEmailBrick(NanobrickSimple[str, str]):
+class NormalizeEmailBrick(Nanobrick[str, str]):
     """Normalizes email to lowercase and strips whitespace."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
         return input.strip().lower()
 
 
-class ExtractDomainBrick(NanobrickSimple[str, str]):
+class ExtractDomainBrick(Nanobrick[str, str]):
     """Extracts domain from email address."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
         return input.split("@")[1]
 
 
-class WordCountBrick(NanobrickSimple[str, int]):
+class WordCountBrick(Nanobrick[str, int]):
     """Counts words in a string."""
     
     async def invoke(self, input: str, *, deps=None) -> int:
         return len(input.split())
 
 
-class SumBrick(NanobrickSimple[List[int], int]):
+class SumBrick(Nanobrick[List[int], int]):
     """Sums a list of integers."""
     
     async def invoke(self, input: List[int], *, deps=None) -> int:

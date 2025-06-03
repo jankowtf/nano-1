@@ -59,15 +59,15 @@ def create_user():
 ```{python}
 #| eval: false
 # Nanobricks - Composable and reusable
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
-class ValidateEmail(NanobrickSimple[dict, dict]):
+class ValidateEmail(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         if not data.get('email'):
             raise ValueError('Email required')
         return data
 
-class CreateUser(NanobrickSimple[dict, dict]):
+class CreateUser(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         user = await deps['db'].create_user(data)
         return {'id': user.id}
@@ -113,7 +113,7 @@ async def create_user(user: UserCreate):
 ```{python}
 #| eval: false
 # Nanobricks - Protocol-agnostic
-class CheckUserExists(NanobrickSimple[UserCreate, UserCreate]):
+class CheckUserExists(Nanobrick[UserCreate, UserCreate]):
     async def invoke(self, user: UserCreate, *, deps=None) -> UserCreate:
         if await deps['db'].user_exists(user.email):
             raise ValueError("User exists")
@@ -236,11 +236,11 @@ with beam.Pipeline() as p:
 from nanobricks import create_pipeline
 
 # Define as classes with clear interfaces
-class ParseUser(NanobrickSimple[str, dict]):
+class ParseUser(Nanobrick[str, dict]):
     async def invoke(self, line: str, *, deps=None) -> dict:
         return parse_line(line)
 
-class ValidateUser(NanobrickSimple[dict, dict]):
+class ValidateUser(Nanobrick[dict, dict]):
     async def invoke(self, user: dict, *, deps=None) -> dict:
         # Validation with proper error messages
         return user
@@ -434,7 +434,7 @@ def process_data_task(data):
 #| eval: false
 # Enhance FastAPI with nanobricks
 from fastapi import FastAPI
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 app = FastAPI()
 
@@ -472,13 +472,13 @@ def analyze():
     return jsonify(result)
 
 # After: Nanobricks with separation
-class ValidateText(NanobrickSimple[dict, str]):
+class ValidateText(Nanobrick[dict, str]):
     async def invoke(self, data: dict, *, deps=None) -> str:
         if not data.get('text'):
             raise ValueError('Text required')
         return data['text']
 
-class AnalyzeText(NanobrickSimple[str, dict]):
+class AnalyzeText(Nanobrick[str, dict]):
     async def invoke(self, text: str, *, deps=None) -> dict:
         return await expensive_nlp_analysis(text)
 

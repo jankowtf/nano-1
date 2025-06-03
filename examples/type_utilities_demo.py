@@ -8,7 +8,7 @@ import asyncio
 from typing import Dict, List
 
 from nanobricks import (
-    NanobrickSimple,
+    Nanobrick,
     Result,
     TypeAdapter,
     dict_to_json,
@@ -18,7 +18,7 @@ from nanobricks import (
 
 
 # Example 1: Using Result type for error handling
-class SafeDivider(NanobrickSimple[tuple[float, float], Result[float, str]]):
+class SafeDivider(Nanobrick[tuple[float, float], Result[float, str]]):
     """A nanobrick that safely divides two numbers."""
     
     name = "safe_divider"
@@ -32,7 +32,7 @@ class SafeDivider(NanobrickSimple[tuple[float, float], Result[float, str]]):
         return Result.ok(numerator / denominator)
 
 
-class ResultPrinter(NanobrickSimple[Result[float, str], str]):
+class ResultPrinter(Nanobrick[Result[float, str], str]):
     """A nanobrick that prints Result values."""
     
     name = "result_printer"
@@ -45,7 +45,7 @@ class ResultPrinter(NanobrickSimple[Result[float, str], str]):
 
 
 # Example 2: Using type adapters to connect incompatible bricks
-class ConfigReader(NanobrickSimple[str, str]):
+class ConfigReader(Nanobrick[str, str]):
     """Reads configuration from a file."""
     
     name = "config_reader"
@@ -55,7 +55,7 @@ class ConfigReader(NanobrickSimple[str, str]):
         return "host=localhost,port=8080,debug=true"
 
 
-class ConfigProcessor(NanobrickSimple[Dict[str, str], Dict[str, any]]):
+class ConfigProcessor(Nanobrick[Dict[str, str], Dict[str, any]]):
     """Processes configuration dictionary."""
     
     name = "config_processor"
@@ -85,7 +85,7 @@ class ListFlattener(TypeAdapter[List[List[int]], List[int]]):
         )
 
 
-class NestedListProducer(NanobrickSimple[None, List[List[int]]]):
+class NestedListProducer(Nanobrick[None, List[List[int]]]):
     """Produces nested lists."""
     
     name = "nested_producer"
@@ -94,7 +94,7 @@ class NestedListProducer(NanobrickSimple[None, List[List[int]]]):
         return [[1, 2], [3, 4], [5, 6]]
 
 
-class ListSummer(NanobrickSimple[List[int], int]):
+class ListSummer(Nanobrick[List[int], int]):
     """Sums all numbers in a list."""
     
     name = "list_summer"
@@ -161,13 +161,13 @@ async def main():
     # Demo 4: Chaining multiple adapters
     print("4. Chaining Multiple Type Conversions")
     
-    class DictProducer(NanobrickSimple[None, Dict[str, int]]):
+    class DictProducer(Nanobrick[None, Dict[str, int]]):
         name = "dict_producer"
         
         async def invoke(self, input: None) -> Dict[str, int]:
             return {"a": 1, "b": 2, "c": 3}
     
-    class StringConsumer(NanobrickSimple[str, str]):
+    class StringConsumer(Nanobrick[str, str]):
         name = "string_consumer"
         
         async def invoke(self, input: str) -> str:
@@ -186,7 +186,7 @@ async def main():
     # Demo 5: Error handling in type conversions
     print("\n5. Safe Type Conversions with Result")
     
-    class SafeJsonParser(NanobrickSimple[str, Result[Dict, str]]):
+    class SafeJsonParser(Nanobrick[str, Result[Dict, str]]):
         name = "safe_json_parser"
         
         async def invoke(self, input: str) -> Result[Dict, str]:

@@ -5,25 +5,25 @@ This shows how to use nanobricks in a synchronous context,
 which is useful for scripts, notebooks, or legacy code.
 """
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Create some simple bricks
-class GreetBrick(NanobrickSimple[str, str]):
+class GreetBrick(Nanobrick[str, str]):
     """Adds a greeting."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
         return f"Hello, {input}!"
 
 
-class ShoutBrick(NanobrickSimple[str, str]):
+class ShoutBrick(Nanobrick[str, str]):
     """Converts to uppercase."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
         return input.upper()
 
 
-class AddPunctuationBrick(NanobrickSimple[str, str]):
+class AddPunctuationBrick(Nanobrick[str, str]):
     """Adds extra punctuation."""
     
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -80,7 +80,7 @@ def main():
     print("\n4. Sync Error Handling")
     print("-" * 30)
     
-    class ErrorBrick(NanobrickSimple[str, str]):
+    class ErrorBrick(Nanobrick[str, str]):
         async def invoke(self, input: str, *, deps=None) -> str:
             if input == "error":
                 raise ValueError("Input cannot be 'error'")

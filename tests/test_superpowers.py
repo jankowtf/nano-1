@@ -4,7 +4,7 @@ import pytest
 
 from nanobricks import (
     NanobrickEnhanced,
-    NanobrickSimple,
+    Nanobrick,
     Skill,
     register_skill,
     skill,
@@ -31,7 +31,7 @@ class TestSkill:
                 return LoggingEnhanced(brick, self)
 
         # Create brick and skill
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input.upper()
 
@@ -57,7 +57,7 @@ class TestSkill:
 
                 return ConfiguredEnhanced(brick, self)
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 
@@ -136,7 +136,7 @@ class TestWithSkill:
 
                 return UppercaseEnhanced(brick, self)
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return f"hello {input}"
 
@@ -164,7 +164,7 @@ class TestWithSkill:
                 return ReverseEnhanced(brick, self)
 
         # Create a brick
-        class MyNanobrick(NanobrickSimple[str, str]):
+        class MyNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return f"processed: {input}"
 
@@ -200,7 +200,7 @@ class TestWithSkill:
 
                 return ExclaimEnhanced(brick, self)
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 
@@ -233,7 +233,7 @@ class TestSkillDecorator:
                 return ShoutEnhanced(brick, self)
 
         @skill("shout")
-        class MyNanobrick(NanobrickSimple[str, str]):
+        class MyNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return f"saying: {input}"
 
@@ -264,7 +264,7 @@ class TestSkillDecorator:
         # Note: Multiple decorators would be applied in reverse order
         @skill("wrap", wrapper=">>>")
         @skill("wrap", wrapper="***")
-        class MultiBrick(NanobrickSimple[str, str]):
+        class MultiBrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 

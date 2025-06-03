@@ -17,7 +17,7 @@ from nanobricks.typing import (
     string_to_dict,
     tuple_to_list,
 )
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 from nanobricks.protocol import NanobrickBase
 
 
@@ -342,13 +342,13 @@ class TestPipeOperatorWithTypeChecking:
     def test_compatible_types_work(self):
         """Test that compatible types still work."""
 
-        class StringToInt(NanobrickSimple[str, int]):
+        class StringToInt(Nanobrick[str, int]):
             name = "string_to_int"
 
             async def invoke(self, input: str) -> int:
                 return int(input)
 
-        class IntToString(NanobrickSimple[int, str]):
+        class IntToString(Nanobrick[int, str]):
             name = "int_to_string"
 
             async def invoke(self, input: int) -> str:
@@ -361,13 +361,13 @@ class TestPipeOperatorWithTypeChecking:
     def test_with_type_adapter(self):
         """Test using type adapters in pipelines."""
 
-        class ProduceString(NanobrickSimple[None, str]):
+        class ProduceString(Nanobrick[None, str]):
             name = "produce_string"
 
             async def invoke(self, input: None) -> str:
                 return "key1=value1,key2=value2"
 
-        class ConsumeDict(NanobrickSimple[Dict[str, str], str]):
+        class ConsumeDict(Nanobrick[Dict[str, str], str]):
             name = "consume_dict"
 
             async def invoke(self, input: Dict[str, str]) -> str:

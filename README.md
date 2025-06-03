@@ -82,10 +82,10 @@ result = await pipeline.invoke("nanobricks")  # "HELLO, NANOBRICKS!!!"
 Handle type mismatches elegantly with the new type utilities:
 
 ```python
-from nanobricks import NanobrickSimple, Result, string_to_dict, dict_to_json
+from nanobricks import Nanobrick, Result, string_to_dict, dict_to_json
 
 # Use Result for safe error handling
-class SafeDivider(NanobrickSimple[tuple[float, float], Result[float, str]]):
+class SafeDivider(Nanobrick[tuple[float, float], Result[float, str]]):
     name = "divider"
     
     async def invoke(self, input: tuple[float, float]) -> Result[float, str]:
@@ -95,13 +95,13 @@ class SafeDivider(NanobrickSimple[tuple[float, float], Result[float, str]]):
         return Result.ok(x / y)
 
 # Use type adapters to connect incompatible bricks
-class ConfigParser(NanobrickSimple[str, str]):
+class ConfigParser(Nanobrick[str, str]):
     name = "parser"
     
     async def invoke(self, input: str) -> str:
         return "host=localhost,port=8080"
 
-class ConfigValidator(NanobrickSimple[dict, dict]):
+class ConfigValidator(Nanobrick[dict, dict]):
     name = "validator"
     
     async def invoke(self, input: dict) -> dict:

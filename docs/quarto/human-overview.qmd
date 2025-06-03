@@ -36,12 +36,12 @@ Full type inference through pipelines. Your IDE knows the types at every step.
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 # Define a nanobrick
 @skill("logging")
 @skill("api", port=8080)
-class DataProcessor(NanobrickSimple[dict, dict]):
+class DataProcessor(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         return {"processed": True, "items": len(data)}
 

@@ -14,7 +14,7 @@ from nanobricks.skills.deployment import (
 )
 
 
-class NanobrickSimple(NanobrickBase[str, str, None]):
+class Nanobrick(NanobrickBase[str, str, None]):
     """Simple test nanobrick."""
 
     def __init__(self):
@@ -31,7 +31,7 @@ class TestSkillDocker:
     def test_basic_dockerfile_generation(self):
         """Test basic Dockerfile generation."""
         skill = SkillDocker()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         dockerfile = skill.generate_dockerfile(brick)
 
@@ -59,7 +59,7 @@ class TestSkillDocker:
         )
 
         skill = SkillDocker(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         dockerfile = skill.generate_dockerfile(brick)
 
@@ -81,8 +81,8 @@ class TestSkillDocker:
         """Test docker-compose.yml generation."""
         skill = SkillDocker(DockerConfig(expose_ports=[8080]))
 
-        brick1 = NanobrickSimple()
-        brick2 = NanobrickSimple()
+        brick1 = Nanobrick()
+        brick2 = Nanobrick()
         brick2.name = "another_brick"
 
         services = {"service1": brick1, "service2": brick2}
@@ -120,7 +120,7 @@ class TestSkillDocker:
         """Test saving deployment files."""
         config = DockerConfig(dependencies=["fastapi", "uvicorn"])
         skill = SkillDocker(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         # Generate files
         skill.generate_dockerfile(brick)
@@ -150,7 +150,7 @@ class TestSkillKubernetes:
     def test_basic_deployment_generation(self):
         """Test basic Kubernetes deployment generation."""
         skill = SkillKubernetes()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         deployment = skill.generate_deployment(brick, "myapp:latest")
 
@@ -191,7 +191,7 @@ class TestSkillKubernetes:
         )
 
         skill = SkillKubernetes(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         deployment = skill.generate_deployment(brick, "myapp:v2")
 
@@ -218,7 +218,7 @@ class TestSkillKubernetes:
             service_type="LoadBalancer", service_port=80, container_port=8080
         )
         skill = SkillKubernetes(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         service = skill.generate_service(brick)
 
@@ -254,7 +254,7 @@ class TestSkillKubernetes:
             }
         )
         skill = SkillKubernetes(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         hpa = skill.generate_hpa(brick)
 
@@ -268,7 +268,7 @@ class TestSkillKubernetes:
     def test_no_hpa_without_config(self):
         """Test no HPA generated without autoscaling config."""
         skill = SkillKubernetes()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         hpa = skill.generate_hpa(brick)
         assert hpa is None
@@ -277,7 +277,7 @@ class TestSkillKubernetes:
         """Test generating all manifests."""
         config = KubernetesConfig(autoscaling={"min_replicas": 1, "max_replicas": 5})
         skill = SkillKubernetes(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         manifests = skill.generate_manifests(brick, "myapp:latest")
 
@@ -298,7 +298,7 @@ class TestSkillKubernetes:
     def test_helm_chart_generation(self):
         """Test Helm chart generation."""
         skill = SkillKubernetes()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         files = skill.generate_helm_chart(brick, "my-chart", "1.0.0")
 
@@ -322,7 +322,7 @@ class TestSkillKubernetes:
     def test_save_manifests(self):
         """Test saving Kubernetes manifests."""
         skill = SkillKubernetes()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         skill.generate_manifests(brick, "myapp:latest")
 

@@ -203,9 +203,9 @@ R007,38,1,"Terrible experience. Never again.",0
 R008,42,4,"Pretty good, would recommend to friends",true"""
     
     # Build processing pipeline
-    from nanobricks import NanobrickSimple
+    from nanobricks import Nanobrick
     
-    class SentimentAnalyzer(NanobrickSimple[Dict[str, Any], Dict[str, Any]]):
+    class SentimentAnalyzer(Nanobrick[Dict[str, Any], Dict[str, Any]]):
         """Simple sentiment analysis based on satisfaction score."""
         
         async def invoke(self, input: Dict[str, Any], *, deps=None) -> Dict[str, Any]:

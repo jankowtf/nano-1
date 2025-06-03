@@ -83,15 +83,15 @@ print(result)
 # {'celsius': 25.0, 'fahrenheit': 77.0, 'kelvin': 298.15}
 ```
 
-### Step 2: Using NanobrickSimple
+### Step 2: Using Nanobrick
 
-For bricks without dependencies, use NanobrickSimple:
+For bricks without dependencies, use Nanobrick:
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
-class WordCounter(NanobrickSimple[str, dict]):
+class WordCounter(Nanobrick[str, dict]):
     """Counts words and characters in text."""
     
     async def invoke(self, text: str, *, deps=None) -> dict:
@@ -115,15 +115,15 @@ The most common pattern is linear composition:
 
 ```{python}
 #| eval: false
-class TextCleaner(NanobrickSimple[str, str]):
+class TextCleaner(Nanobrick[str, str]):
     async def invoke(self, text: str, *, deps=None) -> str:
         return " ".join(text.split())  # Remove extra whitespace
 
-class TextLowercaser(NanobrickSimple[str, str]):
+class TextLowercaser(Nanobrick[str, str]):
     async def invoke(self, text: str, *, deps=None) -> str:
         return text.lower()
 
-class TextTokenizer(NanobrickSimple[str, list]):
+class TextTokenizer(Nanobrick[str, list]):
     async def invoke(self, text: str, *, deps=None) -> list:
         return text.split()
 
@@ -142,7 +142,7 @@ Use the Branch pattern for conditional logic:
 #| eval: false
 from nanobricks.patterns import Branch
 
-class IsAdult(NanobrickSimple[dict, bool]):
+class IsAdult(Nanobrick[dict, bool]):
     async def invoke(self, person: dict, *, deps=None) -> bool:
         return person.get("age", 0) >= 18
 
@@ -246,7 +246,7 @@ By default, errors propagate immediately:
 
 ```{python}
 #| eval: false
-class StrictValidator(NanobrickSimple[dict, dict]):
+class StrictValidator(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         if "email" not in data:
             raise ValueError("Email is required")
@@ -269,13 +269,13 @@ Use fallback patterns for resilience:
 #| eval: false
 from nanobricks.patterns import Fallback
 
-class UnreliableAPICall(NanobrickSimple[str, dict]):
+class UnreliableAPICall(Nanobrick[str, dict]):
     async def invoke(self, query: str, *, deps=None) -> dict:
         # This might fail
         response = await external_api.search(query)
         return response
 
-class CachedResults(NanobrickSimple[str, dict]):
+class CachedResults(Nanobrick[str, dict]):
     async def invoke(self, query: str, *, deps=None) -> dict:
         # Return cached/default results
         return {"results": [], "cached": True}
@@ -368,7 +368,7 @@ clean_text = await normalizer.invoke("Hello,  WORLD!!!")
 from nanobricks import skill
 
 @skill("logging", level="INFO")
-class DataProcessor(NanobrickSimple[dict, dict]):
+class DataProcessor(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         # Processing happens here
         return {"processed": True, **data}
@@ -383,7 +383,7 @@ logged_processor = processor.with_skill("logging", level="DEBUG")
 ```{python}
 #| eval: false
 @skill("api", port=8000, path="/process")
-class APIProcessor(NanobrickSimple[dict, dict]):
+class APIProcessor(Nanobrick[dict, dict]):
     async def invoke(self, data: dict, *, deps=None) -> dict:
         return {"status": "processed", "data": data}
 
@@ -398,7 +398,7 @@ processor.start_server()  # Now available via HTTP
 @skill("logging")
 @skill("api", port=8080)
 @skill("observability")
-class ProductionService(NanobrickSimple[dict, dict]):
+class ProductionService(Nanobrick[dict, dict]):
     """A production-ready service with multiple skills."""
     
     async def invoke(self, request: dict, *, deps=None) -> dict:
@@ -488,7 +488,7 @@ Load in your bricks:
 #| eval: false
 from nanobricks.config import get_default_config
 
-class ConfigurableService(NanobrickSimple[dict, dict]):
+class ConfigurableService(Nanobrick[dict, dict]):
     def __init__(self):
         super().__init__()
         self.config = get_default_config()
@@ -516,7 +516,7 @@ Now that you understand the basics:
 ```{python}
 #| eval: false
 # Simple brick (no deps)
-class MyBrick(NanobrickSimple[InputType, OutputType]):
+class MyBrick(Nanobrick[InputType, OutputType]):
     async def invoke(self, input: InputType, *, deps=None) -> OutputType:
         pass
 
@@ -553,6 +553,6 @@ brick.with_skill("cache", ttl=300)
 # Add with decorator
 @skill("logging")
 @skill("api")
-class MyBrick(NanobrickSimple[In, Out]):
+class MyBrick(Nanobrick[In, Out]):
     pass
 ```

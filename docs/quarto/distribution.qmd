@@ -206,13 +206,13 @@ After installation, create a simple brick:
 
 ```python
 # my_bricks.py
-from nanobricks import NanobrickSimple, Pipeline
+from nanobricks import Nanobrick, Pipeline
 
-class GreetingBrick(NanobrickSimple[str, str]):
+class GreetingBrick(Nanobrick[str, str]):
     async def invoke(self, input: str) -> str:
         return f"Hello, {input}!"
 
-class ShoutBrick(NanobrickSimple[str, str]):
+class ShoutBrick(Nanobrick[str, str]):
     async def invoke(self, input: str) -> str:
         return input.upper() + "!!!"
 
@@ -307,11 +307,11 @@ Nanobricks is designed as an SDK for building composable Python systems:
 
 ### Database Layer
 ```python
-from nanobricks import NanobrickSimple, with_skill
+from nanobricks import Nanobrick, with_skill
 from nanobricks.skills import DatabaseSkill
 
 @with_skill(DatabaseSkill)
-class UserRepository(NanobrickSimple[dict, User]):
+class UserRepository(Nanobrick[dict, User]):
     async def invoke(self, query: dict) -> User:
         # Your DB logic here
         pass
@@ -322,7 +322,7 @@ class UserRepository(NanobrickSimple[dict, User]):
 from nanobricks.skills import ApiSkill
 
 @with_skill(ApiSkill)
-class ApiGateway(NanobrickSimple[Request, Response]):
+class ApiGateway(Nanobrick[Request, Response]):
     async def invoke(self, request: Request) -> Response:
         # Route to appropriate service
         pass
@@ -344,7 +344,7 @@ pipeline = (
 from nanobricks.skills import MicroserviceSkill
 
 @with_skill(MicroserviceSkill)
-class OrderService(NanobrickSimple[Order, OrderResult]):
+class OrderService(Nanobrick[Order, OrderResult]):
     async def invoke(self, order: Order) -> OrderResult:
         # Process order
         pass

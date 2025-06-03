@@ -10,11 +10,11 @@ import asyncio
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
 from datetime import datetime
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Example 1: Shared Database Connection
-class DatabaseQueryBrick(NanobrickSimple[str, List[Dict[str, Any]]]):
+class DatabaseQueryBrick(Nanobrick[str, List[Dict[str, Any]]]):
     """Executes database queries using injected connection."""
     
     name = "database_query"
@@ -43,7 +43,7 @@ class ProcessingConfig:
     include_metadata: bool = True
 
 
-class DataProcessor(NanobrickSimple[List[Dict[str, Any]], List[Dict[str, Any]]]):
+class DataProcessor(Nanobrick[List[Dict[str, Any]], List[Dict[str, Any]]]):
     """Processes data based on injected configuration."""
     
     name = "data_processor"
@@ -86,7 +86,7 @@ class EmailService:
         return True
 
 
-class NotificationBrick(NanobrickSimple[Dict[str, Any], bool]):
+class NotificationBrick(Nanobrick[Dict[str, Any], bool]):
     """Sends notifications using injected services."""
     
     name = "notification_sender"
@@ -126,7 +126,7 @@ class NotificationBrick(NanobrickSimple[Dict[str, Any], bool]):
 
 
 # Example 4: Pipeline with Shared Dependencies
-class Pipeline(NanobrickSimple[str, bool]):
+class Pipeline(Nanobrick[str, bool]):
     """A pipeline that uses dependency injection throughout."""
     
     name = "notification_pipeline"

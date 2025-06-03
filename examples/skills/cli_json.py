@@ -1,11 +1,11 @@
 from typing import Any
 
 # Import skills to trigger registration
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 
 @skill("cli", command="transform", input_type="json", output_format="json")
-class DataTransformerBrick(NanobrickSimple[list[dict[str, Any]], dict[str, Any]]):
+class DataTransformerBrick(Nanobrick[list[dict[str, Any]], dict[str, Any]]):
     """Transforms and analyzes JSON data collections."""
 
     async def invoke(self, input: list[dict[str, Any]], *, deps=None) -> dict[str, Any]:

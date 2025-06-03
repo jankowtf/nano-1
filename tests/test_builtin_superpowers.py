@@ -4,7 +4,7 @@ import logging
 
 import pytest
 
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 
 class TestLoggingSkill:
@@ -14,7 +14,7 @@ class TestLoggingSkill:
         """Test basic logging functionality."""
 
         # Create a simple brick
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return f"Hello, {input}!"
 
@@ -40,7 +40,7 @@ class TestLoggingSkill:
     def test_error_logging(self, caplog):
         """Test error logging."""
 
-        class FailingNanobrick(NanobrickSimple[str, str]):
+        class FailingNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 raise ValueError("Something went wrong!")
 
@@ -62,7 +62,7 @@ class TestLoggingSkill:
     def test_logging_config(self, caplog):
         """Test logging configuration options."""
 
-        class TestNanobrick(NanobrickSimple[dict, dict]):
+        class TestNanobrick(Nanobrick[dict, dict]):
             async def invoke(self, input: dict, *, deps=None) -> dict:
                 return {"result": input["value"] * 2}
 
@@ -90,7 +90,7 @@ class TestLoggingSkill:
     def test_truncation(self, caplog):
         """Test value truncation in logs."""
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 
@@ -118,7 +118,7 @@ class TestSkillApi:
     def test_api_creation(self):
         """Test API app creation."""
 
-        class TestNanobrick(NanobrickSimple[dict, dict]):
+        class TestNanobrick(Nanobrick[dict, dict]):
             async def invoke(self, input: dict, *, deps=None) -> dict:
                 return {"doubled": input.get("value", 0) * 2}
 
@@ -132,7 +132,7 @@ class TestSkillApi:
     def test_api_server_config(self):
         """Test API server configuration."""
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input.upper()
 
@@ -157,7 +157,7 @@ class TestSkillApi:
     def test_api_normal_invocation(self):
         """Test that normal invocation still works."""
 
-        class TestNanobrick(NanobrickSimple[int, int]):
+        class TestNanobrick(Nanobrick[int, int]):
             async def invoke(self, input: int, *, deps=None) -> int:
                 return input * 3
 
@@ -177,7 +177,7 @@ class TestCliSkill:
     def test_cli_creation(self):
         """Test CLI app creation."""
 
-        class TestNanobrick(NanobrickSimple[str, str]):
+        class TestNanobrick(Nanobrick[str, str]):
             """A test brick that reverses strings."""
 
             async def invoke(self, input: str, *, deps=None) -> str:
@@ -198,7 +198,7 @@ class TestCliSkill:
     def test_cli_config(self):
         """Test CLI configuration."""
 
-        class TestNanobrick(NanobrickSimple[dict, dict]):
+        class TestNanobrick(Nanobrick[dict, dict]):
             async def invoke(self, input: dict, *, deps=None) -> dict:
                 return {"result": input}
 
@@ -221,7 +221,7 @@ class TestCliSkill:
     def test_cli_normal_invocation(self):
         """Test that normal invocation still works."""
 
-        class TestNanobrick(NanobrickSimple[list, int]):
+        class TestNanobrick(Nanobrick[list, int]):
             async def invoke(self, input: list, *, deps=None) -> int:
                 return sum(input)
 
@@ -242,7 +242,7 @@ class TestSkillIntegration:
         """Test combining multiple skills."""
 
         @skill("logging", level="INFO")
-        class ProcessBrick(NanobrickSimple[str, dict]):
+        class ProcessBrick(Nanobrick[str, dict]):
             """Processes text into statistics."""
 
             async def invoke(self, input: str, *, deps=None) -> dict:

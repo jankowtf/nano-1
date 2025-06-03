@@ -4,7 +4,7 @@ import asyncio
 
 from nanobricks import (
     NanobrickEnhanced,
-    NanobrickSimple,
+    Nanobrick,
     Skill,
     register_skill,
     skill,
@@ -83,7 +83,7 @@ class CacheSkill(Skill[any, any, any]):
 # Now let's create some example bricks
 
 
-class SlowProcessorBrick(NanobrickSimple[str, str]):
+class SlowProcessorBrick(Nanobrick[str, str]):
     """A brick that simulates slow processing."""
 
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -92,7 +92,7 @@ class SlowProcessorBrick(NanobrickSimple[str, str]):
         return f"Processed: {input.upper()}"
 
 
-class UnreliableBrick(NanobrickSimple[int, int]):
+class UnreliableBrick(Nanobrick[int, int]):
     """A brick that randomly fails."""
 
     def __init__(self):
@@ -107,7 +107,7 @@ class UnreliableBrick(NanobrickSimple[int, int]):
         return input * 2
 
 
-class DataTransformerBrick(NanobrickSimple[dict, dict]):
+class DataTransformerBrick(Nanobrick[dict, dict]):
     """A brick that transforms data."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:
@@ -187,7 +187,7 @@ async def main():
 
     @skill("timing")
     @skill("cache")
-    class SmartBrick(NanobrickSimple[str, int]):
+    class SmartBrick(Nanobrick[str, int]):
         """A brick decorated with skills."""
 
         async def invoke(self, input: str, *, deps=None) -> int:

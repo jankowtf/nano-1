@@ -32,9 +32,9 @@ Every nanobrick is a self-contained unit of functionality:
 # In a Jupyter notebook, you can run this directly with 'await'.
 # In a Python script, wrap in asyncio.run() or use invoke_sync().
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
-class GreeterBrick(NanobrickSimple[str, str]):
+class GreeterBrick(Nanobrick[str, str]):
     """Says hello to someone."""
     
     async def invoke(self, name: str, *, deps=None) -> str:
@@ -61,13 +61,13 @@ The real power comes from composition using the pipe operator:
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
-class UppercaseBrick(NanobrickSimple[str, str]):
+class UppercaseBrick(Nanobrick[str, str]):
     async def invoke(self, text: str, *, deps=None) -> str:
         return text.upper()
 
-class ExclamationBrick(NanobrickSimple[str, str]):
+class ExclamationBrick(Nanobrick[str, str]):
     async def invoke(self, text: str, *, deps=None) -> str:
         return f"{text}!!!"
 
@@ -108,12 +108,12 @@ Here's a complete data validation service in under 20 lines:
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 from nanobricks.validators import EmailValidator, TypeValidator
 
 @skill("api", port=8080)
 @skill("logging")
-class UserValidationService(NanobrickSimple[dict, dict]):
+class UserValidationService(Nanobrick[dict, dict]):
     """Validates user registration data."""
     
     def __init__(self):

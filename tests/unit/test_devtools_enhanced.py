@@ -13,7 +13,7 @@ from nanobricks.devtools import (
 )
 
 
-class NanobrickSimple(NanobrickBase[str, str, None]):
+class Nanobrick(NanobrickBase[str, str, None]):
     """A simple test brick."""
 
     name = "simple"
@@ -54,7 +54,7 @@ class TestCompositionDebugger:
     async def test_debug_simple_pipeline(self):
         """Test debugging a simple pipeline."""
         debugger = CompositionDebugger(capture_inputs=True, capture_outputs=True)
-        pipeline = NanobrickSimple()
+        pipeline = Nanobrick()
 
         result, trace = await debugger.debug_pipeline(
             pipeline, "hello", show_live=False
@@ -69,7 +69,7 @@ class TestCompositionDebugger:
     async def test_debug_composite_pipeline(self):
         """Test debugging a composite pipeline."""
         debugger = CompositionDebugger()
-        pipeline = NanobrickSimple() | DelayNanobrick(delay_ms=5)
+        pipeline = Nanobrick() | DelayNanobrick(delay_ms=5)
 
         result, trace = await debugger.debug_pipeline(pipeline, "test", show_live=False)
 
@@ -85,7 +85,7 @@ class TestCompositionDebugger:
     async def test_debug_error_pipeline(self):
         """Test debugging a pipeline with errors."""
         debugger = CompositionDebugger()
-        pipeline = NanobrickSimple() | ErrorNanobrick()
+        pipeline = Nanobrick() | ErrorNanobrick()
 
         with pytest.raises(ValueError):
             await debugger.debug_pipeline(pipeline, "test", show_live=False)
@@ -135,7 +135,7 @@ class TestPerformanceProfiler:
             track_gc=True,
         )
 
-        pipeline = NanobrickSimple()
+        pipeline = Nanobrick()
         report = await profiler.profile_pipeline(
             pipeline, "test", runs=3, show_progress=False
         )
@@ -151,9 +151,9 @@ class TestPerformanceProfiler:
 
         # Create pipeline with hotspot
         pipeline = (
-            NanobrickSimple()  # Fast
+            Nanobrick()  # Fast
             | DelayNanobrick(50)  # Slow (hotspot)
-            | NanobrickSimple()  # Fast
+            | Nanobrick()  # Fast
         )
 
         report = await profiler.profile_pipeline(
@@ -194,12 +194,12 @@ class TestPipelineVisualizer:
     def test_analyze_simple_pipeline(self):
         """Test analyzing a simple pipeline."""
         visualizer = PipelineViz()
-        pipeline = NanobrickSimple()
+        pipeline = Nanobrick()
 
         root = visualizer.analyze_pipeline(pipeline)
 
         assert root.name == "simple"
-        assert root.type == "NanobrickSimple"
+        assert root.type == "Nanobrick"
         assert len(root.children) == 0
 
     def test_analyze_composite_pipeline(self):
@@ -207,7 +207,7 @@ class TestPipelineVisualizer:
         from nanobricks.composition import CompositeBrick
 
         visualizer = PipelineViz()
-        pipeline = CompositeBrick([NanobrickSimple(), DelayNanobrick()])
+        pipeline = CompositeBrick([Nanobrick(), DelayNanobrick()])
 
         root = visualizer.analyze_pipeline(pipeline)
 
@@ -219,7 +219,7 @@ class TestPipelineVisualizer:
     def test_text_visualization(self):
         """Test text format visualization."""
         visualizer = PipelineViz(export_format="text", show_types=True)
-        pipeline = NanobrickSimple() | DelayNanobrick()
+        pipeline = Nanobrick() | DelayNanobrick()
 
         text = visualizer._render_text(visualizer.analyze_pipeline(pipeline))
 
@@ -230,7 +230,7 @@ class TestPipelineVisualizer:
     def test_mermaid_visualization(self):
         """Test Mermaid diagram generation."""
         visualizer = PipelineViz(export_format="mermaid")
-        pipeline = NanobrickSimple() | DelayNanobrick()
+        pipeline = Nanobrick() | DelayNanobrick()
 
         mermaid = visualizer._render_mermaid(visualizer.analyze_pipeline(pipeline))
 
@@ -243,8 +243,8 @@ class TestPipelineVisualizer:
         """Test pipeline comparison."""
         visualizer = PipelineViz()
 
-        pipeline1 = NanobrickSimple() | DelayNanobrick()
-        pipeline2 = NanobrickSimple() | DelayNanobrick() | NanobrickSimple()
+        pipeline1 = Nanobrick() | DelayNanobrick()
+        pipeline2 = Nanobrick() | DelayNanobrick() | Nanobrick()
 
         comparison = visualizer.compare_pipelines(pipeline1, pipeline2)
 
@@ -260,9 +260,9 @@ class TestTypeStubGenerator:
     def test_generate_stub_for_simple_brick(self):
         """Test generating stub for simple brick."""
         generator = TypeStubGenerator()
-        stub = generator.generate_stub_for_brick(NanobrickSimple)
+        stub = generator.generate_stub_for_brick(Nanobrick)
 
-        assert "class NanobrickSimple" in stub
+        assert "class Nanobrick" in stub
         assert "name: str = 'simple'" in stub
         assert "version: str = '1.0.0'" in stub
         assert "async def invoke" in stub
@@ -325,7 +325,7 @@ CONSTANT = 42
         """Test nanobrick detection."""
         generator = TypeStubGenerator()
 
-        assert generator._is_nanobrick(NanobrickSimple)
+        assert generator._is_nanobrick(Nanobrick)
         assert not generator._is_nanobrick(str)
         assert not generator._is_nanobrick(dict)
 

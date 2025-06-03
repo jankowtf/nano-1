@@ -1,7 +1,6 @@
 ---
 title: "Nanobricks Roadmap"
 subtitle: "From v0.1.0 to Production-Ready Framework"
-date: "2025-01-06"
 format: 
   html:
     toc: true
@@ -16,7 +15,7 @@ This roadmap synthesizes feedback from real-world usage of nanobricks (particula
 
 ### What's Working Well
 
-- **Core Protocol**: The `NanobrickSimple[Input, Output]` abstraction is intuitive and powerful
+- **Core Protocol**: The `Nanobrick[Input, Output]` abstraction is intuitive and powerful
 - **Skills System**: The `@skill` decorator pattern for cross-cutting concerns is a major hit
 - **Type Safety**: Generic typing provides excellent IDE support and catch errors early
 - **Async-First**: Modern design that works well with contemporary Python patterns
@@ -52,6 +51,31 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Generic Result Type**: Optional `Result[T, E]` import for standardized error handling
 - **Better Error Messages**: Improved type mismatch errors for pipe operator
 - **Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.
+
+## Version 0.1.3: Core API Refinement
+
+**Theme**: Simplify and clarify the core API based on user feedback
+
+### API Improvements
+- **Rename `NanobrickSimple` to `Nanobrick`**: The "Simple" suffix is confusing since there's no complex variant
+  - Keep `NanobrickBase` as the abstract base class for advanced use cases
+  - `Nanobrick` becomes the primary class for 99% of use cases
+  - Backwards compatible: `NanobrickSimple` remains as deprecated alias
+- **Enhanced Git Integration**: Smart git tasks with better commit messages
+  - `task version:release` for complete release workflow
+  - Auto-generated commit messages based on CHANGELOG entries
+  - Integrated version bumping, tagging, and pushing
+- **Date Handling in Tasks**: Use system date commands for accurate timestamps
+  - Remove hardcoded dates from documentation
+  - Dynamic date generation in version tasks
+
+### Developer Experience
+- **Clearer Class Hierarchy**: 
+  - `Nanobrick[T_in, T_out]` - Primary class for stateless bricks (was NanobrickSimple)
+  - `NanobrickBase[T_in, T_out, T_deps]` - Abstract base for advanced scenarios
+  - `NanobrickProtocol` - Type checking protocol
+- **Migration Tool**: Script to automatically update imports from `NanobrickSimple` to `Nanobrick`
+- **Updated Examples**: All documentation and examples use the new `Nanobrick` name
 
 ## Version 0.2.0: Composition Revolution
 

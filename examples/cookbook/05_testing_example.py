@@ -17,10 +17,10 @@ from unittest.mock import Mock, AsyncMock, patch
 from dataclasses import dataclass
 
 # First, let's create some example bricks to test
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
-class TextProcessor(NanobrickSimple[str, str]):
+class TextProcessor(Nanobrick[str, str]):
     """Simple text processor for testing."""
     
     name = "text_processor"
@@ -38,7 +38,7 @@ class TextProcessor(NanobrickSimple[str, str]):
         return text.upper().strip()
 
 
-class WordCounter(NanobrickSimple[str, Dict[str, int]]):
+class WordCounter(Nanobrick[str, Dict[str, int]]):
     """Counts words in text."""
     
     name = "word_counter"
@@ -53,7 +53,7 @@ class WordCounter(NanobrickSimple[str, Dict[str, int]]):
         }
 
 
-class DatabaseBrick(NanobrickSimple[str, List[Dict[str, Any]]]):
+class DatabaseBrick(Nanobrick[str, List[Dict[str, Any]]]):
     """Brick that requires database dependency."""
     
     name = "database_brick"
@@ -323,7 +323,7 @@ class TestAsyncPatterns:
     @pytest.mark.asyncio
     async def test_timeout_handling(self):
         """Test handling of timeouts."""
-        class SlowBrick(NanobrickSimple[str, str]):
+        class SlowBrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 await asyncio.sleep(1)  # Simulate slow operation
                 return input

@@ -34,7 +34,7 @@ Composition is best when you're **combining** distinct functionalities:
 
 ```python
 # Good use of composition - combining distinct steps
-class DataPipeline(NanobrickSimple[RawData, Report]):
+class DataPipeline(Nanobrick[RawData, Report]):
     def __init__(self):
         self.validator = DataValidator()
         self.transformer = DataTransformer()
@@ -111,7 +111,7 @@ pipeline = (
 Use composition to swap algorithms:
 
 ```python
-class DataProcessor(NanobrickSimple[Data, ProcessedData]):
+class DataProcessor(Nanobrick[Data, ProcessedData]):
     def __init__(self, 
                  validator: Validator = None,
                  transformer: Transformer = None):
@@ -139,7 +139,7 @@ development_processor = DataProcessor(
 Use inheritance for workflows with customization points:
 
 ```python
-class BaseETLPipeline(NanobrickSimple[Source, Result]):
+class BaseETLPipeline(Nanobrick[Source, Result]):
     """Template for ETL pipelines."""
     
     async def invoke(self, source: Source, *, deps=None) -> Result:
@@ -187,10 +187,10 @@ class SalesETLPipeline(BaseETLPipeline):
 Add functionality without modifying the original:
 
 ```python
-class LoggingBrick(NanobrickSimple[T, U]):
+class LoggingBrick(Nanobrick[T, U]):
     """Adds logging to any brick."""
     
-    def __init__(self, brick: NanobrickSimple[T, U]):
+    def __init__(self, brick: Nanobrick[T, U]):
         self.brick = brick
         self.name = f"logged_{brick.name}"
         self.version = brick.version
@@ -261,7 +261,7 @@ class CachedProcessor(CacheableMixin, DataProcessor):
 
 ```python
 # Approach 1: Composition (Recommended)
-class TextAnalysisPipeline(NanobrickSimple[str, AnalysisResult]):
+class TextAnalysisPipeline(Nanobrick[str, AnalysisResult]):
     """Composes specialized bricks for text analysis."""
     
     def __init__(self, language="en"):
@@ -308,7 +308,7 @@ class EmailValidator(Validator):
         return result
 
 # Approach 2: Composition (Over-engineered for this case)
-class EmailValidator(NanobrickSimple[str, ValidationResult]):
+class EmailValidator(Nanobrick[str, ValidationResult]):
     def __init__(self):
         self.base_validator = Validator()
         self.email_checker = EmailFormatChecker()
@@ -329,7 +329,7 @@ class JSONProcessor(StructuredDataProcessor): pass
 class SecureJSONProcessor(JSONProcessor): pass
 
 # Good - flat hierarchy with composition
-class JSONProcessor(NanobrickSimple[str, dict]):
+class JSONProcessor(Nanobrick[str, dict]):
     def __init__(self, secure=False):
         self.parser = JSONParser()
         self.validator = SecureValidator() if secure else Validator()
@@ -339,15 +339,15 @@ class JSONProcessor(NanobrickSimple[str, dict]):
 
 ```python
 # Bad - doing too much
-class DoEverythingBrick(NanobrickSimple[Any, Any]):
+class DoEverythingBrick(Nanobrick[Any, Any]):
     async def invoke(self, input: Any, *, deps=None) -> Any:
         # 500 lines of code doing 10 different things
         pass
 
 # Good - single responsibility
-class Parser(NanobrickSimple[str, Data]): pass
-class Validator(NanobrickSimple[Data, ValidData]): pass
-class Processor(NanobrickSimple[ValidData, Result]): pass
+class Parser(Nanobrick[str, Data]): pass
+class Validator(Nanobrick[Data, ValidData]): pass
+class Processor(Nanobrick[ValidData, Result]): pass
 ```
 
 ### 3. Inheritance for Code Reuse Only
@@ -359,7 +359,7 @@ class ReportGenerator(DatabaseConnection):
     # But ReportGenerator is not a DatabaseConnection!
 
 # Good - composition for code reuse
-class ReportGenerator(NanobrickSimple[Query, Report]):
+class ReportGenerator(Nanobrick[Query, Report]):
     def __init__(self):
         self.db = DatabaseConnection()  # Use, don't inherit
 ```

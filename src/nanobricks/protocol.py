@@ -165,11 +165,12 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
         return f"{self.name} v{self.version}"
 
 
-class NanobrickSimple(NanobrickBase[T_in, T_out, None]):
+class Nanobrick(NanobrickBase[T_in, T_out, None]):
     """
-    A simplified base class for nanobricks that don't need dependencies.
+    The primary base class for nanobricks that don't need dependencies.
 
-    This is a convenience class for the common case where no deps are needed.
+    This is the main class you should use for creating nanobricks in most cases.
+    It provides a simpler interface when dependency injection is not needed.
     """
 
     @abstractmethod
@@ -177,3 +178,13 @@ class NanobrickSimple(NanobrickBase[T_in, T_out, None]):
     async def invoke(self, input: T_in, *, deps: None = None) -> T_out:
         """Process input without dependencies."""
         pass
+
+
+# Backwards compatibility alias - will be removed in v0.2.0
+class NanobrickSimple(Nanobrick[T_in, T_out]):
+    """
+    Deprecated: Use `Nanobrick` instead.
+    
+    This alias is provided for backwards compatibility and will be removed in v0.2.0.
+    """
+    pass

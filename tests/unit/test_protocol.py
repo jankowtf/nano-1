@@ -6,7 +6,7 @@ import asyncio
 
 import pytest
 
-from nanobricks.protocol import NanobrickBase, NanobrickProtocol, NanobrickSimple
+from nanobricks.protocol import NanobrickBase, NanobrickProtocol, Nanobrick
 
 
 class TestNanobrickProtocol:
@@ -29,7 +29,7 @@ class TestNanobrickProtocol:
                 return self
 
         # Should be recognized as implementing the protocol
-        assert isinstance(FakeBrick(), NanobrickProtocol)
+        assert isinstance(FakeNanobrick(), NanobrickProtocol)
 
 
 class TestNanobrickBase:
@@ -78,23 +78,23 @@ class TestNanobrickBase:
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 
-        brick = MyBrick(name="custom", version="2.0.0")
+        brick = MyNanobrick(name="custom", version="2.0.0")
         assert brick.name == "custom"
         assert brick.version == "2.0.0"
 
     def test_repr_and_str(self, echo_brick):
         """Test string representations."""
-        assert repr(echo_brick) == "EchoNanobrick(name='EchoBrick', version='0.1.0')"
-        assert str(echo_brick) == "EchoBrick v0.1.0"
+        assert repr(echo_brick) == "EchoNanobrick(name='EchoNanobrick', version='0.1.0')"
+        assert str(echo_brick) == "EchoNanobrick v0.1.0"
 
 
 class TestNanobrickSimple:
-    """Test the NanobrickSimple convenience class."""
+    """Test the Nanobrick convenience class."""
 
     def test_simple_brick_no_deps(self):
-        """NanobrickSimple should work without dependencies."""
+        """Nanobrick should work without dependencies."""
 
-        class UpperNanobrick(NanobrickSimple[str, str]):
+        class UpperNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input.upper()
 
@@ -103,9 +103,9 @@ class TestNanobrickSimple:
         assert result == "HELLO"
 
     async def test_simple_brick_async(self):
-        """NanobrickSimple should work with async."""
+        """Nanobrick should work with async."""
 
-        class AsyncUpperNanobrick(NanobrickSimple[str, str]):
+        class AsyncUpperNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 await asyncio.sleep(0.01)  # Simulate async work
                 return input.upper()

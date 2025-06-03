@@ -39,7 +39,7 @@ Build a complete data access layer:
 
 ```{python}
 #| eval: false
-from nanobricks import NanobrickBase, NanobrickSimple, Pipeline
+from nanobricks import NanobrickBase, Nanobrick, Pipeline
 from typing import Optional, List, TypedDict
 
 class DatabaseDeps(TypedDict):
@@ -88,13 +88,13 @@ class UserRepository:
         return await self.update_user.invoke({"id": user_id, **user_data})
 
 # Supporting bricks
-class ValidateUserId(NanobrickSimple[str, str]):
+class ValidateUserId(Nanobrick[str, str]):
     async def invoke(self, user_id: str, *, deps=None) -> str:
         if not user_id or not user_id.isalnum():
             raise ValueError("Invalid user ID")
         return user_id
 
-class BuildSelectQuery(NanobrickSimple[str, dict]):
+class BuildSelectQuery(Nanobrick[str, dict]):
     async def invoke(self, user_id: str, *, deps=None) -> dict:
         return {
             "query": "SELECT * FROM users WHERE id = ?",
@@ -113,7 +113,7 @@ class ExecuteQuery(NanobrickBase[dict, dict, DatabaseDeps]):
         )
         return result
 
-class MapToUser(NanobrickSimple[dict, User]):
+class MapToUser(Nanobrick[dict, User]):
     async def invoke(self, row: dict, *, deps=None) -> User:
         return User(**row)
 ```
@@ -193,18 +193,18 @@ Build event-driven systems with nanobricks:
 from nanobricks.patterns import EventBus, EventHandler
 
 # Define event handlers as nanobricks
-class OrderCreatedHandler(NanobrickSimple[OrderEvent, None]):
+class OrderCreatedHandler(Nanobrick[OrderEvent, None]):
     async def invoke(self, event: OrderEvent, *, deps=None) -> None:
         # Send email
         await EmailService().send_order_confirmation(event.order)
 
-class InventoryUpdateHandler(NanobrickSimple[OrderEvent, None]):
+class InventoryUpdateHandler(Nanobrick[OrderEvent, None]):
     async def invoke(self, event: OrderEvent, *, deps=None) -> None:
         # Update inventory
         for item in event.order.items:
             await InventoryService().decrement(item.sku, item.quantity)
 
-class AnalyticsHandler(NanobrickSimple[OrderEvent, None]):
+class AnalyticsHandler(Nanobrick[OrderEvent, None]):
     async def invoke(self, event: OrderEvent, *, deps=None) -> None:
         # Track analytics
         await Analytics().track("order_created", {
@@ -545,14 +545,14 @@ Each brick should do ONE thing:
 ```{python}
 #| eval: false
 # Good: Single responsibility
-class ValidateEmail(NanobrickSimple[str, str]):
+class ValidateEmail(Nanobrick[str, str]):
     async def invoke(self, email: str, *, deps=None) -> str:
         if "@" not in email:
             raise ValueError("Invalid email")
         return email
 
 # Bad: Multiple responsibilities
-class ProcessUser(NanobrickSimple[dict, dict]):
+class ProcessUser(Nanobrick[dict, dict]):
     async def invoke(self, user: dict, *, deps=None) -> dict:
         # Validates email AND hashes password AND saves to DB
         # Too many responsibilities!

@@ -139,7 +139,7 @@ Our first working nanobrick is ready! Here's how to create one:
 # sys.path.append("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src")
 
 import asyncio
-from nanobricks import NanobrickBase, NanobrickSimple
+from nanobricks import NanobrickBase, Nanobrick
 
 
 # Method 1: Full control with NanobrickBase
@@ -150,8 +150,8 @@ class EchoBrick(NanobrickBase[str, str, None]):
         return input
 
 
-# Method 2: Simpler with NanobrickSimple (no deps needed)
-class UpperBrick(NanobrickSimple[str, str]):
+# Method 2: Simpler with Nanobrick (no deps needed)
+class UpperBrick(Nanobrick[str, str]):
     """I SHOUT WHAT YOU SAY!"""
 
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -220,16 +220,16 @@ The pipe operator is working! Here's how to compose nanobricks:
 # | echo: true
 # | output: true
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Create some bricks
-class GreetBrick(NanobrickSimple[str, str]):
+class GreetBrick(Nanobrick[str, str]):
     async def invoke(self, input: str, *, deps=None) -> str:
         return f"Hello, {input}!"
 
 
-class ShoutBrick(NanobrickSimple[str, str]):
+class ShoutBrick(Nanobrick[str, str]):
     async def invoke(self, input: str, *, deps=None) -> str:
         return input.upper()
 
@@ -265,7 +265,7 @@ print(f"Double shout: {result}")
 
 
 # Type transformations
-class LengthBrick(NanobrickSimple[str, int]):
+class LengthBrick(Nanobrick[str, int]):
     async def invoke(self, input: str, *, deps=None) -> int:
         return len(input)
 
@@ -277,7 +277,7 @@ print(f"Length of greeting: {result} (for 'Hello, bob!')")
 
 
 # Error propagation (fail-fast)
-class ValidateBrick(NanobrickSimple[str, str]):
+class ValidateBrick(Nanobrick[str, str]):
     async def invoke(self, input: str, *, deps=None) -> str:
         if not input.isalpha():
             raise ValueError("Only letters allowed")
@@ -304,7 +304,7 @@ from nanobricks import Pipeline
 
 
 # First define the missing brick
-class AddExclamationBrick(NanobrickSimple[str, str]):
+class AddExclamationBrick(Nanobrick[str, str]):
     async def invoke(self, input: str, *, deps=None) -> str:
         return f"{input}!!!!"
 
@@ -665,7 +665,7 @@ There are three ways to add skills to your bricks:
 # | output: true
 
 # Create a simple brick
-class SlowBrick(NanobrickSimple[str, str]):
+class SlowBrick(Nanobrick[str, str]):
     async def invoke(self, input: str, *, deps=None) -> str:
         await asyncio.sleep(0.1)  # Simulate slow work
         return f"Processed: {input}"
@@ -734,7 +734,7 @@ from nanobricks import skill
 
 @skill("timing")
 @skill("cache")
-class SmartBrick(NanobrickSimple[str, int]):
+class SmartBrick(Nanobrick[str, int]):
     """A brick decorated with skills."""
 
     async def invoke(self, input: str, *, deps=None) -> int:
@@ -783,7 +783,7 @@ class RetrySkill(Skill):
 
 
 # Test with an unreliable brick
-class UnreliableBrick(NanobrickSimple[int, int]):
+class UnreliableBrick(Nanobrick[int, int]):
     def __init__(self):
         super().__init__()
         self._count = 0
@@ -825,11 +825,11 @@ import asyncio
 
 # Import built-in skills
 import nanobricks.skills
-from nanobricks import skill, NanobrickSimple
+from nanobricks import skill, Nanobrick
 
 
 @skill("logging", level="INFO", pretty=True)
-class DataProcessorBrick(NanobrickSimple[dict, dict]):
+class DataProcessorBrick(Nanobrick[dict, dict]):
     """Processes data with automatic logging."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:
@@ -865,7 +865,7 @@ Turn any nanobrick into a REST API with FastAPI:
 
 
 @skill("api", path="/analyze", port=8080, docs=True)
-class TextAnalyzerBrick(NanobrickSimple[str, dict]):
+class TextAnalyzerBrick(Nanobrick[str, dict]):
     """Analyzes text and returns statistics."""
 
     async def invoke(self, input: str, *, deps=None) -> dict:
@@ -907,7 +907,7 @@ Create command-line interfaces with Typer:
 
 
 @skill("cli", command="transform", input_type="json")
-class DataTransformerBrick(NanobrickSimple[list, dict]):
+class DataTransformerBrick(Nanobrick[list, dict]):
     """Transforms data into summary statistics."""
 
     async def invoke(self, input: list, *, deps=None) -> dict:
@@ -946,7 +946,7 @@ The real power comes from combining skills:
 @skill("logging", level="INFO")
 @skill("api", port=8000)
 @skill("cli", command="process")
-class ProcessorBrick(NanobrickSimple[dict, dict]):
+class ProcessorBrick(Nanobrick[dict, dict]):
     """A brick with multiple interfaces."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:
@@ -1013,7 +1013,7 @@ mypy src/nanobricks/ --strict
 ## What's Working Now?
 
 ✅ Core protocol with NanobrickProtocol and NanobrickBase  
-✅ NanobrickSimple for easy nanobricks without dependencies  
+✅ Nanobrick for easy nanobricks without dependencies  
 ✅ Async and sync invocation  
 ✅ Type safety with generics  
 ✅ Full pipe operator composition (|)  
@@ -1074,11 +1074,11 @@ Here are some highlights from our working examples:
 
 import asyncio
 from typing import List
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 
 
 # Email processing example from basic_pipeline.py
-class ValidateEmailBrick(NanobrickSimple[str, str]):
+class ValidateEmailBrick(Nanobrick[str, str]):
     """Validates that input looks like an email."""
 
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -1087,14 +1087,14 @@ class ValidateEmailBrick(NanobrickSimple[str, str]):
         return input
 
 
-class NormalizeEmailBrick(NanobrickSimple[str, str]):
+class NormalizeEmailBrick(Nanobrick[str, str]):
     """Normalizes email to lowercase and strips whitespace."""
 
     async def invoke(self, input: str, *, deps=None) -> str:
         return input.strip().lower()
 
 
-class ExtractDomainBrick(NanobrickSimple[str, str]):
+class ExtractDomainBrick(Nanobrick[str, str]):
     """Extracts domain from email address."""
 
     async def invoke(self, input: str, *, deps=None) -> str:
@@ -1220,11 +1220,11 @@ Automatically containerize your nanobricks with zero configuration:
 # | echo: true
 # | output: true
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 from nanobricks.skills.deployment import SkillDocker, DockerConfig
 
 # Define a simple brick for the example
-class MyDataProcessor(NanobrickSimple[dict, dict]):
+class MyDataProcessor(Nanobrick[dict, dict]):
     """Process data with validation."""
     
     def __init__(self):
@@ -1262,10 +1262,10 @@ With custom configuration:
 # | output: true
 
 # Continue from previous cell - redefine for this cell
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 from nanobricks.skills.deployment import SkillDocker, DockerConfig
 
-class MyDataProcessor(NanobrickSimple[dict, dict]):
+class MyDataProcessor(Nanobrick[dict, dict]):
     """Process data with validation."""
     
     def __init__(self):
@@ -1368,13 +1368,13 @@ Combine Docker and Kubernetes for full deployment automation:
 # | echo: true
 # | output: true
 
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 from nanobricks.skills.deployment import SkillDocker, SkillKubernetes
 
 
 @skill("logging")
 @skill("api", port=8080)
-class ProductionBrick(NanobrickSimple[dict, dict]):
+class ProductionBrick(Nanobrick[dict, dict]):
     """A production-ready nanobrick."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:
@@ -1429,7 +1429,7 @@ from nanobricks.performance import with_cache
 
 
 # Create an expensive brick
-class DatabaseLookupBrick(NanobrickSimple[str, dict]):
+class DatabaseLookupBrick(Nanobrick[str, dict]):
     async def invoke(self, key: str, *, deps=None) -> dict:
         # Simulate expensive database query
         await asyncio.sleep(0.5)
@@ -1464,7 +1464,7 @@ from nanobricks.performance import with_batching
 
 
 # Create a brick that benefits from batching
-class APICallBrick(NanobrickSimple[str, dict]):
+class APICallBrick(Nanobrick[str, dict]):
     async def invoke(self, item: str, *, deps=None) -> dict:
         # Simulate API call
         await asyncio.sleep(0.1)
@@ -1556,7 +1556,7 @@ Stack optimizations for maximum performance:
 # | echo: true
 # | output: true
 
-from nanobricks import NanobrickSimple
+from nanobricks import Nanobrick
 from nanobricks.performance import with_cache, fuse_pipeline
 
 # Create a complex pipeline

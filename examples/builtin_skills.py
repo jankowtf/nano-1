@@ -4,14 +4,14 @@ import asyncio
 import logging
 
 # Import to register built-in skills
-from nanobricks import NanobrickSimple, skill
+from nanobricks import Nanobrick, skill
 
 # Example 1: Logging Skill
 print("=== 1. Logging Skill Demo ===\n")
 
 
 @skill("logging", level="INFO", pretty=True)
-class DataProcessorBrick(NanobrickSimple[dict, dict]):
+class DataProcessorBrick(Nanobrick[dict, dict]):
     """Processes data with automatic logging."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:
@@ -44,7 +44,7 @@ async def demo_logging():
 
     # Process with error (to show error logging)
     @skill("logging", log_errors=True)
-    class FaultyBrick(NanobrickSimple[int, int]):
+    class FaultyBrick(Nanobrick[int, int]):
         async def invoke(self, input: int, *, deps=None) -> int:
             if input < 0:
                 raise ValueError("Negative numbers not allowed!")
@@ -63,7 +63,7 @@ print("=== 2. API Skill Demo ===\n")
 
 
 @skill("api", path="/analyze", port=8080, docs=True)
-class TextAnalyzerBrick(NanobrickSimple[str, dict]):
+class TextAnalyzerBrick(Nanobrick[str, dict]):
     """Analyzes text and returns statistics."""
 
     async def invoke(self, input: str, *, deps=None) -> dict:
@@ -97,7 +97,7 @@ print("=== 3. CLI Skill Demo ===\n")
 
 
 @skill("cli", command="transform", input_type="json", output_format="pretty")
-class DataTransformerBrick(NanobrickSimple[list[dict], dict]):
+class DataTransformerBrick(Nanobrick[list[dict], dict]):
     """Transforms list data into summary statistics."""
 
     async def invoke(self, input: list[dict], *, deps=None) -> dict:
@@ -153,7 +153,7 @@ print("=== 4. Combining Multiple Skills ===\n")
 @skill("logging", level="INFO")
 @skill("api", path="/calculate", port=8081)
 @skill("cli", command="calc")
-class CalculatorBrick(NanobrickSimple[dict, dict]):
+class CalculatorBrick(Nanobrick[dict, dict]):
     """A calculator brick with multiple interfaces."""
 
     async def invoke(self, input: dict, *, deps=None) -> dict:

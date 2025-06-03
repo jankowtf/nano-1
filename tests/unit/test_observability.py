@@ -12,11 +12,11 @@ from nanobricks.skills.observability import (
 )
 
 
-class NanobrickSimple(NanobrickBase[int, int, None]):
+class Nanobrick(NanobrickBase[int, int, None]):
     """Test brick for observability."""
 
     def __init__(self):
-        self.name = "NanobrickSimple"
+        self.name = "Nanobrick"
         self.version = "1.0.0"
 
     async def invoke(self, input: int, *, deps: None = None) -> int:
@@ -41,7 +41,7 @@ class TestSkillTracing:
     async def test_basic_tracing(self):
         """Test basic trace collection."""
         skill = SkillTracing()
-        brick = NanobrickSimple()
+        brick = Nanobrick()
         traced_brick = skill.enhance(brick)
 
         result = await traced_brick.invoke(5)
@@ -50,7 +50,7 @@ class TestSkillTracing:
         # Check traces
         assert len(skill.traces) == 2
         assert skill.traces[0]["operation"] == "invoke_start"
-        assert skill.traces[0]["nanobrick"] == "NanobrickSimple"
+        assert skill.traces[0]["nanobrick"] == "Nanobrick"
         assert skill.traces[1]["operation"] == "invoke_complete"
         assert "duration_ms" in skill.traces[1]
 
@@ -77,14 +77,14 @@ class TestSkillTracing:
             collected_traces.append(f"{operation}: {details['nanobrick']}")
 
         skill = SkillTracing(trace_func=custom_trace)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
         traced_brick = skill.enhance(brick)
 
         await traced_brick.invoke(5)
 
         assert collected_traces == [
-            "invoke_start: NanobrickSimple",
-            "invoke_complete: NanobrickSimple",
+            "invoke_start: Nanobrick",
+            "invoke_complete: Nanobrick",
         ]
 
 
@@ -103,7 +103,7 @@ class TestSkillObservability:
         )
 
         skill = SkillObservability(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
 
         # Should return original brick if OTEL not available
         observable_brick = skill.enhance(brick)
@@ -124,7 +124,7 @@ class TestSkillObservability:
         )
 
         skill = SkillObservability(config)
-        brick = NanobrickSimple()
+        brick = Nanobrick()
         observable_brick = skill.enhance(brick)
 
         # Make several invocations

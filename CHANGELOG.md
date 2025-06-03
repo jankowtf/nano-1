@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-01-06
+
+### Added
+- **Enhanced Git Integration**: New git tasks in version management workflow
+  - `task version:commit:version` - Commit with auto-generated message
+  - `task version:release` - Complete release workflow (commit, tag, push)
+  - Dynamic date handling using system commands
+- **Migration Script**: `migrate_to_nanobrick.py` to update imports automatically
+
+### Changed
+- **Renamed `NanobrickSimple` to `Nanobrick`**: Clearer naming for the primary class
+  - `Nanobrick[T_in, T_out]` is now the main class for 99% of use cases
+  - `NanobrickBase[T_in, T_out, T_deps]` remains for advanced scenarios
+  - `NanobrickSimple` kept as deprecated alias for backwards compatibility
+- **Updated all examples and documentation** to use the new `Nanobrick` name
+- **Improved task date handling** to use system date commands instead of hardcoded values
+
+### Deprecated
+- `NanobrickSimple` - Use `Nanobrick` instead (will be removed in v0.2.0)
+
 ## [0.1.2] - 2025-01-06
 
 ### Added
@@ -90,7 +110,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling patterns
 - AI integration via MCP protocol
 
-[Unreleased]: https://github.com/yourusername/nanobricks/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/yourusername/nanobricks/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/yourusername/nanobricks/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/yourusername/nanobricks/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/yourusername/nanobricks/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/yourusername/nanobricks/releases/tag/v0.1.0

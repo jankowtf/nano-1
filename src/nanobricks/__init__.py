@@ -5,7 +5,7 @@ A revolutionary framework for building composable, resilient software components
 that gain strength from stress and complexity.
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 # Export main protocol and base classes
 # Import built-in skills to register them
@@ -23,7 +23,12 @@ from nanobricks.performance import (
     with_batching,
     with_cache,
 )
-from nanobricks.protocol import NanobrickBase, NanobrickProtocol, NanobrickSimple
+from nanobricks.protocol import (
+    Nanobrick,
+    NanobrickBase,
+    NanobrickProtocol,
+    NanobrickSimple,  # Deprecated - kept for backwards compatibility
+)
 from nanobricks.typing import (
     Result,
     TypeAdapter,
@@ -56,9 +61,10 @@ from nanobricks.skill import (
 __all__ = [
     "__version__",
     # Core protocol
+    "Nanobrick",  # Primary class
     "NanobrickProtocol",
     "NanobrickBase",
-    "NanobrickSimple",
+    "NanobrickSimple",  # Deprecated
     # Composition
     "NanobrickComposite",
     "Pipeline",

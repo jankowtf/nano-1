@@ -21,9 +21,9 @@ Version 0.1.2 introduces powerful type utilities to reduce friction when composi
 The `Result[T, E]` type provides Rust-inspired error handling:
 
 ```python
-from nanobricks import Result, NanobrickSimple
+from nanobricks import Result, Nanobrick
 
-class SafeParser(NanobrickSimple[str, Result[dict, str]]):
+class SafeParser(Nanobrick[str, Result[dict, str]]):
     """Parse JSON with explicit error handling"""
     
     name = "safe_parser"
@@ -91,16 +91,16 @@ result = await json_adapter.invoke({"key": "value"})
 ### Using Adapters in Pipelines
 
 ```python
-from nanobricks import NanobrickSimple, string_to_dict
+from nanobricks import Nanobrick, string_to_dict
 
-class ConfigReader(NanobrickSimple[str, str]):
+class ConfigReader(Nanobrick[str, str]):
     """Read configuration string"""
     name = "config_reader"
     
     async def invoke(self, input: str) -> str:
         return "host=localhost,port=8080,debug=true"
 
-class ConfigProcessor(NanobrickSimple[dict, dict]):
+class ConfigProcessor(Nanobrick[dict, dict]):
     """Process configuration dictionary"""
     name = "config_processor"
     
@@ -194,7 +194,7 @@ adapter = auto_adapter(list, dict)  # Returns None (no automatic conversion)
 ### 1. Use Result for Explicit Error Handling
 
 ```python
-class DataFetcher(NanobrickSimple[str, Result[dict, str]]):
+class DataFetcher(Nanobrick[str, Result[dict, str]]):
     async def invoke(self, url: str) -> Result[dict, str]:
         try:
             # Fetch data...
@@ -202,7 +202,7 @@ class DataFetcher(NanobrickSimple[str, Result[dict, str]]):
         except Exception as e:
             return Result.err(str(e))
 
-class DataProcessor(NanobrickSimple[Result[dict, str], str]):
+class DataProcessor(Nanobrick[Result[dict, str], str]):
     async def invoke(self, result: Result[dict, str]) -> str:
         if result.is_err:
             return f"Failed: {result.unwrap_err()}"
@@ -265,7 +265,7 @@ If you're upgrading from v0.1.0 or v0.1.1:
 
 ```python
 # Manual type conversion
-class Pipeline(NanobrickSimple[str, str]):
+class Pipeline(Nanobrick[str, str]):
     async def invoke(self, input: str) -> str:
         # Parse string to dict
         pairs = input.split(',')

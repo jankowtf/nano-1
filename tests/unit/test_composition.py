@@ -4,7 +4,7 @@ Unit tests for nanobrick composition functionality.
 
 import pytest
 
-from nanobricks import NanobrickComposite, NanobrickBase, Pipeline, NanobrickSimple
+from nanobricks import NanobrickComposite, NanobrickBase, Pipeline, Nanobrick
 
 
 class TestCompositeBrick:
@@ -14,7 +14,7 @@ class TestCompositeBrick:
     def echo_brick(self):
         """A brick that returns its input unchanged."""
 
-        class EchoNanobrick(NanobrickSimple[str, str]):
+        class EchoNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input
 
@@ -24,7 +24,7 @@ class TestCompositeBrick:
     def upper_brick(self):
         """A brick that converts input to uppercase."""
 
-        class UpperNanobrick(NanobrickSimple[str, str]):
+        class UpperNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input.upper()
 
@@ -34,7 +34,7 @@ class TestCompositeBrick:
     def reverse_brick(self):
         """A brick that reverses its input."""
 
-        class ReverseBrick(NanobrickSimple[str, str]):
+        class ReverseBrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 return input[::-1]
 
@@ -78,7 +78,7 @@ class TestCompositeBrick:
     async def test_error_propagation(self, echo_brick):
         """Test that errors propagate through the pipeline (fail-fast)."""
 
-        class ErrorNanobrick(NanobrickSimple[str, str]):
+        class ErrorNanobrick(Nanobrick[str, str]):
             async def invoke(self, input: str, *, deps=None) -> str:
                 raise ValueError("Test error")
 
@@ -106,7 +106,7 @@ class TestPipeline:
     def bricks(self):
         """Create a set of test bricks."""
 
-        class AddNanobrick(NanobrickSimple[int, int]):
+        class AddNanobrick(Nanobrick[int, int]):
             def __init__(self, amount: int, **kwargs):
                 super().__init__(**kwargs)
                 self.amount = amount
@@ -134,7 +134,7 @@ class TestPipeline:
     def test_pipeline_requires_min_bricks(self):
         """Test that Pipeline requires at least 2 bricks."""
 
-        class DummyBrick(NanobrickSimple[int, int]):
+        class DummyBrick(Nanobrick[int, int]):
             async def invoke(self, input: int, *, deps=None) -> int:
                 return input
 
@@ -145,7 +145,7 @@ class TestPipeline:
     async def test_pipeline_error_propagation(self, bricks):
         """Test error propagation in pipeline."""
 
-        class ErrorNanobrick(NanobrickSimple[int, int]):
+        class ErrorNanobrick(Nanobrick[int, int]):
             async def invoke(self, input: int, *, deps=None) -> int:
                 raise RuntimeError("Pipeline error")
 
@@ -194,11 +194,11 @@ class TestAdvancedComposition:
     async def test_different_types_composition(self):
         """Test composing bricks with different input/output types."""
 
-        class StringToIntBrick(NanobrickSimple[str, int]):
+        class StringToIntBrick(Nanobrick[str, int]):
             async def invoke(self, input: str, *, deps=None) -> int:
                 return len(input)
 
-        class IntToFloatBrick(NanobrickSimple[int, float]):
+        class IntToFloatBrick(Nanobrick[int, float]):
             async def invoke(self, input: int, *, deps=None) -> float:
                 return float(input) * 1.5
 
@@ -213,7 +213,7 @@ class TestAdvancedComposition:
     async def test_reusable_pipelines(self):
         """Test that pipelines can be reused multiple times."""
 
-        class CounterBrick(NanobrickSimple[int, int]):
+        class CounterBrick(Nanobrick[int, int]):
             def __init__(self):
                 super().__init__(name="counter")
                 self.count = 0
