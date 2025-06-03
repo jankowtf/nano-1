@@ -140,118 +140,13 @@ class BrickProfiler:
                 return Pipeline(self, other)
 
         return ProfiledBrick(brick)
-
-    def get_stats(self) -> dict[str, dict[str, Any]]:
-        """Get profiling statistics.
-
-        Returns:
-            Statistics by brick name
-        """
-        return {name: stats.to_dict() for name, stats in self.stats.items()}
-
-    def print_stats(self, sort_by: str = "total_time_ms"):
-        """Print profiling statistics.
-
-        Args:
-            sort_by: Field to sort by
-        """
-        print("\n⏱️  Performance Profile:")
-        print("=" * 80)
-        print(
-            f"{'Brick':<30} {'Calls':>8} {'Total(ms)':>10} {'Avg(ms)':>10} {'Min(ms)':>10} {'Max(ms)':>10}"
+    def __or__(self, other):
+        """Backwards compatibility for | operator. DEPRECATED: Use >> instead."""
+        import warnings
+        warnings.warn(
+            "The | operator for nanobrick composition is deprecated. "
+            "Use >> instead. This will be removed in v0.3.0.",
+            DeprecationWarning,
+            stacklevel=2
         )
-        print("-" * 80)
-
-        # Sort stats
-        sorted_stats = sorted(
-            self.stats.values(), key=lambda s: getattr(s, sort_by), reverse=True
-        )
-
-        for stats in sorted_stats:
-            if stats.call_count > 0:
-                print(
-                    f"{stats.brick_name:<30} "
-                    f"{stats.call_count:>8} "
-                    f"{stats.total_time_ms:>10.2f} "
-                    f"{stats.avg_time_ms:>10.2f} "
-                    f"{stats.min_time_ms:>10.2f} "
-                    f"{stats.max_time_ms:>10.2f}"
-                )
-
-        if self.measure_memory:
-            print("\n💾 Memory Usage:")
-            print("-" * 80)
-            for stats in sorted_stats:
-                if stats.call_count > 0 and stats.memory_delta_mb != 0:
-                    print(
-                        f"{stats.brick_name:<30} "
-                        f"Delta: {stats.memory_delta_mb:>+8.2f} MB"
-                    )
-
-    def get_bottlenecks(self, threshold_pct: float = 20) -> list[str]:
-        """Identify performance bottlenecks.
-
-        Args:
-            threshold_pct: Percentage of total time to consider a bottleneck
-
-        Returns:
-            List of bottleneck brick names
-        """
-        total_time = sum(s.total_time_ms for s in self.stats.values())
-        if total_time == 0:
-            return []
-
-        bottlenecks = []
-        for name, stats in self.stats.items():
-            if (stats.total_time_ms / total_time) * 100 >= threshold_pct:
-                bottlenecks.append(name)
-
-        return bottlenecks
-
-    def clear(self):
-        """Clear all statistics."""
-        self.stats.clear()
-
-
-def profile_brick(
-    brick: NanobrickProtocol,
-    iterations: int = 100,
-    warmup: int = 10,
-    input_generator: Callable | None = None,
-) -> ProfileStats:
-    """Profile a single brick.
-
-    Args:
-        brick: Brick to profile
-        iterations: Number of iterations to run
-        warmup: Number of warmup iterations
-        input_generator: Function to generate input for each iteration
-
-    Returns:
-        Profile statistics
-    """
-    profiler = BrickProfiler()
-    profiled = profiler.wrap_brick(brick)
-
-    # Default input generator
-    if input_generator is None:
-        input_generator = lambda i: f"test_{i}"
-
-    async def run_profile():
-        # Warmup
-        for i in range(warmup):
-            await profiled.invoke(input_generator(i))
-
-        # Clear stats after warmup
-        profiler.clear()
-
-        # Profile
-        for i in range(iterations):
-            await profiled.invoke(input_generator(i))
-
-    # Run profile
-    asyncio.run(run_profile())
-
-    # Get stats
-    brick_name = getattr(brick, "name", brick.__class__.__name__)
-    return profiler.stats[brick_name]
+        return self.__rshift__(other)

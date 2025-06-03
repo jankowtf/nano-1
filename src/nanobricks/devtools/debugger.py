@@ -191,75 +191,13 @@ class BrickDebugger:
                 return Pipeline(self, other)
 
         return DebuggedBrick(brick)
-
-    def get_trace(self) -> list[dict[str, Any]]:
-        """Get execution trace.
-
-        Returns:
-            List of events as dictionaries
-        """
-        return [event.to_dict() for event in self.events]
-
-    def print_trace(self):
-        """Print execution trace."""
-        print("\n📊 Execution Trace:")
-        print("=" * 60)
-
-        for event in self.events:
-            timestamp = event.timestamp.strftime("%H:%M:%S.%f")[:-3]
-
-            if event.event_type == "invoke_start":
-                print(f"\n[{timestamp}] ▶️  {event.brick_name}")
-                if self.capture_input and "input" in event.data:
-                    print(f"    Input: {event.data['input']}")
-
-            elif event.event_type == "invoke_end":
-                duration = event.data.get("duration_ms", 0)
-                print(f"[{timestamp}] ✅ {event.brick_name} ({duration:.2f}ms)")
-                if self.capture_output and "output" in event.data:
-                    print(f"    Output: {event.data['output']}")
-
-            elif event.event_type == "error":
-                print(f"[{timestamp}] ❌ {event.brick_name}")
-                print(
-                    f"    Error: {event.data['error_type']}: {event.data['error_message']}"
-                )
-
-    def save_trace(self, path: Path | None = None):
-        """Save trace to file.
-
-        Args:
-            path: Path to save to (uses self.save_to_file if not provided)
-        """
-        path = path or self.save_to_file
-        if not path:
-            raise ValueError("No path provided for saving trace")
-
-        with open(path, "w") as f:
-            json.dump(self.get_trace(), f, indent=2)
-
-        print(f"💾 Debug trace saved to: {path}")
-
-    def clear(self):
-        """Clear all events."""
-        self.events.clear()
-
-
-def debug_pipeline(
-    pipeline: NanobrickProtocol | list[NanobrickProtocol], **kwargs
-) -> NanobrickProtocol | list[NanobrickProtocol]:
-    """Create a debugged version of a pipeline.
-
-    Args:
-        pipeline: Pipeline or list of bricks to debug
-        **kwargs: Arguments for BrickDebugger
-
-    Returns:
-        Debugged pipeline
-    """
-    debugger = BrickDebugger(**kwargs)
-
-    if isinstance(pipeline, list):
-        return [debugger.wrap_brick(brick) for brick in pipeline]
-    else:
-        return debugger.wrap_brick(pipeline)
+    def __or__(self, other):
+        """Backwards compatibility for | operator. DEPRECATED: Use >> instead."""
+        import warnings
+        warnings.warn(
+            "The | operator for nanobrick composition is deprecated. "
+            "Use >> instead. This will be removed in v0.3.0.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.__rshift__(other)

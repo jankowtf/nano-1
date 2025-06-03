@@ -290,25 +290,13 @@ class AdaptiveBrick(NanobrickProtocol[Any, Any, Any]):
         from nanobricks.composition import Pipeline
 
         return Pipeline(self, other)
-
-
-def create_adaptive_brick(
-    brick: NanobrickProtocol, policy: AdaptationPolicy | None = None, **kwargs
-) -> AdaptiveBrick:
-    """Create an adaptive version of a brick.
-
-    Args:
-        brick: Brick to make adaptive
-        policy: Adaptation policy (uses default if None)
-        **kwargs: Additional arguments for AdaptiveBrick
-
-    Returns:
-        Adaptive brick
-    """
-    if policy is None:
-        # Use default threshold policy
-        from nanobricks.adaptive.policies import ThresholdPolicy
-
-        policy = ThresholdPolicy()
-
-    return AdaptiveBrick(brick, policy, **kwargs)
+    def __or__(self, other):
+        """Backwards compatibility for | operator. DEPRECATED: Use >> instead."""
+        import warnings
+        warnings.warn(
+            "The | operator for nanobrick composition is deprecated. "
+            "Use >> instead. This will be removed in v0.3.0.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.__rshift__(other)

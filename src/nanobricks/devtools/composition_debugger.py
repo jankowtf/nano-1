@@ -214,6 +214,20 @@ class CompositionDebugger:
 
         return DebuggedBrick(brick, self)
 
+    def __or__(self, other):
+                    """
+                    Backwards compatibility for | operator. 
+                    DEPRECATED: Use >> instead. Will be removed in v0.3.0.
+                    """
+                    import warnings
+                    warnings.warn(
+                        "The | operator for nanobrick composition is deprecated. "
+                        "Use >> instead. This will be removed in v0.3.0.",
+                        DeprecationWarning,
+                        stacklevel=2
+                    )
+                    return self.__rshift__(other)
+
     def _record_event(self, event: DebugEvent):
         """Record a debug event."""
         if self._current_trace:

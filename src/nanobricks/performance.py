@@ -132,6 +132,20 @@ class NanobrickCached(NanobrickProtocol[T_in, T_out, T_deps]):
         """Compose with another brick."""
         return CompositeBrick(self, other)
 
+    def __or__(self, other):
+            """
+            Backwards compatibility for | operator. 
+            DEPRECATED: Use >> instead. Will be removed in v0.3.0.
+            """
+            import warnings
+            warnings.warn(
+                "The | operator for nanobrick composition is deprecated. "
+                "Use >> instead. This will be removed in v0.3.0.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            return self.__rshift__(other)
+
     def clear_cache(self) -> None:
         """Clear all cached entries."""
         self._cache.clear()
@@ -211,6 +225,20 @@ class NanobrickBatched(NanobrickProtocol[list[T_in], list[T_out], T_deps]):
         """Compose with another brick."""
         return CompositeBrick(self, other)
 
+    def __or__(self, other):
+            """
+            Backwards compatibility for | operator. 
+            DEPRECATED: Use >> instead. Will be removed in v0.3.0.
+            """
+            import warnings
+            warnings.warn(
+                "The | operator for nanobrick composition is deprecated. "
+                "Use >> instead. This will be removed in v0.3.0.",
+                DeprecationWarning,
+                stacklevel=2
+            )
+            return self.__rshift__(other)
+
 
 class FusedPipeline(NanobrickProtocol[T_in, T_out, T_deps]):
     """Optimized pipeline that fuses operations to reduce overhead."""
@@ -260,6 +288,17 @@ class FusedPipeline(NanobrickProtocol[T_in, T_out, T_deps]):
             return FusedPipeline(self._bricks + other._bricks)
         else:
             return FusedPipeline(self._bricks + [other])
+    
+    def __or__(self, other):
+        """Backwards compatibility for | operator. DEPRECATED: Use >> instead."""
+        import warnings
+        warnings.warn(
+            "The | operator for nanobrick composition is deprecated. "
+            "Use >> instead. This will be removed in v0.3.0.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.__rshift__(other)
 
 
 class MemoryPool:
