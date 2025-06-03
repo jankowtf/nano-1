@@ -27,6 +27,9 @@ class TestNanobrickProtocol:
 
             def __rshift__(self, other):
                 return self
+            
+            def __or__(self, other):
+                return self
 
         # Should be recognized as implementing the protocol
         assert isinstance(FakeNanobrick(), NanobrickProtocol)

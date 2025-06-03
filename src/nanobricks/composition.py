@@ -97,11 +97,11 @@ class NanobrickComposite(NanobrickBase[T_in, T_out, T_deps]):
 
     def __repr__(self) -> str:
         """String representation showing the pipeline."""
-        return f"CompositeBrick({self.first!r} | {self.second!r})"
+        return f"NanobrickComposite({self.first!r} >> {self.second!r})"
 
     def __str__(self) -> str:
         """Human-readable string showing the pipeline."""
-        return f"{self.first.name} | {self.second.name}"
+        return f"{self.first.name} >> {self.second.name}"
 
 
 class Pipeline(NanobrickBase[T_in, T_out, T_deps]):

@@ -51,7 +51,7 @@ class TestCompositeBrick:
 
         # Verify it's a NanobrickComposite
         assert isinstance(pipeline, NanobrickComposite)
-        assert pipeline.name == "echo|upper"
+        assert pipeline.name == "echo>>upper"
 
     def test_sync_composition(self, echo_brick, upper_brick):
         """Test sync invocation of composite."""
@@ -73,7 +73,7 @@ class TestCompositeBrick:
         # Verify nested composition
         assert isinstance(pipeline, NanobrickComposite)
         assert isinstance(pipeline.first, NanobrickComposite)
-        assert pipeline.name == "echo|upper|reverse"
+        assert pipeline.name == "echo>>upper>>reverse"
 
     async def test_error_propagation(self, echo_brick):
         """Test that errors propagate through the pipeline (fail-fast)."""
@@ -93,7 +93,7 @@ class TestCompositeBrick:
         """Test string representations of composite."""
         pipeline = echo_brick | upper_brick
 
-        assert str(pipeline) == "echo | upper"
+        assert str(pipeline) == "echo >> upper"
         assert "NanobrickComposite" in repr(pipeline)
         assert "echo" in repr(pipeline)
         assert "upper" in repr(pipeline)
@@ -124,7 +124,7 @@ class TestPipeline:
         """Test creating a pipeline from multiple bricks."""
         pipeline = Pipeline(*bricks)
 
-        assert pipeline.name == "add1 | add2 | add3"
+        assert pipeline.name == "add1 >> add2 >> add3"
         assert len(pipeline.bricks) == 3
 
         # Test execution: 10 + 1 + 2 + 3 = 16
