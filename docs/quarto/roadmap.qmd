@@ -77,9 +77,30 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Migration Tool**: Script to automatically update imports from `NanobrickSimple` to `Nanobrick`
 - **Updated Examples**: All documentation and examples use the new `Nanobrick` name
 
-## Version 0.2.0: Composition Revolution
+## Version 0.2.0: Composition Revolution ✅
+
+**Status**: Released 2025-06-05
 
 **Theme**: Address the #1 pain point - strict pipe operator type alignment
+
+### What Was Delivered
+
+1. **Pipeline Builder API**: Fluent interface for complex compositions
+   - `Pipeline()` function with method chaining
+   - `.branch()`, `.parallel()`, `.merge_with()` for advanced flows
+   - `.catch_errors()` for error boundaries
+   - `.adapt()` for type conversions
+   - `.visualize()` and `.explain()` for debugging
+
+2. **Pipe Operator Migration**: Changed from `|` to `>>`
+   - More intuitive arrow syntax
+   - Backwards compatibility during transition
+   - Migration script included
+
+3. **Test Suite Alignment**: Focused on simplicity
+   - Removed tests for non-existent features
+   - All tests now passing
+   - Framework aligned with core philosophy
 
 ### Piping Strategy: Hybrid Approach with `>>` Operator
 
