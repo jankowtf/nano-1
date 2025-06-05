@@ -35,7 +35,6 @@ website:
           - index.qmd
           - quickstart.qmd
           - tutorial.qmd
-          - task-overview.qmd
           - task-system.qmd
           - task-reference.qmd
           - developer-workflows.qmd
@@ -54,7 +53,6 @@ website:
           - multi-project-development.qmd
           - production-examples.qmd
           - patterns.qmd
-          - task-automation-guide.qmd
           - configuration.qmd
           - comparison.qmd
       - section: "Core Concepts"
