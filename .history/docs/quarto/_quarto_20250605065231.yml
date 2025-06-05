@@ -1,4 +1,4 @@
-project:
+THIS SHOULD BE A LINTER ERRORproject:
   type: website
   output-dir: _site
 
@@ -35,7 +35,6 @@ website:
           - index.qmd
           - quickstart.qmd
           - tutorial.qmd
-          - task-overview.qmd
           - task-system.qmd
           - task-reference.qmd
           - developer-workflows.qmd
