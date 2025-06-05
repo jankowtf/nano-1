@@ -22,6 +22,16 @@ tasks:
         sh: basename "{{.PROJECT_PATH}}"
       LINK_DIR: 'dependents'
       LINK_PATH: '{{.LINK_DIR}}/{{.PROJECT_NAME}}'
+      # Always resolve to absolute path for consistent symlink creation
+      ABSOLUTE_PROJECT_PATH:
+        sh: |
+          if [ -d "{{.PROJECT_PATH}}" ]; then
+            cd "{{.PROJECT_PATH}}" && pwd
+          else
+            echo "{{.PROJECT_PATH}}"
+          fi
+      ABSOLUTE_LINK_DIR:
+        sh: cd "{{.ROOT_DIR}}" && pwd
     cmds:
       - |
         if [ -z "{{.PROJECT_PATH}}" ]; then
@@ -41,9 +51,22 @@ tasks:
           echo "   Removing old link..."
           rm "{{.LINK_PATH}}"
         fi
-      - ln -s "$(cd "{{.PROJECT_PATH}}" && pwd)" "{{.LINK_PATH}}"
-      - echo "✅ Linked {{.PROJECT_NAME}} -> {{.LINK_PATH}}"
-      - echo "📁 You can now access the project at {{.LINK_PATH}}"
+      - |
+        # Create symlink with absolute path
+        echo "🔗 Creating symlink..."
+        echo "   Source - {{.ABSOLUTE_PROJECT_PATH}}"
+        echo "   Target - {{.ABSOLUTE_LINK_DIR}}/{{.LINK_PATH}}"
+        ln -s "{{.ABSOLUTE_PROJECT_PATH}}" "{{.LINK_PATH}}"
+      - |
+        # Verify the symlink was created correctly
+        if [ -L "{{.LINK_PATH}}" ] && [ -d "{{.LINK_PATH}}" ]; then
+          echo "✅ Successfully linked {{.PROJECT_NAME}}"
+          echo "   Absolute path - {{.ABSOLUTE_PROJECT_PATH}}"
+          echo "   Symlink path - {{.ABSOLUTE_LINK_DIR}}/{{.LINK_PATH}}"
+        else
+          echo "❌ Failed to create valid symlink"
+          exit 1
+        fi
 
   project:unlink:
     desc: Remove a symbolic link to a project
@@ -81,16 +104,22 @@ tasks:
           echo "📭 No dependent projects found"
           exit 0
         fi
-      - echo "📁 Dependent projects"
+      - echo "📁 Dependent projects (showing absolute paths)"
       - |
         for link in {{.LINK_DIR}}/*; do
           if [ -L "$link" ]; then
             name=$(basename "$link")
-            target=$(readlink "$link")
-            if [ -d "$target" ]; then
-              echo "   ✅ $name -> $target"
+            # Get the raw symlink target
+            raw_target=$(readlink "$link")
+            # Get the absolute path of the target
+            if [ -d "$link" ]; then
+              abs_target=$(cd "$link" && pwd)
+              echo "   ✅ $name"
+              echo "      Symlink  - $raw_target"
+              echo "      Resolved - $abs_target"
             else
-              echo "   ❌ $name -> $target (broken link)"
+              echo "   ❌ $name"
+              echo "      Symlink  - $raw_target (broken link)"
             fi
           fi
         done
@@ -131,6 +160,13 @@ tasks:
     vars:
       PROJECT_NAME: '{{.NAME}}'
       DEPENDENT_PATH: 'dependents/{{.PROJECT_NAME}}'
+      ABSOLUTE_DEPENDENT_PATH:
+        sh: |
+          if [ -L "dependents/{{.PROJECT_NAME}}" ]; then
+            cd "dependents/{{.PROJECT_NAME}}" && pwd
+          else
+            echo "dependents/{{.PROJECT_NAME}}"
+          fi
     cmds:
       - |
         if [ -z "{{.PROJECT_NAME}}" ]; then
@@ -147,7 +183,8 @@ tasks:
         fi
       - |
         echo "🤖 Asking Claude Code to understand {{.PROJECT_NAME}}..."
-        cd {{.DEPENDENT_PATH}} && claude -p "Please analyze and understand this codebase. Focus on: 1) Overall project structure and purpose, 2) How it uses Nanobricks framework, 3) Key components and their interactions, 4) Any patterns or best practices used. Provide a comprehensive summary."
+        echo "   Project path - {{.ABSOLUTE_DEPENDENT_PATH}}"
+        cd "{{.ABSOLUTE_DEPENDENT_PATH}}" && claude -p "Please analyze and understand this codebase. Focus on: 1) Overall project structure and purpose, 2) How it uses Nanobricks framework, 3) Key components and their interactions, 4) Any patterns or best practices used. Provide a comprehensive summary."
 
   claude:understand:nanobricks:
     desc: Have Claude Code understand the Nanobricks framework (from dependent's perspective)

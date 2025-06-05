@@ -67,7 +67,8 @@
       "Bash(task version:release)",
       "Bash(git checkout:*)",
       "Bash(git add:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(task docs:site:render)"
     ],
     "deny": []
   },

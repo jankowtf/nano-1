@@ -489,7 +489,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#documentation-docs" id="toc-documentation-docs" class="nav-link" data-scroll-target="#documentation-docs">Documentation (<code>docs:*</code>)</a></li>
   <li><a href="#build-packaging-build" id="toc-build-packaging-build" class="nav-link" data-scroll-target="#build-packaging-build">Build &amp; Packaging (<code>build:*</code>)</a></li>
   <li><a href="#deployment-deploy" id="toc-deployment-deploy" class="nav-link" data-scroll-target="#deployment-deploy">Deployment (<code>deploy:*</code>)</a></li>
-  <li><a href="#project-management-project" id="toc-project-management-project" class="nav-link" data-scroll-target="#project-management-project">Project Management (<code>project:*</code>)</a></li>
+  <li><a href="#project-management-dev" id="toc-project-management-dev" class="nav-link" data-scroll-target="#project-management-dev">Project Management (<code>dev:*</code>)</a></li>
   <li><a href="#version-management-version" id="toc-version-management-version" class="nav-link" data-scroll-target="#version-management-version">Version Management (<code>version:*</code>)</a></li>
   <li><a href="#scaffolding-scaffold" id="toc-scaffolding-scaffold" class="nav-link" data-scroll-target="#scaffolding-scaffold">Scaffolding (<code>scaffold:*</code>)</a></li>
   </ul></li>
@@ -582,7 +582,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="design-principle-namespacecomponentactionvariant">Design Principle: namespace:component:action:variant</h2>
 <p>All tasks follow a hierarchical naming pattern that creates systematic organization:</p>
 <ul>
-<li><strong>namespace</strong>: Primary domain (core, docs, build, deploy, project, version)</li>
+<li><strong>namespace</strong>: Primary domain (core, docs, build, deploy, dev, version)</li>
 <li><strong>component</strong>: Specific component (dev, site, package, scaffold, semver)<br>
 </li>
 <li><strong>action</strong>: What to do (test, render, create, install, bump)</li>
@@ -645,21 +645,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:test         <span class="co"># Test package publishing (dry run)</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:pypi         <span class="co"># Publish to PyPI (requires credentials)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="project-management-project" class="level3">
-<h3 class="anchored" data-anchor-id="project-management-project">Project Management (<code>project:*</code>)</h3>
+<section id="project-management-dev" class="level3">
+<h3 class="anchored" data-anchor-id="project-management-dev">Project Management (<code>dev:*</code>)</h3>
 <p>Project creation, linking, and scaffolding tasks:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Project creation</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create NAME=myproject DIR=/path    <span class="co"># Manual project setup</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=myproject DIR=/path <span class="co"># Create with uv init</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=myproject DIR=/path    <span class="co"># Manual project setup</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=myproject DIR=/path <span class="co"># Create with uv init</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Project linking (for development)</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=/path/to/project     <span class="co"># Link external project</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:remove NAME=project-name     <span class="co"># Remove project link  </span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:list                         <span class="co"># List all linked projects</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=/path/to/project     <span class="co"># Link external project</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:unlink NAME=project-name      <span class="co"># Remove project link  </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:list                          <span class="co"># List all linked projects</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick checks</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:check:all          <span class="co"># Run all development checks</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:check:quick        <span class="co"># Run quick checks (lint only)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:check:all          <span class="co"># Run all development checks</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:check:quick        <span class="co"># Run quick checks (lint only)</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code integration</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:understand:dependent NAME=project-name  <span class="co"># Analyze dependent project</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:understand:nanobricks                  <span class="co"># Analyze Nanobricks framework</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:compare:usage PROJECTS=<span class="st">"p1,p2"</span>        <span class="co"># Compare usage patterns</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch tasks</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:watch:test         <span class="co"># Watch and run tests on change</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:watch:docs         <span class="co"># Watch and rebuild docs on change</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="version-management-version" class="level3">
 <h3 class="anchored" data-anchor-id="version-management-version">Version Management (<code>version:*</code>)</h3>
@@ -696,7 +705,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Taskfile.yml           # Main file with core tasks and includes
 Taskfile.docs.yml      # Documentation tasks (docs:*)
 Taskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)
-Taskfile.dev.yml       # Development utilities (project:*)
+Taskfile.dev.yml       # Development utilities (dev:*)
 Taskfile.semver.yml    # Version management (version:*)</code></pre>
 </section>
 <section id="common-workflows" class="level2">
@@ -739,10 +748,10 @@ Taskfile.semver.yml    # Version management (version:*)</code></pre>
 <section id="project-setup-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="project-setup-workflow">Project Setup Workflow</h3>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new project using Nanobricks</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=myproject DIR=/path/to/parent</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=myproject DIR=/path/to/parent</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Link existing project for development  </span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=/path/to/existing/project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=/path/to/existing/project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="advanced-usage" class="level2">
@@ -751,13 +760,13 @@ Taskfile.semver.yml    # Version management (version:*)</code></pre>
 <h3 class="anchored" data-anchor-id="using-variables">Using Variables</h3>
 <p>Many tasks accept variables for customization:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Project creation with custom names</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create NAME=my-awesome-project DIR=~/projects</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=my-awesome-project DIR=~/projects</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Component creation  </span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> scaffold:brick:create NAME=data_processor</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Project linking</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=../my-other-project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=../my-other-project</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="watching-for-changes" class="level3">
 <h3 class="anchored" data-anchor-id="watching-for-changes">Watching for Changes</h3>
@@ -860,7 +869,7 @@ Taskfile.semver.yml    # Version management (version:*)</code></pre>
 <section id="creating-a-new-project-with-nanobricks" class="level3">
 <h3 class="anchored" data-anchor-id="creating-a-new-project-with-nanobricks">Creating a New Project with Nanobricks</h3>
 <div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From the Nanobricks directory</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to the new project</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/my-data-pipeline</span>
@@ -1377,7 +1386,7 @@ Taskfile.semver.yml    # Version management (version:*)</code></pre>
 <span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>All tasks follow a hierarchical naming pattern that creates systematic organization:</span>
 <span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**namespace**: Primary domain (core, docs, build, deploy, project, version)</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**namespace**: Primary domain (core, docs, build, deploy, dev, version)</span>
 <span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**component**: Specific component (dev, site, package, scaffold, semver)  </span>
 <span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**action**: What to do (test, render, create, install, bump)</span>
 <span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**variant**: Specific variant (unit, local, patch, uv)</span>
@@ -1450,291 +1459,300 @@ Taskfile.semver.yml    # Version management (version:*)</code></pre>
 <span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:pypi         <span class="co"># Publish to PyPI (requires credentials)</span></span>
 <span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Project Management (`project:*`)</span></span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Project Management (`dev:*`)</span></span>
 <span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a>Project creation, linking, and scaffolding tasks:</span>
 <span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-112"><a href="#cb25-112" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
 <span id="cb25-113"><a href="#cb25-113" aria-hidden="true" tabindex="-1"></a><span class="co"># Project creation</span></span>
-<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create NAME=myproject DIR=/path    <span class="co"># Manual project setup</span></span>
-<span id="cb25-115"><a href="#cb25-115" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=myproject DIR=/path <span class="co"># Create with uv init</span></span>
+<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=myproject DIR=/path    <span class="co"># Manual project setup</span></span>
+<span id="cb25-115"><a href="#cb25-115" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=myproject DIR=/path <span class="co"># Create with uv init</span></span>
 <span id="cb25-116"><a href="#cb25-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-117"><a href="#cb25-117" aria-hidden="true" tabindex="-1"></a><span class="co"># Project linking (for development)</span></span>
-<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=/path/to/project     <span class="co"># Link external project</span></span>
-<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:remove NAME=project-name     <span class="co"># Remove project link  </span></span>
-<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:list                         <span class="co"># List all linked projects</span></span>
+<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=/path/to/project     <span class="co"># Link external project</span></span>
+<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:unlink NAME=project-name      <span class="co"># Remove project link  </span></span>
+<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:list                          <span class="co"># List all linked projects</span></span>
 <span id="cb25-121"><a href="#cb25-121" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-122"><a href="#cb25-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick checks</span></span>
-<span id="cb25-123"><a href="#cb25-123" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:check:all          <span class="co"># Run all development checks</span></span>
-<span id="cb25-124"><a href="#cb25-124" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:check:quick        <span class="co"># Run quick checks (lint only)</span></span>
-<span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-127"><a href="#cb25-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version Management (`version:*`)</span></span>
-<span id="cb25-128"><a href="#cb25-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a>Semantic versioning and release management:</span>
+<span id="cb25-123"><a href="#cb25-123" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:check:all          <span class="co"># Run all development checks</span></span>
+<span id="cb25-124"><a href="#cb25-124" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:check:quick        <span class="co"># Run quick checks (lint only)</span></span>
+<span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Claude Code integration</span></span>
+<span id="cb25-127"><a href="#cb25-127" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:understand:dependent NAME=project-name  <span class="co"># Analyze dependent project</span></span>
+<span id="cb25-128"><a href="#cb25-128" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:understand:nanobricks                  <span class="co"># Analyze Nanobricks framework</span></span>
+<span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:claude:compare:usage PROJECTS=<span class="st">"p1,p2"</span>        <span class="co"># Compare usage patterns</span></span>
 <span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a><span class="co"># Version information</span></span>
-<span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:current      <span class="co"># Show current version</span></span>
-<span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Version bumping</span></span>
-<span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:patch   <span class="co"># Bump patch version (0.1.0 → 0.1.1)</span></span>
-<span id="cb25-137"><a href="#cb25-137" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:minor   <span class="co"># Bump minor version (0.1.0 → 0.2.0) </span></span>
-<span id="cb25-138"><a href="#cb25-138" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:major   <span class="co"># Bump major version (0.1.0 → 1.0.0)</span></span>
+<span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch tasks</span></span>
+<span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:watch:test         <span class="co"># Watch and run tests on change</span></span>
+<span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:watch:docs         <span class="co"># Watch and rebuild docs on change</span></span>
+<span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version Management (`version:*`)</span></span>
+<span id="cb25-137"><a href="#cb25-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-138"><a href="#cb25-138" aria-hidden="true" tabindex="-1"></a>Semantic versioning and release management:</span>
 <span id="cb25-139"><a href="#cb25-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Git tagging</span></span>
-<span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:git:tag:create      <span class="co"># Create git tag for current version</span></span>
-<span id="cb25-142"><a href="#cb25-142" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Version information</span></span>
+<span id="cb25-142"><a href="#cb25-142" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:current      <span class="co"># Show current version</span></span>
 <span id="cb25-143"><a href="#cb25-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scaffolding (`scaffold:*`)</span></span>
-<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a>Code generation and component creation:</span>
-<span id="cb25-147"><a href="#cb25-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Component creation</span></span>
-<span id="cb25-150"><a href="#cb25-150" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> scaffold:brick:create NAME=my_brick  <span class="co"># Create new nanobrick component</span></span>
+<span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a><span class="co"># Version bumping</span></span>
+<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:patch   <span class="co"># Bump patch version (0.1.0 → 0.1.1)</span></span>
+<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:minor   <span class="co"># Bump minor version (0.1.0 → 0.2.0) </span></span>
+<span id="cb25-147"><a href="#cb25-147" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:major   <span class="co"># Bump major version (0.1.0 → 1.0.0)</span></span>
+<span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Git tagging</span></span>
+<span id="cb25-150"><a href="#cb25-150" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:git:tag:create      <span class="co"># Create git tag for current version</span></span>
 <span id="cb25-151"><a href="#cb25-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-152"><a href="#cb25-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-153"><a href="#cb25-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Backwards Compatibility Aliases</span></span>
+<span id="cb25-153"><a href="#cb25-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Scaffolding (`scaffold:*`)</span></span>
 <span id="cb25-154"><a href="#cb25-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-155"><a href="#cb25-155" aria-hidden="true" tabindex="-1"></a>For convenience, common tasks have short aliases:</span>
+<span id="cb25-155"><a href="#cb25-155" aria-hidden="true" tabindex="-1"></a>Code generation and component creation:</span>
 <span id="cb25-156"><a href="#cb25-156" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-157"><a href="#cb25-157" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-158"><a href="#cb25-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Short aliases (backwards compatible)</span></span>
-<span id="cb25-159"><a href="#cb25-159" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> test      <span class="co"># → task core:dev:test</span></span>
-<span id="cb25-160"><a href="#cb25-160" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> lint      <span class="co"># → task core:dev:lint  </span></span>
-<span id="cb25-161"><a href="#cb25-161" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> format    <span class="co"># → task core:dev:format</span></span>
-<span id="cb25-162"><a href="#cb25-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-158"><a href="#cb25-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Component creation</span></span>
+<span id="cb25-159"><a href="#cb25-159" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> scaffold:brick:create NAME=my_brick  <span class="co"># Create new nanobrick component</span></span>
+<span id="cb25-160"><a href="#cb25-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-161"><a href="#cb25-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-162"><a href="#cb25-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## Backwards Compatibility Aliases</span></span>
 <span id="cb25-163"><a href="#cb25-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-164"><a href="#cb25-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## File Organization</span></span>
+<span id="cb25-164"><a href="#cb25-164" aria-hidden="true" tabindex="-1"></a>For convenience, common tasks have short aliases:</span>
 <span id="cb25-165"><a href="#cb25-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-166"><a href="#cb25-166" aria-hidden="true" tabindex="-1"></a>The task system is organized across multiple files for maintainability:</span>
-<span id="cb25-167"><a href="#cb25-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-168"><a href="#cb25-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-169"><a href="#cb25-169" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.yml           # Main file with core tasks and includes</span></span>
-<span id="cb25-170"><a href="#cb25-170" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.docs.yml      # Documentation tasks (docs:*)</span></span>
-<span id="cb25-171"><a href="#cb25-171" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)</span></span>
-<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.dev.yml       # Development utilities (project:*)</span></span>
-<span id="cb25-173"><a href="#cb25-173" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.semver.yml    # Version management (version:*)</span></span>
-<span id="cb25-174"><a href="#cb25-174" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-175"><a href="#cb25-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-176"><a href="#cb25-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common Workflows</span></span>
-<span id="cb25-177"><a href="#cb25-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-178"><a href="#cb25-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### Development Workflow</span></span>
-<span id="cb25-179"><a href="#cb25-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-180"><a href="#cb25-180" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-181"><a href="#cb25-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial setup</span></span>
-<span id="cb25-182"><a href="#cb25-182" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:setup</span>
-<span id="cb25-183"><a href="#cb25-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-184"><a href="#cb25-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Regular development cycle</span></span>
-<span id="cb25-185"><a href="#cb25-185" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:format    <span class="co"># Format code</span></span>
-<span id="cb25-186"><a href="#cb25-186" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:lint      <span class="co"># Check code quality</span></span>
-<span id="cb25-187"><a href="#cb25-187" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test      <span class="co"># Run tests</span></span>
-<span id="cb25-188"><a href="#cb25-188" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render   <span class="co"># Update docs</span></span>
-<span id="cb25-189"><a href="#cb25-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-190"><a href="#cb25-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Or run everything at once</span></span>
-<span id="cb25-191"><a href="#cb25-191" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
-<span id="cb25-192"><a href="#cb25-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-193"><a href="#cb25-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-194"><a href="#cb25-194" aria-hidden="true" tabindex="-1"></a><span class="fu">### Documentation Workflow</span></span>
-<span id="cb25-195"><a href="#cb25-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-196"><a href="#cb25-196" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-197"><a href="#cb25-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Live documentation development</span></span>
-<span id="cb25-198"><a href="#cb25-198" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:preview  <span class="co"># Start live preview server</span></span>
-<span id="cb25-199"><a href="#cb25-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-200"><a href="#cb25-200" aria-hidden="true" tabindex="-1"></a><span class="co"># Build and publish</span></span>
-<span id="cb25-201"><a href="#cb25-201" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render   <span class="co"># Build static site</span></span>
-<span id="cb25-202"><a href="#cb25-202" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:publish  <span class="co"># Publish to GitHub Pages</span></span>
-<span id="cb25-203"><a href="#cb25-203" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-166"><a href="#cb25-166" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-167"><a href="#cb25-167" aria-hidden="true" tabindex="-1"></a><span class="co"># Short aliases (backwards compatible)</span></span>
+<span id="cb25-168"><a href="#cb25-168" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> test      <span class="co"># → task core:dev:test</span></span>
+<span id="cb25-169"><a href="#cb25-169" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> lint      <span class="co"># → task core:dev:lint  </span></span>
+<span id="cb25-170"><a href="#cb25-170" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> format    <span class="co"># → task core:dev:format</span></span>
+<span id="cb25-171"><a href="#cb25-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-173"><a href="#cb25-173" aria-hidden="true" tabindex="-1"></a><span class="fu">## File Organization</span></span>
+<span id="cb25-174"><a href="#cb25-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-175"><a href="#cb25-175" aria-hidden="true" tabindex="-1"></a>The task system is organized across multiple files for maintainability:</span>
+<span id="cb25-176"><a href="#cb25-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-177"><a href="#cb25-177" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-178"><a href="#cb25-178" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.yml           # Main file with core tasks and includes</span></span>
+<span id="cb25-179"><a href="#cb25-179" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.docs.yml      # Documentation tasks (docs:*)</span></span>
+<span id="cb25-180"><a href="#cb25-180" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)</span></span>
+<span id="cb25-181"><a href="#cb25-181" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.dev.yml       # Development utilities (dev:*)</span></span>
+<span id="cb25-182"><a href="#cb25-182" aria-hidden="true" tabindex="-1"></a><span class="in">Taskfile.semver.yml    # Version management (version:*)</span></span>
+<span id="cb25-183"><a href="#cb25-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-184"><a href="#cb25-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-185"><a href="#cb25-185" aria-hidden="true" tabindex="-1"></a><span class="fu">## Common Workflows</span></span>
+<span id="cb25-186"><a href="#cb25-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-187"><a href="#cb25-187" aria-hidden="true" tabindex="-1"></a><span class="fu">### Development Workflow</span></span>
+<span id="cb25-188"><a href="#cb25-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-189"><a href="#cb25-189" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-190"><a href="#cb25-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial setup</span></span>
+<span id="cb25-191"><a href="#cb25-191" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:setup</span>
+<span id="cb25-192"><a href="#cb25-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-193"><a href="#cb25-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Regular development cycle</span></span>
+<span id="cb25-194"><a href="#cb25-194" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:format    <span class="co"># Format code</span></span>
+<span id="cb25-195"><a href="#cb25-195" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:lint      <span class="co"># Check code quality</span></span>
+<span id="cb25-196"><a href="#cb25-196" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test      <span class="co"># Run tests</span></span>
+<span id="cb25-197"><a href="#cb25-197" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render   <span class="co"># Update docs</span></span>
+<span id="cb25-198"><a href="#cb25-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-199"><a href="#cb25-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Or run everything at once</span></span>
+<span id="cb25-200"><a href="#cb25-200" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
+<span id="cb25-201"><a href="#cb25-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-202"><a href="#cb25-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-203"><a href="#cb25-203" aria-hidden="true" tabindex="-1"></a><span class="fu">### Documentation Workflow</span></span>
 <span id="cb25-204"><a href="#cb25-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-205"><a href="#cb25-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### Release Workflow</span></span>
-<span id="cb25-206"><a href="#cb25-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-207"><a href="#cb25-207" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-208"><a href="#cb25-208" aria-hidden="true" tabindex="-1"></a><span class="co"># Version management</span></span>
-<span id="cb25-209"><a href="#cb25-209" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:current          <span class="co"># Check current version</span></span>
-<span id="cb25-210"><a href="#cb25-210" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:patch       <span class="co"># Bump version</span></span>
-<span id="cb25-211"><a href="#cb25-211" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:git:tag:create          <span class="co"># Create git tag</span></span>
-<span id="cb25-212"><a href="#cb25-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-213"><a href="#cb25-213" aria-hidden="true" tabindex="-1"></a><span class="co"># Build and publish</span></span>
-<span id="cb25-214"><a href="#cb25-214" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> build:package:create            <span class="co"># Build packages</span></span>
-<span id="cb25-215"><a href="#cb25-215" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:test             <span class="co"># Test publishing</span></span>
-<span id="cb25-216"><a href="#cb25-216" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:pypi             <span class="co"># Publish to PyPI</span></span>
-<span id="cb25-217"><a href="#cb25-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-218"><a href="#cb25-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-219"><a href="#cb25-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Project Setup Workflow</span></span>
-<span id="cb25-220"><a href="#cb25-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-221"><a href="#cb25-221" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-222"><a href="#cb25-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new project using Nanobricks</span></span>
-<span id="cb25-223"><a href="#cb25-223" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=myproject DIR=/path/to/parent</span>
-<span id="cb25-224"><a href="#cb25-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-225"><a href="#cb25-225" aria-hidden="true" tabindex="-1"></a><span class="co"># Link existing project for development  </span></span>
-<span id="cb25-226"><a href="#cb25-226" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=/path/to/existing/project</span>
-<span id="cb25-227"><a href="#cb25-227" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-228"><a href="#cb25-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-229"><a href="#cb25-229" aria-hidden="true" tabindex="-1"></a><span class="fu">## Advanced Usage</span></span>
-<span id="cb25-230"><a href="#cb25-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-231"><a href="#cb25-231" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Variables</span></span>
-<span id="cb25-232"><a href="#cb25-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-233"><a href="#cb25-233" aria-hidden="true" tabindex="-1"></a>Many tasks accept variables for customization:</span>
-<span id="cb25-234"><a href="#cb25-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-235"><a href="#cb25-235" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-236"><a href="#cb25-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Project creation with custom names</span></span>
-<span id="cb25-237"><a href="#cb25-237" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create NAME=my-awesome-project DIR=~/projects</span>
-<span id="cb25-238"><a href="#cb25-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-239"><a href="#cb25-239" aria-hidden="true" tabindex="-1"></a><span class="co"># Component creation  </span></span>
-<span id="cb25-240"><a href="#cb25-240" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> scaffold:brick:create NAME=data_processor</span>
+<span id="cb25-205"><a href="#cb25-205" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-206"><a href="#cb25-206" aria-hidden="true" tabindex="-1"></a><span class="co"># Live documentation development</span></span>
+<span id="cb25-207"><a href="#cb25-207" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:preview  <span class="co"># Start live preview server</span></span>
+<span id="cb25-208"><a href="#cb25-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-209"><a href="#cb25-209" aria-hidden="true" tabindex="-1"></a><span class="co"># Build and publish</span></span>
+<span id="cb25-210"><a href="#cb25-210" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render   <span class="co"># Build static site</span></span>
+<span id="cb25-211"><a href="#cb25-211" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:publish  <span class="co"># Publish to GitHub Pages</span></span>
+<span id="cb25-212"><a href="#cb25-212" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-213"><a href="#cb25-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-214"><a href="#cb25-214" aria-hidden="true" tabindex="-1"></a><span class="fu">### Release Workflow</span></span>
+<span id="cb25-215"><a href="#cb25-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-216"><a href="#cb25-216" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-217"><a href="#cb25-217" aria-hidden="true" tabindex="-1"></a><span class="co"># Version management</span></span>
+<span id="cb25-218"><a href="#cb25-218" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:current          <span class="co"># Check current version</span></span>
+<span id="cb25-219"><a href="#cb25-219" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:semver:bump:patch       <span class="co"># Bump version</span></span>
+<span id="cb25-220"><a href="#cb25-220" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> version:git:tag:create          <span class="co"># Create git tag</span></span>
+<span id="cb25-221"><a href="#cb25-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-222"><a href="#cb25-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Build and publish</span></span>
+<span id="cb25-223"><a href="#cb25-223" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> build:package:create            <span class="co"># Build packages</span></span>
+<span id="cb25-224"><a href="#cb25-224" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:test             <span class="co"># Test publishing</span></span>
+<span id="cb25-225"><a href="#cb25-225" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:publish:pypi             <span class="co"># Publish to PyPI</span></span>
+<span id="cb25-226"><a href="#cb25-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-227"><a href="#cb25-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-228"><a href="#cb25-228" aria-hidden="true" tabindex="-1"></a><span class="fu">### Project Setup Workflow</span></span>
+<span id="cb25-229"><a href="#cb25-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-230"><a href="#cb25-230" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-231"><a href="#cb25-231" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new project using Nanobricks</span></span>
+<span id="cb25-232"><a href="#cb25-232" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=myproject DIR=/path/to/parent</span>
+<span id="cb25-233"><a href="#cb25-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-234"><a href="#cb25-234" aria-hidden="true" tabindex="-1"></a><span class="co"># Link existing project for development  </span></span>
+<span id="cb25-235"><a href="#cb25-235" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=/path/to/existing/project</span>
+<span id="cb25-236"><a href="#cb25-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-237"><a href="#cb25-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-238"><a href="#cb25-238" aria-hidden="true" tabindex="-1"></a><span class="fu">## Advanced Usage</span></span>
+<span id="cb25-239"><a href="#cb25-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-240"><a href="#cb25-240" aria-hidden="true" tabindex="-1"></a><span class="fu">### Using Variables</span></span>
 <span id="cb25-241"><a href="#cb25-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-242"><a href="#cb25-242" aria-hidden="true" tabindex="-1"></a><span class="co"># Project linking</span></span>
-<span id="cb25-243"><a href="#cb25-243" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:link:add PATH=../my-other-project</span>
-<span id="cb25-244"><a href="#cb25-244" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-245"><a href="#cb25-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-246"><a href="#cb25-246" aria-hidden="true" tabindex="-1"></a><span class="fu">### Watching for Changes</span></span>
+<span id="cb25-242"><a href="#cb25-242" aria-hidden="true" tabindex="-1"></a>Many tasks accept variables for customization:</span>
+<span id="cb25-243"><a href="#cb25-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-244"><a href="#cb25-244" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-245"><a href="#cb25-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Project creation with custom names</span></span>
+<span id="cb25-246"><a href="#cb25-246" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=my-awesome-project DIR=~/projects</span>
 <span id="cb25-247"><a href="#cb25-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-248"><a href="#cb25-248" aria-hidden="true" tabindex="-1"></a>Development tasks support file watching:</span>
-<span id="cb25-249"><a href="#cb25-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-250"><a href="#cb25-250" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-251"><a href="#cb25-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch and run tests automatically</span></span>
-<span id="cb25-252"><a href="#cb25-252" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:watch:test</span>
-<span id="cb25-253"><a href="#cb25-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-254"><a href="#cb25-254" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch and rebuild docs</span></span>
-<span id="cb25-255"><a href="#cb25-255" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:watch  <span class="co"># Same as docs:site:preview</span></span>
-<span id="cb25-256"><a href="#cb25-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-257"><a href="#cb25-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-258"><a href="#cb25-258" aria-hidden="true" tabindex="-1"></a><span class="fu">### Task Dependencies</span></span>
-<span id="cb25-259"><a href="#cb25-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-260"><a href="#cb25-260" aria-hidden="true" tabindex="-1"></a>Some tasks automatically run dependencies:</span>
-<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-262"><a href="#cb25-262" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-263"><a href="#cb25-263" aria-hidden="true" tabindex="-1"></a><span class="co"># This will first run build:package:create if needed</span></span>
-<span id="cb25-264"><a href="#cb25-264" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:package:install:wheel</span>
+<span id="cb25-248"><a href="#cb25-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Component creation  </span></span>
+<span id="cb25-249"><a href="#cb25-249" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> scaffold:brick:create NAME=data_processor</span>
+<span id="cb25-250"><a href="#cb25-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-251"><a href="#cb25-251" aria-hidden="true" tabindex="-1"></a><span class="co"># Project linking</span></span>
+<span id="cb25-252"><a href="#cb25-252" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:project:link PATH=../my-other-project</span>
+<span id="cb25-253"><a href="#cb25-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-254"><a href="#cb25-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-255"><a href="#cb25-255" aria-hidden="true" tabindex="-1"></a><span class="fu">### Watching for Changes</span></span>
+<span id="cb25-256"><a href="#cb25-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-257"><a href="#cb25-257" aria-hidden="true" tabindex="-1"></a>Development tasks support file watching:</span>
+<span id="cb25-258"><a href="#cb25-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-259"><a href="#cb25-259" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-260"><a href="#cb25-260" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch and run tests automatically</span></span>
+<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:watch:test</span>
+<span id="cb25-262"><a href="#cb25-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-263"><a href="#cb25-263" aria-hidden="true" tabindex="-1"></a><span class="co"># Watch and rebuild docs</span></span>
+<span id="cb25-264"><a href="#cb25-264" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:watch  <span class="co"># Same as docs:site:preview</span></span>
 <span id="cb25-265"><a href="#cb25-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-266"><a href="#cb25-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-267"><a href="#cb25-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## Configuration</span></span>
+<span id="cb25-267"><a href="#cb25-267" aria-hidden="true" tabindex="-1"></a><span class="fu">### Task Dependencies</span></span>
 <span id="cb25-268"><a href="#cb25-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-269"><a href="#cb25-269" aria-hidden="true" tabindex="-1"></a><span class="fu">### Global Variables</span></span>
+<span id="cb25-269"><a href="#cb25-269" aria-hidden="true" tabindex="-1"></a>Some tasks automatically run dependencies:</span>
 <span id="cb25-270"><a href="#cb25-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-271"><a href="#cb25-271" aria-hidden="true" tabindex="-1"></a>Key variables are defined in <span class="in">`Taskfile.yml`</span>:</span>
-<span id="cb25-272"><a href="#cb25-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-273"><a href="#cb25-273" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb25-274"><a href="#cb25-274" aria-hidden="true" tabindex="-1"></a><span class="fu">vars</span><span class="kw">:</span></span>
-<span id="cb25-275"><a href="#cb25-275" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">QUARTO_DIR</span><span class="kw">:</span><span class="at"> docs/quarto</span></span>
-<span id="cb25-276"><a href="#cb25-276" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">SITE_DIR</span><span class="kw">:</span><span class="at"> docs/quarto/_site</span></span>
-<span id="cb25-277"><a href="#cb25-277" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ROOT_DIR</span><span class="kw">:</span><span class="co"> # Auto-detected from pwd</span></span>
-<span id="cb25-278"><a href="#cb25-278" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-271"><a href="#cb25-271" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-272"><a href="#cb25-272" aria-hidden="true" tabindex="-1"></a><span class="co"># This will first run build:package:create if needed</span></span>
+<span id="cb25-273"><a href="#cb25-273" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> deploy:package:install:wheel</span>
+<span id="cb25-274"><a href="#cb25-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-275"><a href="#cb25-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-276"><a href="#cb25-276" aria-hidden="true" tabindex="-1"></a><span class="fu">## Configuration</span></span>
+<span id="cb25-277"><a href="#cb25-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-278"><a href="#cb25-278" aria-hidden="true" tabindex="-1"></a><span class="fu">### Global Variables</span></span>
 <span id="cb25-279"><a href="#cb25-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-280"><a href="#cb25-280" aria-hidden="true" tabindex="-1"></a><span class="fu">### Environment-Specific Tasks</span></span>
+<span id="cb25-280"><a href="#cb25-280" aria-hidden="true" tabindex="-1"></a>Key variables are defined in <span class="in">`Taskfile.yml`</span>:</span>
 <span id="cb25-281"><a href="#cb25-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a>Tasks can be customized for different environments by modifying variables or using different Taskfile includes.</span>
-<span id="cb25-283"><a href="#cb25-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-284"><a href="#cb25-284" aria-hidden="true" tabindex="-1"></a><span class="fu">## Writing Custom Tasks</span></span>
-<span id="cb25-285"><a href="#cb25-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-286"><a href="#cb25-286" aria-hidden="true" tabindex="-1"></a><span class="fu">### Echo Statement Rules</span></span>
-<span id="cb25-287"><a href="#cb25-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-288"><a href="#cb25-288" aria-hidden="true" tabindex="-1"></a>When writing custom tasks, follow these critical rules for echo statements:</span>
-<span id="cb25-289"><a href="#cb25-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-290"><a href="#cb25-290" aria-hidden="true" tabindex="-1"></a>**IMPORTANT: Replace ALL colons in echo statements with dashes, except within task names themselves.**</span>
-<span id="cb25-291"><a href="#cb25-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-292"><a href="#cb25-292" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb25-293"><a href="#cb25-293" aria-hidden="true" tabindex="-1"></a><span class="co"># ✅ Correct echo statements</span></span>
-<span id="cb25-294"><a href="#cb25-294" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Usage<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>core:dev:test"</span>
-<span id="cb25-295"><a href="#cb25-295" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Error<span class="at"> </span>-<span class="at"> </span>build<span class="at"> </span>failed"</span>
-<span id="cb25-296"><a href="#cb25-296" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Status<span class="at"> </span>-<span class="at"> </span>deployment<span class="at"> </span>complete"</span>
-<span id="cb25-297"><a href="#cb25-297" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Next<span class="at"> </span>step<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>docs:site:render"</span>
+<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb25-283"><a href="#cb25-283" aria-hidden="true" tabindex="-1"></a><span class="fu">vars</span><span class="kw">:</span></span>
+<span id="cb25-284"><a href="#cb25-284" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">QUARTO_DIR</span><span class="kw">:</span><span class="at"> docs/quarto</span></span>
+<span id="cb25-285"><a href="#cb25-285" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">SITE_DIR</span><span class="kw">:</span><span class="at"> docs/quarto/_site</span></span>
+<span id="cb25-286"><a href="#cb25-286" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ROOT_DIR</span><span class="kw">:</span><span class="co"> # Auto-detected from pwd</span></span>
+<span id="cb25-287"><a href="#cb25-287" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-288"><a href="#cb25-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-289"><a href="#cb25-289" aria-hidden="true" tabindex="-1"></a><span class="fu">### Environment-Specific Tasks</span></span>
+<span id="cb25-290"><a href="#cb25-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-291"><a href="#cb25-291" aria-hidden="true" tabindex="-1"></a>Tasks can be customized for different environments by modifying variables or using different Taskfile includes.</span>
+<span id="cb25-292"><a href="#cb25-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-293"><a href="#cb25-293" aria-hidden="true" tabindex="-1"></a><span class="fu">## Writing Custom Tasks</span></span>
+<span id="cb25-294"><a href="#cb25-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-295"><a href="#cb25-295" aria-hidden="true" tabindex="-1"></a><span class="fu">### Echo Statement Rules</span></span>
+<span id="cb25-296"><a href="#cb25-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-297"><a href="#cb25-297" aria-hidden="true" tabindex="-1"></a>When writing custom tasks, follow these critical rules for echo statements:</span>
 <span id="cb25-298"><a href="#cb25-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a><span class="co"># ❌ Incorrect echo statements  </span></span>
-<span id="cb25-300"><a href="#cb25-300" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Usage</span><span class="kw">:</span><span class="at"> task core:dev:test"</span></span>
-<span id="cb25-301"><a href="#cb25-301" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Error</span><span class="kw">:</span><span class="at"> build failed"</span></span>
-<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Status</span><span class="kw">:</span><span class="at"> deployment complete"</span></span>
-<span id="cb25-303"><a href="#cb25-303" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Next step</span><span class="kw">:</span><span class="at"> task docs:site:render"</span></span>
-<span id="cb25-304"><a href="#cb25-304" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-305"><a href="#cb25-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-306"><a href="#cb25-306" aria-hidden="true" tabindex="-1"></a><span class="fu">### Custom Task Example</span></span>
+<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a>**IMPORTANT: Replace ALL colons in echo statements with dashes, except within task names themselves.**</span>
+<span id="cb25-300"><a href="#cb25-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-301"><a href="#cb25-301" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a><span class="co"># ✅ Correct echo statements</span></span>
+<span id="cb25-303"><a href="#cb25-303" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Usage<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>core:dev:test"</span>
+<span id="cb25-304"><a href="#cb25-304" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Error<span class="at"> </span>-<span class="at"> </span>build<span class="at"> </span>failed"</span>
+<span id="cb25-305"><a href="#cb25-305" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Status<span class="at"> </span>-<span class="at"> </span>deployment<span class="at"> </span>complete"</span>
+<span id="cb25-306"><a href="#cb25-306" aria-hidden="true" tabindex="-1"></a>echo<span class="at"> </span>"Next<span class="at"> </span>step<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>docs:site:render"</span>
 <span id="cb25-307"><a href="#cb25-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-308"><a href="#cb25-308" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb25-309"><a href="#cb25-309" aria-hidden="true" tabindex="-1"></a>my:custom<span class="fu">:task</span><span class="kw">:</span></span>
-<span id="cb25-310"><a href="#cb25-310" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">desc</span><span class="kw">:</span><span class="at"> Example of a well-formed custom task</span></span>
-<span id="cb25-311"><a href="#cb25-311" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cmds</span><span class="kw">:</span></span>
-<span id="cb25-312"><a href="#cb25-312" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span>echo<span class="at"> </span>"Starting<span class="at"> </span>custom<span class="at"> </span>task<span class="at"> </span>-<span class="at"> </span>processing<span class="at"> </span>data"</span>
-<span id="cb25-313"><a href="#cb25-313" aria-hidden="true" tabindex="-1"></a><span class="kw">    - </span><span class="ch">|</span></span>
-<span id="cb25-314"><a href="#cb25-314" aria-hidden="true" tabindex="-1"></a>      if [ ! -f "data.json" ]; then</span>
-<span id="cb25-315"><a href="#cb25-315" aria-hidden="true" tabindex="-1"></a>        echo "Error - data.json not found"</span>
-<span id="cb25-316"><a href="#cb25-316" aria-hidden="true" tabindex="-1"></a>        echo "Run - task data:fetch first"</span>
-<span id="cb25-317"><a href="#cb25-317" aria-hidden="true" tabindex="-1"></a>        exit 1</span>
-<span id="cb25-318"><a href="#cb25-318" aria-hidden="true" tabindex="-1"></a>      fi</span>
-<span id="cb25-319"><a href="#cb25-319" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span>echo<span class="at"> </span>"Success<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>completed"</span>
-<span id="cb25-320"><a href="#cb25-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-321"><a href="#cb25-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-322"><a href="#cb25-322" aria-hidden="true" tabindex="-1"></a><span class="fu">## Troubleshooting</span></span>
-<span id="cb25-323"><a href="#cb25-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-324"><a href="#cb25-324" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Issues</span></span>
-<span id="cb25-325"><a href="#cb25-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-326"><a href="#cb25-326" aria-hidden="true" tabindex="-1"></a>**Task not found**: Ensure you're in the project root directory where <span class="in">`Taskfile.yml`</span> exists.</span>
-<span id="cb25-327"><a href="#cb25-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-328"><a href="#cb25-328" aria-hidden="true" tabindex="-1"></a>**Permission errors**: Some tasks may require specific permissions (e.g., publishing to PyPI).</span>
-<span id="cb25-329"><a href="#cb25-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-330"><a href="#cb25-330" aria-hidden="true" tabindex="-1"></a>**Missing dependencies**: Some tasks have preconditions that check for required tools.</span>
-<span id="cb25-331"><a href="#cb25-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-332"><a href="#cb25-332" aria-hidden="true" tabindex="-1"></a><span class="fu">### Getting Help</span></span>
-<span id="cb25-333"><a href="#cb25-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-334"><a href="#cb25-334" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-335"><a href="#cb25-335" aria-hidden="true" tabindex="-1"></a><span class="co"># List all tasks with descriptions</span></span>
-<span id="cb25-336"><a href="#cb25-336" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--list</span></span>
-<span id="cb25-337"><a href="#cb25-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-338"><a href="#cb25-338" aria-hidden="true" tabindex="-1"></a><span class="co"># Show task details</span></span>
-<span id="cb25-339"><a href="#cb25-339" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--summary</span> core:dev:test</span>
+<span id="cb25-308"><a href="#cb25-308" aria-hidden="true" tabindex="-1"></a><span class="co"># ❌ Incorrect echo statements  </span></span>
+<span id="cb25-309"><a href="#cb25-309" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Usage</span><span class="kw">:</span><span class="at"> task core:dev:test"</span></span>
+<span id="cb25-310"><a href="#cb25-310" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Error</span><span class="kw">:</span><span class="at"> build failed"</span></span>
+<span id="cb25-311"><a href="#cb25-311" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Status</span><span class="kw">:</span><span class="at"> deployment complete"</span></span>
+<span id="cb25-312"><a href="#cb25-312" aria-hidden="true" tabindex="-1"></a><span class="fu">echo "Next step</span><span class="kw">:</span><span class="at"> task docs:site:render"</span></span>
+<span id="cb25-313"><a href="#cb25-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-314"><a href="#cb25-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-315"><a href="#cb25-315" aria-hidden="true" tabindex="-1"></a><span class="fu">### Custom Task Example</span></span>
+<span id="cb25-316"><a href="#cb25-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-317"><a href="#cb25-317" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb25-318"><a href="#cb25-318" aria-hidden="true" tabindex="-1"></a>my:custom<span class="fu">:task</span><span class="kw">:</span></span>
+<span id="cb25-319"><a href="#cb25-319" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">desc</span><span class="kw">:</span><span class="at"> Example of a well-formed custom task</span></span>
+<span id="cb25-320"><a href="#cb25-320" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cmds</span><span class="kw">:</span></span>
+<span id="cb25-321"><a href="#cb25-321" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span>echo<span class="at"> </span>"Starting<span class="at"> </span>custom<span class="at"> </span>task<span class="at"> </span>-<span class="at"> </span>processing<span class="at"> </span>data"</span>
+<span id="cb25-322"><a href="#cb25-322" aria-hidden="true" tabindex="-1"></a><span class="kw">    - </span><span class="ch">|</span></span>
+<span id="cb25-323"><a href="#cb25-323" aria-hidden="true" tabindex="-1"></a>      if [ ! -f "data.json" ]; then</span>
+<span id="cb25-324"><a href="#cb25-324" aria-hidden="true" tabindex="-1"></a>        echo "Error - data.json not found"</span>
+<span id="cb25-325"><a href="#cb25-325" aria-hidden="true" tabindex="-1"></a>        echo "Run - task data:fetch first"</span>
+<span id="cb25-326"><a href="#cb25-326" aria-hidden="true" tabindex="-1"></a>        exit 1</span>
+<span id="cb25-327"><a href="#cb25-327" aria-hidden="true" tabindex="-1"></a>      fi</span>
+<span id="cb25-328"><a href="#cb25-328" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span>echo<span class="at"> </span>"Success<span class="at"> </span>-<span class="at"> </span>task<span class="at"> </span>completed"</span>
+<span id="cb25-329"><a href="#cb25-329" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-330"><a href="#cb25-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-331"><a href="#cb25-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## Troubleshooting</span></span>
+<span id="cb25-332"><a href="#cb25-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-333"><a href="#cb25-333" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Issues</span></span>
+<span id="cb25-334"><a href="#cb25-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-335"><a href="#cb25-335" aria-hidden="true" tabindex="-1"></a>**Task not found**: Ensure you're in the project root directory where <span class="in">`Taskfile.yml`</span> exists.</span>
+<span id="cb25-336"><a href="#cb25-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-337"><a href="#cb25-337" aria-hidden="true" tabindex="-1"></a>**Permission errors**: Some tasks may require specific permissions (e.g., publishing to PyPI).</span>
+<span id="cb25-338"><a href="#cb25-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-339"><a href="#cb25-339" aria-hidden="true" tabindex="-1"></a>**Missing dependencies**: Some tasks have preconditions that check for required tools.</span>
 <span id="cb25-340"><a href="#cb25-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-341"><a href="#cb25-341" aria-hidden="true" tabindex="-1"></a><span class="co"># Verbose output (disable silent mode)</span></span>
-<span id="cb25-342"><a href="#cb25-342" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--verbose</span> core:dev:test</span>
-<span id="cb25-343"><a href="#cb25-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-344"><a href="#cb25-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-345"><a href="#cb25-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## Examples</span></span>
+<span id="cb25-341"><a href="#cb25-341" aria-hidden="true" tabindex="-1"></a><span class="fu">### Getting Help</span></span>
+<span id="cb25-342"><a href="#cb25-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-343"><a href="#cb25-343" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-344"><a href="#cb25-344" aria-hidden="true" tabindex="-1"></a><span class="co"># List all tasks with descriptions</span></span>
+<span id="cb25-345"><a href="#cb25-345" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--list</span></span>
 <span id="cb25-346"><a href="#cb25-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-347"><a href="#cb25-347" aria-hidden="true" tabindex="-1"></a><span class="fu">### Setting Up a New Development Environment</span></span>
-<span id="cb25-348"><a href="#cb25-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-349"><a href="#cb25-349" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-350"><a href="#cb25-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Clone the repository</span></span>
-<span id="cb25-351"><a href="#cb25-351" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your-org/nanobricks.git</span>
-<span id="cb25-352"><a href="#cb25-352" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> nanobricks</span>
+<span id="cb25-347"><a href="#cb25-347" aria-hidden="true" tabindex="-1"></a><span class="co"># Show task details</span></span>
+<span id="cb25-348"><a href="#cb25-348" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--summary</span> core:dev:test</span>
+<span id="cb25-349"><a href="#cb25-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-350"><a href="#cb25-350" aria-hidden="true" tabindex="-1"></a><span class="co"># Verbose output (disable silent mode)</span></span>
+<span id="cb25-351"><a href="#cb25-351" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> <span class="at">--verbose</span> core:dev:test</span>
+<span id="cb25-352"><a href="#cb25-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-353"><a href="#cb25-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-354"><a href="#cb25-354" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up development environment</span></span>
-<span id="cb25-355"><a href="#cb25-355" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:setup</span>
-<span id="cb25-356"><a href="#cb25-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-357"><a href="#cb25-357" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify everything works</span></span>
-<span id="cb25-358"><a href="#cb25-358" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
-<span id="cb25-359"><a href="#cb25-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-360"><a href="#cb25-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-361"><a href="#cb25-361" aria-hidden="true" tabindex="-1"></a><span class="fu">### Creating a New Project with Nanobricks</span></span>
+<span id="cb25-354"><a href="#cb25-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Examples</span></span>
+<span id="cb25-355"><a href="#cb25-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-356"><a href="#cb25-356" aria-hidden="true" tabindex="-1"></a><span class="fu">### Setting Up a New Development Environment</span></span>
+<span id="cb25-357"><a href="#cb25-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-358"><a href="#cb25-358" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-359"><a href="#cb25-359" aria-hidden="true" tabindex="-1"></a><span class="co"># Clone the repository</span></span>
+<span id="cb25-360"><a href="#cb25-360" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/your-org/nanobricks.git</span>
+<span id="cb25-361"><a href="#cb25-361" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> nanobricks</span>
 <span id="cb25-362"><a href="#cb25-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-363"><a href="#cb25-363" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-364"><a href="#cb25-364" aria-hidden="true" tabindex="-1"></a><span class="co"># From the Nanobricks directory</span></span>
-<span id="cb25-365"><a href="#cb25-365" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects</span>
-<span id="cb25-366"><a href="#cb25-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-367"><a href="#cb25-367" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to the new project</span></span>
-<span id="cb25-368"><a href="#cb25-368" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/my-data-pipeline</span>
+<span id="cb25-363"><a href="#cb25-363" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up development environment</span></span>
+<span id="cb25-364"><a href="#cb25-364" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:setup</span>
+<span id="cb25-365"><a href="#cb25-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-366"><a href="#cb25-366" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify everything works</span></span>
+<span id="cb25-367"><a href="#cb25-367" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
+<span id="cb25-368"><a href="#cb25-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb25-369"><a href="#cb25-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-370"><a href="#cb25-370" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the generated tests</span></span>
-<span id="cb25-371"><a href="#cb25-371" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test</span>
-<span id="cb25-372"><a href="#cb25-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-373"><a href="#cb25-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-374"><a href="#cb25-374" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contributing to Nanobricks</span></span>
+<span id="cb25-370"><a href="#cb25-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### Creating a New Project with Nanobricks</span></span>
+<span id="cb25-371"><a href="#cb25-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-372"><a href="#cb25-372" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-373"><a href="#cb25-373" aria-hidden="true" tabindex="-1"></a><span class="co"># From the Nanobricks directory</span></span>
+<span id="cb25-374"><a href="#cb25-374" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects</span>
 <span id="cb25-375"><a href="#cb25-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-376"><a href="#cb25-376" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb25-377"><a href="#cb25-377" aria-hidden="true" tabindex="-1"></a><span class="co"># Make your changes</span></span>
-<span id="cb25-378"><a href="#cb25-378" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
-<span id="cb25-379"><a href="#cb25-379" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-380"><a href="#cb25-380" aria-hidden="true" tabindex="-1"></a><span class="co"># Check code quality</span></span>
-<span id="cb25-381"><a href="#cb25-381" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:format</span>
-<span id="cb25-382"><a href="#cb25-382" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:lint</span>
-<span id="cb25-383"><a href="#cb25-383" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test</span>
+<span id="cb25-376"><a href="#cb25-376" aria-hidden="true" tabindex="-1"></a><span class="co"># Navigate to the new project</span></span>
+<span id="cb25-377"><a href="#cb25-377" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/projects/my-data-pipeline</span>
+<span id="cb25-378"><a href="#cb25-378" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-379"><a href="#cb25-379" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the generated tests</span></span>
+<span id="cb25-380"><a href="#cb25-380" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test</span>
+<span id="cb25-381"><a href="#cb25-381" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-382"><a href="#cb25-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-383"><a href="#cb25-383" aria-hidden="true" tabindex="-1"></a><span class="fu">### Contributing to Nanobricks</span></span>
 <span id="cb25-384"><a href="#cb25-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-385"><a href="#cb25-385" aria-hidden="true" tabindex="-1"></a><span class="co"># Update documentation if needed</span></span>
-<span id="cb25-386"><a href="#cb25-386" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render</span>
-<span id="cb25-387"><a href="#cb25-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-388"><a href="#cb25-388" aria-hidden="true" tabindex="-1"></a><span class="co"># Or run everything</span></span>
-<span id="cb25-389"><a href="#cb25-389" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
-<span id="cb25-390"><a href="#cb25-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-391"><a href="#cb25-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-392"><a href="#cb25-392" aria-hidden="true" tabindex="-1"></a>This systematic task organization makes Nanobricks development workflows intuitive and discoverable while maintaining backwards compatibility through aliases.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb25-385"><a href="#cb25-385" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb25-386"><a href="#cb25-386" aria-hidden="true" tabindex="-1"></a><span class="co"># Make your changes</span></span>
+<span id="cb25-387"><a href="#cb25-387" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb25-388"><a href="#cb25-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-389"><a href="#cb25-389" aria-hidden="true" tabindex="-1"></a><span class="co"># Check code quality</span></span>
+<span id="cb25-390"><a href="#cb25-390" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:format</span>
+<span id="cb25-391"><a href="#cb25-391" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:lint</span>
+<span id="cb25-392"><a href="#cb25-392" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:test</span>
+<span id="cb25-393"><a href="#cb25-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-394"><a href="#cb25-394" aria-hidden="true" tabindex="-1"></a><span class="co"># Update documentation if needed</span></span>
+<span id="cb25-395"><a href="#cb25-395" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> docs:site:render</span>
+<span id="cb25-396"><a href="#cb25-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-397"><a href="#cb25-397" aria-hidden="true" tabindex="-1"></a><span class="co"># Or run everything</span></span>
+<span id="cb25-398"><a href="#cb25-398" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> core:dev:all</span>
+<span id="cb25-399"><a href="#cb25-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb25-400"><a href="#cb25-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-401"><a href="#cb25-401" aria-hidden="true" tabindex="-1"></a>This systematic task organization makes Nanobricks development workflows intuitive and discoverable while maintaining backwards compatibility through aliases.</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

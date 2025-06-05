@@ -12,7 +12,7 @@ vars:
 
 includes:
   build: ./Taskfile.build.yml
-  project: ./Taskfile.dev.yml
+  dev: ./Taskfile.dev.yml
   version: ./Taskfile.version.yml
   docs: ./Taskfile.docs.yml
 

@@ -592,14 +592,14 @@ Recommended: Use uv
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <code>project:create:uv</code> task is the preferred method as it automatically sets up Python 3.13, creates a virtual environment, and installs dependencies.</p>
+<p>The <code>dev:scaffold:create:uv</code> task is the preferred method as it automatically sets up Python 3.13, creates a virtual environment, and installs dependencies.</p>
 </div>
 </div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new project with uv (recommended)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dist:project:create:uv NAME=my-app DIR=~/projects</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=my-app DIR=~/projects</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual project creation</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dist:project:create NAME=my-app DIR=~/projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=my-app DIR=~/projects</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="multi-project-development" class="level3">
 <h3 class="anchored" data-anchor-id="multi-project-development">Multi-Project Development</h3>
@@ -1272,15 +1272,15 @@ Common Issues
 <span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
 <span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommended: Use uv</span></span>
-<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>The <span class="in">`project:create:uv`</span> task is the preferred method as it automatically sets up Python 3.13, creates a virtual environment, and installs dependencies.</span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dev:scaffold:create:uv`</span> task is the preferred method as it automatically sets up Python 3.13, creates a virtual environment, and installs dependencies.</span>
 <span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
 <span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Create new project with uv (recommended)</span></span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dist:project:create:uv NAME=my-app DIR=~/projects</span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create:uv NAME=my-app DIR=~/projects</span>
 <span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual project creation</span></span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dist:project:create NAME=my-app DIR=~/projects</span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a><span class="ex">task</span> dev:scaffold:create NAME=my-app DIR=~/projects</span>
 <span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multi-Project Development</span></span>

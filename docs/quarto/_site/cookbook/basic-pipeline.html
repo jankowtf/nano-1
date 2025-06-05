@@ -534,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="solution" class="level2">
 <h2 class="anchored" data-anchor-id="solution">Solution</h2>
-<p>Use the pipe operator (<code>|</code>) to compose nanobricks when the output type of one stage matches the input type of the next stage.</p>
+<p>Use the pipe operator (<code>&gt;&gt;</code>) to compose nanobricks when the output type of one stage matches the input type of the next stage.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">|</span> WordTokenizer() <span class="op">|</span> WordCounter()</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> pipeline.invoke(input_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
@@ -580,7 +580,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose the pipeline</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">|</span> WordTokenizer() <span class="op">|</span> WordCounter()</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> TextCleaner() <span class="op">&gt;&gt;</span> WordTokenizer() <span class="op">&gt;&gt;</span> WordCounter()</span>
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Use it</span></span>
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> analyze_text(text: <span class="bu">str</span>):</span>

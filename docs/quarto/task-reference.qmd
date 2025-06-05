@@ -32,7 +32,7 @@ task deploy:package:install:local # Install locally
 
 All tasks follow a hierarchical naming pattern that creates systematic organization:
 
-- **namespace**: Primary domain (core, docs, build, deploy, project, version)
+- **namespace**: Primary domain (core, docs, build, deploy, dev, version)
 - **component**: Specific component (dev, site, package, scaffold, semver)  
 - **action**: What to do (test, render, create, install, bump)
 - **variant**: Specific variant (unit, local, patch, uv)
@@ -105,23 +105,32 @@ task deploy:publish:test         # Test package publishing (dry run)
 task deploy:publish:pypi         # Publish to PyPI (requires credentials)
 ```
 
-### Project Management (`project:*`)
+### Project Management (`dev:*`)
 
 Project creation, linking, and scaffolding tasks:
 
 ```bash
 # Project creation
-task project:scaffold:create NAME=myproject DIR=/path    # Manual project setup
-task project:scaffold:create:uv NAME=myproject DIR=/path # Create with uv init
+task dev:scaffold:create NAME=myproject DIR=/path    # Manual project setup
+task dev:scaffold:create:uv NAME=myproject DIR=/path # Create with uv init
 
 # Project linking (for development)
-task project:link:add PATH=/path/to/project     # Link external project
-task project:link:remove NAME=project-name     # Remove project link  
-task project:link:list                         # List all linked projects
+task dev:project:link PATH=/path/to/project     # Link external project
+task dev:project:unlink NAME=project-name      # Remove project link  
+task dev:project:list                          # List all linked projects
 
 # Quick checks
-task project:check:all          # Run all development checks
-task project:check:quick        # Run quick checks (lint only)
+task dev:check:all          # Run all development checks
+task dev:check:quick        # Run quick checks (lint only)
+
+# Claude Code integration
+task dev:claude:understand:dependent NAME=project-name  # Analyze dependent project
+task dev:claude:understand:nanobricks                  # Analyze Nanobricks framework
+task dev:claude:compare:usage PROJECTS="p1,p2"        # Compare usage patterns
+
+# Watch tasks
+task dev:watch:test         # Watch and run tests on change
+task dev:watch:docs         # Watch and rebuild docs on change
 ```
 
 ### Version Management (`version:*`)
@@ -169,7 +178,7 @@ The task system is organized across multiple files for maintainability:
 Taskfile.yml           # Main file with core tasks and includes
 Taskfile.docs.yml      # Documentation tasks (docs:*)
 Taskfile.dist.yml      # Build and distribution tasks (build:*, deploy:*)
-Taskfile.dev.yml       # Development utilities (project:*)
+Taskfile.dev.yml       # Development utilities (dev:*)
 Taskfile.semver.yml    # Version management (version:*)
 ```
 
@@ -220,10 +229,10 @@ task deploy:publish:pypi             # Publish to PyPI
 
 ```bash
 # Create new project using Nanobricks
-task project:scaffold:create:uv NAME=myproject DIR=/path/to/parent
+task dev:scaffold:create:uv NAME=myproject DIR=/path/to/parent
 
 # Link existing project for development  
-task project:link:add PATH=/path/to/existing/project
+task dev:project:link PATH=/path/to/existing/project
 ```
 
 ## Advanced Usage
@@ -234,13 +243,13 @@ Many tasks accept variables for customization:
 
 ```bash
 # Project creation with custom names
-task project:scaffold:create NAME=my-awesome-project DIR=~/projects
+task dev:scaffold:create NAME=my-awesome-project DIR=~/projects
 
 # Component creation  
 task scaffold:brick:create NAME=data_processor
 
 # Project linking
-task project:link:add PATH=../my-other-project
+task dev:project:link PATH=../my-other-project
 ```
 
 ### Watching for Changes
@@ -362,7 +371,7 @@ task core:dev:all
 
 ```bash
 # From the Nanobricks directory
-task project:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects
+task dev:scaffold:create:uv NAME=my-data-pipeline DIR=~/projects
 
 # Navigate to the new project
 cd ~/projects/my-data-pipeline

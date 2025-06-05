@@ -672,7 +672,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach">Nanobricks Approach</h4>
-<div id="c32dd970" class="cell" data-execution_count="1">
+<div id="095b45f6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Composable and reusable</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -721,7 +721,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-1" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-1">Nanobricks Approach</h4>
-<div id="7db80d1b" class="cell" data-execution_count="2">
+<div id="3226f6f4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Protocol-agnostic</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CheckUserExists(Nanobrick[UserCreate, UserCreate]):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, user: UserCreate, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> UserCreate:</span>
@@ -775,7 +775,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-2" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-2">Nanobricks Approach</h4>
-<div id="1ce96690" class="cell" data-execution_count="3">
+<div id="8a05c03b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Simpler, type-safe</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    ValidateData()</span>
@@ -832,7 +832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-3" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-3">Nanobricks Approach</h4>
-<div id="1625398c" class="cell" data-execution_count="4">
+<div id="7df02f42" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Pythonic and simple</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_pipeline</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -900,7 +900,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-4" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-4">Nanobricks Approach</h4>
-<div id="f697fdb7" class="cell" data-execution_count="5">
+<div id="326eed54" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Code-first, lightweight</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>etl_pipeline <span class="op">=</span> (</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ExtractData()</span>
@@ -994,7 +994,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="using-nanobricks-with-existing-frameworks">Using Nanobricks with Existing Frameworks</h3>
 <section id="with-flaskdjango" class="level4">
 <h4 class="anchored" data-anchor-id="with-flaskdjango">With Flask/Django</h4>
-<div id="9c83d90c" class="cell" data-execution_count="6">
+<div id="215de327" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use nanobricks for business logic in Flask</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_pipeline</span>
@@ -1021,7 +1021,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="with-celery" class="level4">
 <h4 class="anchored" data-anchor-id="with-celery">With Celery</h4>
-<div id="9d248877" class="cell" data-execution_count="7">
+<div id="839c7644" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use nanobricks within Celery tasks</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> celery <span class="im">import</span> Celery</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> load_pipeline</span>
@@ -1039,7 +1039,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="with-fastapi" class="level4">
 <h4 class="anchored" data-anchor-id="with-fastapi">With FastAPI</h4>
-<div id="464e3068" class="cell" data-execution_count="8">
+<div id="14f807dc" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enhance FastAPI with nanobricks</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
@@ -1064,7 +1064,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="migration-guide">Migration Guide</h2>
 <section id="from-flask-to-nanobricks" class="level3">
 <h3 class="anchored" data-anchor-id="from-flask-to-nanobricks">From Flask to Nanobricks</h3>
-<div id="d1697666" class="cell" data-execution_count="9">
+<div id="28ac9503" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before: Flask route with mixed concerns</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">'/analyze'</span>, methods<span class="op">=</span>[<span class="st">'POST'</span>])</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze():</span>
@@ -1106,7 +1106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="from-celery-to-nanobricks" class="level3">
 <h3 class="anchored" data-anchor-id="from-celery-to-nanobricks">From Celery to Nanobricks</h3>
-<div id="d3ca570e" class="cell" data-execution_count="10">
+<div id="0a144940" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before: Celery with chained tasks</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">@celery.task</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_data(url):</span>
@@ -1186,7 +1186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="scalability-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="scalability-patterns">Scalability Patterns</h3>
-<div id="8527c681" class="cell" data-execution_count="11">
+<div id="52b30452" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks scales horizontally with skills</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start simple</span></span>
@@ -1207,7 +1207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="ecosystem-integration">Ecosystem Integration</h2>
 <section id="database-orms" class="level3">
 <h3 class="anchored" data-anchor-id="database-orms">Database ORMs</h3>
-<div id="23c3262a" class="cell" data-execution_count="12">
+<div id="955c7b4a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Works with any ORM</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy.ext.asyncio <span class="im">import</span> AsyncSession</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1219,7 +1219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="message-queues" class="level3">
 <h3 class="anchored" data-anchor-id="message-queues">Message Queues</h3>
-<div id="285f5ad0" class="cell" data-execution_count="13">
+<div id="7467f1b2" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Integrates with any message queue</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aiokafka <span class="im">import</span> AIOKafkaConsumer</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1235,7 +1235,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cloud-services" class="level3">
 <h3 class="anchored" data-anchor-id="cloud-services">Cloud Services</h3>
-<div id="3655b03c" class="cell" data-execution_count="14">
+<div id="504b2ebd" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cloud-native deployment</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>aws_pipeline <span class="op">=</span> pipeline.with_skill(<span class="st">"aws"</span>, {</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lambda"</span>: <span class="va">True</span>,</span>

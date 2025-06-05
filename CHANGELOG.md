@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-06-05
+
+### Changed
+- **Task System Refactoring**: Renamed `project:*` namespace to `dev:*` for consistency
+  - All project management tasks now under unified `dev:` prefix
+  - Updated documentation to reflect new namespace
+  - Better organization and discoverability of development tasks
+
+### Fixed
+- **Symbolic Link Handling**: Improved symlink creation for better tool compatibility
+  - Refactored to use absolute paths throughout
+  - Enhanced compatibility with Claude Code's file referencing
+  - Added verification step to ensure symlinks are created correctly
+  - Better logging showing both source and resolved paths
+
+### Added
+- **Developer Documentation**: Enhanced documentation for symlink management
+  - Added README.md in dependents directory explaining symlink structure
+  - Updated .gitignore to properly handle dependent project symlinks
+  - Improved task documentation with absolute path information
+
 ## [0.2.0] - 2025-06-05
 
 ### Added

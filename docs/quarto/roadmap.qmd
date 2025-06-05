@@ -193,18 +193,49 @@ pipeline = (
 - **Parallel/Branch Support**: Built-in fan-out/fan-in patterns
 - **Error Boundaries**: Explicit error handling without breaking the pipeline
 
-## Version 0.2.1: Standard Patterns Library
+## Version 0.2.1: Developer Experience Improvements
+
+**Status**: Released 2025-06-05
+
+**Theme**: Enhanced developer workflow and better Claude Code integration
+
+### What Was Delivered
+
+1. **Task System Namespace Refactoring**
+   - Changed from `project:*` to `dev:*` namespace for consistency
+   - All project management tasks now under unified `dev:` prefix
+   - Improved task discoverability and organization
+
+2. **Improved Symbolic Link Handling**
+   - Refactored symlink creation to use absolute paths
+   - Better compatibility with Claude Code's file referencing
+   - Enhanced logging showing both source and resolved paths
+   - Added verification step for symlink creation
+
+3. **Documentation Updates**
+   - Updated all task references to use new `dev:` namespace
+   - Added README for dependents directory explaining symlink structure
+   - Improved clarity in task documentation
+
+### Developer Workflow Enhancements
+- **Absolute Path Resolution**: All symlinks now use absolute paths for consistency
+- **Better Error Messages**: Clear feedback when symlink operations fail
+- **Enhanced Git Integration**: Proper .gitignore entries for dependent projects
+
+## Version 0.3.x: Standard Patterns Library
 
 **Theme**: Common bricks to accelerate development
 
-### Batteries Included
+### Planned Features
 - **Common Validators**: Email, URL, phone, regex, range validators
 - **Common Transformers**: JSON adapters, type converters, normalizers
 - **File Processing Bricks**: CSV, JSON, XML, YAML readers/writers
 - **HTTP Client Brick**: Basic requests wrapper with retry logic
 - **Data Manipulation**: Filter, map, reduce, aggregate bricks
 
-## Version 0.3.0: Developer Experience
+*Note: This release focuses on providing a comprehensive set of pre-built nanobricks that cover common use cases, reducing the need for developers to build these from scratch.*
+
+## Version 0.4.x: Advanced Developer Experience
 
 **Theme**: Superior tooling and development workflow
 
@@ -228,7 +259,7 @@ pipeline = (
 - **Configuration Injection**: Standardized config management
 - **Testing Utilities**: Mock injectors for unit tests
 
-## Version 0.4.0: Standard Library
+## Version 0.5.x: Comprehensive Standard Library
 
 **Theme**: Batteries-included ecosystem
 
@@ -247,7 +278,7 @@ pipeline = (
 - **Framework Bridges**: Integration with FastAPI, Django, Flask
 - **Cloud Services**: AWS, GCP, Azure service bricks
 
-## Version 0.5.0: Advanced Features
+## Version 0.6.x: Advanced Features
 
 **Theme**: Production-scale capabilities
 
@@ -275,9 +306,11 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
 - **Connection Pooling**: Built-in resource pools
 - **Graceful Shutdown**: Proper cleanup on termination
 
-## Version 1.0.0: Production Ready
+## Version 1.0: Production Ready
 
 **Theme**: Enterprise-grade stability
+
+*Note: The 1.0 release will mark API stability and production readiness. The exact version progression (0.7.x, 0.8.x, etc.) leading to 1.0 will depend on feature completeness and community feedback.*
 
 ### Performance Optimizations
 
@@ -300,7 +333,9 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
 - **Multi-tenancy**: Isolation and resource limits
 - **High Availability**: Clustering and failover support
 
-## Future Vision (Beyond 1.0)
+## Future Vision (Post-1.0)
+
+*These features represent our long-term vision. Version numbers will be assigned as we approach implementation.*
 
 ### AI-Native Framework
 
@@ -350,10 +385,25 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
 
 ### Adoption Path
 
-1. **Early Adopters** (now): Feedback and iteration
-2. **Production Users** (v0.3+): Stable core with good tooling  
-3. **Enterprise** (v0.5+): Advanced features and support
-4. **Mainstream** (v1.0+): Mature ecosystem
+1. **Early Adopters** (now - v0.2.x): Feedback and iteration
+2. **Production Users** (v0.3.x+): Stable core with growing standard library
+3. **Enterprise** (v0.5.x+): Advanced features and production support
+4. **Mainstream** (v1.0+): Mature ecosystem with API stability guarantee
+
+### Version Planning Philosophy
+
+Starting with v0.2.1, we're adopting a more flexible approach to version planning:
+
+- **Feature-Driven Releases**: Version numbers assigned when features are ready
+- **No Fixed Timeline**: Quality and completeness over arbitrary deadlines  
+- **Community Input**: Feature prioritization based on user feedback
+- **Semantic Versioning**: Strict adherence to SemVer principles
+- **.x Notation**: Future versions use .x to indicate flexibility in exact numbering
+
+This approach provides:
+- **Signal of Intent**: Clear indication of planned features and their themes
+- **Implementation Flexibility**: Freedom to adjust based on real-world needs
+- **Quality Focus**: Features ship when they're ready, not when scheduled
 
 ## Success Metrics
 

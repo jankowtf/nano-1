@@ -570,7 +570,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="dependency-flow-in-pipelines">Dependency Flow in Pipelines</h3>
 <p>When using the pipe operator, deps flow through all stages:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># deps are automatically passed to each stage</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> BrickA() <span class="op">|</span> BrickB() <span class="op">|</span> BrickC()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> BrickA() <span class="op">&gt;&gt;</span> BrickB() <span class="op">&gt;&gt;</span> BrickC()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="cf">await</span> pipeline.invoke(<span class="bu">input</span>, deps<span class="op">=</span>{<span class="st">"db"</span>: db_conn})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
