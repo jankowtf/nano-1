@@ -1,10 +1,9 @@
-project:
+THIS SHOULD BE A LINTER ERRORproject:
   type: website
   output-dir: _site
 
 website:
   title: "Nanobricks Wiki"
-  favicon: favicon.svg
   navbar:
     left:
       - href: index.qmd
@@ -36,7 +35,6 @@ website:
           - index.qmd
           - quickstart.qmd
           - tutorial.qmd
-          - task-overview.qmd
           - task-system.qmd
           - task-reference.qmd
           - developer-workflows.qmd

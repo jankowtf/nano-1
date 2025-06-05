@@ -1,0 +1,171 @@
+---
+title: "Task System Overview"
+subtitle: "Your guide to Nanobricks task automation"
+---
+
+# Task System Documentation
+
+Welcome to the Nanobricks task system documentation! Our task automation is built on [go-task](https://taskfile.dev) and follows a systematic design that makes development workflows intuitive and efficient.
+
+## 📚 Documentation Guide
+
+We have comprehensive documentation covering different aspects of the task system:
+
+### [Task System & Commands](task-system.qmd)
+**Start here if you're new!** Learn about:
+- The naming convention (`namespace:component:action:variant`)
+- Basic commands and quick aliases
+- How tasks are organized across files
+- Common task patterns
+
+### [Task Reference](task-reference.qmd)
+**Complete command reference.** Find:
+- All available tasks organized by namespace
+- Detailed descriptions of each task
+- Parameter usage and examples
+- Quick command lookup
+
+### [Developer Workflows Guide](developer-workflows.qmd)
+**Practical, scenario-based workflows.** Covers:
+- Daily development workflows
+- Creating new projects
+- Multi-project development
+- Testing and documentation workflows
+- Release management
+- Troubleshooting common issues
+
+### [Task Automation Guide](task-automation-guide.qmd)
+**For creating your own Taskfiles.** Learn:
+- How to write custom tasks
+- Advanced patterns and techniques
+- Performance optimization
+- Best practices and conventions
+- Debugging and error handling
+
+## 🚀 Quick Start
+
+### Most Common Commands
+
+```bash
+# First time setup
+task core:dev:setup
+
+# Daily development
+task core:dev:test      # Run tests
+task core:dev:lint      # Check code
+task core:dev:format    # Format code
+task core:dev:all       # Run everything
+
+# Create a new project
+task project:scaffold:create:uv NAME=my-app DIR=~/projects
+
+# Documentation
+task docs:site:preview  # Live preview
+```
+
+### Key Concepts
+
+1. **Naming Pattern**: All tasks follow `namespace:component:action:variant`
+   - Example: `core:dev:test:unit`
+   - Makes tasks discoverable and intuitive
+
+2. **Namespaces**: Tasks are organized by domain
+   - `core:*` - Core development tasks
+   - `docs:*` - Documentation tasks
+   - `build:*` - Build and packaging
+   - `project:*` - Project management
+   - `version:*` - Version management
+
+3. **Silent Mode**: All Taskfiles use `silent: true` for clean output
+
+4. **Echo Rules**: Replace colons with dashes in echo statements
+   ```yaml
+   # ✅ Correct
+   echo "Error - file not found"
+   
+   # ❌ Wrong
+   echo "Error: file not found"
+   ```
+
+## 🎯 Which Guide Should I Read?
+
+### "I want to contribute to Nanobricks"
+Start with [Developer Workflows Guide](developer-workflows.qmd) → [Task Reference](task-reference.qmd)
+
+### "I want to create a new project using Nanobricks"
+Read [Task System & Commands](task-system.qmd) → See "Creating New Projects" in [Developer Workflows](developer-workflows.qmd)
+
+### "I want to add custom automation to my project"
+Study [Task Automation Guide](task-automation-guide.qmd) → Reference [Task System](task-system.qmd) for conventions
+
+### "I need to look up a specific command"
+Go directly to [Task Reference](task-reference.qmd)
+
+### "I'm having issues with tasks"
+Check "Troubleshooting" in [Developer Workflows Guide](developer-workflows.qmd)
+
+## 💡 Pro Tips
+
+1. **Use Tab Completion**: Task supports tab completion
+   ```bash
+   task <TAB>  # Shows all tasks
+   task core:dev:<TAB>  # Shows all core:dev:* tasks
+   ```
+
+2. **Discover Tasks**: Use `task --list` to see all available tasks with descriptions
+
+3. **Watch Mode**: Many tasks support watch mode for continuous feedback
+   ```bash
+   task core:dev:watch:test  # Auto-run tests on file changes
+   task docs:site:preview    # Live reload documentation
+   ```
+
+4. **Verbose Mode**: Debug issues with `--verbose`
+   ```bash
+   task --verbose core:dev:test
+   ```
+
+5. **Dry Run**: See what would execute without running
+   ```bash
+   task --dry build:package:create
+   ```
+
+## 🔧 System Requirements
+
+- **go-task**: Install from [taskfile.dev](https://taskfile.dev/#/installation)
+- **uv**: Modern Python package manager
+- **Python 3.13**: Required for Nanobricks
+- **Platform**: Works on Linux, macOS, and Windows
+
+## 📋 Task Organization
+
+Tasks are organized across multiple files for better maintainability:
+
+| File | Purpose | Namespaces |
+|------|---------|------------|
+| `Taskfile.yml` | Main entry point | `core:*`, `scaffold:*` |
+| `Taskfile.build.yml` | Build & distribution | `build:*`, `deploy:*` |
+| `Taskfile.dev.yml` | Development utilities | `project:*` |
+| `Taskfile.docs.yml` | Documentation | `docs:*` |
+| `Taskfile.version.yml` | Version management | `version:*` |
+
+## 🤝 Contributing
+
+When contributing to the task system:
+
+1. Follow the `namespace:component:action:variant` pattern
+2. Add descriptions to all public tasks
+3. Handle errors gracefully
+4. Use echo statements with dashes, not colons
+5. Test on all platforms when possible
+
+## 🆘 Getting Help
+
+- **List all tasks**: `task --list`
+- **Task help**: `task --summary <task-name>`
+- **Documentation issues**: Check the troubleshooting sections
+- **Bug reports**: Include output of `task --version`
+
+---
+
+Ready to dive in? Start with the [Task System & Commands](task-system.qmd) guide or jump directly to the [Developer Workflows](developer-workflows.qmd) for practical examples!

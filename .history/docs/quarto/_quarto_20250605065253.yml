@@ -4,7 +4,6 @@ project:
 
 website:
   title: "Nanobricks Wiki"
-  favicon: favicon.svg
   navbar:
     left:
       - href: index.qmd
