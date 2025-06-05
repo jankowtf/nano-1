@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2025-06-05
+
+### Changed
+- **Task System Organization**: Restructured task files for better maintainability
+  - Moved all Taskfile*.yml to `taskfiles/` directory
+  - Created `scripts/` directory for general utilities
+  - Created `taskfiles/scripts/` for task-specific scripts
+  - Extracted common Claude CLI discovery logic into `find-claude.sh`
+  - Applied DRY principles across all taskfiles
+
+### Fixed
+- **Documentation Consistency**: Completed migration from `|` to `>>` operator
+  - Fixed remaining instances in architecture.qmd and comparison.qmd
+  - Updated method references from `__or__` to `__rshift__`
+  - Corrected cookbook examples to use new operator syntax
+  - Ensured all code examples use current API
+
+### Added
+- **Enhanced Claude Integration**: Improved developer experience
+  - Verbose mode support with `CLAUDE_VERBOSE=1`
+  - Progress indicators for non-verbose mode
+  - Better error messages when Claude CLI not found
+  - Team-friendly setup documentation in taskfiles/README.md
+
+### Improved
+- **Documentation Rendering**: Better visual presentation
+  - Mermaid diagrams now render without showing source code
+  - Python examples remain visible with proper syntax highlighting
+  - Cleaner architecture-diagrams.qmd layout
+
 ## [0.2.1] - 2025-06-05
 
 ### Changed

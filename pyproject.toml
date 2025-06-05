@@ -1,6 +1,6 @@
 [project]
 name = "nanobricks"
-version = "0.2.1"
+version = "0.2.2"
 description = "Antifragile code components that compose like Lego bricks"
 readme = "README.md"
 requires-python = ">=3.13"
