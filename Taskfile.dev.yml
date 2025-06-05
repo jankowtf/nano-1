@@ -2,7 +2,7 @@ version: '3'
 
 silent: true
 
-# Development utilities for working with linked projects
+# Development utilities for working with dependent projects
 # This file is meant to be included in the main Taskfile.yml
 
 tasks:
@@ -11,7 +11,7 @@ tasks:
     desc: Create a symbolic link to a project that uses Nanobricks
     summary: |
       Link a project that uses Nanobricks for easier development.
-      The project will be linked in the linked-projects/ directory.
+      The project will be linked in the dependents/ directory.
       
       Usage:
         task dev:project:link PATH=/path/to/your/project
@@ -20,7 +20,7 @@ tasks:
       PROJECT_PATH: '{{.PATH}}'
       PROJECT_NAME:
         sh: basename "{{.PROJECT_PATH}}"
-      LINK_DIR: 'linked-projects'
+      LINK_DIR: 'dependents'
       LINK_PATH: '{{.LINK_DIR}}/{{.PROJECT_NAME}}'
     cmds:
       - |
@@ -54,7 +54,7 @@ tasks:
         task dev:project:unlink NAME=nano-scorm
     vars:
       PROJECT_NAME: '{{.NAME}}'
-      LINK_DIR: 'linked-projects'
+      LINK_DIR: 'dependents'
       LINK_PATH: '{{.LINK_DIR}}/{{.PROJECT_NAME}}'
     cmds:
       - |
@@ -72,16 +72,16 @@ tasks:
       - echo "✅ Unlinked {{.PROJECT_NAME}}"
 
   project:list:
-    desc: List all linked projects
+    desc: List all dependent projects
     vars:
-      LINK_DIR: 'linked-projects'
+      LINK_DIR: 'dependents'
     cmds:
       - |
         if [ ! -d "{{.LINK_DIR}}" ] || [ -z "$(ls -A {{.LINK_DIR}} 2>/dev/null)" ]; then
-          echo "📭 No linked projects found"
+          echo "📭 No dependent projects found"
           exit 0
         fi
-      - echo "📁 Linked projects"
+      - echo "📁 Dependent projects"
       - |
         for link in {{.LINK_DIR}}/*; do
           if [ -L "$link" ]; then
@@ -118,3 +118,92 @@ tasks:
     desc: Watch and rebuild documentation on change
     cmds:
       - task: docs:preview
+
+  # Claude Code integration tasks
+  claude:understand:dependent:
+    desc: Have Claude Code understand a dependent project's codebase
+    summary: |
+      Use Claude Code to analyze and understand a dependent project.
+      This creates a comprehensive understanding of how the project uses Nanobricks.
+      
+      Usage:
+        task dev:claude:understand:dependent NAME=nano-scorm
+    vars:
+      PROJECT_NAME: '{{.NAME}}'
+      DEPENDENT_PATH: 'dependents/{{.PROJECT_NAME}}'
+    cmds:
+      - |
+        if [ -z "{{.PROJECT_NAME}}" ]; then
+          echo "❌ Please specify the dependent project NAME"
+          echo "Usage - task dev:claude:understand:dependent NAME=project-name"
+          exit 1
+        fi
+      - |
+        if [ ! -d "{{.DEPENDENT_PATH}}" ]; then
+          echo "❌ Dependent project not found - {{.DEPENDENT_PATH}}"
+          echo "💡 Available dependents:"
+          ls -1 dependents/ 2>/dev/null || echo "   (none)"
+          exit 1
+        fi
+      - |
+        echo "🤖 Asking Claude Code to understand {{.PROJECT_NAME}}..."
+        cd {{.DEPENDENT_PATH}} && claude -p "Please analyze and understand this codebase. Focus on: 1) Overall project structure and purpose, 2) How it uses Nanobricks framework, 3) Key components and their interactions, 4) Any patterns or best practices used. Provide a comprehensive summary."
+
+  claude:understand:nanobricks:
+    desc: Have Claude Code understand the Nanobricks framework (from dependent's perspective)
+    summary: |
+      Use Claude Code to analyze the upstream Nanobricks framework.
+      Run this from within a dependent project to understand the parent framework.
+      
+      Usage (from within a dependent project):
+        task claude:understand:nanobricks
+    vars:
+      NANOBRICKS_PATH: '{{.NANOBRICKS_PATH | default "../../"}}'
+    cmds:
+      - |
+        if [ ! -d "{{.NANOBRICKS_PATH}}/src/nanobricks" ]; then
+          echo "❌ Nanobricks not found at {{.NANOBRICKS_PATH}}"
+          echo "💡 Set NANOBRICKS_PATH if Nanobricks is in a different location"
+          echo "   Example: task claude:understand:nanobricks NANOBRICKS_PATH=/path/to/nanobricks"
+          exit 1
+        fi
+      - |
+        echo "🤖 Asking Claude Code to understand Nanobricks framework..."
+        claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+
+  claude:compare:usage:
+    desc: Compare how different dependents use Nanobricks
+    summary: |
+      Use Claude Code to analyze and compare how multiple dependent projects
+      use the Nanobricks framework.
+      
+      Usage:
+        task dev:claude:compare:usage PROJECTS="nano-scorm,other-project"
+    vars:
+      PROJECTS: '{{.PROJECTS}}'
+    cmds:
+      - |
+        if [ -z "{{.PROJECTS}}" ]; then
+          echo "❌ Please specify PROJECTS as comma-separated list"
+          echo "Usage - task dev:claude:compare:usage PROJECTS=\"project1,project2\""
+          exit 1
+        fi
+      - |
+        echo "🤖 Analyzing usage patterns across dependents..."
+        projects="{{.PROJECTS}}"
+        IFS=',' read -ra PROJECT_ARRAY <<< "$projects"
+        
+        prompt="Please analyze and compare how these Nanobricks dependent projects use the framework:\n\n"
+        
+        for project in "${PROJECT_ARRAY[@]}"; do
+          project=$(echo "$project" | xargs)  # trim whitespace
+          if [ -d "dependents/$project" ]; then
+            prompt="$prompt- $project (at dependents/$project)\n"
+          else
+            echo "⚠️  Warning: $project not found in dependents/"
+          fi
+        done
+        
+        prompt="$prompt\nFocus on: 1) Different usage patterns, 2) Common practices, 3) Unique implementations, 4) Lessons that can be learned from each approach."
+        
+        claude -p "$prompt"

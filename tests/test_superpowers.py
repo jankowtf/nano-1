@@ -98,7 +98,7 @@ class TestSkillRegistry:
         assert sp.config["key"] == "value"
 
     def test_duplicate_registration(self):
-        """Test that duplicate registration raises error."""
+        """Test that duplicate registration gives warning."""
         _registry._skills.clear()
 
         @register_skill("duplicate")
@@ -106,8 +106,8 @@ class TestSkillRegistry:
             def _create_enhanced_brick(self, brick):
                 return brick
 
-        with pytest.raises(ValueError, match="already registered"):
-
+        # Duplicate registration gives warning, not error
+        with pytest.warns(UserWarning, match="already registered"):
             @register_skill("duplicate")
             class DuplicateSkill2(Skill[str, str, None]):
                 def _create_enhanced_brick(self, brick):

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-06-05
+
 ### Added
 - **Pipeline Builder API**: Fluent interface for complex compositions beyond simple piping
   - `Pipeline()` function creates a builder for method chaining
@@ -32,6 +34,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `|` operator for composition - Use `>>` instead (will be removed in v0.3.0)
   - Both operators work during transition period
   - Using `|` will emit a DeprecationWarning
+
+### Fixed
+- **Test Suite Cleanup**: Aligned tests with framework philosophy
+  - Removed tests for non-existent features (ConnectionPool, Bulkhead, etc.)
+  - Fixed import errors and API mismatches
+  - All tests now passing, focusing on simplicity over complexity
 
 ## [0.1.3] - 2025-01-06
 

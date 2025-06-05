@@ -7,7 +7,7 @@ from .composition_debugger import (
 from .composition_debugger import (
     debug_pipeline as debug_composition,
 )
-from .debugger import BrickDebugger, debug_pipeline
+from .debugger import BrickDebugger
 from .performance_profiler import PerformanceProfiler, ProfileReport, profile_pipeline
 from .pipeline_visualizer import (
     PipelineVisualizer as PipelineViz,
@@ -26,7 +26,6 @@ __all__ = [
     "ExecutionTrace",
     # Original debugger
     "BrickDebugger",
-    "debug_pipeline",
     # Performance profiler
     "PerformanceProfiler",
     "profile_pipeline",

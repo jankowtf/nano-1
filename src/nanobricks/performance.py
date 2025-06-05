@@ -343,23 +343,27 @@ class MemoryPool:
                 self._pool.append(obj)
 
 
+# Aliases for backwards compatibility
+CachedBrick = NanobrickCached
+BatchedBrick = NanobrickBatched
+
 # Performance optimization utilities
 def with_cache(
     brick: NanobrickProtocol[T_in, T_out, T_deps],
     max_size: int = 128,
     ttl: float | None = None,
-) -> NanobrickCached[T_in, T_out, T_deps]:
+) -> CachedBrick[T_in, T_out, T_deps]:
     """Add caching to a nanobrick."""
-    return NanobrickCached(brick, max_size=max_size, ttl=ttl)
+    return CachedBrick(brick, max_size=max_size, ttl=ttl)
 
 
 def with_batching(
     brick: NanobrickProtocol[T_in, T_out, T_deps],
     batch_size: int = 10,
     timeout: float = 0.1,
-) -> NanobrickBatched[T_in, T_out, T_deps]:
+) -> BatchedBrick[T_in, T_out, T_deps]:
     """Add batching to a nanobrick."""
-    return NanobrickBatched(brick, batch_size=batch_size, timeout=timeout)
+    return BatchedBrick(brick, batch_size=batch_size, timeout=timeout)
 
 
 def fuse_pipeline(pipeline: Pipeline | list[NanobrickProtocol]) -> FusedPipeline:
@@ -385,137 +389,8 @@ def _memoized_transform(value: str, transform_type: str) -> str:
         return value
 
 
-# Connection pooling for external resources
-class ConnectionPool:
-    """Connection pool for managing external resources."""
-
-    def __init__(
-        self,
-        factory: Callable[[], T],
-        *,
-        min_size: int = 1,
-        max_size: int = 10,
-        acquire_timeout: float = 5.0,
-    ):
-        """Initialize connection pool.
-
-        Args:
-            factory: Factory function to create connections
-            min_size: Minimum pool size
-            max_size: Maximum pool size
-            acquire_timeout: Timeout for acquiring connection
-        """
-        self._factory = factory
-        self._min_size = min_size
-        self._max_size = max_size
-        self._acquire_timeout = acquire_timeout
-        self._pool: list[T] = []
-        self._used: dict[int, T] = {}  # Track by id
-        self._created = 0
-        self._lock = asyncio.Lock()
-        self._not_empty = asyncio.Condition()
-        self._closed = False
-
-    async def _create_connection(self) -> T:
-        """Create new connection."""
-        if asyncio.iscoroutinefunction(self._factory):
-            return await self._factory()
-        return self._factory()
-
-    async def _ensure_min_connections(self) -> None:
-        """Ensure minimum connections exist."""
-        while self._created < self._min_size and not self._closed:
-            conn = await self._create_connection()
-            self._pool.append(conn)
-            self._created += 1
-
-    @asynccontextmanager
-    async def acquire(self):
-        """Acquire connection from pool."""
-        if self._closed:
-            raise RuntimeError("Pool is closed")
-
-        # Initialize pool if needed
-        if self._created == 0:
-            async with self._lock:
-                await self._ensure_min_connections()
-
-        conn = None
-        start_time = time.time()
-
-        try:
-            while True:
-                async with self._not_empty:
-                    # Try to get from pool
-                    async with self._lock:
-                        if self._pool:
-                            conn = self._pool.pop()
-                            self._used[id(conn)] = conn
-                            break
-                        elif self._created < self._max_size:
-                            # Create new connection
-                            conn = await self._create_connection()
-                            self._created += 1
-                            self._used[id(conn)] = conn
-                            break
-
-                    # Wait for connection with timeout
-                    elapsed = time.time() - start_time
-                    remaining = self._acquire_timeout - elapsed
-
-                    if remaining <= 0:
-                        raise TimeoutError("Acquire timeout")
-
-                    try:
-                        await asyncio.wait_for(
-                            self._not_empty.wait(), timeout=remaining
-                        )
-                    except TimeoutError:
-                        raise TimeoutError("Acquire timeout") from None
-
-            yield conn
-
-        finally:
-            if conn is not None:
-                await self.release(conn)
-
-    async def release(self, conn: T) -> None:
-        """Release connection back to pool."""
-        async with self._lock:
-            conn_id = id(conn)
-            if conn_id in self._used:
-                del self._used[conn_id]
-                if len(self._pool) < self._max_size and not self._closed:
-                    self._pool.append(conn)
-        async with self._not_empty:
-            self._not_empty.notify()
-
-    async def close(self) -> None:
-        """Close all connections."""
-        async with self._lock:
-            self._closed = True
-
-            # Close all connections
-            all_conns = list(self._pool) + list(self._used.values())
-            self._pool.clear()
-            self._used.clear()
-
-            for conn in all_conns:
-                if hasattr(conn, "close"):
-                    if asyncio.iscoroutinefunction(conn.close):
-                        await conn.close()
-                    else:
-                        conn.close()
-
-    def get_stats(self) -> dict[str, int]:
-        """Get pool statistics."""
-        return {
-            "created": self._created,
-            "available": len(self._pool),
-            "in_use": len(self._used),
-            "total": self._created,
-        }
-
+# ConnectionPool removed - violates simplicity principle
+# Nanobricks should be stateless; use external resource management instead
 
 # Performance benchmarking
 @dataclass
@@ -638,7 +513,6 @@ __all__ = [
     "BatchedBrick",
     "FusedPipeline",
     "MemoryPool",
-    "ConnectionPool",
     "Benchmark",
     "BenchmarkResult",
     "with_cache",

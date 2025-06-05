@@ -5,7 +5,7 @@ import asyncio
 import pytest
 
 from nanobricks import NanobrickBase
-from nanobricks.adaptive import AdaptiveBrick, create_adaptive_brick
+from nanobricks.adaptive import AdaptiveBrick
 from nanobricks.adaptive.policies import ThresholdPolicy
 from nanobricks.agent import Agent, MessageType, create_agent
 from nanobricks.skills import (
@@ -247,10 +247,11 @@ class TestAdaptiveBehavior:
     def test_create_adaptive_brick(self):
         """Test creating adaptive brick."""
         brick = SampleBrick()
-        adaptive = create_adaptive_brick(
+        policy = ThresholdPolicy()
+        adaptive = AdaptiveBrick(
             brick,
+            policy,
             window_size=50,
-            adaptation_interval=5.0,
         )
 
         assert isinstance(adaptive, AdaptiveBrick)
@@ -290,8 +291,10 @@ class TestAdaptiveBehavior:
                 return f"recovered: {input}"
 
         brick = ErrorNanobrick()
-        adaptive = create_adaptive_brick(
+        policy = ThresholdPolicy()
+        adaptive = AdaptiveBrick(
             brick,
+            policy,
             enable_auto_recovery=True,
         )
 

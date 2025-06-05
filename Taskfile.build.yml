@@ -402,6 +402,15 @@ tasks:
               - echo "🔄 Syncing with latest Nanobricks changes..."
               - uv sync
               - echo "✅ Sync complete!"
+          
+          claude:understand:nanobricks:
+            desc: Have Claude Code understand the upstream Nanobricks framework
+            vars:
+              NANOBRICKS_PATH: '{{.NANOBRICKS_PATH}}'
+            cmds:
+              - |
+                echo "🤖 Asking Claude Code to understand Nanobricks framework..."
+                claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
         EOF
       - |
         # Create README
@@ -559,6 +568,15 @@ tasks:
               - echo "🔄 Syncing with latest Nanobricks changes..."
               - uv sync
               - echo "✅ Sync complete!"
+          
+          claude:understand:nanobricks:
+            desc: Have Claude Code understand the upstream Nanobricks framework
+            vars:
+              NANOBRICKS_PATH: '{{.NANOBRICKS_PATH}}'
+            cmds:
+              - |
+                echo "🤖 Asking Claude Code to understand Nanobricks framework..."
+                claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
         EOF
       - |
         # Update README
