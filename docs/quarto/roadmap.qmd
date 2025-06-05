@@ -120,7 +120,7 @@ result = LoadData() >> ValidateSchema() >> TransformFields() >> SaveOutput()
 **Migration from v0.1.x:**
 ```python
 # Old (v0.1.x)
-result = Parser() | Validator() | Formatter()
+result = Parser() >> Validator() >> Formatter()
 
 # New (v0.2.0)
 result = Parser() >> Validator() >> Formatter()

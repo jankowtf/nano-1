@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -589,7 +607,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td><strong>Composition</strong></td>
-<td>Native (<code>\|</code> operator)</td>
+<td>Native (<code>&gt;&gt;</code> operator)</td>
 <td>Limited</td>
 <td>Limited</td>
 <td>Chain tasks</td>
@@ -672,7 +690,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach">Nanobricks Approach</h4>
-<div id="095b45f6" class="cell" data-execution_count="1">
+<div id="857d36c0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Composable and reusable</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -690,7 +708,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose and add web interface</span></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>user_service <span class="op">=</span> (</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    ValidateEmail() </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> CreateUser()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> CreateUser()</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>).with_skill(<span class="st">"api"</span>, method<span class="op">=</span><span class="st">"POST"</span>, path<span class="op">=</span><span class="st">"/users"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Key Differences:</strong> - <strong>Separation of Concerns</strong>: Nanobricks separates validation, business logic, and web interface - <strong>Reusability</strong>: Each brick can be reused in CLI, API, or batch processing - <strong>Testability</strong>: Test each component in isolation - <strong>Flexibility</strong>: Not tied to web context - same logic works everywhere</p>
@@ -721,7 +739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-1" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-1">Nanobricks Approach</h4>
-<div id="3226f6f4" class="cell" data-execution_count="2">
+<div id="2f4361c9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Protocol-agnostic</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CheckUserExists(Nanobrick[UserCreate, UserCreate]):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, user: UserCreate, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> UserCreate:</span>
@@ -730,7 +748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> user</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use in API, CLI, or anywhere</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> CheckUserExists() <span class="op">|</span> CreateUser()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> CheckUserExists() <span class="op">&gt;&gt;</span> CreateUser()</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add API interface when needed</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>api_service <span class="op">=</span> pipeline.with_skill(<span class="st">"api"</span>, response_model<span class="op">=</span>UserResponse)</span>
@@ -775,7 +793,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-2" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-2">Nanobricks Approach</h4>
-<div id="8a05c03b" class="cell" data-execution_count="3">
+<div id="a6838f5e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Simpler, type-safe</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    ValidateData()</span>
@@ -832,7 +850,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-3" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-3">Nanobricks Approach</h4>
-<div id="7df02f42" class="cell" data-execution_count="4">
+<div id="ce690ac2" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Pythonic and simple</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_pipeline</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -900,7 +918,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nanobricks-approach-4" class="level4">
 <h4 class="anchored" data-anchor-id="nanobricks-approach-4">Nanobricks Approach</h4>
-<div id="326eed54" class="cell" data-execution_count="5">
+<div id="040ea021" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks - Code-first, lightweight</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>etl_pipeline <span class="op">=</span> (</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ExtractData()</span>
@@ -994,7 +1012,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="using-nanobricks-with-existing-frameworks">Using Nanobricks with Existing Frameworks</h3>
 <section id="with-flaskdjango" class="level4">
 <h4 class="anchored" data-anchor-id="with-flaskdjango">With Flask/Django</h4>
-<div id="215de327" class="cell" data-execution_count="6">
+<div id="8111f3ee" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use nanobricks for business logic in Flask</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_pipeline</span>
@@ -1021,7 +1039,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="with-celery" class="level4">
 <h4 class="anchored" data-anchor-id="with-celery">With Celery</h4>
-<div id="839c7644" class="cell" data-execution_count="7">
+<div id="3477efd7" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use nanobricks within Celery tasks</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> celery <span class="im">import</span> Celery</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> load_pipeline</span>
@@ -1039,7 +1057,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="with-fastapi" class="level4">
 <h4 class="anchored" data-anchor-id="with-fastapi">With FastAPI</h4>
-<div id="14f807dc" class="cell" data-execution_count="8">
+<div id="09f456f1" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enhance FastAPI with nanobricks</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
@@ -1064,7 +1082,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="migration-guide">Migration Guide</h2>
 <section id="from-flask-to-nanobricks" class="level3">
 <h3 class="anchored" data-anchor-id="from-flask-to-nanobricks">From Flask to Nanobricks</h3>
-<div id="28ac9503" class="cell" data-execution_count="9">
+<div id="87dc46cb" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before: Flask route with mixed concerns</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">@app.route</span>(<span class="st">'/analyze'</span>, methods<span class="op">=</span>[<span class="st">'POST'</span>])</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> analyze():</span>
@@ -1106,7 +1124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="from-celery-to-nanobricks" class="level3">
 <h3 class="anchored" data-anchor-id="from-celery-to-nanobricks">From Celery to Nanobricks</h3>
-<div id="0a144940" class="cell" data-execution_count="10">
+<div id="3a6d7911" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before: Celery with chained tasks</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="at">@celery.task</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fetch_data(url):</span>
@@ -1186,7 +1204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="scalability-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="scalability-patterns">Scalability Patterns</h3>
-<div id="52b30452" class="cell" data-execution_count="11">
+<div id="c3654796" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nanobricks scales horizontally with skills</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start simple</span></span>
@@ -1207,7 +1225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="ecosystem-integration">Ecosystem Integration</h2>
 <section id="database-orms" class="level3">
 <h3 class="anchored" data-anchor-id="database-orms">Database ORMs</h3>
-<div id="955c7b4a" class="cell" data-execution_count="12">
+<div id="dc8a7078" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Works with any ORM</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy.ext.asyncio <span class="im">import</span> AsyncSession</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1219,7 +1237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="message-queues" class="level3">
 <h3 class="anchored" data-anchor-id="message-queues">Message Queues</h3>
-<div id="7467f1b2" class="cell" data-execution_count="13">
+<div id="d593dbd7" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Integrates with any message queue</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> aiokafka <span class="im">import</span> AIOKafkaConsumer</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1235,7 +1253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="cloud-services" class="level3">
 <h3 class="anchored" data-anchor-id="cloud-services">Cloud Services</h3>
-<div id="504b2ebd" class="cell" data-execution_count="14">
+<div id="45b1a34b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cloud-native deployment</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>aws_pipeline <span class="op">=</span> pipeline.with_skill(<span class="st">"aws"</span>, {</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lambda"</span>: <span class="va">True</span>,</span>
@@ -1743,7 +1761,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|------------|--------------|---------|---------|-------------|-----------------|</span></span>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Primary Use** <span class="pp">|</span> Composable systems <span class="pp">|</span> Web apps <span class="pp">|</span> REST APIs <span class="pp">|</span> Task queues <span class="pp">|</span> Data pipelines <span class="pp">|</span> Workflows <span class="pp">|</span></span>
 <span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Architecture** <span class="pp">|</span> Component-based <span class="pp">|</span> MVC/MTV <span class="pp">|</span> Route-based <span class="pp">|</span> Task-based <span class="pp">|</span> Pipeline-based <span class="pp">|</span> DAG-based <span class="pp">|</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Composition** <span class="pp">|</span> Native (<span class="in">`\|`</span> operator) <span class="pp">|</span> Limited <span class="pp">|</span> Limited <span class="pp">|</span> Chain tasks <span class="pp">|</span> Transform-based <span class="pp">|</span> Task dependencies <span class="pp">|</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Composition** <span class="pp">|</span> Native (<span class="in">`&gt;&gt;`</span> operator) <span class="pp">|</span> Limited <span class="pp">|</span> Limited <span class="pp">|</span> Chain tasks <span class="pp">|</span> Transform-based <span class="pp">|</span> Task dependencies <span class="pp">|</span></span>
 <span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Type Safety** <span class="pp">|</span> Full inference <span class="pp">|</span> Partial <span class="pp">|</span> Good (Pydantic) <span class="pp">|</span> Limited <span class="pp">|</span> Limited <span class="pp">|</span> Limited <span class="pp">|</span></span>
 <span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Async Support** <span class="pp">|</span> Native <span class="pp">|</span> Flask: No, Django: Limited <span class="pp">|</span> Native <span class="pp">|</span> Yes <span class="pp">|</span> Limited <span class="pp">|</span> Yes <span class="pp">|</span></span>
 <span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Production Features** <span class="pp">|</span> Built-in <span class="pp">|</span> Add-ons <span class="pp">|</span> Some built-in <span class="pp">|</span> Basic <span class="pp">|</span> Enterprise <span class="pp">|</span> Enterprise <span class="pp">|</span></span>
@@ -1797,7 +1815,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose and add web interface</span></span>
 <span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>user_service <span class="op">=</span> (</span>
 <span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a>    ValidateEmail() </span>
-<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> CreateUser()</span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> CreateUser()</span>
 <span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>).with_skill(<span class="st">"api"</span>, method<span class="op">=</span><span class="st">"POST"</span>, path<span class="op">=</span><span class="st">"/users"</span>)</span>
 <span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a></span>
@@ -1842,7 +1860,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> user</span>
 <span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Use in API, CLI, or anywhere</span></span>
-<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> CheckUserExists() <span class="op">|</span> CreateUser()</span>
+<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> CheckUserExists() <span class="op">&gt;&gt;</span> CreateUser()</span>
 <span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-129"><a href="#cb20-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Add API interface when needed</span></span>
 <span id="cb20-130"><a href="#cb20-130" aria-hidden="true" tabindex="-1"></a>api_service <span class="op">=</span> pipeline.with_skill(<span class="st">"api"</span>, response_model<span class="op">=</span>UserResponse)</span>

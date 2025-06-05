@@ -21,7 +21,7 @@ This guide compares Nanobricks with other popular Python frameworks to help you 
 |---------|------------|--------------|---------|---------|-------------|-----------------|
 | **Primary Use** | Composable systems | Web apps | REST APIs | Task queues | Data pipelines | Workflows |
 | **Architecture** | Component-based | MVC/MTV | Route-based | Task-based | Pipeline-based | DAG-based |
-| **Composition** | Native (`\|` operator) | Limited | Limited | Chain tasks | Transform-based | Task dependencies |
+| **Composition** | Native (`>>` operator) | Limited | Limited | Chain tasks | Transform-based | Task dependencies |
 | **Type Safety** | Full inference | Partial | Good (Pydantic) | Limited | Limited | Limited |
 | **Async Support** | Native | Flask: No, Django: Limited | Native | Yes | Limited | Yes |
 | **Production Features** | Built-in | Add-ons | Some built-in | Basic | Enterprise | Enterprise |
@@ -75,7 +75,7 @@ class CreateUser(Nanobrick[dict, dict]):
 # Compose and add web interface
 user_service = (
     ValidateEmail() 
-    | CreateUser()
+    >> CreateUser()
 ).with_skill("api", method="POST", path="/users")
 ```
 
@@ -120,7 +120,7 @@ class CheckUserExists(Nanobrick[UserCreate, UserCreate]):
         return user
 
 # Use in API, CLI, or anywhere
-pipeline = CheckUserExists() | CreateUser()
+pipeline = CheckUserExists() >> CreateUser()
 
 # Add API interface when needed
 api_service = pipeline.with_skill("api", response_model=UserResponse)

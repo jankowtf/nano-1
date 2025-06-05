@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -618,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> text.upper()</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Composable: Works with others</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> ValidateText() <span class="op">|</span> UppercaseTransformer() <span class="op">|</span> SaveToFile()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> ValidateText() <span class="op">&gt;&gt;</span> UppercaseTransformer() <span class="op">&gt;&gt;</span> SaveToFile()</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Observable: Built-in visibility</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>transformer <span class="op">=</span> UppercaseTransformer().with_skill(<span class="st">"observability"</span>)</span>
@@ -1182,7 +1200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> text.upper()</span>
 <span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Composable: Works with others</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> ValidateText() <span class="op">|</span> UppercaseTransformer() <span class="op">|</span> SaveToFile()</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> ValidateText() <span class="op">&gt;&gt;</span> UppercaseTransformer() <span class="op">&gt;&gt;</span> SaveToFile()</span>
 <span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Observable: Built-in visibility</span></span>
 <span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>transformer <span class="op">=</span> UppercaseTransformer().with_skill(<span class="st">"observability"</span>)</span>

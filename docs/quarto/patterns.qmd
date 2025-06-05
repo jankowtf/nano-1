@@ -20,7 +20,7 @@ class Nanobrick(Protocol):
 #### 2. Pipe Operator Composition (LCEL)
 ```python
 # Intuitive chaining
-pipeline = validator | transformer | storage
+pipeline = validator >> transformer >> storage
 
 # Equivalent to
 pipeline = Pipeline([validator, transformer, storage])
@@ -296,7 +296,7 @@ class ValidatorBase(Nanobrick):
 ✅ **Do this instead:**
 ```python
 # Compose behaviors
-validator = StringValidator() | EmailPattern() | CorporateDomain()
+validator = StringValidator() >> EmailPattern() >> CorporateDomain()
 ```
 
 ### 2. Hidden State

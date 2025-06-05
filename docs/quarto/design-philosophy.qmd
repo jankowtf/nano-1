@@ -108,7 +108,7 @@ Based on analysis of successful frameworks like LangChain and PydanticAI, nanobr
 
 ### The Challenge
 
-When composing nanobricks with pipes (`A | B | C`), we need to ensure type safety where the output of A matches the input of B.
+When composing nanobricks with pipes (`A >> B >> C`), we need to ensure type safety where the output of A matches the input of B.
 
 ### The Solution
 

@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -533,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="your-first-nanobrick" class="level2">
 <h2 class="anchored" data-anchor-id="your-first-nanobrick">Your First Nanobrick</h2>
 <p>Every nanobrick is a self-contained unit of functionality:</p>
-<div id="98d57ed4" class="cell" data-execution_count="1">
+<div id="7c64b782" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: This example uses async/await syntax. </span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># In a Jupyter notebook, you can run this directly with 'await'.</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># In a Python script, wrap in asyncio.run() or use invoke_sync().</span></span>
@@ -564,7 +582,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="composing-nanobricks" class="level2">
 <h2 class="anchored" data-anchor-id="composing-nanobricks">Composing Nanobricks</h2>
 <p>The real power comes from composition using the pipe operator:</p>
-<div id="7a113399" class="cell" data-execution_count="2">
+<div id="6abe014f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UppercaseBrick(Nanobrick[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
@@ -585,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="advanced-composition-pipeline-builder" class="level2">
 <h2 class="anchored" data-anchor-id="advanced-composition-pipeline-builder">Advanced Composition: Pipeline Builder</h2>
 <p>For complex pipelines, use the fluent PipelineBuilder API:</p>
-<div id="41fcb515" class="cell" data-execution_count="3">
+<div id="2f9ceca1" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Pipeline</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a complex pipeline with branching and error handling</span></span>
@@ -607,7 +625,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="adding-skills" class="level2">
 <h2 class="anchored" data-anchor-id="adding-skills">Adding Skills</h2>
 <p>Skills add capabilities without changing your brick’s core logic:</p>
-<div id="08ef6dcf" class="cell" data-execution_count="4">
+<div id="e2582b40" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add logging</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>logged_greeter <span class="op">=</span> greeter.with_skill(<span class="st">"logging"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -629,7 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-real-applications" class="level2">
 <h2 class="anchored" data-anchor-id="building-real-applications">Building Real Applications</h2>
 <p>Here’s a complete data validation service in under 20 lines:</p>
-<div id="66cce41d" class="cell" data-execution_count="5">
+<div id="1c8cb2c0" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Nanobrick, skill</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.validators <span class="im">import</span> EmailValidator, TypeValidator</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -642,8 +660,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pipeline <span class="op">=</span> (</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            TypeValidator({<span class="st">"email"</span>: <span class="bu">str</span>, <span class="st">"age"</span>: <span class="bu">int</span>})</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> EmailValidator(field<span class="op">=</span><span class="st">"email"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> <span class="va">self</span>.enrich_user</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;</span> EmailValidator(field<span class="op">=</span><span class="st">"email"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;</span> <span class="va">self</span>.enrich_user</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, user_data: <span class="bu">dict</span>, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
@@ -687,21 +705,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="quick-examples">Quick Examples</h2>
 <section id="data-pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="data-pipeline">Data Pipeline</h3>
-<div id="da724d8e" class="cell" data-execution_count="6">
+<div id="d5a017b2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> CSVParser, TypeConverter</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.validators <span class="im">import</span> SchemaValidator</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>etl_pipeline <span class="op">=</span> (</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    CSVParser()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> SchemaValidator(schema)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> TypeConverter(types<span class="op">=</span>{<span class="st">"age"</span>: <span class="bu">int</span>, <span class="st">"salary"</span>: <span class="bu">float</span>})</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> DatabaseWriter()</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> SchemaValidator(schema)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> TypeConverter(types<span class="op">=</span>{<span class="st">"age"</span>: <span class="bu">int</span>, <span class="st">"salary"</span>: <span class="bu">float</span>})</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> DatabaseWriter()</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>).with_skill(<span class="st">"retry"</span>, max_attempts<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="rest-api-gateway" class="level3">
 <h3 class="anchored" data-anchor-id="rest-api-gateway">REST API Gateway</h3>
-<div id="769bbb37" class="cell" data-execution_count="7">
+<div id="e2211b0b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> create_api_gateway</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>api <span class="op">=</span> create_api_gateway(</span>
@@ -720,7 +738,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="microservice" class="level3">
 <h3 class="anchored" data-anchor-id="microservice">Microservice</h3>
-<div id="3951aec9" class="cell" data-execution_count="8">
+<div id="cf1612bd" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_microservice</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>service <span class="op">=</span> create_microservice(</span>
@@ -1348,8 +1366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
 <span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.pipeline <span class="op">=</span> (</span>
 <span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a>            TypeValidator({<span class="st">"email"</span>: <span class="bu">str</span>, <span class="st">"age"</span>: <span class="bu">int</span>})</span>
-<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> EmailValidator(field<span class="op">=</span><span class="st">"email"</span>)</span>
-<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>            <span class="op">|</span> <span class="va">self</span>.enrich_user</span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;</span> EmailValidator(field<span class="op">=</span><span class="st">"email"</span>)</span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>            <span class="op">&gt;&gt;</span> <span class="va">self</span>.enrich_user</span>
 <span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, user_data: <span class="bu">dict</span>, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">dict</span>:</span>
@@ -1389,9 +1407,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a>etl_pipeline <span class="op">=</span> (</span>
 <span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a>    CSVParser()</span>
-<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> SchemaValidator(schema)</span>
-<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> TypeConverter(types<span class="op">=</span>{<span class="st">"age"</span>: <span class="bu">int</span>, <span class="st">"salary"</span>: <span class="bu">float</span>})</span>
-<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> DatabaseWriter()</span>
+<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> SchemaValidator(schema)</span>
+<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> TypeConverter(types<span class="op">=</span>{<span class="st">"age"</span>: <span class="bu">int</span>, <span class="st">"salary"</span>: <span class="bu">float</span>})</span>
+<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> DatabaseWriter()</span>
 <span id="cb11-203"><a href="#cb11-203" aria-hidden="true" tabindex="-1"></a>).with_skill(<span class="st">"retry"</span>, max_attempts<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb11-204"><a href="#cb11-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb11-205"><a href="#cb11-205" aria-hidden="true" tabindex="-1"></a></span>

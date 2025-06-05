@@ -1,0 +1,636 @@
+# Release Workflows for Nanobricks
+#
+# This file contains high-level workflow tasks that orchestrate atomic tasks
+# and leverage Claude Code's reasoning for intelligent decision-making.
+
+version: '3'
+silent: true
+
+vars:
+  RELEASE_DIR: '.release'
+  CHANGELOG_FILE: CHANGELOG.md
+  VERSION_FILE: pyproject.toml
+  # Use common script to find claude
+  CLAUDE_CMD:
+    sh: "{{.ROOT_DIR}}/taskfiles/scripts/find-claude.sh || echo \"\""
+
+tasks:
+  # ============================================================================
+  # EXAMPLE CLAUDE INTEGRATION
+  # ============================================================================
+  
+  example:claude:hello:
+    desc: Simple example of Claude Code integration
+    cmds:
+      - |
+        # Use the discovered claude path
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          # Check if verbose mode is requested
+          if [ -n "{{.VERBOSE}}" ] || [ -n "$CLAUDE_VERBOSE" ]; then
+            echo "🔍 Running Claude in verbose mode..."
+            {{.CLAUDE_CMD}} --verbose -p "Say hello and show me the current git status and latest commit"
+          else
+            echo "🤖 Claude is thinking..."
+            echo "💡 Tip: Run with CLAUDE_VERBOSE=1 for detailed progress"
+            echo ""
+            {{.CLAUDE_CMD}} -p "Say hello and show me the current git status and latest commit"
+          fi
+        else
+          echo "❌ Claude CLI not found"
+          echo ""
+          echo "To use Claude integration, team members need to:"
+          echo ""
+          echo "Option 1: Set CLAUDE_PATH environment variable"
+          echo "  export CLAUDE_PATH=/path/to/your/claude"
+          echo "  Add this to your ~/.zshrc or ~/.bashrc"
+          echo ""
+          echo "Option 2: Ensure claude is in one of these locations:"
+          echo "  - $HOME/.claude/local/claude"
+          echo "  - /usr/local/bin/claude"
+          echo "  - /opt/homebrew/bin/claude"
+          echo "  - Anywhere in your PATH"
+          echo ""
+          echo "Option 3: Create a symlink:"
+          echo "  ln -s /your/actual/claude/path /usr/local/bin/claude"
+          echo ""
+          echo "Your claude installation (if using alias):"
+          echo "  Run 'alias | grep claude' to find your path"
+          echo ""
+          echo "For now, here's what Claude would analyze:"
+          echo "- Current git status"
+          git status --short
+          echo ""
+          echo "- Latest commit"
+          git log -1 --oneline
+        fi
+
+  claude:setup:
+    desc: Set up Claude CLI for your environment
+    cmds:
+      - |
+        echo "🔧 Claude CLI Setup Helper"
+        echo "========================="
+        echo ""
+        
+        # Check current status
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          echo "✅ Claude is already configured at: {{.CLAUDE_CMD}}"
+          echo ""
+          echo "Test it with: task workflow:example:claude:hello"
+          exit 0
+        fi
+        
+        echo "Claude CLI is not currently accessible to go-task."
+        echo ""
+        echo "Let's check your system..."
+        echo ""
+        
+        # Check for alias
+        if alias claude 2>/dev/null; then
+          echo "📍 Found claude alias:"
+          alias claude
+          echo ""
+          CLAUDE_REAL_PATH=$(alias claude | sed "s/.*='\\(.*\\)'/\\1/" | sed "s/.*=\"\\(.*\\)\"/\\1/")
+          echo "Real path: $CLAUDE_REAL_PATH"
+          echo ""
+          echo "To make this work with go-task, you can:"
+          echo "1. Add to your shell config (~/.zshrc or ~/.bashrc):"
+          echo "   export CLAUDE_PATH=\"$CLAUDE_REAL_PATH\""
+          echo ""
+          echo "2. Or create a symlink:"
+          echo "   sudo ln -s $CLAUDE_REAL_PATH /usr/local/bin/claude"
+        fi
+        
+        # Check common locations
+        echo ""
+        echo "Checking common installation locations..."
+        for loc in "$HOME/.claude/local/claude" "/Applications/Cursor.app/Contents/Resources/app/bin/claude" "/usr/local/bin/claude" "/opt/homebrew/bin/claude"; do
+          if [ -x "$loc" ]; then
+            echo "✅ Found at: $loc"
+          else
+            echo "❌ Not found at: $loc"
+          fi
+        done
+        
+        echo ""
+        echo "After setup, run: source ~/.zshrc (or restart terminal)"
+        echo "Then test with: task workflow:example:claude:hello"
+
+  claude:setup:export:
+    desc: Generate export command for your shell config
+    cmds:
+      - |
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          echo "# Add this to your ~/.zshrc or ~/.bashrc:"
+          echo "export CLAUDE_PATH=\"{{.CLAUDE_CMD}}\""
+        else
+          echo "❌ Claude not found. Run 'task workflow:claude:setup' for help"
+        fi
+
+  claude:prompt:dependent:
+    desc: Generate a Claude prompt to analyze a dependent project
+    summary: |-
+      Generates a Claude Code prompt that you can copy and run in your IDE.
+      This is useful when the claude CLI is not available in the shell environment.
+      
+      Usage:
+        task workflow:claude:prompt:dependent NAME=nano-scorm
+        
+      For verbose mode when running the generated prompt:
+        claude --verbose -p "..."
+    vars:
+      PROJECT_NAME: '{{.NAME}}'
+      DEPENDENT_PATH: 'dependents/{{.PROJECT_NAME}}'
+    cmds:
+      - |
+        if [ -z "{{.PROJECT_NAME}}" ]; then
+          echo "❌ Error - Please specify dependent project NAME"
+          echo "Usage - task workflow:claude:prompt:dependent NAME=project-name"
+          exit 1
+        fi
+        if [ ! -d "{{.DEPENDENT_PATH}}" ]; then
+          echo "❌ Error - Dependent project '{{.PROJECT_NAME}}' not found at {{.DEPENDENT_PATH}}"
+          echo "Available dependents:"
+          ls -la dependents/ 2>/dev/null || echo "No dependents directory found"
+          exit 1
+        fi
+        echo "📋 Copy and run this Claude prompt in your IDE:"
+        echo ""
+        echo "────────────────────────────────────────────────"
+        echo "claude -p \"Please analyze the {{.PROJECT_NAME}} project at {{.DEPENDENT_PATH}}. Focus on:"
+        echo "1. Overall project structure and purpose"
+        echo "2. How it uses the Nanobricks framework"
+        echo "3. Which Nanobricks features and patterns it implements"
+        echo "4. Any custom extensions or modifications"
+        echo "5. Potential improvements or better ways to use Nanobricks\""
+        echo "────────────────────────────────────────────────"
+        echo ""
+        echo "Or for a more detailed analysis:"
+        echo ""
+        echo "────────────────────────────────────────────────"
+        echo "claude -p \"Analyze {{.DEPENDENT_PATH}} and create a comprehensive report including:"
+        echo "- Project architecture and design patterns"
+        echo "- Nanobricks integration points"
+        echo "- Code quality and best practices adherence"
+        echo "- Performance considerations"
+        echo "- Security implications"
+        echo "- Suggestions for refactoring or improvements\""
+        echo "────────────────────────────────────────────────"
+
+  claude:prompt:nanobricks:
+    desc: Generate a Claude prompt to analyze the Nanobricks framework
+    summary: |-
+      Generates a Claude Code prompt for dependent projects to understand Nanobricks.
+      This is useful when the claude CLI is not available in the shell environment.
+      
+      For verbose mode when running the generated prompt:
+        claude --verbose -p "..."
+    cmds:
+      - |
+        echo "📋 Copy and run this Claude prompt in your dependent project:"
+        echo ""
+        echo "────────────────────────────────────────────────"
+        echo "claude -p \"Please analyze the upstream Nanobricks framework. Focus on:"
+        echo "1. Core architecture and design principles"
+        echo "2. Available features and capabilities"
+        echo "3. Best practices for integration"
+        echo "4. Common patterns and idioms"
+        echo "5. Extension points and customization options\""
+        echo "────────────────────────────────────────────────"
+
+  # ============================================================================
+  # PRE-RELEASE WORKFLOWS
+  # ============================================================================
+  
+  release:prepare:
+    desc: Prepare for a new release with Claude's guidance
+    summary: |
+      Interactive release preparation that uses Claude Code to analyze changes
+      and recommend the appropriate version bump (patch, minor, or major).
+      
+      Usage:
+        task workflow:release:prepare
+    cmds:
+      - mkdir -p {{.RELEASE_DIR}}
+      - |
+        echo "🤖 Analyzing changes since last release..."
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Please analyze the git commits since the last tag and determine:
+          1. What type of version bump is needed (patch/minor/major) based on conventional commits
+          2. Summarize the key changes for the changelog
+          3. Identify any potentially breaking changes
+          4. Check if there are any uncommitted files that should be included
+          5. Verify all tests are passing
+          
+          Run: git log $(git describe --tags --abbrev=0)..HEAD --oneline
+          
+          Output your analysis in a structured format."
+        else
+          echo "📋 Manual analysis needed (Claude CLI not available):"
+          echo ""
+          echo "Recent commits since last tag:"
+          git log $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD --oneline
+          echo ""
+          echo "Uncommitted changes:"
+          git status --short
+          echo ""
+          echo "Based on conventional commits:"
+          echo "- Use TYPE=patch for bug fixes"
+          echo "- Use TYPE=minor for new features"
+          echo "- Use TYPE=major for breaking changes"
+        fi
+      - |
+        echo ""
+        echo "📋 Next steps:"
+        echo "1. Review the analysis above"
+        echo "2. Run - task workflow:release:create TYPE=<patch|minor|major>"
+
+  release:validate:
+    desc: Validate release readiness with comprehensive checks
+    summary: |
+      Run all pre-release checks including tests, linting, build verification,
+      and use Claude to identify potential issues.
+    cmds:
+      - echo "🔍 Running pre-release validation..."
+      - task: core:dev:test
+      - task: core:dev:lint
+      - task: docs:site:render
+      - |
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Please verify the release readiness by checking:
+          1. Are there any uncommitted changes? (git status)
+          2. Are all dependencies up to date? (check pyproject.toml)
+          3. Is the documentation complete and accurate?
+          4. Are there any TODO or FIXME comments that should be addressed?
+          5. Review the most recent commits for any red flags
+          
+          Provide a GO/NO-GO recommendation with reasoning."
+        else
+          echo ""
+          echo "📋 Manual validation checklist:"
+          echo "✓ Tests passed"
+          echo "✓ Linting passed"
+          echo "✓ Documentation built"
+          echo ""
+          echo "Additional checks needed:"
+          echo "- [ ] No uncommitted changes (git status)"
+          echo "- [ ] Dependencies up to date"
+          echo "- [ ] No TODO/FIXME comments remaining"
+          echo "- [ ] Recent commits look good"
+        fi
+
+  # ============================================================================
+  # RELEASE CREATION WORKFLOWS
+  # ============================================================================
+
+  release:create:
+    desc: Create a new release with the specified version bump
+    summary: |
+      Complete release workflow that handles version bumping, changelog generation,
+      tagging, and publishing. Includes safety checks and rollback capabilities.
+      
+      Usage:
+        task workflow:release:create TYPE=patch
+        task workflow:release:create TYPE=minor
+        task workflow:release:create TYPE=major
+    vars:
+      BUMP_TYPE: '{{.TYPE}}'
+      ROLLBACK_FILE: '{{.RELEASE_DIR}}/rollback-{{now | date "20060102-150405"}}.json'
+    cmds:
+      - |
+        if [ -z "{{.BUMP_TYPE}}" ]; then
+          echo "❌ Please specify TYPE (patch/minor/major)"
+          echo "Usage - task workflow:release:create TYPE=patch"
+          exit 1
+        fi
+      # Create rollback point
+      - |
+        echo "💾 Creating rollback point..."
+        cat > {{.ROLLBACK_FILE}} << EOF
+        {
+          "timestamp": "{{now | date "2006-01-02T15:04:05Z07:00"}}",
+          "current_version": "$(grep -E '^version = ' {{.VERSION_FILE}} | cut -d '"' -f 2)",
+          "current_commit": "$(git rev-parse HEAD)",
+          "current_branch": "$(git rev-parse --abbrev-ref HEAD)",
+          "uncommitted_files": $(git status --porcelain | wc -l)
+        }
+        EOF
+      # Run the release workflow
+      - task: version:bump:{{.BUMP_TYPE}}
+      - task: workflow:changelog:generate
+      - task: workflow:release:commit
+      - task: workflow:release:tag
+      - |
+        echo "✅ Release prepared successfully!"
+        echo "📋 Review the changes and then run:"
+        echo "   task workflow:release:publish"
+
+  changelog:generate:
+    desc: Generate changelog with Claude's assistance
+    internal: true
+    vars:
+      CURRENT_VERSION:
+        sh: grep -E '^version = ' {{.VERSION_FILE}} | cut -d '"' -f 2
+    cmds:
+      - |
+        echo "📝 Generating changelog..."
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Generate a changelog entry for version {{.CURRENT_VERSION}} based on these commits:
+          
+          $(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'- %s (%h)')
+          
+          Format the output as:
+          ## [{{.CURRENT_VERSION}}] - $(date +%Y-%m-%d)
+          
+          ### Added
+          - New features
+          
+          ### Changed
+          - Updates to existing functionality
+          
+          ### Fixed
+          - Bug fixes
+          
+          ### Breaking Changes
+          - Any breaking changes
+          
+          Group commits by type and write user-friendly descriptions."
+        else
+          echo "📋 Generating changelog template for version {{.CURRENT_VERSION}}:"
+          echo ""
+          echo "## [{{.CURRENT_VERSION}}] - $(date +%Y-%m-%d)"
+          echo ""
+          echo "### Added"
+          git log $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD --pretty=format:'- %s' | grep -E '^- feat|^- add' || echo "- No new features"
+          echo ""
+          echo "### Changed"
+          git log $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD --pretty=format:'- %s' | grep -E '^- update|^- change|^- refactor' || echo "- No changes"
+          echo ""
+          echo "### Fixed"
+          git log $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD --pretty=format:'- %s' | grep -E '^- fix' || echo "- No fixes"
+        fi
+      - |
+        echo ""
+        echo "📋 Please review the generated changelog and update {{.CHANGELOG_FILE}} manually"
+        echo "Then continue with the release process"
+
+  release:commit:
+    desc: Commit release changes
+    internal: true
+    cmds:
+      - |
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Please check if all necessary files are staged for the release commit:
+          1. Version file ({{.VERSION_FILE}})
+          2. CHANGELOG.md
+          3. Any other files that should be included
+          
+          Run: git status
+          
+          If files are missing, list the git add commands needed."
+        else
+          echo "📋 Checking release files..."
+          echo ""
+          echo "Current git status:"
+          git status --short
+          echo ""
+          echo "Make sure these files are staged:"
+          echo "- [ ] {{.VERSION_FILE}} (version bump)"
+          echo "- [ ] {{.CHANGELOG_FILE}} (changelog)"
+          echo ""
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "📝 Suggested commands:"
+            echo "  git add {{.VERSION_FILE}}"
+            echo "  git add {{.CHANGELOG_FILE}}"
+          fi
+        fi
+      - task: version:commit:version
+
+  release:tag:
+    desc: Create and verify release tag
+    internal: true
+    cmds:
+      - task: version:tag:create
+      - |
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Verify the tag was created correctly:
+          1. Check the tag points to the right commit
+          2. Verify the tag message is appropriate
+          3. Ensure no uncommitted changes remain
+          
+          Run: git show HEAD && git status"
+        else
+          echo "✅ Tag created. Verification:"
+          echo ""
+          echo "Latest tag:"
+          git describe --tags --abbrev=0
+          echo ""
+          echo "Tag details:"
+          git show --no-patch --format=fuller $(git describe --tags --abbrev=0)
+          echo ""
+          echo "Working tree status:"
+          git status --short
+        fi
+
+  # ============================================================================
+  # RELEASE PUBLISHING WORKFLOWS
+  # ============================================================================
+
+  release:publish:
+    desc: Publish the release to GitHub and PyPI
+    summary: |
+      Final step to push the release. Includes pre-flight checks and
+      confirmation prompts.
+    cmds:
+      - |
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Pre-flight check before publishing:
+          1. Verify we're on the correct branch (main/master)
+          2. Check that local is up to date with remote
+          3. Verify the tag exists locally
+          4. Ensure build artifacts are ready
+          
+          Provide a GO/NO-GO for publishing."
+        else
+          echo "📋 Pre-flight checklist:"
+          echo ""
+          echo "Current branch: $(git branch --show-current)"
+          echo "Latest tag: $(git describe --tags --abbrev=0 2>/dev/null || echo 'No tags found')"
+          echo ""
+          echo "- [ ] On main/master branch"
+          echo "- [ ] Local is up to date with remote"
+          echo "- [ ] Tag exists locally"
+          echo "- [ ] Build artifacts ready"
+          echo ""
+          git status --short --branch
+        fi
+      - |
+        read -p "🚀 Ready to publish? This will push to GitHub and PyPI. Continue? (y/N) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+          echo "❌ Publishing cancelled"
+          exit 1
+        fi
+      - task: version:release
+      - task: build:publish:pypi
+
+  # ============================================================================
+  # RECOVERY WORKFLOWS
+  # ============================================================================
+
+  release:fix:forgotten:
+    desc: Fix a release where files were forgotten
+    summary: |
+      Recovery workflow for when you've already tagged but forgot to include
+      files. This safely moves the tag to include the missing changes.
+      
+      Usage:
+        task workflow:release:fix:forgotten TAG=v1.2.3
+    vars:
+      TAG_NAME: '{{.TAG}}'
+    cmds:
+      - |
+        if [ -z "{{.TAG_NAME}}" ]; then
+          echo "❌ Please specify TAG"
+          echo "Usage - task workflow:release:fix:forgotten TAG=v1.2.3"
+          exit 1
+        fi
+      - |
+        echo "🔧 Fixing release {{.TAG_NAME}}..."
+        if command -v claude >/dev/null 2>&1; then
+          claude -p "Help me fix a release where I forgot to commit files:
+          
+          Current situation:
+          - Tag {{.TAG_NAME}} exists but is missing files
+          - Need to add the forgotten files and move the tag
+          
+          Please provide the exact git commands to:
+          1. Create a branch from the tag
+          2. Add the missing files
+          3. Amend the commit if appropriate
+          4. Force update the tag locally and remotely
+          5. Ensure GitHub release is updated
+          
+          Current status: git status
+          Tag info: git show {{.TAG_NAME}}"
+        else
+          echo "📋 Manual fix procedure for forgotten files:"
+          echo ""
+          echo "Current status:"
+          git status --short
+          echo ""
+          echo "Tag info:"
+          git show --no-patch {{.TAG_NAME}}
+          echo ""
+          echo "Steps to fix:"
+          echo "1. git checkout -b fix-{{.TAG_NAME}} {{.TAG_NAME}}"
+          echo "2. git add <forgotten-files>"
+          echo "3. git commit --amend --no-edit"
+          echo "4. git tag -d {{.TAG_NAME}}"
+          echo "5. git tag {{.TAG_NAME}}"
+          echo "6. git push --force origin {{.TAG_NAME}}"
+        fi
+
+  release:rollback:
+    desc: Rollback a failed release
+    summary: |
+      Emergency rollback procedure with Claude's guidance to restore
+      the previous state.
+    cmds:
+      - |
+        echo "🚨 Starting release rollback..."
+        claude -p "Guide me through a release rollback:
+        
+        1. Identify the last good state (commit/tag)
+        2. Determine what needs to be reverted
+        3. Check if the release was published to PyPI
+        4. Provide commands to restore the previous state
+        5. Suggest communication to users if needed
+        
+        Recent tags: git tag -l --sort=-version:refname | head -5
+        Recent commits: git log --oneline -10"
+
+  release:hotfix:
+    desc: Create a hotfix release from a previous version
+    summary: |
+      Create a patch release from an older version when you need to
+      fix critical issues without including newer features.
+      
+      Usage:
+        task workflow:release:hotfix BASE=v1.2.0
+    vars:
+      BASE_VERSION: '{{.BASE}}'
+    cmds:
+      - |
+        if [ -z "{{.BASE_VERSION}}" ]; then
+          echo "❌ Please specify BASE version"
+          echo "Usage - task workflow:release:hotfix BASE=v1.2.0"
+          exit 1
+        fi
+      - |
+        claude -p "Help me create a hotfix from {{.BASE_VERSION}}:
+        
+        1. Create a hotfix branch from the tag
+        2. Guide me through cherry-picking the fix commits
+        3. Determine the new version number
+        4. Ensure the hotfix doesn't include unwanted features
+        5. Prepare the release notes highlighting this is a hotfix
+        
+        Show me the commits since {{.BASE_VERSION}}: git log {{.BASE_VERSION}}..HEAD --oneline"
+
+  # ============================================================================
+  # UTILITY WORKFLOWS
+  # ============================================================================
+
+  release:status:
+    desc: Show comprehensive release status
+    cmds:
+      - |
+        claude -p "Provide a comprehensive release status report:
+        
+        1. Current version in pyproject.toml
+        2. Latest git tag
+        3. Commits since last tag
+        4. Any uncommitted changes
+        5. Branch status vs remote
+        6. Outstanding PRs that might affect release
+        7. GitHub Actions status
+        
+        Include relevant git commands output."
+
+  release:dry-run:
+    desc: Simulate a release without making changes
+    summary: |
+      Run through all release steps without actually making changes.
+      Useful for training and verification.
+    vars:
+      BUMP_TYPE: '{{.TYPE | default "patch"}}'
+    cmds:
+      - |
+        echo "🎭 DRY RUN - No changes will be made"
+        claude -p "Simulate a {{.BUMP_TYPE}} release:
+        
+        1. Show what the new version would be
+        2. List the commits that would be included
+        3. Draft what the changelog would look like
+        4. Identify any potential issues
+        5. Show the commands that would be run
+        
+        Do NOT execute any commands that modify files or git state."
+
+  # ============================================================================
+  # RELEASE HISTORY
+  # ============================================================================
+
+  release:history:
+    desc: View release history with insights
+    cmds:
+      - |
+        claude -p "Analyze our release history and provide insights:
+        
+        1. List recent releases with dates and version bumps
+        2. Calculate average time between releases
+        3. Identify any patterns or irregularities
+        4. Suggest improvements to our release process
+        
+        Tags: git tag -l --sort=-version:refname --format='%(refname:short) %(creatordate:short) %(subject)' | head -20" 

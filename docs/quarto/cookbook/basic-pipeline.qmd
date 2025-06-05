@@ -16,7 +16,7 @@ You want to process data through multiple stages, where each stage transforms th
 Use the pipe operator (`>>`) to compose nanobricks when the output type of one stage matches the input type of the next stage.
 
 ```python
-pipeline = TextCleaner() | WordTokenizer() | WordCounter()
+pipeline = TextCleaner() >> WordTokenizer() >> WordCounter()
 result = await pipeline.invoke(input_text)
 ```
 

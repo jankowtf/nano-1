@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -534,7 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>storage: Nanobrick[<span class="bu">list</span>, <span class="va">None</span>]</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># This should type-check correctly</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="solutions" class="level2">
 <h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
@@ -554,7 +572,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="mypy-static-type-checking">2. Mypy (Static Type Checking)</h3>
 <p>Traditional static analysis with mypy plugins:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mypy will check this at analysis time</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pipeline: Nanobrick[<span class="bu">dict</span>, <span class="va">None</span>] <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pipeline: Nanobrick[<span class="bu">dict</span>, <span class="va">None</span>] <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="hybrid-approach-recommended" class="level3">
 <h3 class="anchored" data-anchor-id="hybrid-approach-recommended">3. Hybrid Approach (Recommended)</h3>
@@ -570,7 +588,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pipeline(Generic[T1, T2]):</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Type-safe pipeline composition"""</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other: Nanobrick[T2, T3]) <span class="op">-&gt;</span> Pipeline[T1, T3]:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other: Nanobrick[T2, T3]) <span class="op">-&gt;</span> Pipeline[T1, T3]:</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Type-safe composition</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Pipeline(<span class="va">self</span>, other)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
@@ -1121,7 +1139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>storage: Nanobrick[<span class="bu">list</span>, <span class="va">None</span>]</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># This should type-check correctly</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Solutions</span></span>
@@ -1151,7 +1169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="co"># mypy will check this at analysis time</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>pipeline: Nanobrick[<span class="bu">dict</span>, <span class="va">None</span>] <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>pipeline: Nanobrick[<span class="bu">dict</span>, <span class="va">None</span>] <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span>
 <span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Hybrid Approach (Recommended)</span></span>
@@ -1170,7 +1188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Pipeline(Generic[T1, T2]):</span>
 <span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Type-safe pipeline composition"""</span></span>
 <span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other: Nanobrick[T2, T3]) <span class="op">-&gt;</span> Pipeline[T1, T3]:</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other: Nanobrick[T2, T3]) <span class="op">-&gt;</span> Pipeline[T1, T3]:</span>
 <span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Type-safe composition</span></span>
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Pipeline(<span class="va">self</span>, other)</span>
 <span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>

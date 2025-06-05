@@ -47,7 +47,7 @@
 - [ ] Create Echo nanobrick (identity function)
 - [ ] Create Uppercase transformer
 - [ ] Create simple Validator
-- [ ] Demonstrate basic pipeline: Echo | Uppercase | Validator
+- [ ] Demonstrate basic pipeline: Echo >> Uppercase >> Validator
 - [ ] Add async and sync usage examples
 
 ### 1.5 Basic Tests (30 min)
@@ -69,7 +69,7 @@
 
 ## Success Criteria
 - [ ] Can create nanobricks by inheriting from NanobrickBase
-- [ ] Can compose nanobricks with | operator
+- [ ] Can compose nanobricks with >> operator
 - [ ] Errors propagate correctly through pipelines
 - [ ] Both async and sync invocation work
 - [ ] All tests pass and mypy is happy

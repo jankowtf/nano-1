@@ -650,7 +650,7 @@ async def test_validator():
 
 # Test composed pipelines
 async def test_pipeline():
-    pipeline = Validator() | Processor() | Saver()
+    pipeline = Validator() >> Processor() >> Saver()
     
     # Mock dependencies
     mock_deps = {"db": MockDatabase(), "cache": MockCache()}
@@ -792,7 +792,7 @@ pipeline = (
 # Process items in batches
 batch_processor = (
     DataValidator()
-    | BatchProcessor(batch_size=100)
+    >> BatchProcessor(batch_size=100)
     | BulkDatabaseWriter()
 )
 

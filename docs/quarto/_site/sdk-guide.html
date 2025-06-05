@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -559,7 +577,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="repository-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="repository-pattern">Repository Pattern</h3>
 <p>Build a complete data access layer:</p>
-<div id="bdd1e7b9" class="cell" data-execution_count="1">
+<div id="8a56b404" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase, Nanobrick, Pipeline</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Optional, List, TypedDict</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -642,7 +660,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="service-layer-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="service-layer-pattern">Service Layer Pattern</h3>
 <p>Build business logic as composable services:</p>
-<div id="3b2739d8" class="cell" data-execution_count="2">
+<div id="9074bb34" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_service, ServiceDeps</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> OrderService:</span>
@@ -706,7 +724,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="event-driven-architecture" class="level3">
 <h3 class="anchored" data-anchor-id="event-driven-architecture">Event-Driven Architecture</h3>
 <p>Build event-driven systems with nanobricks:</p>
-<div id="3db2a305" class="cell" data-execution_count="3">
+<div id="6e619b4b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.patterns <span class="im">import</span> EventBus, EventHandler</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define event handlers as nanobricks</span></span>
@@ -756,7 +774,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="cqrs-pattern" class="level3">
 <h3 class="anchored" data-anchor-id="cqrs-pattern">CQRS Pattern</h3>
 <p>Separate commands and queries:</p>
-<div id="6b1e9208" class="cell" data-execution_count="4">
+<div id="353bc42d" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Command, Query</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Commands modify state</span></span>
@@ -811,7 +829,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-a-rest-api" class="level3">
 <h3 class="anchored" data-anchor-id="building-a-rest-api">Building a REST API</h3>
 <p>Complete REST API with authentication, rate limiting, and monitoring:</p>
-<div id="2fb0ac23" class="cell" data-execution_count="5">
+<div id="82c173de" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_rest_api</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> skill</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -878,7 +896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-a-data-pipeline" class="level3">
 <h3 class="anchored" data-anchor-id="building-a-data-pipeline">Building a Data Pipeline</h3>
 <p>ETL pipeline for data processing:</p>
-<div id="d7bedc2f" class="cell" data-execution_count="6">
+<div id="dd64845d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_data_pipeline</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.transformers <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.validators <span class="im">import</span> <span class="op">*</span></span>
@@ -977,7 +995,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-a-microservice" class="level3">
 <h3 class="anchored" data-anchor-id="building-a-microservice">Building a Microservice</h3>
 <p>Complete microservice with all production features:</p>
-<div id="0b4da33f" class="cell" data-execution_count="7">
+<div id="22b09d7e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> Microservice, create_microservice</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define your microservice</span></span>
@@ -1052,7 +1070,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="keep-bricks-atomic" class="level3">
 <h3 class="anchored" data-anchor-id="keep-bricks-atomic">1. Keep Bricks Atomic</h3>
 <p>Each brick should do ONE thing:</p>
-<div id="eb8b1633" class="cell" data-execution_count="8">
+<div id="f5ff26cb" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Single responsibility</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ValidateEmail(Nanobrick[<span class="bu">str</span>, <span class="bu">str</span>]):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, email: <span class="bu">str</span>, <span class="op">*</span>, deps<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
@@ -1071,7 +1089,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="use-type-hints" class="level3">
 <h3 class="anchored" data-anchor-id="use-type-hints">2. Use Type Hints</h3>
 <p>Always specify types for better IDE support and safety:</p>
-<div id="b479ac11" class="cell" data-execution_count="9">
+<div id="38267a22" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> List, Dict, Optional</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DataProcessor(NanobrickBase[List[Dict], ProcessedData, AppDeps]):</span>
@@ -1090,7 +1108,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="compose-dont-inherit" class="level3">
 <h3 class="anchored" data-anchor-id="compose-dont-inherit">3. Compose, Don’t Inherit</h3>
 <p>Build functionality through composition:</p>
-<div id="b4d2c445" class="cell" data-execution_count="10">
+<div id="52906e54" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Good: Composition</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>user_processor <span class="op">=</span> (</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    ValidateUser()</span>
@@ -1111,7 +1129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="handle-errors-gracefully" class="level3">
 <h3 class="anchored" data-anchor-id="handle-errors-gracefully">4. Handle Errors Gracefully</h3>
 <p>Use appropriate error handling patterns:</p>
-<div id="2774e024" class="cell" data-execution_count="11">
+<div id="552b1c28" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use fallbacks for resilience</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>safe_api_call <span class="op">=</span> Fallback(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    primary<span class="op">=</span>ExternalAPICall(),</span>
@@ -1136,7 +1154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="test-in-isolation" class="level3">
 <h3 class="anchored" data-anchor-id="test-in-isolation">5. Test in Isolation</h3>
 <p>Test each brick independently:</p>
-<div id="f496262d" class="cell" data-execution_count="12">
+<div id="3775f115" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test individual bricks</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> test_validator():</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    validator <span class="op">=</span> EmailValidator()</span>
@@ -1151,7 +1169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Test composed pipelines</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> test_pipeline():</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> Validator() <span class="op">|</span> Processor() <span class="op">|</span> Saver()</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> Validator() <span class="op">&gt;&gt;</span> Processor() <span class="op">&gt;&gt;</span> Saver()</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mock dependencies</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    mock_deps <span class="op">=</span> {<span class="st">"db"</span>: MockDatabase(), <span class="st">"cache"</span>: MockCache()}</span>
@@ -1165,7 +1183,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="deployment-patterns">Deployment Patterns</h2>
 <section id="container-deployment" class="level3">
 <h3 class="anchored" data-anchor-id="container-deployment">Container Deployment</h3>
-<div id="3db551f5" class="cell" data-execution_count="13">
+<div id="31d684cf" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Docker skill to any brick or service</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dockerized <span class="op">=</span> my_service.with_skill(<span class="st">"docker"</span>, {</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"base_image"</span>: <span class="st">"python:3.13-slim"</span>,</span>
@@ -1180,7 +1198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="kubernetes-deployment" class="level3">
 <h3 class="anchored" data-anchor-id="kubernetes-deployment">Kubernetes Deployment</h3>
-<div id="c138de08" class="cell" data-execution_count="14">
+<div id="8e1e001e" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add Kubernetes skill</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>k8s_service <span class="op">=</span> my_service.with_skill(<span class="st">"kubernetes"</span>, {</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"namespace"</span>: <span class="st">"production"</span>,</span>
@@ -1203,7 +1221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="serverless-deployment" class="level3">
 <h3 class="anchored" data-anchor-id="serverless-deployment">Serverless Deployment</h3>
-<div id="de2259ac" class="cell" data-execution_count="15">
+<div id="0d82043f" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create serverless functions from nanobricks</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.serverless <span class="im">import</span> create_lambda</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1227,7 +1245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="monitoring-and-observability">Monitoring and Observability</h2>
 <section id="built-in-observability" class="level3">
 <h3 class="anchored" data-anchor-id="built-in-observability">Built-in Observability</h3>
-<div id="bfc98bb3" class="cell" data-execution_count="16">
+<div id="9ed6d08a" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add observability to any brick</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>observable <span class="op">=</span> my_service.with_skill(<span class="st">"observability"</span>, {</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"traces"</span>: <span class="va">True</span>,</span>
@@ -1245,7 +1263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="custom-metrics" class="level3">
 <h3 class="anchored" data-anchor-id="custom-metrics">Custom Metrics</h3>
-<div id="400f1b14" class="cell" data-execution_count="17">
+<div id="d0b15be6" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PaymentProcessor(NanobrickBase[Payment, Receipt, AppDeps]):</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, payment: Payment, <span class="op">*</span>, deps: AppDeps) <span class="op">-&gt;</span> Receipt:</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Record custom metrics</span></span>
@@ -1267,7 +1285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="performance-optimization">Performance Optimization</h2>
 <section id="caching-strategies" class="level3">
 <h3 class="anchored" data-anchor-id="caching-strategies">Caching Strategies</h3>
-<div id="5ea86e9b" class="cell" data-execution_count="18">
+<div id="ee657f62" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add caching to expensive operations</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cached_processor <span class="op">=</span> (</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    DataProcessor()</span>
@@ -1285,11 +1303,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="batch-processing" class="level3">
 <h3 class="anchored" data-anchor-id="batch-processing">Batch Processing</h3>
-<div id="22ffe9ad" class="cell" data-execution_count="19">
+<div id="65d0a5d7" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process items in batches</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>batch_processor <span class="op">=</span> (</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    DataValidator()</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> BatchProcessor(batch_size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> BatchProcessor(batch_size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> BulkDatabaseWriter()</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
@@ -2423,7 +2441,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-674"><a href="#cb20-674" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-675"><a href="#cb20-675" aria-hidden="true" tabindex="-1"></a><span class="co"># Test composed pipelines</span></span>
 <span id="cb20-676"><a href="#cb20-676" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> test_pipeline():</span>
-<span id="cb20-677"><a href="#cb20-677" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> Validator() <span class="op">|</span> Processor() <span class="op">|</span> Saver()</span>
+<span id="cb20-677"><a href="#cb20-677" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> Validator() <span class="op">&gt;&gt;</span> Processor() <span class="op">&gt;&gt;</span> Saver()</span>
 <span id="cb20-678"><a href="#cb20-678" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb20-679"><a href="#cb20-679" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mock dependencies</span></span>
 <span id="cb20-680"><a href="#cb20-680" aria-hidden="true" tabindex="-1"></a>    mock_deps <span class="op">=</span> {<span class="st">"db"</span>: MockDatabase(), <span class="st">"cache"</span>: MockCache()}</span>
@@ -2565,7 +2583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-830"><a href="#cb20-830" aria-hidden="true" tabindex="-1"></a><span class="co"># Process items in batches</span></span>
 <span id="cb20-831"><a href="#cb20-831" aria-hidden="true" tabindex="-1"></a>batch_processor <span class="op">=</span> (</span>
 <span id="cb20-832"><a href="#cb20-832" aria-hidden="true" tabindex="-1"></a>    DataValidator()</span>
-<span id="cb20-833"><a href="#cb20-833" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> BatchProcessor(batch_size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb20-833"><a href="#cb20-833" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> BatchProcessor(batch_size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb20-834"><a href="#cb20-834" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> BulkDatabaseWriter()</span>
 <span id="cb20-835"><a href="#cb20-835" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb20-836"><a href="#cb20-836" aria-hidden="true" tabindex="-1"></a></span>

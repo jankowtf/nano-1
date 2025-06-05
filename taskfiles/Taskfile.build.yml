@@ -410,7 +410,13 @@ tasks:
             cmds:
               - |
                 echo "🤖 Asking Claude Code to understand Nanobricks framework..."
-                claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+                if command -v claude >/dev/null 2>&1; then
+                  claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+                else
+                  echo "⚠️  Claude CLI not found. To use this command:"
+                  echo "   1. Install Claude CLI"
+                  echo "   2. Or run from parent Nanobricks: task dev:claude:understand:nanobricks"
+                fi
         EOF
       - |
         # Create README
@@ -576,7 +582,13 @@ tasks:
             cmds:
               - |
                 echo "🤖 Asking Claude Code to understand Nanobricks framework..."
-                claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+                if command -v claude >/dev/null 2>&1; then
+                  claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+                else
+                  echo "⚠️  Claude CLI not found. To use this command:"
+                  echo "   1. Install Claude CLI"
+                  echo "   2. Or run from parent Nanobricks: task dev:claude:understand:nanobricks"
+                fi
         EOF
       - |
         # Update README

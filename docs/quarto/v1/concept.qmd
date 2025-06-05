@@ -115,7 +115,7 @@ class Nanobrick(Protocol, Generic[InputT, OutputT, DepsT]):
         ...
     
     # Composition support (LCEL-inspired)
-    def __or__(self, other: 'Nanobrick') -> 'Nanobrick':
+    def __rshift__(self, other: 'Nanobrick') -> 'Nanobrick':
         """Pipe operator for composition"""
         ...
     

@@ -231,6 +231,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -239,6 +245,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -327,6 +339,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -591,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="implementation" class="level3">
 <h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
-<div id="2281dbb1" class="cell" data-execution_count="1">
+<div id="40e87b96" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase, Nanobrick, create_service</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> skill</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.patterns <span class="im">import</span> Pipeline, Branch, Fallback</span>
@@ -855,7 +873,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="testing" class="level3">
 <h3 class="anchored" data-anchor-id="testing">Testing</h3>
-<div id="ddbb0ad6" class="cell" data-execution_count="2">
+<div id="9766b34c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.testing <span class="im">import</span> create_test_client</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -982,7 +1000,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="implementation-1" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-1">Implementation</h3>
-<div id="b46bdabf" class="cell" data-execution_count="3">
+<div id="5640632d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> NanobrickBase, Nanobrick, create_pipeline</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.patterns <span class="im">import</span> Router, Parallel, Window</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> typing <span class="im">import</span> Dict, List, Any</span>
@@ -1196,7 +1214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="performance-optimization" class="level3">
 <h3 class="anchored" data-anchor-id="performance-optimization">Performance Optimization</h3>
-<div id="4bc20db5" class="cell" data-execution_count="4">
+<div id="c6b6c8a5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add performance optimizations</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>optimized_pipeline <span class="op">=</span> (</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    SensorDataPipeline(deps)</span>
@@ -1290,7 +1308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="implementation-2" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-2">Implementation</h3>
-<div id="57fdadcd" class="cell" data-execution_count="5">
+<div id="eed8c9b2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks <span class="im">import</span> create_microservice, NanobrickBase</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.patterns <span class="im">import</span> Saga, Compensate</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> decimal <span class="im">import</span> Decimal</span>
@@ -1531,7 +1549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="testing-with-saga-compensation" class="level3">
 <h3 class="anchored" data-anchor-id="testing-with-saga-compensation">Testing with Saga Compensation</h3>
-<div id="3a6fdc37" class="cell" data-execution_count="6">
+<div id="4481fb3b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.asyncio</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> test_payment_failure_compensation():</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test that inventory is released when payment fails."""</span></span>
@@ -1565,7 +1583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>An intelligent support system using nanobricks with AI capabilities.</p>
 <section id="implementation-3" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-3">Implementation</h3>
-<div id="d154a351" class="cell" data-execution_count="7">
+<div id="7cc48068" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.ai <span class="im">import</span> AIBrick, ConversationMemory</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.skills <span class="im">import</span> create_mcp_server</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1733,7 +1751,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="monitoring-setup" class="level3">
 <h3 class="anchored" data-anchor-id="monitoring-setup">3. Monitoring Setup</h3>
-<div id="59f53e22" class="cell" data-execution_count="8">
+<div id="ba0d3c21" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.observability <span class="im">import</span> create_monitoring_stack</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>monitoring <span class="op">=</span> create_monitoring_stack(</span>
@@ -1785,7 +1803,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="performance-tuning">Performance Tuning</h2>
 <section id="database-connection-pooling" class="level3">
 <h3 class="anchored" data-anchor-id="database-connection-pooling">Database Connection Pooling</h3>
-<div id="d9d217fa" class="cell" data-execution_count="9">
+<div id="e78db0ea" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> create_connection_pool</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>db_pool <span class="op">=</span> create_connection_pool(</span>
@@ -1803,7 +1821,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="caching-strategy" class="level3">
 <h3 class="anchored" data-anchor-id="caching-strategy">Caching Strategy</h3>
-<div id="943a4503" class="cell" data-execution_count="10">
+<div id="b03d9883" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.performance <span class="im">import</span> MultiLevelCache</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>cache <span class="op">=</span> MultiLevelCache(</span>
@@ -1826,7 +1844,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="security-hardening">Security Hardening</h2>
 <section id="api-security" class="level3">
 <h3 class="anchored" data-anchor-id="api-security">API Security</h3>
-<div id="9221ea38" class="cell" data-execution_count="11">
+<div id="b34471a6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nanobricks.security <span class="im">import</span> secure_api</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>secure_service <span class="op">=</span> secure_api(</span>

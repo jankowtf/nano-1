@@ -197,7 +197,7 @@ analyzer = parallel(
 )
 
 # Error handling with fallbacks
-safe_processor = DataProcessor() | fallback(
+safe_processor = DataProcessor() >> fallback(
     DefaultProcessor(),
     on_error=ProcessingError
 )

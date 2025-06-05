@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -721,7 +739,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> LoadData() <span class="op">&gt;&gt;</span> ValidateSchema() <span class="op">&gt;&gt;</span> TransformFields() <span class="op">&gt;&gt;</span> SaveOutput()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Migration from v0.1.x:</strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Old (v0.1.x)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">|</span> Validator() <span class="op">|</span> Formatter()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># New (v0.2.0)</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1625,7 +1643,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>**Migration from v0.1.x:**</span>
 <span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Old (v0.1.x)</span></span>
-<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">|</span> Validator() <span class="op">|</span> Formatter()</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>
 <span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="co"># New (v0.2.0)</span></span>
 <span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>

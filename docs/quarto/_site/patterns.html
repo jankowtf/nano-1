@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -553,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pipe-operator-composition-lcel" class="level4">
 <h4 class="anchored" data-anchor-id="pipe-operator-composition-lcel">2. Pipe Operator Composition (LCEL)</h4>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intuitive chaining</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> Pipeline([validator, transformer, storage])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -801,7 +819,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Too deep!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>✅ <strong>Do this instead:</strong></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose behaviors</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>validator <span class="op">=</span> StringValidator() <span class="op">|</span> EmailPattern() <span class="op">|</span> CorporateDomain()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>validator <span class="op">=</span> StringValidator() <span class="op">&gt;&gt;</span> EmailPattern() <span class="op">&gt;&gt;</span> CorporateDomain()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="hidden-state" class="level3">
 <h3 class="anchored" data-anchor-id="hidden-state">2. Hidden State</h3>
@@ -1323,7 +1341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 2. Pipe Operator Composition (LCEL)</span></span>
 <span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Intuitive chaining</span></span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">|</span> transformer <span class="op">|</span> storage</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> validator <span class="op">&gt;&gt;</span> transformer <span class="op">&gt;&gt;</span> storage</span>
 <span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to</span></span>
 <span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> Pipeline([validator, transformer, storage])</span>
@@ -1599,7 +1617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-296"><a href="#cb23-296" aria-hidden="true" tabindex="-1"></a>✅ **Do this instead:**</span>
 <span id="cb23-297"><a href="#cb23-297" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
 <span id="cb23-298"><a href="#cb23-298" aria-hidden="true" tabindex="-1"></a><span class="co"># Compose behaviors</span></span>
-<span id="cb23-299"><a href="#cb23-299" aria-hidden="true" tabindex="-1"></a>validator <span class="op">=</span> StringValidator() <span class="op">|</span> EmailPattern() <span class="op">|</span> CorporateDomain()</span>
+<span id="cb23-299"><a href="#cb23-299" aria-hidden="true" tabindex="-1"></a>validator <span class="op">=</span> StringValidator() <span class="op">&gt;&gt;</span> EmailPattern() <span class="op">&gt;&gt;</span> CorporateDomain()</span>
 <span id="cb23-300"><a href="#cb23-300" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb23-301"><a href="#cb23-301" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-302"><a href="#cb23-302" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Hidden State</span></span>

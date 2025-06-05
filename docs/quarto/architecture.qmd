@@ -25,7 +25,7 @@ class NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):
     
     async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
     def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
-    def __or__(self, other: 'NanobrickProtocol') -> 'NanobrickProtocol': ...
+    def __rshift__(self, other: 'NanobrickProtocol') -> 'NanobrickProtocol': ...
 
 class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
     """Runtime enforcement base class"""
@@ -49,7 +49,7 @@ class NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):
             # No running loop, safe to use asyncio.run()
             return asyncio.run(self.invoke(input, deps=deps))
     
-    def __or__(self, other):
+    def __rshift__(self, other):
         """Composition operator with type preservation"""
         return NanobrickComposite(self, other)
 ```
@@ -63,20 +63,20 @@ class ErrorHandling:
     """Simple error propagation by default"""
     
     # Default: Fail fast
-    pipeline = A() | B() | C()  # If B fails, pipeline stops
+    pipeline = A() >> B() >> C()  # If B fails, pipeline stops
     
     # Explicit error handling
     pipeline = (
         A()
-        | B().with_fallback(lambda e: default_value)
-        | C()
+        >> B().with_fallback(lambda e: default_value)
+        >> C()
     )
     
     # Future: Circuit breaker skill
     pipeline = (
         A()
-        | B().with_skill("circuit_breaker")
-        | C()
+        >> B().with_skill("circuit_breaker")
+        >> C()
     )
 ```
 
@@ -101,8 +101,8 @@ brick = DataTransformer().with_state_scope("user:123")
 state_store = StateStore("redis://localhost")
 pipeline = (
     A().with_state(state_store)
-    | B().with_state(state_store)  # Shares same store
-    | C()  # Stateless
+    >> B().with_state(state_store)  # Shares same store
+    >> C()  # Stateless
 )
 ```
 
@@ -145,8 +145,8 @@ pipeline: Nanobrick[RawData, FinalResult, MyDeps] = (
 
 # Type hints for intermediate results
 step1 = Validator()  # type: Nanobrick[Raw, Valid, Deps]
-step2 = step1 | Transformer()  # type: Nanobrick[Raw, Trans, Deps]
-step3 = step2 | Persister()  # type: Nanobrick[Raw, Final, Deps]
+step2 = step1 >> Transformer()  # type: Nanobrick[Raw, Trans, Deps]
+step3 = step2 >> Persister()  # type: Nanobrick[Raw, Final, Deps]
 ```
 
 ## Enhanced Architectural Features
@@ -225,30 +225,30 @@ Beyond linear pipelines:
 # Conditional branching
 pipeline = (
     Validator()
-    | Branch(
+    >> Branch(
         condition=lambda x: x.get("type") == "A",
         true_path=ProcessorA(),
         false_path=ProcessorB()
     )
-    | Merger()
+    >> Merger()
 )
 
 # Parallel execution
 pipeline = (
     Splitter()
-    | Parallel([
+    >> Parallel([
         ProcessorA(),
         ProcessorB(),
         ProcessorC()
     ])
-    | Aggregator()
+    >> Aggregator()
 )
 
 # Fan-out/fan-in
 pipeline = (
     Source()
-    | FanOut([ProcessorA(), ProcessorB()])  # Copies to both
-    | FanIn(strategy="merge")  # Combines results
+    >> FanOut([ProcessorA(), ProcessorB()])  # Copies to both
+    >> FanIn(strategy="merge")  # Combines results
 )
 ```
 
@@ -269,7 +269,7 @@ class Skill(Protocol):
 
 Handles different composition patterns:
 
-- **Sequential**: `A | B | C`
+- **Sequential**: `A >> B >> C`
 - **Parallel**: `A + B + C`
 - **Nested**: `A(B(C))`
 - **Hybrid**: Complex workflows

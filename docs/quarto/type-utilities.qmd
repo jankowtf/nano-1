@@ -164,7 +164,7 @@ When types don't match in a pipeline, you now get helpful error messages:
 from nanobricks import TypeMismatchError
 
 try:
-    pipeline = StringProducer() | DictConsumer()
+    pipeline = StringProducer() >> DictConsumer()
 except TypeMismatchError as e:
     print(f"Left brick: {e.left_brick}")
     print(f"Right brick: {e.right_brick}")

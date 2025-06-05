@@ -48,8 +48,8 @@ class DataProcessor(Nanobrick[dict, dict]):
 # Compose a pipeline
 pipeline = (
     ValidateData()
-    | DataProcessor()
-    | SaveToDatabase()
+    >> DataProcessor()
+    >> SaveToDatabase()
 ).with_skill("retry", max_attempts=3)
 
 # Use it
@@ -134,10 +134,10 @@ api = create_rest_api(
 #| eval: false
 pipeline = (
     S3Loader(bucket="raw-data")
-    | CSVParser()
-    | DataValidator(schema)
-    | Transformer()
-    | DatabaseWriter()
+    >> CSVParser()
+    >> DataValidator(schema)
+    >> Transformer()
+    >> DatabaseWriter()
 ).with_skill("monitoring")
 ```
 

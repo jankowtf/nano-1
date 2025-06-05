@@ -7,7 +7,7 @@ format:
     code-tools: true
     toc: true
 execute:
-  echo: true
+  echo: false
   warning: false
 ---
 
@@ -23,7 +23,7 @@ classDiagram
         +version: str
         +invoke(input: T_in, deps: T_deps) T_out
         +invoke_sync(input: T_in, deps: T_deps) T_out
-        +__or__(other: NanobrickProtocol) NanobrickProtocol
+        +__rshift__(other: NanobrickProtocol) NanobrickProtocol
     }
     
     class NanobrickBase {
@@ -89,7 +89,9 @@ graph LR
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 pipeline = ValidateBrick() >> TransformBrick() >> EnrichBrick() >> SaveBrick()
 ```
 
@@ -110,7 +112,9 @@ graph TB
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 branch = Branch(
     condition=ConditionBrick(),
     true_branch=ProcessAdult(),
@@ -139,7 +143,9 @@ graph TB
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 parallel = Parallel([
     Processor1(),
     Processor2(),
@@ -161,7 +167,9 @@ graph LR
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 safe = Fallback(
     primary=UnreliableAPI(),
     fallback=CachedResponse()
@@ -198,7 +206,9 @@ graph TB
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 # Base brick
 processor = DataProcessor()
 
@@ -265,7 +275,9 @@ graph TB
 ```
 
 **Code:**
-```python
+```{python}
+#| echo: true
+#| eval: false
 deps = {
     "db": database_connection,
     "cache": redis_client,

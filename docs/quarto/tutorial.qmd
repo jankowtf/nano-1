@@ -128,7 +128,7 @@ class TextTokenizer(Nanobrick[str, list]):
         return text.split()
 
 # Compose them
-text_pipeline = TextCleaner() | TextLowercaser() | TextTokenizer()
+text_pipeline = TextCleaner() >> TextLowercaser() >> TextTokenizer()
 
 tokens = await text_pipeline.invoke("  Hello   WORLD  ")
 # ['hello', 'world']
@@ -146,8 +146,8 @@ class IsAdult(Nanobrick[dict, bool]):
     async def invoke(self, person: dict, *, deps=None) -> bool:
         return person.get("age", 0) >= 18
 
-adult_pipeline = ProcessAdult() | SendWelcomeEmail()
-minor_pipeline = ProcessMinor() | NotifyGuardian()
+adult_pipeline = ProcessAdult() >> SendWelcomeEmail()
+minor_pipeline = ProcessMinor() >> NotifyGuardian()
 
 age_router = Branch(
     condition=IsAdult(),
@@ -234,7 +234,7 @@ deps = DependencyContainer(
 )
 
 # All bricks in pipeline receive deps
-pipeline = ValidateRequest() | UserLoader() | EnrichUser() | SaveUser()
+pipeline = ValidateRequest() >> UserLoader() >> EnrichUser() >> SaveUser()
 result = await pipeline.invoke(request, deps=deps.to_dict())
 ```
 
@@ -434,7 +434,7 @@ async def test_validator():
 #| eval: false
 @pytest.mark.asyncio
 async def test_pipeline():
-    pipeline = Loader() | Validator() | Transformer()
+    pipeline = Loader() >> Validator() >> Transformer()
     
     result = await pipeline.invoke("input_data")
     assert result["status"] == "transformed"
@@ -530,7 +530,7 @@ class MyBrick(NanobrickBase[InputType, OutputType, DepsType]):
 ```{python}
 #| eval: false
 # Linear
-pipeline = A() | B() | C()
+pipeline = A() >> B() >> C()
 
 # Branching
 branch = Branch(condition, true_path, false_path)

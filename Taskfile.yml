@@ -11,10 +11,11 @@ vars:
     sh: echo $HOME
 
 includes:
-  build: ./Taskfile.build.yml
-  dev: ./Taskfile.dev.yml
-  version: ./Taskfile.version.yml
-  docs: ./Taskfile.docs.yml
+  docs: ./taskfiles/Taskfile.docs.yml
+  build: ./taskfiles/Taskfile.build.yml
+  version: ./taskfiles/Taskfile.version.yml
+  dev: ./taskfiles/Taskfile.dev.yml
+  workflow: ./taskfiles/Taskfile.workflows.yml
 
 tasks:
   default:

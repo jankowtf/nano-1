@@ -95,8 +95,8 @@ api = create_rest_api(
 pipeline = (
     S3Loader(bucket="raw-data")
     | CSVParser()
-    | DataValidator(schema)
-    | Transformer()
+    >> DataValidator(schema)
+    >> Transformer()
     | DatabaseWriter()
 ).with_skill("monitoring")
 ```

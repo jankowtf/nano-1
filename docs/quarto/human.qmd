@@ -45,8 +45,8 @@ We're creating "Lego bricks for code" - simple, composable components that can b
 # This is what we're building towards:
 pipeline = (
     DataValidator() 
-    | DataTransformer() 
-    | DataPersistor()
+    >> DataTransformer() 
+    >> DataPersistor()
 ).invoke(data)
 
 # With skills activated:
@@ -54,8 +54,8 @@ smart_pipeline = (
     DataValidator()
     .with_skill("logging")
     .with_skill("observability")
-    | DataTransformer()
-    | DataPersistor()
+    >> DataTransformer()
+    >> DataPersistor()
     .with_skill("api")  # Now it's a REST API!
 )
 ```
@@ -237,7 +237,7 @@ class ShoutBrick(Nanobrick[str, str]):
 # Compose them!
 greet = GreetBrick()
 shout = ShoutBrick()
-pipeline = greet | shout
+pipeline = greet >> shout
 
 # Use the pipeline
 # Method 1: Native Jupyter async style
@@ -259,7 +259,7 @@ You can chain multiple bricks and even compose different types:
 # | output: true
 
 # Chain multiple bricks
-excited = greet | shout | shout  # Double shout!
+excited = greet >> shout >> shout  # Double shout!
 result = await excited.invoke("alice")
 print(f"Double shout: {result}")
 
@@ -271,7 +271,7 @@ class LengthBrick(Nanobrick[str, int]):
 
 
 # This creates a pipeline: str -> str -> int
-count_greeting = greet | LengthBrick()
+count_greeting = greet >> LengthBrick()
 result = await count_greeting.invoke("bob")
 print(f"Length of greeting: {result} (for 'Hello, bob!')")
 
@@ -284,7 +284,7 @@ class ValidateBrick(Nanobrick[str, str]):
         return input
 
 
-safe_greet = ValidateBrick() | greet | shout
+safe_greet = ValidateBrick() >> greet >> shout
 try:
     result = await safe_greet.invoke("123")
 except ValueError as e:
@@ -427,7 +427,7 @@ class UserValidateBrick(NanobrickBase[dict, dict, StandardDeps]):
 
 
 # All bricks in the pipeline receive the same deps
-pipeline = UserValidateBrick() >> EnrichBrick() | SaveBrick()
+pipeline = UserValidateBrick() >> EnrichBrick() >> SaveBrick()
 data = {"id": 123, "name": "Alice"}
 result = await pipeline.invoke(data, deps=deps.to_dict())
 print(f"Pipeline result: {result}")
@@ -1106,7 +1106,7 @@ validate = ValidateEmailBrick(name="validate")
 normalize = NormalizeEmailBrick(name="normalize")
 extract = ExtractDomainBrick(name="extract")
 
-email_pipeline = validate | normalize | extract
+email_pipeline = validate >> normalize >> extract
 
 # Test with various inputs
 test_emails = ["  John.Doe@Example.COM  ", "alice@wonderland.io", "BOB@CORP.NET"]
@@ -1568,7 +1568,7 @@ transformer = DataTransformer()
 cached_enricher = with_cache(enricher, max_size=1000)
 
 # Create and fuse pipeline
-pipeline = validator | cached_enricher | transformer
+pipeline = validator >> cached_enricher >> transformer
 fused = fuse_pipeline([validator, cached_enricher, transformer])
 
 # Ultra-fast processing with caching and fusion
@@ -1923,7 +1923,7 @@ processor = debugger.wrap_brick(DataProcessor())
 validator = debugger.wrap_brick(Validator())
 
 # Create debugged pipeline
-pipeline = processor | validator
+pipeline = processor >> validator
 
 # Run and see what happens
 result = await pipeline.invoke({"name": "Alice", "age": 30})
@@ -1961,7 +1961,7 @@ profiler = BrickProfiler(measure_memory=True)
 # Profile a pipeline
 slow_brick = profiler.wrap_brick(SlowProcessor())
 fast_brick = profiler.wrap_brick(FastValidator())
-pipeline = slow_brick | fast_brick
+pipeline = slow_brick >> fast_brick
 
 # Run multiple times
 for i in range(100):
@@ -2002,7 +2002,7 @@ processor = DataProcessor()
 validator = Validator()
 saver = DataSaver()
 
-pipeline = loader | processor | validator | saver
+pipeline = loader >> processor >> validator >> saver
 
 # ASCII visualization
 print(visualize_pipeline(pipeline))
@@ -2236,7 +2236,7 @@ assistant = ConversationalBrick(
 )
 
 # Use in your pipeline for interactive debugging
-pipeline = DataLoader() | processor | assistant | validator
+pipeline = DataLoader() >> processor >> assistant >> validator
 
 # The assistant can:
 # - Answer questions about the pipeline

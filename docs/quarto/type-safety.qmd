@@ -13,7 +13,7 @@ transformer: Nanobrick[dict, list]
 storage: Nanobrick[list, None]
 
 # This should type-check correctly
-pipeline = validator | transformer | storage
+pipeline = validator >> transformer >> storage
 ```
 
 ## Solutions
@@ -43,7 +43,7 @@ Traditional static analysis with mypy plugins:
 
 ```python
 # mypy will check this at analysis time
-pipeline: Nanobrick[dict, None] = validator | transformer | storage
+pipeline: Nanobrick[dict, None] = validator >> transformer >> storage
 ```
 
 ### 3. Hybrid Approach (Recommended)
@@ -62,7 +62,7 @@ T3 = TypeVar('T3')
 class Pipeline(Generic[T1, T2]):
     """Type-safe pipeline composition"""
     
-    def __or__(self, other: Nanobrick[T2, T3]) -> Pipeline[T1, T3]:
+    def __rshift__(self, other: Nanobrick[T2, T3]) -> Pipeline[T1, T3]:
         # Type-safe composition
         return Pipeline(self, other)
 ```

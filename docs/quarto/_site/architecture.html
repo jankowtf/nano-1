@@ -228,6 +228,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./task-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task System Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./task-system.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task System &amp; Commands</span></a>
   </div>
@@ -236,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./task-reference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Task Reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./developer-workflows.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developer Workflows Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,6 +336,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./patterns.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Design Patterns</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./task-automation-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Task Automation Guide</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -569,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, <span class="bu">input</span>: T_in, <span class="op">*</span>, deps: T_deps <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> T_out: ...</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> invoke_sync(<span class="va">self</span>, <span class="bu">input</span>: T_in, <span class="op">*</span>, deps: T_deps <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> T_out: ...</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other: <span class="st">'NanobrickProtocol'</span>) <span class="op">-&gt;</span> <span class="st">'NanobrickProtocol'</span>: ...</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other: <span class="st">'NanobrickProtocol'</span>) <span class="op">-&gt;</span> <span class="st">'NanobrickProtocol'</span>: ...</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Runtime enforcement base class"""</span></span>
@@ -593,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            <span class="co"># No running loop, safe to use asyncio.run()</span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> asyncio.run(<span class="va">self</span>.invoke(<span class="bu">input</span>, deps<span class="op">=</span>deps))</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other):</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other):</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Composition operator with type preservation"""</span></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> NanobrickComposite(<span class="va">self</span>, other)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
@@ -604,20 +622,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simple error propagation by default"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Default: Fail fast</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> A() <span class="op">|</span> B() <span class="op">|</span> C()  <span class="co"># If B fails, pipeline stops</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> A() <span class="op">&gt;&gt;</span> B() <span class="op">&gt;&gt;</span> C()  <span class="co"># If B fails, pipeline stops</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Explicit error handling</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> (</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        A()</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> B().with_fallback(<span class="kw">lambda</span> e: default_value)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> C()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> B().with_fallback(<span class="kw">lambda</span> e: default_value)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> C()</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Future: Circuit breaker skill</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> (</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        A()</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> B().with_skill(<span class="st">"circuit_breaker"</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> C()</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> B().with_skill(<span class="st">"circuit_breaker"</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> C()</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lightweight-state-management" class="level3">
@@ -639,8 +657,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>state_store <span class="op">=</span> StateStore(<span class="st">"redis://localhost"</span>)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    A().with_state(state_store)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> B().with_state(state_store)  <span class="co"># Shares same store</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> C()  <span class="co"># Stateless</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> B().with_state(state_store)  <span class="co"># Shares same store</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> C()  <span class="co"># Stateless</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="clean-dependency-injection" class="level3">
@@ -677,8 +695,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Type hints for intermediate results</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>step1 <span class="op">=</span> Validator()  <span class="co"># type: Nanobrick[Raw, Valid, Deps]</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>step2 <span class="op">=</span> step1 <span class="op">|</span> Transformer()  <span class="co"># type: Nanobrick[Raw, Trans, Deps]</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>step3 <span class="op">=</span> step2 <span class="op">|</span> Persister()  <span class="co"># type: Nanobrick[Raw, Final, Deps]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>step2 <span class="op">=</span> step1 <span class="op">&gt;&gt;</span> Transformer()  <span class="co"># type: Nanobrick[Raw, Trans, Deps]</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>step3 <span class="op">=</span> step2 <span class="op">&gt;&gt;</span> Persister()  <span class="co"># type: Nanobrick[Raw, Final, Deps]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="enhanced-architectural-features" class="level2">
@@ -746,30 +764,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional branching</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    Validator()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Branch(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Branch(</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        condition<span class="op">=</span><span class="kw">lambda</span> x: x.get(<span class="st">"type"</span>) <span class="op">==</span> <span class="st">"A"</span>,</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        true_path<span class="op">=</span>ProcessorA(),</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        false_path<span class="op">=</span>ProcessorB()</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Merger()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Merger()</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallel execution</span></span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    Splitter()</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Parallel([</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Parallel([</span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        ProcessorA(),</span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        ProcessorB(),</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        ProcessorC()</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ])</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Aggregator()</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Aggregator()</span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Fan-out/fan-in</span></span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    Source()</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> FanOut([ProcessorA(), ProcessorB()])  <span class="co"># Copies to both</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> FanIn(strategy<span class="op">=</span><span class="st">"merge"</span>)  <span class="co"># Combines results</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> FanOut([ProcessorA(), ProcessorB()])  <span class="co"># Copies to both</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> FanIn(strategy<span class="op">=</span><span class="st">"merge"</span>)  <span class="co"># Combines results</span></span>
 <span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
@@ -787,7 +805,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="layer-3-composition-engine">Layer 3: Composition Engine</h3>
 <p>Handles different composition patterns:</p>
 <ul>
-<li><strong>Sequential</strong>: <code>A | B | C</code></li>
+<li><strong>Sequential</strong>: <code>A &gt;&gt; B &gt;&gt; C</code></li>
 <li><strong>Parallel</strong>: <code>A + B + C</code></li>
 <li><strong>Nested</strong>: <code>A(B(C))</code></li>
 <li><strong>Hybrid</strong>: Complex workflows</li>
@@ -1449,7 +1467,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke(<span class="va">self</span>, <span class="bu">input</span>: T_in, <span class="op">*</span>, deps: T_deps <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> T_out: ...</span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> invoke_sync(<span class="va">self</span>, <span class="bu">input</span>: T_in, <span class="op">*</span>, deps: T_deps <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> T_out: ...</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other: <span class="st">'NanobrickProtocol'</span>) <span class="op">-&gt;</span> <span class="st">'NanobrickProtocol'</span>: ...</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other: <span class="st">'NanobrickProtocol'</span>) <span class="op">-&gt;</span> <span class="st">'NanobrickProtocol'</span>: ...</span>
 <span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NanobrickBase(ABC, Generic[T_in, T_out, T_deps]):</span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Runtime enforcement base class"""</span></span>
@@ -1473,7 +1491,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>            <span class="co"># No running loop, safe to use asyncio.run()</span></span>
 <span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> asyncio.run(<span class="va">self</span>.invoke(<span class="bu">input</span>, deps<span class="op">=</span>deps))</span>
 <span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__or__</span>(<span class="va">self</span>, other):</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__rshift__</span>(<span class="va">self</span>, other):</span>
 <span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Composition operator with type preservation"""</span></span>
 <span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> NanobrickComposite(<span class="va">self</span>, other)</span>
 <span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -1487,20 +1505,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simple error propagation by default"""</span></span>
 <span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Default: Fail fast</span></span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> A() <span class="op">|</span> B() <span class="op">|</span> C()  <span class="co"># If B fails, pipeline stops</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> A() <span class="op">&gt;&gt;</span> B() <span class="op">&gt;&gt;</span> C()  <span class="co"># If B fails, pipeline stops</span></span>
 <span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Explicit error handling</span></span>
 <span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> (</span>
 <span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        A()</span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> B().with_fallback(<span class="kw">lambda</span> e: default_value)</span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> C()</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> B().with_fallback(<span class="kw">lambda</span> e: default_value)</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> C()</span>
 <span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Future: Circuit breaker skill</span></span>
 <span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> (</span>
 <span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>        A()</span>
-<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> B().with_skill(<span class="st">"circuit_breaker"</span>)</span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>        <span class="op">|</span> C()</span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> B().with_skill(<span class="st">"circuit_breaker"</span>)</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>        <span class="op">&gt;&gt;</span> C()</span>
 <span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a></span>
@@ -1525,8 +1543,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>state_store <span class="op">=</span> StateStore(<span class="st">"redis://localhost"</span>)</span>
 <span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>    A().with_state(state_store)</span>
-<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> B().with_state(state_store)  <span class="co"># Shares same store</span></span>
-<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> C()  <span class="co"># Stateless</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> B().with_state(state_store)  <span class="co"># Shares same store</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> C()  <span class="co"># Stateless</span></span>
 <span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a></span>
@@ -1569,8 +1587,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="co"># Type hints for intermediate results</span></span>
 <span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a>step1 <span class="op">=</span> Validator()  <span class="co"># type: Nanobrick[Raw, Valid, Deps]</span></span>
-<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>step2 <span class="op">=</span> step1 <span class="op">|</span> Transformer()  <span class="co"># type: Nanobrick[Raw, Trans, Deps]</span></span>
-<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>step3 <span class="op">=</span> step2 <span class="op">|</span> Persister()  <span class="co"># type: Nanobrick[Raw, Final, Deps]</span></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>step2 <span class="op">=</span> step1 <span class="op">&gt;&gt;</span> Transformer()  <span class="co"># type: Nanobrick[Raw, Trans, Deps]</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>step3 <span class="op">=</span> step2 <span class="op">&gt;&gt;</span> Persister()  <span class="co"># type: Nanobrick[Raw, Final, Deps]</span></span>
 <span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## Enhanced Architectural Features</span></span>
@@ -1649,30 +1667,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional branching</span></span>
 <span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a>    Validator()</span>
-<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Branch(</span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Branch(</span>
 <span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a>        condition<span class="op">=</span><span class="kw">lambda</span> x: x.get(<span class="st">"type"</span>) <span class="op">==</span> <span class="st">"A"</span>,</span>
 <span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a>        true_path<span class="op">=</span>ProcessorA(),</span>
 <span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>        false_path<span class="op">=</span>ProcessorB()</span>
 <span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Merger()</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Merger()</span>
 <span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Parallel execution</span></span>
 <span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a>    Splitter()</span>
-<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Parallel([</span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Parallel([</span>
 <span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>        ProcessorA(),</span>
 <span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a>        ProcessorB(),</span>
 <span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a>        ProcessorC()</span>
 <span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a>    ])</span>
-<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> Aggregator()</span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> Aggregator()</span>
 <span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-246"><a href="#cb15-246" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-247"><a href="#cb15-247" aria-hidden="true" tabindex="-1"></a><span class="co"># Fan-out/fan-in</span></span>
 <span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
 <span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a>    Source()</span>
-<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> FanOut([ProcessorA(), ProcessorB()])  <span class="co"># Copies to both</span></span>
-<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> FanIn(strategy<span class="op">=</span><span class="st">"merge"</span>)  <span class="co"># Combines results</span></span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> FanOut([ProcessorA(), ProcessorB()])  <span class="co"># Copies to both</span></span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> FanIn(strategy<span class="op">=</span><span class="st">"merge"</span>)  <span class="co"># Combines results</span></span>
 <span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a></span>
@@ -1693,7 +1711,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a>Handles different composition patterns:</span>
 <span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sequential**: <span class="in">`A | B | C`</span></span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sequential**: <span class="in">`A &gt;&gt; B &gt;&gt; C`</span></span>
 <span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel**: <span class="in">`A + B + C`</span></span>
 <span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nested**: <span class="in">`A(B(C))`</span></span>
 <span id="cb15-275"><a href="#cb15-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Hybrid**: Complex workflows</span>

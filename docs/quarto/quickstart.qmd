@@ -144,8 +144,8 @@ class UserValidationService(Nanobrick[dict, dict]):
         super().__init__()
         self.pipeline = (
             TypeValidator({"email": str, "age": int})
-            | EmailValidator(field="email")
-            | self.enrich_user
+            >> EmailValidator(field="email")
+            >> self.enrich_user
         )
     
     async def invoke(self, user_data: dict, *, deps=None) -> dict:
@@ -185,9 +185,9 @@ from nanobricks.validators import SchemaValidator
 
 etl_pipeline = (
     CSVParser()
-    | SchemaValidator(schema)
-    | TypeConverter(types={"age": int, "salary": float})
-    | DatabaseWriter()
+    >> SchemaValidator(schema)
+    >> TypeConverter(types={"age": int, "salary": float})
+    >> DatabaseWriter()
 ).with_skill("retry", max_attempts=3)
 ```
 

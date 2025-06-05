@@ -13,9 +13,15 @@ This guide provides practical, scenario-based workflows for common development t
 - [Daily Development Workflow](#daily-development-workflow)
 - [Creating New Projects](#creating-new-projects)
 - [Multi-Project Development](#multi-project-development)
+- [Claude Code Integration](#claude-code-integration)
 - [Testing Workflows](#testing-workflows)
 - [Documentation Development](#documentation-development)
 - [Release Management](#release-management)
+  - [Pre-Release Workflows](#pre-release-workflows)
+  - [Creating a Release](#creating-a-release)
+  - [Publishing a Release](#publishing-a-release)
+  - [Recovery Workflows](#recovery-workflows)
+  - [Real-World Release Scenarios](#real-world-release-scenarios)
 - [Advanced Workflows](#advanced-workflows)
 - [Troubleshooting](#troubleshooting)
 - [Extending the Task System](#extending-the-task-system)
@@ -201,6 +207,253 @@ task unlink:nanobricks
 3. **Test changes** in all dependent projects before releasing
 4. **Use sync commands** to update dependencies
 
+## Claude Code Integration
+
+### Overview
+
+Claude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when:
+- Understanding how dependent projects use Nanobricks
+- Analyzing code patterns across multiple projects  
+- Getting recommendations for improvements
+- Understanding complex code relationships
+
+### Team Setup
+
+Since Claude CLI installations vary across team members, run the setup helper first:
+
+```bash
+# Check your Claude configuration
+task workflow:claude:setup
+
+# Generate export command for your shell
+task workflow:claude:setup:export
+```
+
+#### Configuration Options
+
+1. **Environment Variable** (Recommended)
+   ```bash
+   # Add to ~/.zshrc or ~/.bashrc
+   export CLAUDE_PATH="/path/to/your/claude"
+   ```
+
+2. **Standard Locations**
+   - `$HOME/.claude/local/claude`
+   - `/usr/local/bin/claude`
+   - `/opt/homebrew/bin/claude`
+
+3. **Create Symlink**
+   ```bash
+   sudo ln -s /actual/claude/path /usr/local/bin/claude
+   ```
+
+### Verbose Mode and Progress Indicators
+
+Claude CLI supports a `--verbose` flag that provides detailed visibility into its operations. This is particularly valuable for debugging, learning, and performance optimization.
+
+#### Enabling Verbose Mode
+
+You have three options for enabling verbose mode:
+
+::: {.panel-tabset}
+
+##### Environment Variable
+
+Set `CLAUDE_VERBOSE=1` to enable verbose mode for all Claude-related tasks:
+
+```bash
+# Enable for your session
+export CLAUDE_VERBOSE=1
+task workflow:example:claude:hello
+
+# Or inline for a single command
+CLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm
+```
+
+##### Command Line Flag
+
+When running Claude directly, use the `--verbose` flag:
+
+```bash
+claude --verbose -p "Analyze this codebase"
+```
+
+##### Task Variable
+
+Some tasks also respond to the generic `VERBOSE` variable:
+
+```bash
+VERBOSE=1 task workflow:release:prepare
+```
+
+:::
+
+#### What Verbose Mode Shows
+
+When enabled, verbose mode displays:
+
+- **Tool Executions**: Every file read, edit, or command with parameters
+- **Decision Process**: Claude's reasoning for choosing specific approaches
+- **Progress Updates**: Real-time status of long-running operations
+- **Network Activity**: API communications (without sensitive data)
+- **Timing Information**: Duration of each operation
+- **Error Context**: Full debugging information when issues occur
+
+#### Progress Indicators
+
+When verbose mode is **disabled**, our tasks provide friendly progress indicators:
+
+```
+🤖 Claude is thinking...
+💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress
+```
+
+This keeps output clean while confirming Claude is working on your request.
+
+#### Example Output Comparison
+
+::: {.panel-tabset}
+
+##### Standard Output
+
+```bash
+$ task workflow:example:claude:hello
+🤖 Claude is thinking...
+💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress
+
+Hello! Here's your repository status:
+- 15 modified files
+- Latest commit: "Update documentation"
+- All tests passing
+```
+
+##### Verbose Output
+
+```bash
+$ CLAUDE_VERBOSE=1 task workflow:example:claude:hello
+🔍 Running Claude in verbose mode...
+
+[DEBUG] Building context from /Users/you/project
+[INFO] Executing tool: git_status
+[DEBUG] Parameters: {"show_untracked": true}
+[INFO] Result: 15 files modified, 3 untracked
+[DEBUG] Execution time: 0.12s
+[INFO] Executing tool: git_log
+[DEBUG] Parameters: {"limit": 1}
+[INFO] Result: commit abc123...
+...
+```
+
+:::
+
+#### Best Practices for Verbose Mode
+
+1. **Default Off**: Keep verbose mode disabled for normal operations
+2. **Debugging**: Enable when troubleshooting unexpected behavior
+3. **Learning**: Use verbose mode to understand Claude's capabilities
+4. **Performance**: Identify slow operations in complex workflows
+5. **CI/CD**: Consider logging verbose output for build debugging
+
+### Analyzing Dependent Projects
+
+From the Nanobricks directory, analyze how dependents use your framework:
+
+```bash
+# Analyze a specific dependent
+task dev:claude:understand:dependent NAME=nano-scorm
+
+# Compare usage patterns across projects
+task dev:claude:compare:usage PROJECTS="project1,project2,project3"
+```
+
+### Understanding Nanobricks (From Dependent's Perspective)
+
+When working in a dependent project, understand the upstream framework:
+
+```bash
+# From your project directory
+task claude:understand:nanobricks
+```
+
+### Manual Prompt Generation
+
+If Claude CLI isn't available, generate prompts to copy/paste:
+
+```bash
+# Generate analysis prompt for a dependent
+task workflow:claude:prompt:dependent NAME=my-project
+
+# Generate Nanobricks understanding prompt
+task workflow:claude:prompt:nanobricks
+```
+
+### Example Workflows
+
+#### Workflow 1: Understanding a New Dependent
+
+```bash
+# 1. Link the dependent project
+task dev:project:link PATH=~/projects/new-dependent
+
+# 2. Have Claude analyze it
+task dev:claude:understand:dependent NAME=new-dependent
+
+# 3. Get specific insights
+claude -p "What Nanobricks patterns does new-dependent use most?"
+
+# 4. Debug if needed with verbose mode
+CLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=new-dependent
+```
+
+#### Workflow 2: Comparing Implementation Patterns
+
+```bash
+# Compare how different projects implement validators
+task dev:claude:compare:usage PROJECTS="app1,app2,app3"
+
+# Ask specific questions
+claude -p "Compare how these projects implement data validation"
+
+# Get detailed analysis with verbose mode
+CLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS="app1,app2,app3"
+```
+
+#### Workflow 3: Framework Evolution
+
+```bash
+# Understand current usage before making changes
+task dev:claude:understand:dependent NAME=critical-app
+
+# After making framework changes
+claude -p "How will my changes to Nanobricks affect critical-app?"
+
+# Deep dive with verbose output
+CLAUDE_VERBOSE=1 claude -p "Analyze breaking changes in detail"
+```
+
+#### Workflow 4: Debugging Claude Integration
+
+```bash
+# When Claude isn't working as expected, use verbose mode
+CLAUDE_VERBOSE=1 task workflow:example:claude:hello
+
+# Check your configuration
+task workflow:claude:setup
+
+# Test with a simple prompt
+CLAUDE_VERBOSE=1 claude -p "Show current directory structure"
+
+# If still having issues, check the raw command
+$HOME/.claude/local/claude --verbose -p "Test"
+```
+
+### Best Practices
+
+1. **Use Claude for code review**: Before major changes, have Claude analyze impact
+2. **Document patterns**: When Claude identifies common patterns, document them
+3. **Share insights**: Team members should share useful Claude prompts
+4. **Iterative analysis**: Start broad, then ask specific follow-up questions
+
 ## Testing Workflows
 
 ### Test-Driven Development (TDD)
@@ -293,36 +546,244 @@ task docs:site:publish
 
 ## Release Management
 
-### Preparing a Release
+This section describes our hybrid approach to release management that combines atomic tasks, workflow orchestration, and Claude Code integration for intelligent decision-making.
 
-Complete release workflow:
+::: {.callout-note}
+**Claude Setup Required**: Before using release workflows with Claude integration, ensure Claude is configured by running `task workflow:claude:setup`. See the [Claude Code Integration](#claude-code-integration) section for details.
+:::
+
+### Core Concept
+
+Instead of fully automating releases (which can be brittle) or keeping everything manual (which is error-prone), we use a **semi-automated approach** where:
+
+1. **Claude Code acts as an intelligent assistant** that analyzes your repository state and provides recommendations
+2. **Workflows orchestrate atomic tasks** in a logical sequence
+3. **Human oversight remains** at critical decision points
+4. **Recovery mechanisms** handle common mistakes gracefully
+
+### Release Workflow Architecture
+
+The release system uses a three-layer architecture:
+
+```mermaid
+flowchart TD
+    A[Workflow Tasks] -->|Orchestrates| B[Claude Code]
+    B -->|Guides| C[Atomic Tasks]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style B fill:#9ff,stroke:#333,stroke-width:4px
+    style C fill:#ff9,stroke:#333,stroke-width:4px
+```
+
+### Pre-Release Workflows
+
+#### Analyzing Changes
+
+Let Claude analyze your changes and recommend the appropriate version bump:
 
 ```bash
-# 1. Ensure clean working directory
-git status
+task workflow:release:prepare
 
-# 2. Run all checks
-task core:dev:all
+# For detailed analysis with verbose mode
+CLAUDE_VERBOSE=1 task workflow:release:prepare
+```
 
-# 3. Update CHANGELOG.md
-# ... edit CHANGELOG.md ...
+Claude will:
+- Analyze commit messages using conventional commit format
+- Identify breaking changes
+- Check for uncommitted files
+- Recommend patch/minor/major version bump
 
-# 4. Bump version
-task version:semver:bump:patch  # or minor/major
+::: {.callout-tip}
+**Debugging Tip**: If Claude's recommendation seems incorrect, run with verbose mode to see the full analysis process and understand which commits led to the recommendation.
+:::
 
-# 5. Commit changes
-task version:semver:commit
+#### Validating Release Readiness
 
-# 6. Create tag
-task version:git:tag:create
+Run comprehensive validation before creating a release:
 
-# 7. Push everything
-git push origin main
-git push origin --tags
+```bash
+task workflow:release:validate
 
-# 8. Build and publish
-task build:package:create
-task deploy:publish:pypi
+# See detailed validation steps
+CLAUDE_VERBOSE=1 task workflow:release:validate
+```
+
+This runs all tests, linting, documentation builds, and Claude's pre-flight checks.
+
+### Creating a Release
+
+The main release workflow handles the entire process:
+
+```bash
+# Based on Claude's recommendation
+task workflow:release:create TYPE=patch
+task workflow:release:create TYPE=minor
+task workflow:release:create TYPE=major
+
+# Debug mode for troubleshooting
+CLAUDE_VERBOSE=1 task workflow:release:create TYPE=patch
+```
+
+Steps performed:
+1. Creates a rollback point
+2. Bumps version
+3. Generates changelog with Claude's help
+4. Commits changes
+5. Creates tag
+6. Prepares for publishing
+
+### Publishing a Release
+
+Final step to push the release:
+
+```bash
+task workflow:release:publish
+
+# With verbose output to see pre-flight checks
+CLAUDE_VERBOSE=1 task workflow:release:publish
+```
+
+This includes:
+- Pre-flight checks with Claude
+- Confirmation prompt
+- Push to GitHub
+- Publish to PyPI
+
+### Recovery Workflows
+
+#### Forgot to Commit Files
+
+When you've already tagged but forgot to include files:
+
+```bash
+task workflow:release:fix:forgotten TAG=v1.2.3
+
+# See detailed recovery steps
+CLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3
+```
+
+Claude will guide you through safely moving the tag to include the missing changes.
+
+#### Emergency Rollback
+
+If something goes wrong:
+
+```bash
+task workflow:release:rollback
+
+# Verbose mode shows exactly what's being reverted
+CLAUDE_VERBOSE=1 task workflow:release:rollback
+```
+
+#### Creating Hotfixes
+
+Create a patch release from an older version:
+
+```bash
+task workflow:release:hotfix BASE=v1.2.0
+
+# Debug the hotfix process
+CLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.2.0
+```
+
+### Real-World Release Scenarios
+
+#### Scenario 1: Standard Release
+
+```bash
+# 1. Prepare and analyze
+task workflow:release:prepare
+
+# 2. Validate everything is ready
+task workflow:release:validate
+
+# 3. Create the release (e.g., minor)
+task workflow:release:create TYPE=minor
+
+# 4. Review and edit CHANGELOG.md manually
+# ... make any necessary edits ...
+
+# 5. Publish when ready
+task workflow:release:publish
+```
+
+::: {.callout-tip}
+**Verbose Mode Usage**: Enable `CLAUDE_VERBOSE=1` at any step to get detailed insights into what Claude is analyzing and recommending.
+:::
+
+#### Scenario 2: Fixing a Forgotten File
+
+```bash
+# You released v1.2.3 but forgot to commit README.md
+task workflow:release:fix:forgotten TAG=v1.2.3
+
+# Claude guides you through:
+# 1. Creating a branch from the tag
+# 2. Adding the missing files
+# 3. Moving the tag safely
+# 4. Updating remote
+
+# If unsure about the process, use verbose mode:
+CLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3
+```
+
+#### Scenario 3: Hotfix on Older Version
+
+```bash
+# Current version is v2.0.0 but you need to fix v1.5.0
+task workflow:release:hotfix BASE=v1.5.0
+
+# Creates v1.5.1 with only the critical fix
+
+# Debug complex branching scenarios
+CLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.5.0
+```
+
+#### Scenario 4: Debugging Release Issues
+
+When releases don't go as expected:
+
+```bash
+# Check Claude's detailed analysis
+CLAUDE_VERBOSE=1 task workflow:release:prepare
+
+# Understand why a version bump was recommended
+CLAUDE_VERBOSE=1 task workflow:release:analyze-commits
+
+# See full validation process
+CLAUDE_VERBOSE=1 task workflow:release:validate
+
+# Get step-by-step recovery guidance
+CLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3
+```
+
+### Release Best Practices
+
+1. **Always run `release:prepare` first** to get Claude's analysis
+2. **Review generated changelogs** before committing
+3. **Use `release:dry-run` to practice** without making changes
+4. **Keep rollback files** until the release is confirmed successful
+5. **Document breaking changes clearly** in commit messages
+
+### Utility Commands
+
+Check release status:
+
+```bash
+task workflow:release:status
+```
+
+View release history with insights:
+
+```bash
+task workflow:release:history
+```
+
+Simulate a release without making changes:
+
+```bash
+task workflow:release:dry-run TYPE=patch
 ```
 
 ### Version Bumping Strategy
@@ -330,6 +791,14 @@ task deploy:publish:pypi
 - **Patch** (0.1.0 → 0.1.1): Bug fixes, documentation
 - **Minor** (0.1.0 → 0.2.0): New features, backwards compatible
 - **Major** (0.1.0 → 1.0.0): Breaking changes
+
+### Integration with CI/CD
+
+The release workflows integrate with:
+- **Conventional Commits**: For determining version bumps
+- **Semantic Versioning**: For version numbering
+- **GitHub Releases**: For distribution
+- **PyPI**: For Python package distribution
 
 ## Advanced Workflows
 

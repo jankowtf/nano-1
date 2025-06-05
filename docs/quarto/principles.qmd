@@ -73,7 +73,7 @@ class UppercaseTransformer:
         return text.upper()
 
 # Composable: Works with others
-pipeline = ValidateText() | UppercaseTransformer() | SaveToFile()
+pipeline = ValidateText() >> UppercaseTransformer() >> SaveToFile()
 
 # Observable: Built-in visibility
 transformer = UppercaseTransformer().with_skill("observability")

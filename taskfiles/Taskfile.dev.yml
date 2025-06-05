@@ -5,6 +5,11 @@ silent: true
 # Development utilities for working with dependent projects
 # This file is meant to be included in the main Taskfile.yml
 
+vars:
+  # Use common script to find claude
+  CLAUDE_CMD:
+    sh: "{{.ROOT_DIR}}/taskfiles/scripts/find-claude.sh || echo \"\""
+
 tasks:
   # Project linking tasks
   project:link:
@@ -157,6 +162,7 @@ tasks:
       
       Usage:
         task dev:claude:understand:dependent NAME=nano-scorm
+        CLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm  # For verbose mode
     vars:
       PROJECT_NAME: '{{.NAME}}'
       DEPENDENT_PATH: 'dependents/{{.PROJECT_NAME}}'
@@ -184,7 +190,8 @@ tasks:
       - |
         echo "🤖 Asking Claude Code to understand {{.PROJECT_NAME}}..."
         echo "   Project path - {{.ABSOLUTE_DEPENDENT_PATH}}"
-        cd "{{.ABSOLUTE_DEPENDENT_PATH}}" && claude -p "Please analyze and understand this codebase. Focus on: 1) Overall project structure and purpose, 2) How it uses Nanobricks framework, 3) Key components and their interactions, 4) Any patterns or best practices used. Provide a comprehensive summary."
+        echo ""
+        cd "{{.ABSOLUTE_DEPENDENT_PATH}}" && {{.ROOT_DIR}}/taskfiles/scripts/run-claude.sh "Please analyze and understand this codebase. Focus on: 1) Overall project structure and purpose, 2) How it uses Nanobricks framework, 3) Key components and their interactions, 4) Any patterns or best practices used. Provide a comprehensive summary."
 
   claude:understand:nanobricks:
     desc: Have Claude Code understand the Nanobricks framework (from dependent's perspective)
@@ -194,6 +201,7 @@ tasks:
       
       Usage (from within a dependent project):
         task claude:understand:nanobricks
+        CLAUDE_VERBOSE=1 task claude:understand:nanobricks  # For verbose mode
     vars:
       NANOBRICKS_PATH: '{{.NANOBRICKS_PATH | default "../../"}}'
     cmds:
@@ -206,7 +214,8 @@ tasks:
         fi
       - |
         echo "🤖 Asking Claude Code to understand Nanobricks framework..."
-        claude -p "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
+        echo ""
+        {{.ROOT_DIR}}/taskfiles/scripts/run-claude.sh "Please analyze the Nanobricks framework at {{.NANOBRICKS_PATH}}. Focus on: 1) Core concepts and architecture, 2) Main components (transformers, validators, skills, etc.), 3) How to create and compose nanobricks, 4) Best practices and patterns. Provide a comprehensive overview that would help me use this framework effectively in my project."
 
   claude:compare:usage:
     desc: Compare how different dependents use Nanobricks
@@ -216,6 +225,7 @@ tasks:
       
       Usage:
         task dev:claude:compare:usage PROJECTS="nano-scorm,other-project"
+        CLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS="nano-scorm,other-project"  # For verbose mode
     vars:
       PROJECTS: '{{.PROJECTS}}'
     cmds:
@@ -243,4 +253,4 @@ tasks:
         
         prompt="$prompt\nFocus on: 1) Different usage patterns, 2) Common practices, 3) Unique implementations, 4) Lessons that can be learned from each approach."
         
-        claude -p "$prompt"
+        {{.ROOT_DIR}}/taskfiles/scripts/run-claude.sh "$prompt"
