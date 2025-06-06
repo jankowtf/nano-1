@@ -1,0 +1,36 @@
+immediate_context: "Managing agentic documentation workflows effectively"
+prerequisites:
+  - agentic-docs-understanding
+  - go-task-basics
+  - command-line-familiarity
+success_criteria:
+  - "Know which tasks to run for common scenarios"
+  - "Can troubleshoot validation issues"
+  - "Understand task categories and purposes"
+  - "Can integrate workflows into development"
+common_errors:
+  - "Running sync without validation after"
+  - "Forgetting to bump version before release"
+  - "Not checking sync status regularly"
+  - "Missing context files for new docs"
+code_template: |
+  # Common workflow patterns:
+  
+  # 1. Daily health check
+  task agentic:stats && task agentic:validate:sync
+  
+  # 2. After code changes
+  task agentic:sync:all && task agentic:validate:all
+  
+  # 3. New documentation
+  echo "ai-context: feature.context.yaml" >> docs/quarto/feature.qmd
+  # Create context file...
+  task agentic:inject:contexts
+  
+  # 4. Pre-release
+  task agentic:ci:validate && task agentic:version:bump TYPE=minor
+  
+  # 5. Troubleshooting
+  task agentic:validate:all || task agentic:lint
+validation_command: "task agentic:validate:all"
+expected_output: "All validations passed!"

@@ -10,6 +10,7 @@ format:
 ## Problem
 
 You need to decide how to structure your nanobricks:
+
 - When should you compose existing bricks?
 - When should you inherit from a base brick?
 - When should you create a new brick from scratch?
@@ -367,6 +368,7 @@ class ReportGenerator(Nanobrick[Query, Report]):
 ## Guidelines Summary
 
 ### Choose Composition When:
+
 - Combining multiple operations
 - Building flexible pipelines
 - Operations are independent
@@ -374,6 +376,7 @@ class ReportGenerator(Nanobrick[Query, Report]):
 - Following "has-a" relationships
 
 ### Choose Inheritance When:
+
 - Specializing existing behavior
 - Extending with minimal changes
 - Maintaining interface compatibility
@@ -381,12 +384,14 @@ class ReportGenerator(Nanobrick[Query, Report]):
 - Creating framework extension points
 
 ### Choose Pipe Operator When:
+
 - Building linear pipelines
 - Types align naturally
 - No branching logic needed
 - Creating reusable workflows
 
 ### Mix Approaches When:
+
 - Different parts have different needs
 - Optimizing for both flexibility and simplicity
 - Building complex systems with clear boundaries

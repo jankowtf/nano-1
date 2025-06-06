@@ -189,6 +189,7 @@ print(f"Tokens: {tokens}")  # Another intermediate
 ## Performance Considerations
 
 The pipe operator has minimal overhead:
+
 - Each stage is called sequentially (no unnecessary parallelism)
 - No intermediate storage unless needed
 - Async operations are properly chained

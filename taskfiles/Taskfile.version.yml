@@ -109,6 +109,22 @@ tasks:
         VERSION="{{.CURRENT_VERSION}}"
         TAG="v$VERSION"
         
+        echo "📋 Ready to push to remote repository:"
+        echo "  Branch: $(git branch --show-current)"
+        echo "  Tag: $TAG"
+        echo ""
+        
+        read -p "🚀 Push commits and tags to origin? (y/N) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+          echo "❌ Push cancelled"
+          echo ""
+          echo "To push manually later:"
+          echo "  git push origin main"
+          echo "  git push origin $TAG"
+          exit 0
+        fi
+        
         echo "Pushing commits and tags to origin..."
         git push origin main
         git push origin "$TAG"

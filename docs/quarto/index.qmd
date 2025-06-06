@@ -117,6 +117,7 @@ service = create_microservice(
 
 ### Skills System
 Add capabilities without changing code:
+
 - 🚀 **API** - REST endpoints with FastAPI
 - 💻 **CLI** - Command-line interface with Typer  
 - 🎨 **UI** - Web interface with Streamlit

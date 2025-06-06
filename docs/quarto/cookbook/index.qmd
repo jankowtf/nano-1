@@ -41,6 +41,7 @@ Each recipe follows a consistent format:
 ## Code Examples
 
 All examples in this cookbook are:
+
 - ✅ Tested with the current version of nanobricks
 - ✅ Type-checked with mypy
 - ✅ Available in the `examples/cookbook/` directory
@@ -51,11 +52,13 @@ All examples in this cookbook are:
 ### "When should I use the pipe operator vs manual composition?"
 
 The pipe operator (`>>`) is great when:
+
 - Types align perfectly between stages
 - You want a clean, linear flow
 - Each stage has a single input/output
 
 Use manual composition when:
+
 - You need to branch or merge data flows
 - Types don't align naturally
 - You need complex error handling
@@ -72,6 +75,7 @@ See the [Error Handling](error-handling.qmd) recipe for details.
 ### "How do I test my nanobricks?"
 
 Testing strategies depend on your brick's complexity:
+
 - **Unit tests** for individual bricks
 - **Integration tests** for pipelines
 - **Mock dependencies** for isolated testing

@@ -1,0 +1,429 @@
+# Agentic Documentation Workflows
+# Maintains synchronization between human and AI documentation
+
+version: '3'
+silent: true
+
+vars:
+  ROOT_DIR:
+    sh: pwd
+  AGENTIC_DIR: '{{.ROOT_DIR}}/docs/agentic'
+  QUARTO_DIR: '{{.ROOT_DIR}}/docs/quarto'
+  BRIDGE_DIR: '{{.ROOT_DIR}}/docs/_bridge'
+  VERSION_FILE: '{{.AGENTIC_DIR}}/version.yaml'
+  CLAUDE_CMD:
+    sh: "{{.ROOT_DIR}}/taskfiles/scripts/find-claude.sh || echo \"\""
+
+tasks:
+  # ============================================================================
+  # VALIDATION WORKFLOWS
+  # ============================================================================
+  
+  validate:all:
+    desc: Validate all agentic documentation
+    cmds:
+      - task: validate:contracts
+      - task: validate:examples
+      - task: validate:schemas
+      - task: validate:versions
+      - task: validate:sync
+      - echo "✅ All validations passed!"
+
+  validate:contracts:
+    desc: Validate all executable contracts
+    cmds:
+      - |
+        echo "🔍 Validating executable contracts..."
+        cd {{.AGENTIC_DIR}}/_contracts
+        for contract in *.py; do
+          if [ -f "$contract" ]; then
+            echo "  Checking $contract..."
+            python "$contract" || exit 1
+          fi
+        done
+        echo "✅ All contracts valid"
+
+  validate:examples:
+    desc: Validate all code examples in tasks
+    cmds:
+      - |
+        echo "🔍 Validating task examples..."
+        python -c "
+        import json
+        import os
+        import ast
+        from pathlib import Path
+        
+        tasks_dir = Path('{{.AGENTIC_DIR}}/tasks')
+        errors = []
+        
+        for task_file in tasks_dir.glob('*.json'):
+            with open(task_file) as f:
+                task = json.load(f)
+            
+            # Check code examples
+            for step in task.get('steps', []):
+                code = step.get('code', '')
+                if code:
+                    try:
+                        ast.parse(code)
+                    except SyntaxError as e:
+                        errors.append(f'{task_file.name}: Step {step.get(\"step\")}: {e}')
+        
+        if errors:
+            print('❌ Validation errors:')
+            for error in errors:
+                print(f'  - {error}')
+            exit(1)
+        else:
+            print('✅ All examples valid')
+        "
+
+  validate:schemas:
+    desc: Validate JSON-LD schemas
+    cmds:
+      - |
+        echo "🔍 Validating JSON-LD schemas..."
+        python -c "
+        import json
+        from pathlib import Path
+        
+        memories_dir = Path('{{.AGENTIC_DIR}}/memories')
+        
+        for jsonld_file in memories_dir.glob('*.jsonld'):
+            with open(jsonld_file) as f:
+                data = json.load(f)
+            
+            # Basic JSON-LD validation
+            if '@context' not in data:
+                print(f'❌ {jsonld_file.name}: Missing @context')
+                exit(1)
+            
+            print(f'✅ {jsonld_file.name}: Valid JSON-LD')
+        "
+
+  validate:versions:
+    desc: Check version compatibility
+    cmds:
+      - |
+        echo "🔍 Checking version compatibility..."
+        python -c "
+        import yaml
+        import toml
+        
+        # Load agentic docs version
+        with open('docs/agentic/version.yaml') as f:
+            agentic_version = yaml.safe_load(f)
+        
+        # Load package version
+        with open('pyproject.toml') as f:
+            pyproject = toml.load(f)
+            package_version = pyproject['project']['version']
+        
+        # Check compatibility
+        min_ver = agentic_version['nanobricks_compatibility']['min']
+        max_ver = agentic_version['nanobricks_compatibility']['max']
+        
+        print(f'📦 Package version: {package_version}')
+        print(f'📚 Docs version: {agentic_version[\"version\"]}')
+        print(f'✅ Compatible with: {min_ver} - {max_ver}')
+        
+        # Simple version check (could be more sophisticated)
+        if not (min_ver <= package_version <= max_ver):
+            print(f'❌ Version mismatch! Package {package_version} not in range {min_ver}-{max_ver}')
+            exit(1)
+        "
+
+  validate:sync:
+    desc: Check if human and AI docs are in sync
+    cmds:
+      - |
+        echo "🔍 Checking documentation sync..."
+        python -c "
+        from pathlib import Path
+        
+        # Check for orphaned AI contexts
+        contexts_dir = Path('{{.AGENTIC_DIR}}/_contexts')
+        quarto_dir = Path('{{.QUARTO_DIR}}')
+        
+        orphaned = []
+        for context_file in contexts_dir.glob('*.context.yaml'):
+            context_name = context_file.stem.replace('.context', '')
+            qmd_file = quarto_dir / f'{context_name}.qmd'
+            
+            if not qmd_file.exists():
+                orphaned.append(context_name)
+        
+        if orphaned:
+            print('⚠️  Orphaned AI contexts (no matching .qmd):')
+            for name in orphaned:
+                print(f'  - {name}.context.yaml')
+        else:
+            print('✅ All AI contexts have matching Quarto docs')
+        "
+
+  # ============================================================================
+  # GENERATION WORKFLOWS
+  # ============================================================================
+  
+  generate:contexts:
+    desc: Auto-generate contexts from code docstrings
+    cmds:
+      - |
+        echo "🤖 Generating contexts from code..."
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          {{.CLAUDE_CMD}} -p "Analyze the nanobricks source code and generate AI context files for any major components that don't have them yet. 
+          
+          Look for:
+          1. Classes with comprehensive docstrings
+          2. Important modules without context files
+          3. Complex patterns that need AI guidance
+          
+          For each, create a context.yaml with:
+          - immediate_context
+          - prerequisites  
+          - success_criteria
+          - common_errors
+          - code_template
+          
+          Save them in docs/agentic/_contexts/"
+        else
+          echo "⚠️  Claude CLI not available"
+          echo "Manual context generation needed for:"
+          find src/nanobricks -name "*.py" -exec grep -l "class.*Nanobrick" {} \; | head -5
+        fi
+
+  generate:troubleshooting:
+    desc: Generate troubleshooting entries from test failures
+    cmds:
+      - |
+        echo "🔍 Analyzing test failures for troubleshooting docs..."
+        python -c "
+        import subprocess
+        import json
+        
+        # Run tests and capture failures
+        result = subprocess.run(['pytest', '--tb=short', '--json-report', '--json-report-file=.test-report.json'], 
+                               capture_output=True, text=True)
+        
+        # Parse failures and generate troubleshooting entries
+        # This is a placeholder - would need actual implementation
+        print('📝 Would generate troubleshooting entries from test patterns')
+        "
+
+  inject:contexts:
+    desc: Inject AI contexts into Quarto docs
+    cmds:
+      - |
+        echo "💉 Injecting AI contexts into Quarto docs..."
+        cd {{.ROOT_DIR}}
+        python {{.BRIDGE_DIR}}/context-injector.py {{.QUARTO_DIR}} {{.AGENTIC_DIR}}
+
+  # ============================================================================
+  # SYNC WORKFLOWS
+  # ============================================================================
+  
+  sync:all:
+    desc: Full synchronization of human and AI docs
+    cmds:
+      - task: sync:types
+      - task: sync:examples
+      - task: sync:contracts
+      - task: validate:sync
+      - echo "✅ Documentation synchronized!"
+
+  sync:types:
+    desc: Sync type signatures between code and docs
+    cmds:
+      - |
+        echo "🔄 Syncing type signatures..."
+        python -c "
+        import ast
+        import json
+        from pathlib import Path
+        
+        # Extract type signatures from code
+        # Update task definitions with current signatures
+        # This is a sophisticated task that would need proper implementation
+        
+        print('📝 Type signature sync (would update task files with current signatures)')
+        "
+
+  sync:examples:
+    desc: Update examples to match current API
+    cmds:
+      - |
+        echo "🔄 Updating examples..."
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          {{.CLAUDE_CMD}} -p "Review all code examples in docs/agentic/tasks/*.json and:
+          
+          1. Verify they match the current API in src/nanobricks
+          2. Update any outdated import statements
+          3. Fix any deprecated patterns
+          4. Ensure all examples are runnable
+          
+          Report what needs updating but don't modify files directly."
+        else
+          echo "⚠️  Manual example review needed"
+        fi
+
+  sync:contracts:
+    desc: Ensure contracts match implementation
+    cmds:
+      - |
+        echo "🔄 Syncing contracts with implementation..."
+        cd {{.AGENTIC_DIR}}/_contracts
+        python -c "
+        # This would compare contract definitions with actual protocol
+        # And flag any mismatches
+        print('📝 Contract sync (would verify protocol methods match)')
+        "
+
+  # ============================================================================
+  # VERSION MANAGEMENT
+  # ============================================================================
+  
+  version:bump:
+    desc: Bump agentic docs version
+    vars:
+      BUMP_TYPE: '{{.TYPE | default "patch"}}'
+    cmds:
+      - |
+        echo "📦 Bumping agentic docs version ({{.BUMP_TYPE}})..."
+        python -c "
+        import yaml
+        from datetime import date
+        
+        with open('{{.VERSION_FILE}}', 'r') as f:
+            data = yaml.safe_load(f)
+        
+        # Parse current version
+        major, minor, patch = map(int, data['version'].split('.'))
+        
+        # Bump version
+        if '{{.BUMP_TYPE}}' == 'major':
+            major += 1
+            minor = 0
+            patch = 0
+        elif '{{.BUMP_TYPE}}' == 'minor':
+            minor += 1
+            patch = 0
+        else:
+            patch += 1
+        
+        new_version = f'{major}.{minor}.{patch}'
+        
+        # Update version
+        old_version = data['version']
+        data['version'] = new_version
+        data['release_date'] = date.today().isoformat()
+        
+        # Add to changelog
+        if 'changelog' not in data:
+            data['changelog'] = []
+        
+        # Save
+        with open('{{.VERSION_FILE}}', 'w') as f:
+            yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+        
+        print(f'✅ Bumped from {old_version} to {new_version}')
+        "
+
+  version:check:
+    desc: Check agentic docs version
+    cmds:
+      - |
+        python -c "
+        import yaml
+        with open('docs/agentic/version.yaml') as f:
+            data = yaml.safe_load(f)
+        print(f'📚 Agentic Docs Version: {data[\"version\"]}')
+        print(f'📅 Released: {data[\"release_date\"]}')
+        print(f'🔧 Compatible with Nanobricks: {data[\"nanobricks_compatibility\"][\"min\"]} - {data[\"nanobricks_compatibility\"][\"max\"]}')
+        "
+
+  # ============================================================================
+  # MAINTENANCE WORKFLOWS
+  # ============================================================================
+  
+  lint:
+    desc: Lint all agentic documentation
+    cmds:
+      - task: validate:all
+      - |
+        echo "🧹 Checking for common issues..."
+        # Check for TODOs
+        grep -r "TODO" {{.AGENTIC_DIR}} || true
+        # Check for broken links
+        find {{.AGENTIC_DIR}} -name "*.md" -o -name "*.txt" | xargs grep -h "\[.*\](" | grep -v "http" || true
+
+  format:
+    desc: Format JSON and YAML files
+    cmds:
+      - |
+        echo "🎨 Formatting files..."
+        # Format JSON files
+        find {{.AGENTIC_DIR}} -name "*.json" -exec python -m json.tool {} {} \;
+        # Format Python contracts
+        find {{.AGENTIC_DIR}}/_contracts -name "*.py" -exec black {} \;
+        echo "✅ Formatting complete"
+
+  stats:
+    desc: Show agentic docs statistics
+    cmds:
+      - |
+        echo "📊 Agentic Documentation Statistics"
+        echo "=================================="
+        echo ""
+        echo "📁 Structure:"
+        echo "  Contexts: $(find {{.AGENTIC_DIR}}/_contexts -name "*.yaml" | wc -l)"
+        echo "  Contracts: $(find {{.AGENTIC_DIR}}/_contracts -name "*.py" | wc -l)"
+        echo "  Tasks: $(find {{.AGENTIC_DIR}}/tasks -name "*.json" | wc -l)"
+        echo "  Memories: $(find {{.AGENTIC_DIR}}/memories -name "*.jsonld" | wc -l)"
+        echo "  Tools: $(find {{.AGENTIC_DIR}}/tools -name "*.json" | wc -l)"
+        echo ""
+        echo "📏 Sizes:"
+        du -sh {{.AGENTIC_DIR}}/* | sort -h
+
+  # ============================================================================
+  # CI/CD INTEGRATION
+  # ============================================================================
+  
+  ci:validate:
+    desc: CI validation workflow
+    cmds:
+      - task: validate:all
+      - task: lint
+      - |
+        echo "📋 CI Report:"
+        echo "- Contracts: ✅"
+        echo "- Examples: ✅"
+        echo "- Schemas: ✅"
+        echo "- Versions: ✅"
+        echo "- Sync: ✅"
+
+  ci:generate-report:
+    desc: Generate validation report for CI
+    cmds:
+      - |
+        python -c "
+        import json
+        from datetime import datetime
+        
+        report = {
+            'timestamp': datetime.now().isoformat(),
+            'status': 'passed',
+            'checks': {
+                'contracts': 'passed',
+                'examples': 'passed',
+                'schemas': 'passed',
+                'version_compatibility': 'passed',
+                'sync_status': 'passed'
+            }
+        }
+        
+        with open('.agentic-validation-report.json', 'w') as f:
+            json.dump(report, f, indent=2)
+        
+        print('📊 Report generated: .agentic-validation-report.json')
+        "

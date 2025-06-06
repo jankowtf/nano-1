@@ -1,0 +1,36 @@
+immediate_context: "Creating self-contained module implementing Runnable protocol"
+prerequisites:
+  - protocol-understanding
+  - type-system
+  - async-programming
+success_criteria:
+  - "Implements all required methods (invoke, invoke_sync, __rshift__)"
+  - "Type parameters properly defined"
+  - "Composable with >> operator"
+  - "Tests pass"
+common_errors:
+  - "Missing async keyword"
+  - "Type mismatch in pipeline"
+  - "Forgetting to call parent.__init__"
+  - "Not handling None deps"
+code_template: |
+  from nanobricks import Nanobrick
+  from typing import TypedDict
+  
+  class MyDeps(TypedDict, total=False):
+      # Define optional dependencies
+      pass
+  
+  class MyBrick(Nanobrick[InputType, OutputType, MyDeps]):
+      """Your nanobrick description."""
+      
+      def __init__(self):
+          super().__init__()
+          # Initialize your brick
+      
+      async def invoke(self, input: InputType, *, deps: MyDeps = None) -> OutputType:
+          # YOUR_LOGIC_HERE
+          # deps = deps or {}
+          return output
+validation_command: "pytest tests/test_my_brick.py"
+expected_output: "All tests pass with 100% coverage"

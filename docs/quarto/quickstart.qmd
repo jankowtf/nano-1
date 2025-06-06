@@ -1,6 +1,7 @@
 ---
 title: "Quickstart Guide"
 subtitle: "Build composable Python systems in 10 minutes"
+ai-context: quickstart.context.yaml
 format:
   html:
     code-fold: false

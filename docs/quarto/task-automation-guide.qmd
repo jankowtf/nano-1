@@ -668,6 +668,7 @@ tasks:
 Creating effective Taskfiles is about consistency, clarity, and convention. By following the patterns and practices in this guide, you'll create automation that's discoverable, maintainable, and pleasant to use.
 
 Key takeaways:
+
 - Always follow the `namespace:component:action:variant` pattern
 - Replace colons with dashes in echo statements
 - Handle errors gracefully

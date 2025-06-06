@@ -13,6 +13,7 @@ We have comprehensive documentation covering different aspects of the task syste
 
 ### [Task System & Commands](task-system.qmd)
 **Start here if you're new!** Learn about:
+
 - The naming convention (`namespace:component:action:variant`)
 - Basic commands and quick aliases
 - How tasks are organized across files
@@ -20,6 +21,7 @@ We have comprehensive documentation covering different aspects of the task syste
 
 ### [Task Reference](task-reference.qmd)
 **Complete command reference.** Find:
+
 - All available tasks organized by namespace
 - Detailed descriptions of each task
 - Parameter usage and examples
@@ -27,6 +29,7 @@ We have comprehensive documentation covering different aspects of the task syste
 
 ### [Developer Workflows Guide](developer-workflows.qmd)
 **Practical, scenario-based workflows.** Covers:
+
 - Daily development workflows
 - Creating new projects
 - Multi-project development
@@ -36,6 +39,7 @@ We have comprehensive documentation covering different aspects of the task syste
 
 ### [Task Automation Guide](task-automation-guide.qmd)
 **For creating your own Taskfiles.** Learn:
+
 - How to write custom tasks
 - Advanced patterns and techniques
 - Performance optimization

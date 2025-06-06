@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Nanobricks Wiki"
+  title: "Nanobrick Docs"
   favicon: favicon.svg
   navbar:
     left:
@@ -30,56 +30,88 @@ website:
   sidebar:
     style: "docked"
     search: true
+    collapse-level: 2
     contents:
       - section: "Getting Started"
         contents:
           - index.qmd
           - quickstart.qmd
           - tutorial.qmd
-          - task-overview.qmd
-          - task-system.qmd
-          - task-reference.qmd
-          - developer-workflows.qmd
-          - distribution.qmd
-      - section: "Cookbook"
-        contents:
-          - cookbook/index.qmd
-          - cookbook/basic-pipeline.qmd
-          - cookbook/dependency-injection.qmd
-          - cookbook/error-handling.qmd
-          - cookbook/testing-bricks.qmd
-          - cookbook/composition-patterns.qmd
-      - section: "Building Systems"
-        contents:
-          - sdk-guide.qmd
-          - multi-project-development.qmd
-          - production-examples.qmd
-          - patterns.qmd
-          - task-automation-guide.qmd
-          - configuration.qmd
-          - comparison.qmd
+          - section: "Task System"
+            contents:
+              - task-overview.qmd
+              - task-system.qmd
+              - task-reference.qmd
+              - task-automation-guide.qmd
+          - section: "Development Setup"
+            contents:
+              - developer-workflows.qmd
+              - distribution.qmd
       - section: "Core Concepts"
         contents:
           - human.qmd
-          - design-philosophy.qmd
-          - principles.qmd
-          - architecture.qmd
-          - architecture-diagrams.qmd
-          - type-safety.qmd
-          - type-utilities.qmd
+          - nanobrick.qmd
+          - pipeline.qmd
+          - section: "Architecture & Design"
+            contents:
+              - architecture.qmd
+              - architecture-diagrams.qmd
+              - design-philosophy.qmd
+              - principles.qmd
+          - section: "Type System"
+            contents:
+              - type-safety.qmd
+              - type-utilities.qmd
           - naming-conventions.qmd
+      - section: "Building Systems"
+        contents:
+          - sdk-guide.qmd
+          - patterns.qmd
+          - section: "Deployment & Production"
+            contents:
+              - multi-project-development.qmd
+              - production-examples.qmd
+              - configuration.qmd
+          - comparison.qmd
+      - section: "Cookbook"
+        contents:
+          - cookbook/index.qmd
+          - section: "Basic Patterns"
+            contents:
+              - cookbook/basic-pipeline.qmd
+              - cookbook/dependency-injection.qmd
+          - section: "Advanced Patterns"
+            contents:
+              - cookbook/error-handling.qmd
+              - cookbook/testing-bricks.qmd
+              - cookbook/composition-patterns.qmd
       - section: "Advanced Topics"
         contents:
-          - ai-integration.qmd
-          - ai-protocols.qmd
           - superpowers.qmd
+          - section: "AI Integration"
+            contents:
+              - ai-integration.qmd
+              - ai-protocols.qmd
+      - section: "Agentic Documentation"
+        contents:
+          - agentic-docs-overview.qmd
+          - agentic-docs-guide.qmd
+          - agentic-docs-walkthrough.qmd
+          - agentic-docs-formats.qmd
+          - agentic-workflows-guide.qmd
+          - agentic-cheatsheet.qmd
       - section: "Evolution"
         contents:
-          - project-history.qmd
-          - evolution.qmd
-          - v1/concept.qmd
-          - v2/evolved-concept.qmd
           - roadmap.qmd
+          - section: "Concept Evolution"
+            contents:
+              - evolution.qmd
+              - project-history.qmd
+              - v1/concept.qmd
+              - v2/evolved-concept.qmd
+      - section: "Claude Code"
+        contents:
+          - claude-code.qmd
 
 format:
   html:

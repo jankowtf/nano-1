@@ -10,6 +10,7 @@ format:
 ## Problem
 
 Your nanobricks need access to shared resources like:
+
 - Database connections
 - Configuration settings
 - External services (APIs, caches, message queues)
@@ -17,6 +18,7 @@ Your nanobricks need access to shared resources like:
 - Authentication/authorization context
 
 You want to inject these dependencies without:
+
 - Hard-coding them into bricks
 - Creating global variables
 - Breaking testability
@@ -333,6 +335,7 @@ class TypedBrick(Nanobrick[Input, Output]):
 ### 4. Avoid Over-Injection
 
 Don't inject things that should be:
+
 - Constructor parameters (brick configuration)
 - Part of the input data
 - Internal implementation details

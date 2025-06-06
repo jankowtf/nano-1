@@ -194,6 +194,7 @@ The `invoke_sync()` method and `asyncio.run()` are designed for non-async contex
 ### What Makes a Nanobrick?
 
 Every nanobrick has:
+
 - **A name**: Defaults to the class name
 - **A version**: Defaults to "0.1.0"
 - **An async invoke method**: The core processing logic
@@ -614,6 +615,7 @@ The skill framework is now working! Add capabilities on demand without changing 
 
 Skills are optional capabilities that nanobricks can activate when needed:
 
+
 - **Timing**: Measure execution time ✅
 - **Retry**: Automatic retry on failure ✅
 - **Caching**: Cache results for repeated calls ✅
@@ -847,6 +849,7 @@ result = await processor.invoke({"a": 1, "b": 2})
 ```
 
 Logging options:
+
 - `level`: Log level (DEBUG, INFO, WARNING, ERROR)
 - `log_inputs`: Log inputs (default: True)
 - `log_outputs`: Log outputs (default: True)
@@ -890,6 +893,7 @@ analyzer = TextAnalyzerBrick()
 ```
 
 API options:
+
 - `path`: Endpoint path (default: /{brick_name})
 - `method`: HTTP method (default: POST)
 - `host`: Host to bind (default: 0.0.0.0)
@@ -928,6 +932,7 @@ transformer = DataTransformerBrick()
 ```
 
 CLI options:
+
 - `command`: Command name (default: brick name)
 - `description`: Help text
 - `input_type`: json, text, or file
@@ -1850,6 +1855,7 @@ generator.write_docs([DataProcessor, Validator, Transformer])
 ```
 
 Generated documentation includes:
+
 
 - Type signatures with input/output/dependencies
 - Constructor parameters

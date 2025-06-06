@@ -1,0 +1,47 @@
+immediate_context: "Composing multiple nanobricks into processing pipeline"
+prerequisites:
+  - nanobrick-creation
+  - type-alignment
+  - error-handling
+success_criteria:
+  - "Types align between bricks"
+  - "Error handling at each stage"
+  - "Pipeline is reusable"
+  - "Performance acceptable"
+common_errors:
+  - "Type mismatch between bricks"
+  - "Missing error boundaries"
+  - "Not handling async properly"
+  - "Circular dependencies"
+code_template: |
+  from nanobricks import Pipeline, TypeAdapter
+  from my_bricks import ValidatorBrick, TransformerBrick, ProcessorBrick
+  
+  # Build pipeline with type checking
+  pipeline = (
+      ValidatorBrick()
+      >> TransformerBrick()
+      >> ProcessorBrick()
+  )
+  
+  # Or with type adaptation
+  pipeline_with_adapter = (
+      ValidatorBrick()
+      >> TypeAdapter[Dict, List]  # Convert Dict to List
+      >> ProcessorBrick()
+  )
+  
+  # Use the pipeline
+  async def process_data(data):
+      try:
+          result = await pipeline.invoke(data)
+          return result
+      except ValidationError as e:
+          # Handle validation errors
+          raise
+      except Exception as e:
+          # Handle other errors
+          logger.error(f"Pipeline failed: {e}")
+          raise
+validation_command: "python -m pytest tests/test_pipeline.py -v"
+expected_output: "Pipeline processes test data correctly"

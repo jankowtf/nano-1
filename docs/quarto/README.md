@@ -51,6 +51,7 @@ quarto render
 
 ### SDK Focus
 The documentation positions Nanobricks as an SDK for building larger systems, not just a utility library. This is reflected in:
+
 - Practical, production-ready examples
 - Emphasis on composition and architecture patterns
 - Integration guides with existing frameworks
@@ -65,6 +66,7 @@ Documentation follows a learning path:
 
 ### Visual Learning
 Heavy use of Mermaid diagrams to illustrate:
+
 - Composition patterns
 - Architecture flows
 - System designs
@@ -72,6 +74,7 @@ Heavy use of Mermaid diagrams to illustrate:
 
 ### Code-First Examples
 All examples are designed to be:
+
 - Runnable (where possible)
 - Production-ready
 - Demonstrating best practices

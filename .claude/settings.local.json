@@ -68,7 +68,9 @@
       "Bash(git checkout:*)",
       "Bash(git add:*)",
       "Bash(awk:*)",
-      "Bash(task docs:site:render)"
+      "Bash(task docs:site:render)",
+      "Bash(task agentic:version:check:*)",
+      "Bash(task agentic:generate:contexts)"
     ],
     "deny": []
   },

@@ -1,0 +1,232 @@
+---
+title: "Format Choices Explained"
+subtitle: "Why YAML, JSON, JSON-LD, and Python?"
+description: "Deep dive into the format decisions for agentic documentation"
+---
+
+## The Format Decision Matrix
+
+When designing the agentic documentation system, I carefully chose each format based on specific criteria:
+
+### Decision Criteria
+
+1. **Human Readability**: Can humans edit it comfortably?
+2. **Machine Parsability**: How easily can AI agents parse it?
+3. **Validation Support**: Can we validate the structure?
+4. **Ecosystem Support**: How well is it supported by tools?
+5. **Semantic Richness**: Can it express complex relationships?
+
+## Format Analysis
+
+### YAML for Contexts (`_contexts/*.yaml`)
+
+**Why YAML?**
+
+```yaml
+immediate_context: "Creating self-contained module"
+prerequisites:
+  - protocol-understanding
+  - type-system
+  - async-programming
+success_criteria:
+  - "Tests pass"
+  - "Types align"
+code_template: |
+  # Multi-line strings are elegant in YAML
+  from nanobricks import Nanobrick
+  
+  class MyBrick(Nanobrick[In, Out]):
+      pass
+```
+
+**Advantages**:
+
+
+- ✅ **Most human-readable** for configuration
+- ✅ **Native multi-line strings** (perfect for code templates)
+- ✅ **Comments supported** (can add clarifications)
+- ✅ **Less verbose** than JSON for nested structures
+- ✅ **Type inference** (numbers, booleans, strings)
+
+**Trade-offs**:
+
+
+- ⚠️ More complex parsing rules
+- ⚠️ Indentation sensitive
+- ⚠️ Less universal than JSON
+
+**Verdict**: YAML wins for human-editable configs where readability matters most.
+
+### JSON for Tasks and Tools (`tasks/*.json`, `tools/*.json`)
+
+**Why JSON?**
+
+```json
+{
+  "task": "create-nanobrick",
+  "steps": [
+    {
+      "instruction": "Define types",
+      "code": "InputType = Dict[str, Any]"
+    }
+  ],
+  "validation": {
+    "commands": ["pytest", "mypy"]
+  }
+}
+```
+
+**Advantages**:
+
+
+- ✅ **Universal standard** for data exchange
+- ✅ **Native to JavaScript/web** ecosystems
+- ✅ **Strict schema validation** (JSON Schema)
+- ✅ **Fast parsing** in every language
+- ✅ **IDE support** everywhere
+
+**Trade-offs**:
+
+
+- ⚠️ No comments (pure data)
+- ⚠️ Verbose for complex structures
+- ⚠️ No multi-line strings without escaping
+
+**Verdict**: JSON wins for structured data exchange and tool definitions.
+
+### JSON-LD for Knowledge (`memories/*.jsonld`)
+
+**Why JSON-LD?**
+
+```json
+{
+  "@context": "https://schema.org/",
+  "@type": "SoftwareSourceCode",
+  "@id": "nb:Nanobrick",
+  "implements": {
+    "@type": "Interface",
+    "name": "Runnable"
+  }
+}
+```
+
+**Advantages**:
+
+
+- ✅ **Semantic web standard** (W3C)
+- ✅ **Linked data** capabilities
+- ✅ **Schema.org vocabulary** (understood by search engines)
+- ✅ **Knowledge graph native** (relationships are first-class)
+- ✅ **AI reasoning enabled** (can infer relationships)
+
+**Trade-offs**:
+
+
+- ⚠️ More complex than plain JSON
+- ⚠️ Requires understanding of RDF concepts
+- ⚠️ Verbose for simple data
+
+**Verdict**: JSON-LD wins for semantic knowledge representation.
+
+### Python for Contracts (`_contracts/*.py`)
+
+**Why Python?**
+
+```python
+class ContractValidator:
+    @staticmethod
+    def validate(cls) -> tuple[bool, list[str]]:
+        issues = []
+        if not hasattr(cls, 'invoke'):
+            issues.append("Missing invoke method")
+        return len(issues) == 0, issues
+```
+
+**Advantages**:
+
+
+- ✅ **Executable documentation** (can run tests)
+- ✅ **Native to the project** language
+- ✅ **Type hints included** (mypy compatible)
+- ✅ **IDE integration** (autocomplete, refactoring)
+- ✅ **Can import actual code** (stay in sync)
+
+**Trade-offs**:
+
+
+- ⚠️ Language-specific
+- ⚠️ Requires Python runtime
+- ⚠️ More complex than declarative formats
+
+**Verdict**: Python wins for executable specifications.
+
+## Alternative Formats Considered
+
+### TOML
+- ✅ Great for configuration
+- ❌ Limited nesting support
+- ❌ No good solution for code blocks
+- **Verdict**: Better suited for simple configs (like pyproject.toml)
+
+### XML
+- ✅ Rich schema validation
+- ✅ Namespace support
+- ❌ Verbose and hard to read
+- ❌ Declining popularity
+- **Verdict**: Overkill for our needs
+
+### Protocol Buffers / MessagePack
+- ✅ Efficient binary format
+- ✅ Schema evolution
+- ❌ Not human-readable
+- ❌ Requires compilation step
+- **Verdict**: Wrong use case (we need readability)
+
+### Markdown
+- ✅ Human-friendly
+- ✅ Great for documentation
+- ❌ No structured data support
+- ❌ Hard to parse reliably
+- **Verdict**: Good for entry points (llms.txt) only
+
+## The Multi-Format Strategy
+
+Instead of forcing everything into one format, we use:
+
+1. **YAML** where humans edit frequently
+2. **JSON** where machines exchange data
+3. **JSON-LD** where semantics matter
+4. **Python** where execution is needed
+5. **Markdown** where prose is primary
+
+This polyglot approach optimizes each component for its primary use case.
+
+## Best Practices
+
+### When to Use YAML
+- Configuration files
+- Human-edited templates
+- Complex nested structures
+- When comments are valuable
+
+### When to Use JSON
+- API responses
+- Tool definitions
+- Data exchange formats
+- When schema validation is critical
+
+### When to Use JSON-LD
+- Knowledge representation
+- Semantic relationships
+- When AI reasoning is needed
+- Cross-system interoperability
+
+### When to Use Python
+- Executable specifications
+- Validation logic
+- When you need to import/test
+- Dynamic documentation
+
+## Conclusion
+
+The format choices in the agentic documentation system aren't arbitrary - each format was chosen for its strengths in specific contexts. This multi-format approach creates a system that's both human-friendly and machine-optimal, supporting the dual nature of modern documentation needs.

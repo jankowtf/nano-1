@@ -1,0 +1,31 @@
+immediate_context: "Understanding Nanobricks development history and design decisions"
+prerequisites:
+  - basic-nanobrick-understanding
+  - software-architecture-patterns
+success_criteria:
+  - "Understand key design decisions"
+  - "Know which version introduced which features"
+  - "Can trace evolution of concepts"
+common_errors:
+  - "Confusing v1 and v2 concepts"
+  - "Missing the skills vs batteries evolution"
+  - "Not understanding packaging flexibility"
+code_template: |
+  # Key evolution points:
+  
+  # v1.0: Every nanobrick as package
+  # v2.0: Module-based bricks allowed
+  
+  # v1.0: Batteries included (heavy)
+  # v2.0: Skills pattern (lightweight)
+  
+  # Example of modern approach:
+  from nanobricks import Nanobrick, with_logging, with_api
+  
+  @with_logging  # Skill, not battery
+  @with_api(path="/process")  # Another skill
+  class ModernBrick(Nanobrick[Input, Output]):
+      # Lightweight core, skills add features
+      pass
+validation_command: "grep -r 'skill' src/nanobricks/"
+expected_output: "Skills pattern used throughout codebase"

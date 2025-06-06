@@ -1,0 +1,122 @@
+---
+title: "Creating Nanobricks"
+subtitle: "Step-by-step guide to building your first nanobrick"
+ai-context: nanobrick.context.yaml
+---
+
+## What is a Nanobrick?
+
+A nanobrick is a self-contained, composable module that implements the Runnable protocol. Think of it as a Lego brick for code - standardized, reusable, and designed to connect with other bricks.
+
+## Creating Your First Nanobrick
+
+### Step 1: Import Required Types
+
+```python
+from nanobricks import Nanobrick
+from typing import TypedDict, Optional
+```
+
+### Step 2: Define Your Types
+
+```python
+# Input and output types
+InputType = dict[str, any]
+OutputType = str
+
+# Optional dependencies
+class MyDeps(TypedDict, total=False):
+    logger: Optional[Logger]
+    config: Optional[dict]
+```
+
+### Step 3: Implement the Nanobrick
+
+```python
+class GreeterBrick(Nanobrick[InputType, OutputType, MyDeps]):
+    """A simple nanobrick that greets users."""
+    
+    def __init__(self, greeting: str = "Hello"):
+        super().__init__()
+        self.greeting = greeting
+    
+    async def invoke(self, input: InputType, *, deps: MyDeps = None) -> OutputType:
+        """Process the input and return a greeting."""
+        deps = deps or {}
+        name = input.get("name", "World")
+        
+        if logger := deps.get("logger"):
+            logger.info(f"Greeting {name}")
+        
+        return f"{self.greeting}, {name}!"
+```
+
+## Key Requirements
+
+Every nanobrick must:
+
+1. **Inherit from Nanobrick**: With proper type parameters
+2. **Implement invoke**: The async method that processes input
+3. **Handle deps gracefully**: Always use `deps = deps or {}`
+4. **Be composable**: Work well with the `>>` operator
+
+## Testing Your Nanobrick
+
+```python
+import pytest
+
+@pytest.mark.asyncio
+async def test_greeter():
+    greeter = GreeterBrick()
+    result = await greeter.invoke({"name": "Alice"})
+    assert result == "Hello, Alice!"
+
+def test_greeter_sync():
+    greeter = GreeterBrick()
+    result = greeter.invoke_sync({"name": "Bob"})
+    assert result == "Hello, Bob!"
+```
+
+## Composition Example
+
+```python
+# Combine with other bricks
+upper_brick = UppercaseBrick()
+pipeline = greeter >> upper_brick
+
+result = await pipeline.invoke({"name": "Charlie"})
+# Result: "HELLO, CHARLIE!"
+```
+
+## Common Patterns
+
+### With Skills
+
+```python
+from nanobricks import with_logging, with_cache
+
+@with_logging
+@with_cache(ttl=300)
+class SmartGreeter(Nanobrick[dict, str]):
+    # Automatically gets logging and caching
+    pass
+```
+
+### Error Handling
+
+```python
+async def invoke(self, input: InputType, *, deps=None) -> OutputType:
+    try:
+        # Your logic
+        return result
+    except ValueError as e:
+        if logger := deps.get("logger"):
+            logger.error(f"Validation error: {e}")
+        raise
+```
+
+## Next Steps
+
+- Learn about [Pipeline Composition](pipeline.qmd)
+- Explore [Built-in Skills](superpowers.qmd)
+- Check the [Cookbook](cookbook/index.qmd) for more examples

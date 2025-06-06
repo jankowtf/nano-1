@@ -90,6 +90,7 @@ From the very beginning, certain technical principles were established:
 ## The Present
 
 Today, Nanobricks is:
+
 - A complete SDK for building composable Python systems
 - Ready for real-world applications
 - Distributed via multiple methods
@@ -98,6 +99,7 @@ Today, Nanobricks is:
 ## The Future
 
 The journey continues with:
+
 - Community contributions
 - More built-in skills
 - Enhanced AI capabilities

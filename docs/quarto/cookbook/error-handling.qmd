@@ -10,6 +10,7 @@ format:
 ## Problem
 
 Your nanobricks need to handle various error scenarios:
+
 - Invalid input data
 - Missing dependencies
 - External service failures
@@ -17,6 +18,7 @@ Your nanobricks need to handle various error scenarios:
 - Partial failures in batch processing
 
 You need to decide between:
+
 - Raising exceptions (fail fast)
 - Returning error results (explicit handling)
 - Logging and continuing

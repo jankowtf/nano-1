@@ -1,0 +1,319 @@
+---
+title: "Claude Code"
+description: "Configuration, timeouts, and troubleshooting for Claude Code"
+date: "2024-12-27"
+---
+
+## Overview
+
+Claude Code is Anthropic's desktop application that provides AI-powered coding assistance. This section covers important configuration options, timeout settings, and troubleshooting information.
+
+## Timeout Configuration
+
+### Current Timeout Limitations
+
+Claude Code has several timeout-related settings, but the main tool call timeout appears to be hardcoded and not easily configurable:
+
+1. **Tool Call Timeout**: The standard tool call timeout is **2 minutes (120 seconds)** and this appears to be a hardcoded limit in Claude Code
+2. **Known Issue**: There's an open issue ([#1539](https://github.com/anthropics/claude-code/issues/1539)) where Claude doesn't properly respect timeout commands, even when using shell `timeout` commands
+
+### Available Timeout Configurations
+
+#### MCP Server Startup Timeout
+
+You can configure the MCP (Model Context Protocol) server startup timeout:
+
+```bash
+# Set MCP timeout to 30 seconds (30000ms)
+MCP_TIMEOUT=30000 claude
+
+# Or export it for your session
+export MCP_TIMEOUT=30000
+claude
+```
+
+::: {.callout-note}
+This only affects how long Claude Code waits for MCP servers to start up, not general tool call execution time.
+:::
+
+### Workarounds for Long-Running Tasks
+
+Since you can't directly increase the tool call timeout, here are some proven workarounds:
+
+#### Run Commands in Background
+
+For long-running tasks that exceed the 2-minute limit:
+
+```bash
+# Run the task in background and capture output
+task agentic:generate:contexts > output.log 2>&1 &
+
+# Then check the progress
+tail -f output.log
+
+# Or check if it's still running
+ps aux | grep "task agentic"
+```
+
+#### Break Down Long Tasks
+
+If possible, break your task into smaller chunks that complete within 2 minutes:
+
+```bash
+# Instead of processing everything at once
+task agentic:generate:contexts --batch-size=10
+
+# Or process specific components
+task agentic:generate:contexts --component=schemas
+task agentic:generate:contexts --component=templates
+```
+
+#### Use Non-Interactive Mode
+
+For long-running tasks, run them outside of Claude Code first:
+
+```bash
+# Run directly in terminal
+task agentic:generate:contexts
+
+# Then use Claude Code to analyze results
+claude --continue "analyze the generated contexts from the previous run"
+```
+
+## Best Practices
+
+### Task Design for Claude Code
+
+When designing tasks that will be run through Claude Code:
+
+1. **Keep individual operations under 2 minutes**
+2. **Provide progress indicators** for longer processes
+3. **Make tasks resumable** if they fail due to timeout
+4. **Use batch processing** for large datasets
+
+### Example Task Structure
+
+```yaml
+# Good: Fast, focused task
+core:dev:test:unit:
+  desc: Run unit tests quickly
+  cmds:
+    - pytest tests/unit/ -v --tb=short
+
+# Better: Long task broken into chunks
+agentic:generate:contexts:schemas:
+  desc: Generate context schemas only
+  cmds:
+    - python scripts/generate_contexts.py --type=schemas --batch-size=5
+
+agentic:generate:contexts:templates:
+  desc: Generate context templates only  
+  cmds:
+    - python scripts/generate_contexts.py --type=templates --batch-size=5
+```
+
+## Troubleshooting
+
+### Common Timeout Issues
+
+#### "Command timed out after 2m 0.0s"
+
+This is the standard tool call timeout. Solutions:
+
+1. **Break the task into smaller pieces**
+2. **Run the task outside Claude Code first**
+3. **Add progress indicators to your scripts**
+4. **Use background execution**
+
+#### MCP Server Connection Timeouts
+
+If MCP servers fail to start:
+
+```bash
+# Increase MCP startup timeout
+export MCP_TIMEOUT=60000  # 60 seconds
+claude
+```
+
+#### High Memory Usage During Long Tasks
+
+For memory-intensive operations:
+
+1. **Process data in smaller batches**
+2. **Clear intermediate results**
+3. **Use streaming where possible**
+
+### Error Messages and Solutions
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `Command timed out after 2m 0.0s` | Tool call exceeded hardcoded limit | Break task into smaller chunks |
+| `MCP server failed to start` | MCP startup timeout too short | Increase `MCP_TIMEOUT` |
+| `Connection closed (-32000)` | MCP timeout during operation | Use shorter operations or background processing |
+
+## Feature Requests
+
+The Claude Code community has identified several timeout-related improvements needed:
+
+1. **Configurable tool call timeouts** ([Issue #1539](https://github.com/anthropics/claude-code/issues/1539))
+2. **Better timeout handling for MCP operations** ([Issue #424](https://github.com/anthropics/claude-code/issues/424))
+3. **Progress indicators for long-running operations**
+
+Consider adding your voice to these GitHub issues if timeout limitations are affecting your workflow.
+
+## File Exclusion and Ignore Patterns
+
+### Current State: No Direct `.claudeignore` Equivalent
+
+**Unfortunately, Claude Code does not currently have a direct equivalent to `.gitignore` or `.cursorignore`.** This is an active area of discussion in the Claude Code community.
+
+### What Currently Exists
+
+#### Settings-Based File Permissions
+
+Claude Code uses `settings.json` files for configuration, including **Read & Edit permissions** that follow gitignore patterns:
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(node_modules/**)",
+      "Read(dist/**)",
+      "Read(.git/**)",
+      "Read(build/**)",
+      "Read(htmlcov/**)",
+      "Read(temp/**)",
+      "Read(__pycache__/**)",
+      "Read(*.pyc)",
+      "Edit(build/**)"
+    ]
+  }
+}
+```
+
+**Location of settings.json:**
+- **User settings**: `~/.claude/settings.json` (applies to all projects)
+- **Project settings**: `.claude/settings.json` (shared with team)
+- **Local project settings**: `.claude/settings.local.json` (private)
+
+#### Gitignore Integration
+
+Claude Code **does respect `.gitignore` files** to some extent, but this approach has limitations:
+
+- ✅ Works for standard ignored files (node_modules, build artifacts)
+- ❌ **Problem**: Insufficient for multi-platform projects where you need context-specific exclusions
+- ❌ **Problem**: Can't ignore source code that should be tracked in Git
+
+### Community Demand for `.claudeignore`
+
+There are active GitHub issues requesting this feature:
+
+1. **[Issue #79](https://github.com/anthropics/claude-code/issues/79)**: "How to tell claude CLI agent to ignore directories" - marked as "in progress"
+2. **[Issue #1304](https://github.com/anthropics/claude-code/issues/1304)**: "Need for dedicated .claudeignore file" - specifically addresses the limitation of .gitignore approach
+
+#### The Problem with Current Approach
+
+From Issue #1304, a key example of why `.gitignore` isn't sufficient:
+
+::: {.callout-warning}
+"I have a large iOS/Mac project with shared code. When working on iOS features, I need to ignore Mac-specific directories to save tokens. When working on Mac features, I need to ignore iOS-specific directories. The problem: I cannot add Mac directories to `.gitignore` when working on iOS because both platforms are part of the same repository."
+:::
+
+### Current Workarounds
+
+#### 1. Use Settings-Based Permissions
+
+Create `.claude/settings.json` in your project:
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(htmlcov/**)",
+      "Read(temp/**)",
+      "Read(test-projects/**)",
+      "Read(.quarto/**)",
+      "Read(_site/**)",
+      "Read(node_modules/**)",
+      "Read(*.pyc)",
+      "Read(__pycache__/**)"
+    ]
+  }
+}
+```
+
+#### 2. Strategic `.gitignore` Usage
+
+Add commonly excluded directories to `.gitignore`:
+
+```gitignore
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+*.pyc
+htmlcov/
+temp/
+.quarto/
+_site/
+```
+
+#### 3. Context-Specific Instructions
+
+Explicitly tell Claude what to ignore in conversations:
+
+```
+> Please analyze this codebase but ignore the htmlcov/, temp/, and test-projects/ directories
+```
+
+### Example Project Configuration
+
+For a typical Python project with Quarto documentation:
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Read(__pycache__/**)",
+      "Read(*.pyc)",
+      "Read(.pytest_cache/**)",
+      "Read(htmlcov/**)",
+      "Read(.coverage)",
+      "Read(dist/**)",
+      "Read(build/**)",
+      "Read(.quarto/**)",
+      "Read(_site/**)",
+      "Read(.venv/**)",
+      "Read(venv/**)",
+      "Read(temp/**)",
+      "Read(*.log)",
+      "Edit(.git/**)"
+    ]
+  }
+}
+```
+
+### Future Outlook
+
+The Claude Code team is **actively working on this** (Issue #79 is marked "in progress"). A dedicated `.claudeignore` file or enhanced settings-based exclusion system is likely coming.
+
+### Recommendations
+
+For now, we suggest:
+
+1. **Add a `.claude/settings.json`** to your project with Read/Edit deny rules
+2. **Use strategic `.gitignore` entries** for build artifacts  
+3. **Provide explicit instructions** to Claude about what to ignore
+4. **Watch the GitHub issues** for updates on native `.claudeignore` support
+
+::: {.callout-tip}
+**Performance Tip**: Excluding large directories like `node_modules/`, `htmlcov/`, and build outputs can significantly reduce token usage and improve Claude Code's response time.
+:::
+
+## See Also
+
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
+- [Model Context Protocol (MCP) Documentation](https://modelcontextprotocol.io/)
+- [Task System Reference](task-reference.qmd)
+- [Developer Workflows](developer-workflows.qmd) 

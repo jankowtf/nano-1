@@ -16,6 +16,7 @@ includes:
   version: ./taskfiles/Taskfile.version.yml
   dev: ./taskfiles/Taskfile.dev.yml
   workflow: ./taskfiles/Taskfile.workflows.yml
+  agentic: ./taskfiles/Taskfile.agentic.yml
 
 tasks:
   default:

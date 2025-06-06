@@ -19,6 +19,7 @@ Nanobricks are **composable units of potential** - they carry capabilities (skil
 
 ### 2. Skills (formerly "Batteries")
 Optional capabilities that can be activated:
+
 - **API Skill**: FastAPI integration
 - **CLI Skill**: Typer commands
 - **UI Skill**: Streamlit components

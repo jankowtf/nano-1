@@ -51,6 +51,7 @@ task core:dev:all
 ### IDE Configuration
 
 For VS Code users, install recommended extensions:
+
 - Python
 - Pylance
 - Ruff
@@ -212,6 +213,7 @@ task unlink:nanobricks
 ### Overview
 
 Claude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when:
+
 - Understanding how dependent projects use Nanobricks
 - Analyzing code patterns across multiple projects  
 - Getting recommendations for improvements
@@ -292,6 +294,7 @@ VERBOSE=1 task workflow:release:prepare
 
 When enabled, verbose mode displays:
 
+
 - **Tool Executions**: Every file read, edit, or command with parameters
 - **Decision Process**: Claude's reasoning for choosing specific approaches
 - **Progress Updates**: Real-time status of long-running operations
@@ -322,6 +325,7 @@ $ task workflow:example:claude:hello
 💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress
 
 Hello! Here's your repository status:
+
 - 15 modified files
 - Latest commit: "Update documentation"
 - All tests passing
@@ -589,6 +593,7 @@ CLAUDE_VERBOSE=1 task workflow:release:prepare
 ```
 
 Claude will:
+
 - Analyze commit messages using conventional commit format
 - Identify breaking changes
 - Check for uncommitted files
@@ -645,6 +650,7 @@ CLAUDE_VERBOSE=1 task workflow:release:publish
 ```
 
 This includes:
+
 - Pre-flight checks with Claude
 - Confirmation prompt
 - Push to GitHub
@@ -795,6 +801,7 @@ task workflow:release:dry-run TYPE=patch
 ### Integration with CI/CD
 
 The release workflows integrate with:
+
 - **Conventional Commits**: For determining version bumps
 - **Semantic Versioning**: For version numbering
 - **GitHub Releases**: For distribution
@@ -1008,6 +1015,7 @@ task build:package:create
 The Nanobricks task system is designed to make development workflows smooth and intuitive. By following these patterns and practices, you can maintain high code quality while moving fast.
 
 Remember:
+
 - Use the task system for all operations
 - Follow the naming conventions
 - Leverage watch modes for rapid development  

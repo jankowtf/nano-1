@@ -1,0 +1,201 @@
+---
+title: "Pipeline Composition"
+subtitle: "Chaining nanobricks with the >> operator"
+ai-context: pipeline.context.yaml
+---
+
+## The Power of Composition
+
+Nanobricks shine when composed into pipelines. The `>>` operator creates a data flow where the output of one brick becomes the input of the next.
+
+## Basic Pipeline
+
+```python
+from nanobricks import Nanobrick
+
+# Define some bricks
+validator = EmailValidator()
+normalizer = EmailNormalizer()
+storage = EmailStorage()
+
+# Compose them
+pipeline = validator >> normalizer >> storage
+
+# Use the pipeline
+result = await pipeline.invoke("User@Example.com")
+```
+
+## How It Works
+
+The `>>` operator:
+1. **Type checks** at composition time
+2. **Chains** the invoke methods
+3. **Propagates** dependencies through the pipeline
+4. **Maintains** error boundaries
+
+## Type Safety
+
+Pipeline composition is type-safe:
+
+```python
+# This works - types align
+string_to_dict = ParseBrick()      # str -> dict
+dict_to_list = ExtractBrick()      # dict -> list
+pipeline = string_to_dict >> dict_to_list  # str -> list
+
+# This fails at composition time
+bad_pipeline = dict_to_list >> string_to_dict  # Type error!
+```
+
+## Handling Type Mismatches
+
+When types don't align, use TypeAdapter:
+
+```python
+from nanobricks import TypeAdapter
+
+# Convert between incompatible types
+string_brick = StringProcessor()   # str -> str
+int_brick = NumberCruncher()      # int -> int
+
+# Bridge with TypeAdapter
+pipeline = (
+    string_brick 
+    >> TypeAdapter[str, int]  # Convert str to int
+    >> int_brick
+)
+```
+
+## Dependency Propagation
+
+Dependencies flow through the entire pipeline:
+
+```python
+class LoggingBrick(Nanobrick[str, str]):
+    async def invoke(self, input: str, *, deps=None) -> str:
+        deps = deps or {}
+        if logger := deps.get("logger"):
+            logger.info(f"Processing: {input}")
+        return input.upper()
+
+# Create pipeline
+pipeline = LoggingBrick() >> LoggingBrick() >> LoggingBrick()
+
+# Dependencies reach all bricks
+deps = {"logger": my_logger}
+result = await pipeline.invoke("hello", deps=deps)
+# All three bricks log their processing
+```
+
+## Advanced Patterns
+
+### Branching Pipelines
+
+```python
+# Process data through multiple paths
+async def branch_processing(data):
+    # Path 1: Validation and storage
+    path1 = validator >> storage
+    
+    # Path 2: Transformation and analysis
+    path2 = transformer >> analyzer
+    
+    # Run both paths
+    result1 = await path1.invoke(data)
+    result2 = await path2.invoke(data)
+    
+    return {"stored": result1, "analysis": result2}
+```
+
+### Conditional Pipelines
+
+```python
+# Choose pipeline based on input
+def get_pipeline(data_type: str):
+    if data_type == "email":
+        return email_validator >> email_processor
+    elif data_type == "phone":
+        return phone_validator >> phone_formatter
+    else:
+        return generic_validator >> generic_processor
+
+# Use it
+pipeline = get_pipeline(user_input_type)
+result = await pipeline.invoke(user_data)
+```
+
+### Error Recovery
+
+```python
+# Add error handling to pipelines
+class ErrorRecoveryBrick(Nanobrick[T, T]):
+    def __init__(self, fallback_value: T):
+        self.fallback = fallback_value
+    
+    async def invoke(self, input: T, *, deps=None) -> T:
+        try:
+            return input
+        except Exception as e:
+            if logger := deps.get("logger"):
+                logger.error(f"Recovering from: {e}")
+            return self.fallback
+
+# Wrap risky operations
+safe_pipeline = (
+    risky_parser 
+    >> ErrorRecoveryBrick(default_dict)
+    >> processor
+)
+```
+
+## Performance Considerations
+
+1. **Pipelines are lazy** - No execution until invoke
+2. **Overhead is minimal** - Just function calls
+3. **Async throughout** - Fully concurrent execution
+4. **Memory efficient** - No intermediate storage
+
+## Best Practices
+
+1. **Keep pipelines readable** - Not too long
+2. **Name intermediate steps** - For debugging
+3. **Test compositions** - Not just individual bricks
+4. **Document type flow** - Especially complex ones
+
+```python
+# Good: Named steps
+validation = EmailValidator()
+normalization = EmailNormalizer()
+enrichment = EmailEnricher()
+storage = EmailStorage()
+
+email_pipeline = (
+    validation >>      # str -> str (validated)
+    normalization >>   # str -> str (normalized)
+    enrichment >>      # str -> dict (enriched)
+    storage           # dict -> bool (stored)
+)
+```
+
+## Debugging Pipelines
+
+Use the devtools for pipeline inspection:
+
+```python
+from nanobricks.devtools import visualize_pipeline
+
+# Visualize the pipeline
+visualize_pipeline(email_pipeline)
+
+# Trace execution
+from nanobricks.devtools import trace_pipeline
+traced = trace_pipeline(email_pipeline)
+result = await traced.invoke(data)
+# See execution flow and timing
+```
+
+## Next Steps
+
+- Explore [Error Handling](cookbook/error-handling.qmd)
+- Learn about [Testing Pipelines](cookbook/testing-bricks.qmd)
+- Check [Advanced Composition](cookbook/composition-patterns.qmd)

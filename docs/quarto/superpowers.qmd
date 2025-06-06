@@ -7,6 +7,7 @@ subtitle: "Latent capabilities that activate on demand"
 
 Traditional "batteries included" implies heavy dependencies always present. Skills are different - they're **latent capabilities** that:
 
+
 - Remain dormant until activated
 - Don't add complexity when unused
 - Can be mixed and matched

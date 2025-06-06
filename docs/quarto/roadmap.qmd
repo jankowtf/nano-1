@@ -11,7 +11,20 @@ format:
 
 This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework's core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.
 
-## Current State: v0.1.0
+## Released Versions
+
+| Version | Release Date | Theme | Key Features |
+|---------|--------------|-------|-------------|
+| v0.1.0  | 2025-01-06   | Initial Release | Core protocol, async-first design, skills system, pipe operator (`|`) |
+| v0.1.1  | 2025-01-06   | Documentation & Examples | Cookbook section, testing patterns, roadmap documentation |
+| v0.1.2  | 2025-01-06   | Type Improvements | Type utilities, Result type, better error messages |
+| v0.1.3  | 2025-01-06   | Core API Refinement | Renamed NanobrickSimple to Nanobrick, enhanced git integration |
+| v0.2.0  | 2025-06-05   | Composition Revolution | Pipeline Builder API, `>>` operator migration, test suite cleanup |
+| v0.2.1  | 2025-06-05   | Developer Experience | Task namespace refactoring, improved symlink handling |
+| v0.2.2  | 2025-06-05   | Task System & Docs | Taskfile organization, pipe operator migration completion |
+| v0.2.3  | 2025-06-06   | AI-First Documentation | Agentic docs system, AI workflows, documentation restructuring |
+
+## Current State: v0.2.3
 
 ### What's Working Well
 
@@ -31,7 +44,9 @@ This roadmap synthesizes feedback from real-world usage of nanobricks (particula
 
 Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.
 
-## Version 0.1.1: Documentation & Examples
+## Version 0.1.1: Documentation & Examples ✅
+
+**Status**: Released 2025-01-06
 
 **Theme**: Zero code changes, maximum clarity
 
@@ -42,7 +57,9 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Testing Patterns**: How to test individual bricks and pipelines
 - **Architecture Decision Guide**: When to use composition vs inheritance
 
-## Version 0.1.2: Type Improvements
+## Version 0.1.2: Type Improvements ✅
+
+**Status**: Released 2025-01-06
 
 **Theme**: Backwards-compatible enhancements to reduce friction
 
@@ -52,7 +69,9 @@ Based on real-world feedback, we're taking a pragmatic approach with patch relea
 - **Better Error Messages**: Improved type mismatch errors for pipe operator
 - **Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.
 
-## Version 0.1.3: Core API Refinement
+## Version 0.1.3: Core API Refinement ✅
+
+**Status**: Released 2025-01-06
 
 **Theme**: Simplify and clarify the core API based on user feedback
 
@@ -193,7 +212,7 @@ pipeline = (
 - **Parallel/Branch Support**: Built-in fan-out/fan-in patterns
 - **Error Boundaries**: Explicit error handling without breaking the pipeline
 
-## Version 0.2.1: Developer Experience Improvements
+## Version 0.2.1: Developer Experience Improvements ✅
 
 **Status**: Released 2025-06-05
 
@@ -221,6 +240,60 @@ pipeline = (
 - **Absolute Path Resolution**: All symlinks now use absolute paths for consistency
 - **Better Error Messages**: Clear feedback when symlink operations fail
 - **Enhanced Git Integration**: Proper .gitignore entries for dependent projects
+
+## Version 0.2.2: Task System Organization ✅
+
+**Status**: Released 2025-06-05
+
+**Theme**: Better task organization and documentation consistency
+
+### What Was Delivered
+
+1. **Task System Restructuring**
+   - Moved all Taskfile*.yml to taskfiles/ directory
+   - Created scripts/ directory structure
+   - Extracted common Claude CLI discovery logic
+   - Applied DRY principles across taskfiles
+
+2. **Documentation Consistency**
+   - Completed migration from `|` to `>>` operator
+   - Fixed method references and cookbook examples
+   - Ensured all code examples use current API
+
+3. **Enhanced Claude Integration**
+   - Verbose mode support with CLAUDE_VERBOSE=1
+   - Progress indicators for non-verbose mode
+   - Better error messages and setup documentation
+
+## Version 0.2.3: AI-First Documentation ✅
+
+**Status**: Released 2025-06-06
+
+**Theme**: Revolutionary agentic documentation for AI developers
+
+### What Was Delivered
+
+1. **AI-First Documentation System**
+   - Created docs/agentic/ directory with specialized formats
+   - Implemented llms.txt standard for AI discovery
+   - Added executable contracts and JSON-LD knowledge graphs
+   - Built comprehensive task registry and tool definitions
+
+2. **Agentic Task Workflows**
+   - Added Taskfile.agentic.yml with validation and sync tasks
+   - Automated context generation from code
+   - Version management for agentic documentation
+   - CI/CD integration for validation
+
+3. **Documentation Bridge System**
+   - Context injection for Quarto documents
+   - AI-specific CSS classes for visual differentiation
+   - Dual-mode documentation supporting both audiences
+
+4. **Documentation Restructuring**
+   - Reordered sections for better flow
+   - Consolidated Evolution section with nested subsections
+   - Fixed markdown formatting across 36 files
 
 ## Version 0.3.x: Standard Patterns Library
 
@@ -394,6 +467,7 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
 
 Starting with v0.2.1, we're adopting a more flexible approach to version planning:
 
+
 - **Feature-Driven Releases**: Version numbers assigned when features are ready
 - **No Fixed Timeline**: Quality and completeness over arbitrary deadlines  
 - **Community Input**: Feature prioritization based on user feedback
@@ -401,6 +475,7 @@ Starting with v0.2.1, we're adopting a more flexible approach to version plannin
 - **.x Notation**: Future versions use .x to indicate flexibility in exact numbering
 
 This approach provides:
+
 - **Signal of Intent**: Clear indication of planned features and their themes
 - **Implementation Flexibility**: Freedom to adjust based on real-world needs
 - **Quality Focus**: Features ship when they're ready, not when scheduled

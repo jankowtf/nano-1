@@ -1334,61 +1334,71 @@
   {
     "objectID": "evolution.html",
     "href": "evolution.html",
-    "title": "Concept Evolution",
+    "title": "Evolution",
     "section": "",
     "text": "The original vision established five pillars:\n\nSimple - Straightforward design and implementation\nStandardized - Consistent interfaces\nComposable - Easy combination into complex components\nBatteries Included - Self-contained functionality\nScaffoldable - Rails-inspired instant functionality\n\nKey decisions: - Every nanobrick as a Python package - uv-based package management - src-layout project structure - Absolute imports\n\n\n\nThrough sparring and critical analysis, several refinements emerged:\n\n\n\nPackaging Flexibility\n\nNot every nanobrick must be a package\nSupport for modules within projects\nNano-collections for themed groups\n\nSkills Replace Batteries\n\nLatent capabilities vs. heavy dependencies\nActivate only when needed\nMaintains simplicity principle\n\nComposition Patterns Clarified\n\nPipeline composition (R-style)\nAugmentation composition\nHybrid composition\n\nArchitecture Levels\n\nCore Protocol (minimal)\nSkilled (with capabilities)\nStateful (with memory/learning)",
     "crumbs": [
       "Home",
+      "Advanced Topics",
       "Evolution",
-      "Concept Evolution"
+      "Concept Evolution",
+      "Evolution"
     ]
   },
   {
     "objectID": "evolution.html#version-history",
     "href": "evolution.html#version-history",
-    "title": "Concept Evolution",
+    "title": "Evolution",
     "section": "",
     "text": "The original vision established five pillars:\n\nSimple - Straightforward design and implementation\nStandardized - Consistent interfaces\nComposable - Easy combination into complex components\nBatteries Included - Self-contained functionality\nScaffoldable - Rails-inspired instant functionality\n\nKey decisions: - Every nanobrick as a Python package - uv-based package management - src-layout project structure - Absolute imports\n\n\n\nThrough sparring and critical analysis, several refinements emerged:\n\n\n\nPackaging Flexibility\n\nNot every nanobrick must be a package\nSupport for modules within projects\nNano-collections for themed groups\n\nSkills Replace Batteries\n\nLatent capabilities vs. heavy dependencies\nActivate only when needed\nMaintains simplicity principle\n\nComposition Patterns Clarified\n\nPipeline composition (R-style)\nAugmentation composition\nHybrid composition\n\nArchitecture Levels\n\nCore Protocol (minimal)\nSkilled (with capabilities)\nStateful (with memory/learning)",
     "crumbs": [
       "Home",
+      "Advanced Topics",
       "Evolution",
-      "Concept Evolution"
+      "Concept Evolution",
+      "Evolution"
     ]
   },
   {
     "objectID": "evolution.html#key-insights",
     "href": "evolution.html#key-insights",
-    "title": "Concept Evolution",
+    "title": "Evolution",
     "section": "Key Insights",
     "text": "Key Insights\n\nThe Fundamental Tension\n“How do we reconcile ‘simple’ with ‘batteries included’?”\nResolution: Skills as potential energy - capabilities that CAN be activated but don’t add complexity unless used.\n\n\nThe Composition Paradox\n“When you pipe bricks together, what actually flows through?”\nResolution: Clear separation between data flow (through pipes) and capability enhancement (through skills).\n\n\nNature as Guide\n“It’s both super complex and at the same time super simple”\nThis became our guiding principle - simple rules creating complex behaviors through emergence.",
     "crumbs": [
       "Home",
+      "Advanced Topics",
       "Evolution",
-      "Concept Evolution"
+      "Concept Evolution",
+      "Evolution"
     ]
   },
   {
     "objectID": "evolution.html#design-decisions-log",
     "href": "evolution.html#design-decisions-log",
-    "title": "Concept Evolution",
+    "title": "Evolution",
     "section": "Design Decisions Log",
     "text": "Design Decisions Log\n\n\n\n\n\n\n\n\nDate\nDecision\nRationale\n\n\n\n\n2025-01-22\nAdopt skill model\nReduces complexity while maintaining power\n\n\n2025-01-22\nSupport module-based bricks\nNot everything needs to be a package\n\n\n2025-01-22\nUse pipe operator\nFamiliar from R, intuitive composition\n\n\n2025-01-22\nType safety via beartype/mypy\nRuntime + static checking",
     "crumbs": [
       "Home",
+      "Advanced Topics",
       "Evolution",
-      "Concept Evolution"
+      "Concept Evolution",
+      "Evolution"
     ]
   },
   {
     "objectID": "evolution.html#future-evolution",
     "href": "evolution.html#future-evolution",
-    "title": "Concept Evolution",
+    "title": "Evolution",
     "section": "Future Evolution",
     "text": "Future Evolution\nThe concept continues to evolve. Key areas for v3.0: - Dynamic discovery mechanisms - AI/Agent integration patterns - Performance optimizations - Real-world usage patterns",
     "crumbs": [
       "Home",
+      "Advanced Topics",
       "Evolution",
-      "Concept Evolution"
+      "Concept Evolution",
+      "Evolution"
     ]
   },
   {
@@ -1396,10 +1406,11 @@
     "href": "task-overview.html",
     "title": "Task System Overview",
     "section": "",
-    "text": "Welcome to the Nanobricks task system documentation! Our task automation is built on go-task and follows a systematic design that makes development workflows intuitive and efficient.\n\n\nWe have comprehensive documentation covering different aspects of the task system:\n\n\nStart here if you’re new! Learn about: - The naming convention (namespace:component:action:variant) - Basic commands and quick aliases - How tasks are organized across files - Common task patterns\n\n\n\nComplete command reference. Find: - All available tasks organized by namespace - Detailed descriptions of each task - Parameter usage and examples - Quick command lookup\n\n\n\nPractical, scenario-based workflows. Covers: - Daily development workflows - Creating new projects - Multi-project development - Testing and documentation workflows - Release management - Troubleshooting common issues\n\n\n\nFor creating your own Taskfiles. Learn: - How to write custom tasks - Advanced patterns and techniques - Performance optimization - Best practices and conventions - Debugging and error handling\n\n\n\n\n\n\n# First time setup\ntask core:dev:setup\n\n# Daily development\ntask core:dev:test      # Run tests\ntask core:dev:lint      # Check code\ntask core:dev:format    # Format code\ntask core:dev:all       # Run everything\n\n# Create a new project\ntask project:scaffold:create:uv NAME=my-app DIR=~/projects\n\n# Documentation\ntask docs:site:preview  # Live preview\n\n\n\n\nNaming Pattern: All tasks follow namespace:component:action:variant\n\nExample: core:dev:test:unit\nMakes tasks discoverable and intuitive\n\nNamespaces: Tasks are organized by domain\n\ncore:* - Core development tasks\ndocs:* - Documentation tasks\nbuild:* - Build and packaging\nproject:* - Project management\nversion:* - Version management\n\nSilent Mode: All Taskfiles use silent: true for clean output\nEcho Rules: Replace colons with dashes in echo statements\n# ✅ Correct\necho \"Error - file not found\"\n\n# ❌ Wrong\necho \"Error: file not found\"\n\n\n\n\n\n\n\nStart with Developer Workflows Guide → Task Reference\n\n\n\nRead Task System & Commands → See “Creating New Projects” in Developer Workflows\n\n\n\nStudy Task Automation Guide → Reference Task System for conventions\n\n\n\nGo directly to Task Reference\n\n\n\nCheck “Troubleshooting” in Developer Workflows Guide\n\n\n\n\n\nUse Tab Completion: Task supports tab completion\ntask &lt;TAB&gt;  # Shows all tasks\ntask core:dev:&lt;TAB&gt;  # Shows all core:dev:* tasks\nDiscover Tasks: Use task --list to see all available tasks with descriptions\nWatch Mode: Many tasks support watch mode for continuous feedback\ntask core:dev:watch:test  # Auto-run tests on file changes\ntask docs:site:preview    # Live reload documentation\nVerbose Mode: Debug issues with --verbose\ntask --verbose core:dev:test\nDry Run: See what would execute without running\ntask --dry build:package:create\n\n\n\n\n\ngo-task: Install from taskfile.dev\nuv: Modern Python package manager\nPython 3.13: Required for Nanobricks\nPlatform: Works on Linux, macOS, and Windows\n\n\n\n\nTasks are organized across multiple files for better maintainability:\n\n\n\nFile\nPurpose\nNamespaces\n\n\n\n\nTaskfile.yml\nMain entry point\ncore:*, scaffold:*\n\n\nTaskfile.build.yml\nBuild & distribution\nbuild:*, deploy:*\n\n\nTaskfile.dev.yml\nDevelopment utilities\nproject:*\n\n\nTaskfile.docs.yml\nDocumentation\ndocs:*\n\n\nTaskfile.version.yml\nVersion management\nversion:*\n\n\n\n\n\n\nWhen contributing to the task system:\n\nFollow the namespace:component:action:variant pattern\nAdd descriptions to all public tasks\nHandle errors gracefully\nUse echo statements with dashes, not colons\nTest on all platforms when possible\n\n\n\n\n\nList all tasks: task --list\nTask help: task --summary &lt;task-name&gt;\nDocumentation issues: Check the troubleshooting sections\nBug reports: Include output of task --version\n\n\nReady to dive in? Start with the Task System & Commands guide or jump directly to the Developer Workflows for practical examples!",
+    "text": "Welcome to the Nanobricks task system documentation! Our task automation is built on go-task and follows a systematic design that makes development workflows intuitive and efficient.\n\n\nWe have comprehensive documentation covering different aspects of the task system:\n\n\nStart here if you’re new! Learn about:\n\nThe naming convention (namespace:component:action:variant)\nBasic commands and quick aliases\nHow tasks are organized across files\nCommon task patterns\n\n\n\n\nComplete command reference. Find:\n\nAll available tasks organized by namespace\nDetailed descriptions of each task\nParameter usage and examples\nQuick command lookup\n\n\n\n\nPractical, scenario-based workflows. Covers:\n\nDaily development workflows\nCreating new projects\nMulti-project development\nTesting and documentation workflows\nRelease management\nTroubleshooting common issues\n\n\n\n\nFor creating your own Taskfiles. Learn:\n\nHow to write custom tasks\nAdvanced patterns and techniques\nPerformance optimization\nBest practices and conventions\nDebugging and error handling\n\n\n\n\n\n\n\n# First time setup\ntask core:dev:setup\n\n# Daily development\ntask core:dev:test      # Run tests\ntask core:dev:lint      # Check code\ntask core:dev:format    # Format code\ntask core:dev:all       # Run everything\n\n# Create a new project\ntask project:scaffold:create:uv NAME=my-app DIR=~/projects\n\n# Documentation\ntask docs:site:preview  # Live preview\n\n\n\n\nNaming Pattern: All tasks follow namespace:component:action:variant\n\nExample: core:dev:test:unit\nMakes tasks discoverable and intuitive\n\nNamespaces: Tasks are organized by domain\n\ncore:* - Core development tasks\ndocs:* - Documentation tasks\nbuild:* - Build and packaging\nproject:* - Project management\nversion:* - Version management\n\nSilent Mode: All Taskfiles use silent: true for clean output\nEcho Rules: Replace colons with dashes in echo statements\n# ✅ Correct\necho \"Error - file not found\"\n\n# ❌ Wrong\necho \"Error: file not found\"\n\n\n\n\n\n\n\nStart with Developer Workflows Guide → Task Reference\n\n\n\nRead Task System & Commands → See “Creating New Projects” in Developer Workflows\n\n\n\nStudy Task Automation Guide → Reference Task System for conventions\n\n\n\nGo directly to Task Reference\n\n\n\nCheck “Troubleshooting” in Developer Workflows Guide\n\n\n\n\n\nUse Tab Completion: Task supports tab completion\ntask &lt;TAB&gt;  # Shows all tasks\ntask core:dev:&lt;TAB&gt;  # Shows all core:dev:* tasks\nDiscover Tasks: Use task --list to see all available tasks with descriptions\nWatch Mode: Many tasks support watch mode for continuous feedback\ntask core:dev:watch:test  # Auto-run tests on file changes\ntask docs:site:preview    # Live reload documentation\nVerbose Mode: Debug issues with --verbose\ntask --verbose core:dev:test\nDry Run: See what would execute without running\ntask --dry build:package:create\n\n\n\n\n\ngo-task: Install from taskfile.dev\nuv: Modern Python package manager\nPython 3.13: Required for Nanobricks\nPlatform: Works on Linux, macOS, and Windows\n\n\n\n\nTasks are organized across multiple files for better maintainability:\n\n\n\nFile\nPurpose\nNamespaces\n\n\n\n\nTaskfile.yml\nMain entry point\ncore:*, scaffold:*\n\n\nTaskfile.build.yml\nBuild & distribution\nbuild:*, deploy:*\n\n\nTaskfile.dev.yml\nDevelopment utilities\nproject:*\n\n\nTaskfile.docs.yml\nDocumentation\ndocs:*\n\n\nTaskfile.version.yml\nVersion management\nversion:*\n\n\n\n\n\n\nWhen contributing to the task system:\n\nFollow the namespace:component:action:variant pattern\nAdd descriptions to all public tasks\nHandle errors gracefully\nUse echo statements with dashes, not colons\nTest on all platforms when possible\n\n\n\n\n\nList all tasks: task --list\nTask help: task --summary &lt;task-name&gt;\nDocumentation issues: Check the troubleshooting sections\nBug reports: Include output of task --version\n\n\nReady to dive in? Start with the Task System & Commands guide or jump directly to the Developer Workflows for practical examples!",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1408,10 +1419,11 @@
     "href": "task-overview.html#documentation-guide",
     "title": "Task System Overview",
     "section": "",
-    "text": "We have comprehensive documentation covering different aspects of the task system:\n\n\nStart here if you’re new! Learn about: - The naming convention (namespace:component:action:variant) - Basic commands and quick aliases - How tasks are organized across files - Common task patterns\n\n\n\nComplete command reference. Find: - All available tasks organized by namespace - Detailed descriptions of each task - Parameter usage and examples - Quick command lookup\n\n\n\nPractical, scenario-based workflows. Covers: - Daily development workflows - Creating new projects - Multi-project development - Testing and documentation workflows - Release management - Troubleshooting common issues\n\n\n\nFor creating your own Taskfiles. Learn: - How to write custom tasks - Advanced patterns and techniques - Performance optimization - Best practices and conventions - Debugging and error handling",
+    "text": "We have comprehensive documentation covering different aspects of the task system:\n\n\nStart here if you’re new! Learn about:\n\nThe naming convention (namespace:component:action:variant)\nBasic commands and quick aliases\nHow tasks are organized across files\nCommon task patterns\n\n\n\n\nComplete command reference. Find:\n\nAll available tasks organized by namespace\nDetailed descriptions of each task\nParameter usage and examples\nQuick command lookup\n\n\n\n\nPractical, scenario-based workflows. Covers:\n\nDaily development workflows\nCreating new projects\nMulti-project development\nTesting and documentation workflows\nRelease management\nTroubleshooting common issues\n\n\n\n\nFor creating your own Taskfiles. Learn:\n\nHow to write custom tasks\nAdvanced patterns and techniques\nPerformance optimization\nBest practices and conventions\nDebugging and error handling",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1424,6 +1436,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1436,6 +1449,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1448,6 +1462,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1460,6 +1475,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1472,6 +1488,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1484,6 +1501,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -1496,6 +1514,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System Overview"
     ]
   },
@@ -2216,6 +2235,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2228,6 +2248,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2240,6 +2261,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2252,6 +2274,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2264,6 +2287,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2276,6 +2300,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2288,6 +2313,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2300,6 +2326,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2312,6 +2339,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2324,6 +2352,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2336,6 +2365,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Diagrams"
     ]
   },
@@ -2620,7 +2650,7 @@
     "href": "tutorial.html",
     "title": "Nanobricks Tutorial",
     "section": "",
-    "text": "This tutorial will teach you how to build production-ready Python systems using nanobricks. We’ll start with the basics and work our way up to complex applications.",
+    "text": "IMMEDIATE_CONTEXT: Comprehensive tutorial for building with nanobricks PREREQUISITES: [“python-basics”, “async-programming”, “type-hints”] SUCCESS_CRITERIA: [“Create working nanobricks”, “Compose pipelines”, “Add skills”, “Handle errors”] COMMON_ERRORS: [“Type mismatches”, “Missing await”, “Circular imports”]",
     "crumbs": [
       "Home",
       "Getting Started",
@@ -2631,8 +2661,8 @@
     "objectID": "tutorial.html#introduction",
     "href": "tutorial.html#introduction",
     "title": "Nanobricks Tutorial",
-    "section": "",
-    "text": "This tutorial will teach you how to build production-ready Python systems using nanobricks. We’ll start with the basics and work our way up to complex applications.",
+    "section": "Introduction",
+    "text": "Introduction\nThis tutorial will teach you how to build production-ready Python systems using nanobricks. We’ll start with the basics and work our way up to complex applications.\n\n# COPY-PASTE-MODIFY: Basic nanobrick template\nfrom nanobricks import Nanobrick\nfrom typing import TypedDict\n\nclass YourBrick(Nanobrick[InputType, OutputType]):\n    async def invoke(self, input: InputType, *, deps=None) -&gt; OutputType:\n        # YOUR_LOGIC_HERE\n        return processed_output\nVALIDATION_COMMAND: pytest tests/test_your_brick.py EXPECTED_OUTPUT: All tests pass",
     "crumbs": [
       "Home",
       "Getting Started",
@@ -2644,7 +2674,7 @@
     "href": "tutorial.html#core-concepts",
     "title": "Nanobricks Tutorial",
     "section": "Core Concepts",
-    "text": "Core Concepts\n\nWhat is a Nanobrick?\nA nanobrick is: - Atomic: Does one thing well - Self-contained: No hidden dependencies - Composable: Combines with other bricks - Type-safe: Full type inference - Async-first: Built for modern Python\n\n\nThe Nanobrick Protocol\nEvery nanobrick implements this protocol:\n\nfrom typing import Protocol, TypeVar, Generic\n\nT_in = TypeVar('T_in')\nT_out = TypeVar('T_out')\nT_deps = TypeVar('T_deps')\n\nclass NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):\n    name: str\n    version: str\n    \n    async def invoke(self, input: T_in, *, deps: T_deps = None) -&gt; T_out: ...\n    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -&gt; T_out: ...",
+    "text": "Core Concepts\n\nWhat is a Nanobrick?\nA nanobrick is:\n\nAtomic: Does one thing well\nSelf-contained: No hidden dependencies\nComposable: Combines with other bricks\nType-safe: Full type inference\nAsync-first: Built for modern Python\n\n\n\nThe Nanobrick Protocol\nEvery nanobrick implements this protocol:\n\nfrom typing import Protocol, TypeVar, Generic\n\nT_in = TypeVar('T_in')\nT_out = TypeVar('T_out')\nT_deps = TypeVar('T_deps')\n\nclass NanobrickProtocol(Protocol, Generic[T_in, T_out, T_deps]):\n    name: str\n    version: str\n    \n    async def invoke(self, input: T_in, *, deps: T_deps = None) -&gt; T_out: ...\n    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -&gt; T_out: ...",
     "crumbs": [
       "Home",
       "Getting Started",
@@ -3339,8 +3369,8 @@
     "objectID": "roadmap.html#version-0.1.1-documentation-examples",
     "href": "roadmap.html#version-0.1.1-documentation-examples",
     "title": "Nanobricks Roadmap",
-    "section": "Version 0.1.1: Documentation & Examples",
-    "text": "Version 0.1.1: Documentation & Examples\nTheme: Zero code changes, maximum clarity\n\nPriority Documentation\n\nCookbook Examples: Step-by-step guides for common patterns\nDependency Injection Guide: Clear documentation on using the deps parameter\nError Handling Patterns: Best practices for exceptions vs Result types\nTesting Patterns: How to test individual bricks and pipelines\nArchitecture Decision Guide: When to use composition vs inheritance",
+    "section": "Version 0.1.1: Documentation & Examples ✅",
+    "text": "Version 0.1.1: Documentation & Examples ✅\nStatus: Released 2025-01-06\nTheme: Zero code changes, maximum clarity\n\nPriority Documentation\n\nCookbook Examples: Step-by-step guides for common patterns\nDependency Injection Guide: Clear documentation on using the deps parameter\nError Handling Patterns: Best practices for exceptions vs Result types\nTesting Patterns: How to test individual bricks and pipelines\nArchitecture Decision Guide: When to use composition vs inheritance",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3351,8 +3381,8 @@
     "objectID": "roadmap.html#version-0.1.2-type-improvements",
     "href": "roadmap.html#version-0.1.2-type-improvements",
     "title": "Nanobricks Roadmap",
-    "section": "Version 0.1.2: Type Improvements",
-    "text": "Version 0.1.2: Type Improvements\nTheme: Backwards-compatible enhancements to reduce friction\n\nType System Enhancements\n\nType Adapter Utilities: Helper functions to adapt between mismatched types for pipe operator\nGeneric Result Type: Optional Result[T, E] import for standardized error handling\nBetter Error Messages: Improved type mismatch errors for pipe operator\nType Conversion Helpers: Common adapters for string↔︎dict, list↔︎tuple, etc.",
+    "section": "Version 0.1.2: Type Improvements ✅",
+    "text": "Version 0.1.2: Type Improvements ✅\nStatus: Released 2025-01-06\nTheme: Backwards-compatible enhancements to reduce friction\n\nType System Enhancements\n\nType Adapter Utilities: Helper functions to adapt between mismatched types for pipe operator\nGeneric Result Type: Optional Result[T, E] import for standardized error handling\nBetter Error Messages: Improved type mismatch errors for pipe operator\nType Conversion Helpers: Common adapters for string↔︎dict, list↔︎tuple, etc.",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3363,8 +3393,8 @@
     "objectID": "roadmap.html#version-0.1.3-core-api-refinement",
     "href": "roadmap.html#version-0.1.3-core-api-refinement",
     "title": "Nanobricks Roadmap",
-    "section": "Version 0.1.3: Core API Refinement",
-    "text": "Version 0.1.3: Core API Refinement\nTheme: Simplify and clarify the core API based on user feedback\n\nAPI Improvements\n\nRename NanobrickSimple to Nanobrick: The “Simple” suffix is confusing since there’s no complex variant\n\nKeep NanobrickBase as the abstract base class for advanced use cases\nNanobrick becomes the primary class for 99% of use cases\nBackwards compatible: NanobrickSimple remains as deprecated alias\n\nEnhanced Git Integration: Smart git tasks with better commit messages\n\ntask version:release for complete release workflow\nAuto-generated commit messages based on CHANGELOG entries\nIntegrated version bumping, tagging, and pushing\n\nDate Handling in Tasks: Use system date commands for accurate timestamps\n\nRemove hardcoded dates from documentation\nDynamic date generation in version tasks\n\n\n\n\nDeveloper Experience\n\nClearer Class Hierarchy:\n\nNanobrick[T_in, T_out] - Primary class for stateless bricks (was NanobrickSimple)\nNanobrickBase[T_in, T_out, T_deps] - Abstract base for advanced scenarios\nNanobrickProtocol - Type checking protocol\n\nMigration Tool: Script to automatically update imports from NanobrickSimple to Nanobrick\nUpdated Examples: All documentation and examples use the new Nanobrick name",
+    "section": "Version 0.1.3: Core API Refinement ✅",
+    "text": "Version 0.1.3: Core API Refinement ✅\nStatus: Released 2025-01-06\nTheme: Simplify and clarify the core API based on user feedback\n\nAPI Improvements\n\nRename NanobrickSimple to Nanobrick: The “Simple” suffix is confusing since there’s no complex variant\n\nKeep NanobrickBase as the abstract base class for advanced use cases\nNanobrick becomes the primary class for 99% of use cases\nBackwards compatible: NanobrickSimple remains as deprecated alias\n\nEnhanced Git Integration: Smart git tasks with better commit messages\n\ntask version:release for complete release workflow\nAuto-generated commit messages based on CHANGELOG entries\nIntegrated version bumping, tagging, and pushing\n\nDate Handling in Tasks: Use system date commands for accurate timestamps\n\nRemove hardcoded dates from documentation\nDynamic date generation in version tasks\n\n\n\n\nDeveloper Experience\n\nClearer Class Hierarchy:\n\nNanobrick[T_in, T_out] - Primary class for stateless bricks (was NanobrickSimple)\nNanobrickBase[T_in, T_out, T_deps] - Abstract base for advanced scenarios\nNanobrickProtocol - Type checking protocol\n\nMigration Tool: Script to automatically update imports from NanobrickSimple to Nanobrick\nUpdated Examples: All documentation and examples use the new Nanobrick name",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3387,8 +3417,8 @@
     "objectID": "roadmap.html#version-0.2.1-developer-experience-improvements",
     "href": "roadmap.html#version-0.2.1-developer-experience-improvements",
     "title": "Nanobricks Roadmap",
-    "section": "Version 0.2.1: Developer Experience Improvements",
-    "text": "Version 0.2.1: Developer Experience Improvements\nStatus: Released 2025-06-05\nTheme: Enhanced developer workflow and better Claude Code integration\n\nWhat Was Delivered\n\nTask System Namespace Refactoring\n\nChanged from project:* to dev:* namespace for consistency\nAll project management tasks now under unified dev: prefix\nImproved task discoverability and organization\n\nImproved Symbolic Link Handling\n\nRefactored symlink creation to use absolute paths\nBetter compatibility with Claude Code’s file referencing\nEnhanced logging showing both source and resolved paths\nAdded verification step for symlink creation\n\nDocumentation Updates\n\nUpdated all task references to use new dev: namespace\nAdded README for dependents directory explaining symlink structure\nImproved clarity in task documentation\n\n\n\n\nDeveloper Workflow Enhancements\n\nAbsolute Path Resolution: All symlinks now use absolute paths for consistency\nBetter Error Messages: Clear feedback when symlink operations fail\nEnhanced Git Integration: Proper .gitignore entries for dependent projects",
+    "section": "Version 0.2.1: Developer Experience Improvements ✅",
+    "text": "Version 0.2.1: Developer Experience Improvements ✅\nStatus: Released 2025-06-05\nTheme: Enhanced developer workflow and better Claude Code integration\n\nWhat Was Delivered\n\nTask System Namespace Refactoring\n\nChanged from project:* to dev:* namespace for consistency\nAll project management tasks now under unified dev: prefix\nImproved task discoverability and organization\n\nImproved Symbolic Link Handling\n\nRefactored symlink creation to use absolute paths\nBetter compatibility with Claude Code’s file referencing\nEnhanced logging showing both source and resolved paths\nAdded verification step for symlink creation\n\nDocumentation Updates\n\nUpdated all task references to use new dev: namespace\nAdded README for dependents directory explaining symlink structure\nImproved clarity in task documentation\n\n\n\n\nDeveloper Workflow Enhancements\n\nAbsolute Path Resolution: All symlinks now use absolute paths for consistency\nBetter Error Messages: Clear feedback when symlink operations fail\nEnhanced Git Integration: Proper .gitignore entries for dependent projects",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3484,7 +3514,7 @@
     "href": "roadmap.html#migration-strategy",
     "title": "Nanobricks Roadmap",
     "section": "Migration Strategy",
-    "text": "Migration Strategy\n\nVersion Compatibility\n\nSemantic Versioning: Strict adherence to SemVer\nDeprecation Warnings: Two minor versions before removal\nMigration Tools: Automated upgrades where possible\nCompatibility Layer: Support for older brick versions\n\n\n\nAdoption Path\n\nEarly Adopters (now - v0.2.x): Feedback and iteration\nProduction Users (v0.3.x+): Stable core with growing standard library\nEnterprise (v0.5.x+): Advanced features and production support\nMainstream (v1.0+): Mature ecosystem with API stability guarantee\n\n\n\nVersion Planning Philosophy\nStarting with v0.2.1, we’re adopting a more flexible approach to version planning:\n\nFeature-Driven Releases: Version numbers assigned when features are ready\nNo Fixed Timeline: Quality and completeness over arbitrary deadlines\n\nCommunity Input: Feature prioritization based on user feedback\nSemantic Versioning: Strict adherence to SemVer principles\n.x Notation: Future versions use .x to indicate flexibility in exact numbering\n\nThis approach provides: - Signal of Intent: Clear indication of planned features and their themes - Implementation Flexibility: Freedom to adjust based on real-world needs - Quality Focus: Features ship when they’re ready, not when scheduled",
+    "text": "Migration Strategy\n\nVersion Compatibility\n\nSemantic Versioning: Strict adherence to SemVer\nDeprecation Warnings: Two minor versions before removal\nMigration Tools: Automated upgrades where possible\nCompatibility Layer: Support for older brick versions\n\n\n\nAdoption Path\n\nEarly Adopters (now - v0.2.x): Feedback and iteration\nProduction Users (v0.3.x+): Stable core with growing standard library\nEnterprise (v0.5.x+): Advanced features and production support\nMainstream (v1.0+): Mature ecosystem with API stability guarantee\n\n\n\nVersion Planning Philosophy\nStarting with v0.2.1, we’re adopting a more flexible approach to version planning:\n\nFeature-Driven Releases: Version numbers assigned when features are ready\nNo Fixed Timeline: Quality and completeness over arbitrary deadlines\n\nCommunity Input: Feature prioritization based on user feedback\nSemantic Versioning: Strict adherence to SemVer principles\n.x Notation: Future versions use .x to indicate flexibility in exact numbering\n\nThis approach provides:\n\nSignal of Intent: Clear indication of planned features and their themes\nImplementation Flexibility: Freedom to adjust based on real-world needs\nQuality Focus: Features ship when they’re ready, not when scheduled",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3524,6 +3554,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3536,6 +3567,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3544,10 +3576,11 @@
     "href": "task-system.html#naming-convention",
     "title": "Task System & Commands",
     "section": "Naming Convention",
-    "text": "Naming Convention\nAll tasks follow this pattern:\ncomponent:action[:target]\nWhere: - component - The system/module being operated on (e.g., docs, dev, package) - action - The verb/operation (e.g., create, build, test, link) - target - Optional specific target (e.g., local, wheel, pypi, unit)\n\nBenefits\n\nIntuitive - “I want to work with X and do Y to it”\nDiscoverable - task --list groups related tasks naturally\nExtensible - Easy to add new actions or targets\nConsistent - One pattern throughout all Taskfiles",
+    "text": "Naming Convention\nAll tasks follow this pattern:\ncomponent:action[:target]\nWhere:\n\ncomponent - The system/module being operated on (e.g., docs, dev, package)\naction - The verb/operation (e.g., create, build, test, link)\ntarget - Optional specific target (e.g., local, wheel, pypi, unit)\n\n\nBenefits\n\nIntuitive - “I want to work with X and do Y to it”\nDiscoverable - task --list groups related tasks naturally\nExtensible - Easy to add new actions or targets\nConsistent - One pattern throughout all Taskfiles",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3560,6 +3593,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3572,6 +3606,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3584,6 +3619,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3596,6 +3632,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3608,6 +3645,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3620,6 +3658,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3632,6 +3671,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3644,6 +3684,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3656,6 +3697,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -3668,6 +3710,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task System & Commands"
     ]
   },
@@ -4795,6 +4838,1002 @@
       "Home",
       "Core Concepts",
       "Design Philosophy"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html",
+    "href": "agentic-docs-guide.html",
+    "title": "Understanding Agentic Documentation",
+    "section": "",
+    "text": "Imagine documentation that’s designed the way AI agents think - structured, predictable, and task-oriented. That’s what our agentic documentation system provides. It’s not meant to replace human documentation, but to complement it with a parallel system optimized for AI consumption.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#what-are-agentic-docs",
+    "href": "agentic-docs-guide.html#what-are-agentic-docs",
+    "title": "Understanding Agentic Documentation",
+    "section": "",
+    "text": "Imagine documentation that’s designed the way AI agents think - structured, predictable, and task-oriented. That’s what our agentic documentation system provides. It’s not meant to replace human documentation, but to complement it with a parallel system optimized for AI consumption.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#why-do-we-need-this",
+    "href": "agentic-docs-guide.html#why-do-we-need-this",
+    "title": "Understanding Agentic Documentation",
+    "section": "Why Do We Need This?",
+    "text": "Why Do We Need This?\nTraditional documentation tells stories. It explains concepts through narrative, builds understanding gradually, and relies on human intuition to fill gaps. This works great for humans but poorly for AI agents who need:\n\nImmediate context without reading paragraphs\nStructured data they can parse reliably\nExecutable examples they can validate\nClear contracts defining interfaces\nTask-oriented guidance for specific goals",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#the-architecture",
+    "href": "agentic-docs-guide.html#the-architecture",
+    "title": "Understanding Agentic Documentation",
+    "section": "The Architecture",
+    "text": "The Architecture\n\n1. Entry Point: llms.txt\nThis follows an emerging standard (like robots.txt for web crawlers). It’s the first thing an AI agent reads:\n# Nanobricks Framework\n&gt; Self-contained, composable modules...\n\n## IMMEDIATE CONTEXT\nProject: Python framework for antifragile code components\nPattern: Protocol + ABC hybrid...\nWhy it works: AI agents get everything they need in seconds, not minutes.\n\n\n2. Contexts: _contexts/*.yaml\nThese provide structured metadata for specific topics:\nimmediate_context: \"Creating self-contained module\"\nprerequisites: [\"protocol-understanding\", \"type-system\"]\nsuccess_criteria: [\"Tests pass\", \"Types align\"]\nWhy YAML?: More readable than JSON for complex structures, supports comments, and is widely understood by AI systems.\n\n\n3. Contracts: _contracts/*.py\nExecutable specifications that serve as both documentation AND validation:\nclass ContractValidator:\n    @staticmethod\n    def validate(cls) -&gt; tuple[bool, list[str]]:\n        # Actually checks if your code is correct!\nWhy it matters: Documentation that can verify itself is never out of date.\n\n\n4. Memories: memories/*.jsonld\nKnowledge graphs in JSON-LD format:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"SoftwareSourceCode\",\n  \"name\": \"Nanobrick\",\n  \"implements\": \"RunnableProtocol\"\n}\nWhy JSON-LD?: It’s semantic web standard, enables reasoning, and links concepts formally.\n\n\n5. Tasks: tasks/*.json\nStep-by-step guides with all context included:\n{\n  \"task\": \"create-nanobrick\",\n  \"steps\": [...],\n  \"validation\": {...},\n  \"common_pitfalls\": [...]\n}\nWhy JSON?: Best for structured data exchange, universally supported.\n\n\n6. Tools: tools/*.json\nMCP (Model Context Protocol) definitions for IDE integration:\n{\n  \"name\": \"nanobrick_cli\",\n  \"commands\": [...],\n  \"parameters\": {...}\n}\nWhy MCP?: Anthropic’s standard for AI-tool communication.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#how-ai-agents-use-this",
+    "href": "agentic-docs-guide.html#how-ai-agents-use-this",
+    "title": "Understanding Agentic Documentation",
+    "section": "How AI Agents Use This",
+    "text": "How AI Agents Use This\n\nDiscovery: Read llms.txt for overview\nTask Selection: Find relevant task in registry\nContext Loading: Get prerequisites and success criteria\nCode Generation: Use templates and examples\nValidation: Run contracts to verify\nError Handling: Check troubleshooting memories",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#how-humans-benefit",
+    "href": "agentic-docs-guide.html#how-humans-benefit",
+    "title": "Understanding Agentic Documentation",
+    "section": "How Humans Benefit",
+    "text": "How Humans Benefit\nEven though it’s AI-first, humans gain:\n\nQuick Reference: Structured data is scannable\nCopy-Paste Code: Examples are always runnable\nValidation Tools: Contracts help debug\nClear Specs: No ambiguity in interfaces",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#the-format-philosophy",
+    "href": "agentic-docs-guide.html#the-format-philosophy",
+    "title": "Understanding Agentic Documentation",
+    "section": "The Format Philosophy",
+    "text": "The Format Philosophy\n\nWhy Multiple Formats?\nEach format serves its optimal purpose:\n\nYAML for human-editable configs (contexts)\nJSON for data exchange (tasks, tools)\nJSON-LD for semantic knowledge (memories)\nPython for executable specs (contracts)\nMarkdown for entry points (llms.txt)\n\n\n\nThe Key Insight\nWe’re not trying to force everything into one format. We’re using each format where it shines, creating a polyglot system that’s optimal for its purpose.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#try-it-yourself",
+    "href": "agentic-docs-guide.html#try-it-yourself",
+    "title": "Understanding Agentic Documentation",
+    "section": "Try It Yourself",
+    "text": "Try It Yourself\n\nRead /docs/agentic/llms.txt - See how concise it is\nRun /docs/agentic/_contracts/nanobrick.contract.py - Watch it validate\nBrowse /docs/agentic/tasks/create-nanobrick.json - Everything in one place\nExplore /docs/agentic/memories/concepts.jsonld - Follow the knowledge graph",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-guide.html#the-future",
+    "href": "agentic-docs-guide.html#the-future",
+    "title": "Understanding Agentic Documentation",
+    "section": "The Future",
+    "text": "The Future\nThis is just the beginning. Imagine:\n\nDocumentation that updates itself\nAI agents contributing improvements\nAutomatic validation of all examples\nKnowledge graphs that grow with usage\n\nThe agentic docs are living documentation - they evolve with the code and the community.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Understanding Agentic Documentation"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html",
+    "href": "agentic-docs-walkthrough.html",
+    "title": "Agentic Docs Walkthrough",
+    "section": "",
+    "text": "The best way to understand agentic documentation is to walk through real examples. Let’s follow an AI agent’s journey through our docs.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#lets-build-understanding-through-examples",
+    "href": "agentic-docs-walkthrough.html#lets-build-understanding-through-examples",
+    "title": "Agentic Docs Walkthrough",
+    "section": "",
+    "text": "The best way to understand agentic documentation is to walk through real examples. Let’s follow an AI agent’s journey through our docs.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#scenario-creating-a-data-validator",
+    "href": "agentic-docs-walkthrough.html#scenario-creating-a-data-validator",
+    "title": "Agentic Docs Walkthrough",
+    "section": "Scenario: Creating a Data Validator",
+    "text": "Scenario: Creating a Data Validator\nImagine you’re an AI agent tasked with creating a data validation nanobrick. Here’s how you’d use the agentic docs:\n\nStep 1: Start at the Entry Point\nFirst, read /docs/agentic/llms.txt:\n# Nanobricks Framework\n&gt; Self-contained, composable modules...\n\n## TASK REGISTRY\n- [Create Nanobrick](./tasks/create-nanobrick.json): Build new brick\nWhat you learn: There’s a specific task file for creating nanobricks.\n\n\nStep 2: Load the Task Definition\nOpen /docs/agentic/tasks/create-nanobrick.json:\n{\n  \"task\": \"create-nanobrick\",\n  \"context\": {\n    \"imports\": [\n      \"from nanobricks import Nanobrick\",\n      \"from typing import TypedDict\"\n    ]\n  },\n  \"steps\": [\n    {\n      \"step\": 1,\n      \"instruction\": \"Define your type parameters\",\n      \"code\": \"InputType = Dict[str, Any]\"\n    }\n  ]\n}\nWhat you get: Step-by-step instructions with actual code.\n\n\nStep 3: Check the Context\nSince you’re creating a validator, check /docs/agentic/_contexts/nanobrick.context.yaml:\nimmediate_context: \"Creating self-contained module\"\nprerequisites:\n  - protocol-understanding\n  - type-system\nsuccess_criteria:\n  - \"Implements all required methods\"\n  - \"Tests pass\"\ncommon_errors:\n  - \"Missing async keyword\"\n  - \"Type mismatch in pipeline\"\nWhat you understand: Prerequisites and what success looks like.\n\n\nStep 4: Use the Code Template\nThe context provides a template:\nfrom nanobricks import Nanobrick\nfrom pydantic import BaseModel\n\nclass EmailValidator(Nanobrick[dict, str]):\n    async def invoke(self, input: dict, *, deps=None) -&gt; str:\n        email = input.get('email', '')\n        if '@' in email:\n            return email\n        raise ValueError(f\"Invalid email: {email}\")\n\n\nStep 5: Validate Your Implementation\nRun /docs/agentic/_contracts/nanobrick.contract.py:\nfrom docs.agentic._contracts.nanobrick_contract import ContractValidator\n\nis_valid, issues = ContractValidator.validate(EmailValidator)\nprint(f\"Valid: {is_valid}\")\nprint(f\"Issues: {issues}\")\nOutput:\nValid: True\nIssues: []\n\n\nStep 6: Handle Errors\nIf something goes wrong, check /docs/agentic/memories/troubleshooting.jsonld:\n{\n  \"@id\": \"nb:TypeError-PipelineMismatch\",\n  \"name\": \"Pipeline Type Mismatch\",\n  \"solution_steps\": [\n    \"Check output type of first brick\",\n    \"Use TypeAdapter if needed\"\n  ],\n  \"code_fix\": {\n    \"text\": \"pipeline = brick1 &gt;&gt; TypeAdapter[str, int] &gt;&gt; brick2\"\n  }\n}",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#the-human-perspective",
+    "href": "agentic-docs-walkthrough.html#the-human-perspective",
+    "title": "Agentic Docs Walkthrough",
+    "section": "The Human Perspective",
+    "text": "The Human Perspective\nAs a human reading these docs, you benefit from:\n\n1. Clear Structure\nEvery piece of information has a specific place: - Tasks in tasks/ - Contexts in _contexts/ - Errors in memories/troubleshooting.jsonld\n\n\n2. Runnable Examples\nEverything can be executed:\npython docs/agentic/_contracts/nanobrick.contract.py\n\n\n3. Semantic Understanding\nThe JSON-LD format creates a knowledge graph:\ngraph TD\n    A[Nanobrick] --&gt;|implements| B[Runnable Protocol]\n    A --&gt;|composable_with| C[Pipeline]\n    A --&gt;|composable_with| D[TypeAdapter]\n    C --&gt;|uses| E[&gt;&gt; operator]\n\n\n4. Progressive Disclosure\n\nStart simple with llms.txt\nDive deeper into specific tasks\nExplore advanced concepts in memories",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#practical-exercises",
+    "href": "agentic-docs-walkthrough.html#practical-exercises",
+    "title": "Agentic Docs Walkthrough",
+    "section": "Practical Exercises",
+    "text": "Practical Exercises\n\nExercise 1: Explore a Task\n\nOpen /docs/agentic/tasks/create-nanobrick.json\nCount how many steps it has\nFind the validation commands\nIdentify common pitfalls\n\n\n\nExercise 2: Run a Contract\ncd /path/to/nanobricks\npython -c \"from docs.agentic._contracts.nanobrick_contract import ValidNanobrick, ContractValidator; print(ContractValidator.validate(ValidNanobrick))\"\n\n\nExercise 3: Parse JSON-LD\nimport json\nwith open('docs/agentic/memories/concepts.jsonld') as f:\n    data = json.load(f)\n    for concept in data['@graph']:\n        print(f\"Concept: {concept.get('name')}\")\n        print(f\"Type: {concept.get('@type')}\")\n        print(\"---\")",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#integration-points",
+    "href": "agentic-docs-walkthrough.html#integration-points",
+    "title": "Agentic Docs Walkthrough",
+    "section": "Integration Points",
+    "text": "Integration Points\n\nWith IDEs\nThe MCP tool definitions can integrate with: - VS Code extensions - IntelliJ plugins - Neovim configurations\n\n\nWith AI Agents\n\nClaude can read llms.txt directly\nGPT-4 can parse JSON task definitions\nLocal LLMs can use the structured format\n\n\n\nWith CI/CD\n\nContract validation in pre-commit hooks\nAutomatic documentation updates\nKnowledge graph generation",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#advanced-features",
+    "href": "agentic-docs-walkthrough.html#advanced-features",
+    "title": "Agentic Docs Walkthrough",
+    "section": "Advanced Features",
+    "text": "Advanced Features\n\nDynamic Context Injection\nThe _bridge/context-injector.py can:\ninjector = ContextInjector(quarto_dir, agentic_dir)\ninjector.process_directory()\nThis adds AI context blocks to human docs automatically!\n\n\nKnowledge Graph Queries\nUsing JSON-LD enables SPARQL-like queries:\n# Find all things that implement Runnable\nimplementations = [\n    concept for concept in concepts\n    if concept.get('implements') == 'nb:RunnableProtocol'\n]",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-walkthrough.html#summary",
+    "href": "agentic-docs-walkthrough.html#summary",
+    "title": "Agentic Docs Walkthrough",
+    "section": "Summary",
+    "text": "Summary\nAgentic documentation isn’t just “docs for AI” - it’s a new paradigm where:\n\nStructure enables understanding\nExamples are executable\nErrors have solutions\nKnowledge forms a graph\nFormats fit their purpose\n\nThe system respects both human intuition and machine precision, creating documentation that truly serves both audiences.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Docs Walkthrough"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html",
+    "href": "agentic-docs-formats.html",
+    "title": "Format Choices Explained",
+    "section": "",
+    "text": "When designing the agentic documentation system, I carefully chose each format based on specific criteria:\n\n\n\nHuman Readability: Can humans edit it comfortably?\nMachine Parsability: How easily can AI agents parse it?\nValidation Support: Can we validate the structure?\nEcosystem Support: How well is it supported by tools?\nSemantic Richness: Can it express complex relationships?",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#the-format-decision-matrix",
+    "href": "agentic-docs-formats.html#the-format-decision-matrix",
+    "title": "Format Choices Explained",
+    "section": "",
+    "text": "When designing the agentic documentation system, I carefully chose each format based on specific criteria:\n\n\n\nHuman Readability: Can humans edit it comfortably?\nMachine Parsability: How easily can AI agents parse it?\nValidation Support: Can we validate the structure?\nEcosystem Support: How well is it supported by tools?\nSemantic Richness: Can it express complex relationships?",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#format-analysis",
+    "href": "agentic-docs-formats.html#format-analysis",
+    "title": "Format Choices Explained",
+    "section": "Format Analysis",
+    "text": "Format Analysis\n\nYAML for Contexts (_contexts/*.yaml)\nWhy YAML?\nimmediate_context: \"Creating self-contained module\"\nprerequisites:\n  - protocol-understanding\n  - type-system\n  - async-programming\nsuccess_criteria:\n  - \"Tests pass\"\n  - \"Types align\"\ncode_template: |\n  # Multi-line strings are elegant in YAML\n  from nanobricks import Nanobrick\n  \n  class MyBrick(Nanobrick[In, Out]):\n      pass\nAdvantages: - ✅ Most human-readable for configuration - ✅ Native multi-line strings (perfect for code templates) - ✅ Comments supported (can add clarifications) - ✅ Less verbose than JSON for nested structures - ✅ Type inference (numbers, booleans, strings)\nTrade-offs: - ⚠️ More complex parsing rules - ⚠️ Indentation sensitive - ⚠️ Less universal than JSON\nVerdict: YAML wins for human-editable configs where readability matters most.\n\n\nJSON for Tasks and Tools (tasks/*.json, tools/*.json)\nWhy JSON?\n{\n  \"task\": \"create-nanobrick\",\n  \"steps\": [\n    {\n      \"instruction\": \"Define types\",\n      \"code\": \"InputType = Dict[str, Any]\"\n    }\n  ],\n  \"validation\": {\n    \"commands\": [\"pytest\", \"mypy\"]\n  }\n}\nAdvantages: - ✅ Universal standard for data exchange - ✅ Native to JavaScript/web ecosystems - ✅ Strict schema validation (JSON Schema) - ✅ Fast parsing in every language - ✅ IDE support everywhere\nTrade-offs: - ⚠️ No comments (pure data) - ⚠️ Verbose for complex structures - ⚠️ No multi-line strings without escaping\nVerdict: JSON wins for structured data exchange and tool definitions.\n\n\nJSON-LD for Knowledge (memories/*.jsonld)\nWhy JSON-LD?\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"SoftwareSourceCode\",\n  \"@id\": \"nb:Nanobrick\",\n  \"implements\": {\n    \"@type\": \"Interface\",\n    \"name\": \"Runnable\"\n  }\n}\nAdvantages: - ✅ Semantic web standard (W3C) - ✅ Linked data capabilities - ✅ Schema.org vocabulary (understood by search engines) - ✅ Knowledge graph native (relationships are first-class) - ✅ AI reasoning enabled (can infer relationships)\nTrade-offs: - ⚠️ More complex than plain JSON - ⚠️ Requires understanding of RDF concepts - ⚠️ Verbose for simple data\nVerdict: JSON-LD wins for semantic knowledge representation.\n\n\nPython for Contracts (_contracts/*.py)\nWhy Python?\nclass ContractValidator:\n    @staticmethod\n    def validate(cls) -&gt; tuple[bool, list[str]]:\n        issues = []\n        if not hasattr(cls, 'invoke'):\n            issues.append(\"Missing invoke method\")\n        return len(issues) == 0, issues\nAdvantages: - ✅ Executable documentation (can run tests) - ✅ Native to the project language - ✅ Type hints included (mypy compatible) - ✅ IDE integration (autocomplete, refactoring) - ✅ Can import actual code (stay in sync)\nTrade-offs: - ⚠️ Language-specific - ⚠️ Requires Python runtime - ⚠️ More complex than declarative formats\nVerdict: Python wins for executable specifications.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#alternative-formats-considered",
+    "href": "agentic-docs-formats.html#alternative-formats-considered",
+    "title": "Format Choices Explained",
+    "section": "Alternative Formats Considered",
+    "text": "Alternative Formats Considered\n\nTOML\n\n✅ Great for configuration\n❌ Limited nesting support\n❌ No good solution for code blocks\nVerdict: Better suited for simple configs (like pyproject.toml)\n\n\n\nXML\n\n✅ Rich schema validation\n✅ Namespace support\n❌ Verbose and hard to read\n❌ Declining popularity\nVerdict: Overkill for our needs\n\n\n\nProtocol Buffers / MessagePack\n\n✅ Efficient binary format\n✅ Schema evolution\n❌ Not human-readable\n❌ Requires compilation step\nVerdict: Wrong use case (we need readability)\n\n\n\nMarkdown\n\n✅ Human-friendly\n✅ Great for documentation\n❌ No structured data support\n❌ Hard to parse reliably\nVerdict: Good for entry points (llms.txt) only",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#the-multi-format-strategy",
+    "href": "agentic-docs-formats.html#the-multi-format-strategy",
+    "title": "Format Choices Explained",
+    "section": "The Multi-Format Strategy",
+    "text": "The Multi-Format Strategy\nInstead of forcing everything into one format, we use:\n\nYAML where humans edit frequently\nJSON where machines exchange data\nJSON-LD where semantics matter\nPython where execution is needed\nMarkdown where prose is primary\n\nThis polyglot approach optimizes each component for its primary use case.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#best-practices",
+    "href": "agentic-docs-formats.html#best-practices",
+    "title": "Format Choices Explained",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nWhen to Use YAML\n\nConfiguration files\nHuman-edited templates\nComplex nested structures\nWhen comments are valuable\n\n\n\nWhen to Use JSON\n\nAPI responses\nTool definitions\nData exchange formats\nWhen schema validation is critical\n\n\n\nWhen to Use JSON-LD\n\nKnowledge representation\nSemantic relationships\nWhen AI reasoning is needed\nCross-system interoperability\n\n\n\nWhen to Use Python\n\nExecutable specifications\nValidation logic\nWhen you need to import/test\nDynamic documentation",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-formats.html#conclusion",
+    "href": "agentic-docs-formats.html#conclusion",
+    "title": "Format Choices Explained",
+    "section": "Conclusion",
+    "text": "Conclusion\nThe format choices in the agentic documentation system aren’t arbitrary - each format was chosen for its strengths in specific contexts. This multi-format approach creates a system that’s both human-friendly and machine-optimal, supporting the dual nature of modern documentation needs.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Format Choices Explained"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html",
+    "href": "agentic-docs-overview.html",
+    "title": "Agentic Documentation Overview",
+    "section": "",
+    "text": "We’ve created a revolutionary dual-mode documentation system that treats AI agents as first-class citizens while maintaining excellent human readability. This isn’t just documentation - it’s an active partnership between human understanding and machine comprehension.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#what-weve-built",
+    "href": "agentic-docs-overview.html#what-weve-built",
+    "title": "Agentic Documentation Overview",
+    "section": "",
+    "text": "We’ve created a revolutionary dual-mode documentation system that treats AI agents as first-class citizens while maintaining excellent human readability. This isn’t just documentation - it’s an active partnership between human understanding and machine comprehension.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#system-architecture",
+    "href": "agentic-docs-overview.html#system-architecture",
+    "title": "Agentic Documentation Overview",
+    "section": "System Architecture",
+    "text": "System Architecture\ngraph TB\n    subgraph \"Human Layer\"\n        Q[Quarto Docs] --&gt; H[Human Readers]\n        Q --&gt; IDE[IDEs/Editors]\n    end\n    \n    subgraph \"Bridge Layer\"\n        CI[Context Injector] --&gt; Q\n        VR[Validation Runner] --&gt; AD\n    end\n    \n    subgraph \"AI Layer\"\n        L[llms.txt] --&gt; AI[AI Agents]\n        C[Contexts] --&gt; AI\n        K[Knowledge Graphs] --&gt; AI\n        T[Tasks] --&gt; AI\n        AD[Agentic Docs] --&gt; AI\n    end\n    \n    subgraph \"Sync Layer\"\n        W[Workflows] --&gt; CI\n        W --&gt; VR\n        W --&gt; V[Version Control]\n    end",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#key-components",
+    "href": "agentic-docs-overview.html#key-components",
+    "title": "Agentic Documentation Overview",
+    "section": "Key Components",
+    "text": "Key Components\n\n1. Entry Points\n\nFor AI: /docs/agentic/llms.txt - Immediate context and navigation\nFor Humans: /docs/quarto/ - Narrative documentation with AI enhancements\n\n\n\n2. Knowledge Representation\n\n\n\nFormat\nPurpose\nLocation\n\n\n\n\nYAML\nHuman-editable contexts\n_contexts/*.yaml\n\n\nJSON\nStructured tasks & tools\ntasks/*.json, tools/*.json\n\n\nJSON-LD\nSemantic knowledge graphs\nmemories/*.jsonld\n\n\nPython\nExecutable contracts\n_contracts/*.py\n\n\n\n\n\n3. Version Management\nThe agentic docs have independent versioning:\nversion: \"1.0.0\"\nrelease_date: \"2025-06-06\"\nnanobricks_compatibility:\n  min: \"0.2.0\"\n  max: \"0.3.0\"\n\n\n4. Workflows\nComprehensive task automation via task agentic:*:\n\nValidation: task agentic:validate:all\nSynchronization: task agentic:sync:all\nVersion management: task agentic:version:bump TYPE=minor\nCI Integration: task agentic:ci:validate",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#the-innovation",
+    "href": "agentic-docs-overview.html#the-innovation",
+    "title": "Agentic Documentation Overview",
+    "section": "The Innovation",
+    "text": "The Innovation\n\nAI Context Blocks in Quarto\nWe embed AI-specific blocks directly in human documentation:\n\nIMMEDIATE_CONTEXT: Overview of agentic documentation system PREREQUISITES: [“basic-nanobricks-understanding”, “documentation-concepts”] SUCCESS_CRITERIA: [“Understand dual-mode approach”, “Can navigate both layers”, “Know how to contribute”]\n\n\n# To add AI context to any Quarto doc:\n# 1. Add to frontmatter: ai-context: filename.context.yaml\n# 2. Create context file in docs/agentic/_contexts/\n# 3. Run: task agentic:inject:contexts\n\n\n\nExecutable Documentation\nContracts that validate themselves:\nfrom docs.agentic._contracts.nanobrick_contract import ContractValidator\n\n# Documentation that tests the code!\nis_valid, issues = ContractValidator.validate(MyNanobrick)\n\n\nSemantic Knowledge Graphs\nJSON-LD enables reasoning about relationships:\n{\n  \"@context\": \"https://schema.org/\",\n  \"@type\": \"SoftwareSourceCode\",\n  \"@id\": \"nb:Nanobrick\",\n  \"implements\": \"nb:RunnableProtocol\",\n  \"composable_with\": [\"nb:Pipeline\", \"nb:TypeAdapter\"]\n}",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#benefits",
+    "href": "agentic-docs-overview.html#benefits",
+    "title": "Agentic Documentation Overview",
+    "section": "Benefits",
+    "text": "Benefits\n\nFor AI Agents\n\nZero ambiguity with structured data\nImmediate context without narrative overhead\nValidated examples that always work\nMachine-readable troubleshooting\n\n\n\nFor Humans\n\nVisual AI blocks with gradient styling\nQuick reference via structured formats\nValidated code examples\nClear separation of concerns\n\n\n\nFor Maintainers\n\nAutomated synchronization workflows\nIndependent version management\nCI/CD integration\nBuilt-in validation",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#getting-started",
+    "href": "agentic-docs-overview.html#getting-started",
+    "title": "Agentic Documentation Overview",
+    "section": "Getting Started",
+    "text": "Getting Started\n\nQuick Exploration\n\nAI Agent Path:\ncat docs/agentic/llms.txt\nls docs/agentic/tasks/\npython docs/agentic/_contracts/nanobrick.contract.py\nHuman Path:\n\nRead this overview\nExplore Agentic Docs Guide\nTry the Walkthrough\nUnderstand Format Choices\n\nMaintainer Path:\ntask agentic:stats          # See what we have\ntask agentic:validate:all   # Ensure consistency\ntask agentic:version:check  # Check versions",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#contributing",
+    "href": "agentic-docs-overview.html#contributing",
+    "title": "Agentic Documentation Overview",
+    "section": "Contributing",
+    "text": "Contributing\n\nAdding New Content\n\nFor a new concept:\n\nCreate context: docs/agentic/_contexts/concept.context.yaml\nAdd to Quarto doc frontmatter: ai-context: concept.context.yaml\nRun: task agentic:inject:contexts\n\nFor a new task:\n\nCreate task definition: docs/agentic/tasks/new-task.json\nInclude all steps, validation, and examples\nRun: task agentic:validate:examples\n\nFor troubleshooting:\n\nAdd to: docs/agentic/memories/troubleshooting.jsonld\nFollow JSON-LD format with error patterns\nInclude solutions and code fixes\n\n\n\n\nMaintenance\nRegular maintenance tasks:\n# Daily\ntask agentic:validate:sync    # Ensure sync between layers\n\n# On code changes\ntask agentic:sync:all         # Update examples and types\n\n# On release\ntask agentic:version:bump     # Version the docs\ntask agentic:ci:validate      # Full validation",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#philosophy",
+    "href": "agentic-docs-overview.html#philosophy",
+    "title": "Agentic Documentation Overview",
+    "section": "Philosophy",
+    "text": "Philosophy\nThis system embodies several key principles:\n\nDocumentation as Code: Docs that execute and validate\nPolyglot by Design: Right format for right purpose\nDual Audience: Humans and AI as equal consumers\nLiving Documentation: Evolves with the codebase\nSemantic Richness: Knowledge graphs, not just text",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#future-vision",
+    "href": "agentic-docs-overview.html#future-vision",
+    "title": "Agentic Documentation Overview",
+    "section": "Future Vision",
+    "text": "Future Vision\n\nAuto-generation: More content generated from code analysis\nAI Contributions: Agents suggesting improvements\nVisual Tooling: Drag-drop pipeline builders\nCommunity Patterns: Shared knowledge graphs\n\nThe agentic documentation system isn’t just about documenting code - it’s about creating a cognitive bridge between human intuition and machine precision.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-docs-overview.html#resources",
+    "href": "agentic-docs-overview.html#resources",
+    "title": "Agentic Documentation Overview",
+    "section": "Resources",
+    "text": "Resources\n\nAgentic Docs Repository\nQuick Reference\nInnovation Summary\nWorkflows Documentation",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Documentation Overview"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html",
+    "href": "agentic-workflows-guide.html",
+    "title": "Agentic Workflows Guide",
+    "section": "",
+    "text": "The agentic documentation system includes comprehensive workflows managed through task agentic:* commands. This guide shows you which tasks to run in combination for different scenarios.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#overview",
+    "href": "agentic-workflows-guide.html#overview",
+    "title": "Agentic Workflows Guide",
+    "section": "",
+    "text": "The agentic documentation system includes comprehensive workflows managed through task agentic:* commands. This guide shows you which tasks to run in combination for different scenarios.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#quick-reference-card",
+    "href": "agentic-workflows-guide.html#quick-reference-card",
+    "title": "Agentic Workflows Guide",
+    "section": "Quick Reference Card",
+    "text": "Quick Reference Card\n\n\n\n\n\n\n\nScenario\nCommands to Run\n\n\n\n\nDaily Check\ntask agentic:stats → task agentic:validate:sync\n\n\nAfter Code Changes\ntask agentic:sync:all → task agentic:validate:all\n\n\nBefore Release\ntask agentic:ci:validate → task agentic:version:bump\n\n\nNew Documentation\ntask agentic:inject:contexts → task agentic:validate:sync\n\n\nTroubleshooting\ntask agentic:lint → task agentic:validate:all",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#common-workflows",
+    "href": "agentic-workflows-guide.html#common-workflows",
+    "title": "Agentic Workflows Guide",
+    "section": "Common Workflows",
+    "text": "Common Workflows\n\n1. Initial Setup Workflow\nWhen first working with agentic docs:\n# 1. Check what you have\ntask agentic:stats\n\n# 2. Validate everything is working\ntask agentic:validate:all\n\n# 3. Check version compatibility\ntask agentic:version:check\n\n\n2. Daily Maintenance Workflow\nStart your day by ensuring docs are healthy:\n# Morning routine\ntask agentic:validate:sync    # Check human-AI sync\ntask agentic:stats            # See overview\ntask agentic:lint             # Find TODOs and issues\n\n\n3. Adding New Documentation Workflow\nWhen creating new docs with AI context:\n# 1. Create your Quarto document\necho \"---\ntitle: \\\"My New Feature\\\"\nai-context: my-feature.context.yaml\n---\" &gt; docs/quarto/my-feature.qmd\n\n# 2. Create the AI context\ncat &gt; docs/agentic/_contexts/my-feature.context.yaml &lt;&lt; EOF\nimmediate_context: \"Working with my new feature\"\nprerequisites: [\"nanobricks-basics\"]\nsuccess_criteria: [\"Feature implemented correctly\"]\ncommon_errors: [\"Missing dependencies\"]\nEOF\n\n# 3. Inject and validate\ntask agentic:inject:contexts\ntask agentic:validate:sync\n\n\n4. Code Update Workflow\nAfter making changes to the Nanobricks codebase:\n# 1. Sync documentation with code\ntask agentic:sync:types      # Update type signatures\ntask agentic:sync:examples   # Update code examples\ntask agentic:sync:contracts  # Verify contracts match\n\n# 2. Full sync and validation\ntask agentic:sync:all\ntask agentic:validate:all\n\n\n5. Pre-Release Workflow\nBefore releasing a new version:\n# 1. Full validation\ntask agentic:ci:validate\n\n# 2. Check for issues\ntask agentic:lint\n\n# 3. Version compatibility check\ntask agentic:validate:versions\n\n# 4. Bump version if all good\ntask agentic:version:bump TYPE=minor\n\n# 5. Generate CI report\ntask agentic:ci:generate-report\n\n\n6. Troubleshooting Workflow\nWhen something seems wrong:\n# 1. Check sync status\ntask agentic:validate:sync\n\n# 2. Validate individual components\ntask agentic:validate:contracts   # Check executable specs\ntask agentic:validate:examples    # Check code examples\ntask agentic:validate:schemas     # Check JSON-LD\n\n# 3. Look for common issues\ntask agentic:lint\n\n# 4. Get detailed stats\ntask agentic:stats\n\n\n7. CI/CD Integration Workflow\nFor automated pipelines:\n# In your CI configuration\n- name: Validate Agentic Docs\n  run: |\n    task agentic:ci:validate\n    task agentic:ci:generate-report\n    \n- name: Upload Report\n  uses: actions/upload-artifact@v3\n  with:\n    name: agentic-validation-report\n    path: .agentic-validation-report.json",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#advanced-workflows",
+    "href": "agentic-workflows-guide.html#advanced-workflows",
+    "title": "Agentic Workflows Guide",
+    "section": "Advanced Workflows",
+    "text": "Advanced Workflows\n\nAuto-Generation Workflow\nWhen you want to generate documentation from code:\n# 1. Generate contexts from docstrings (requires Claude CLI)\ntask agentic:generate:contexts\n\n# 2. Generate troubleshooting from test failures\ntask agentic:generate:troubleshooting\n\n# 3. Validate generated content\ntask agentic:validate:all\n\n\nFormat and Clean Workflow\nFor maintaining consistency:\n# 1. Format all files\ntask agentic:format\n\n# 2. Run linting\ntask agentic:lint\n\n# 3. Validate after formatting\ntask agentic:validate:all\n\n\nVersion Management Workflow\nFor documentation releases:\n# 1. Check current version\ntask agentic:version:check\n\n# 2. Review what changed\ntask agentic:stats\ngit diff docs/agentic/\n\n# 3. Bump appropriately\ntask agentic:version:bump TYPE=patch  # Bug fixes\ntask agentic:version:bump TYPE=minor  # New features\ntask agentic:version:bump TYPE=major  # Breaking changes\n\n# 4. Commit version change\ngit add docs/agentic/version.yaml\ngit commit -m \"chore: bump agentic docs to v$(task agentic:version:check | grep Version | cut -d' ' -f4)\"",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#workflow-decision-tree",
+    "href": "agentic-workflows-guide.html#workflow-decision-tree",
+    "title": "Agentic Workflows Guide",
+    "section": "Workflow Decision Tree",
+    "text": "Workflow Decision Tree\ngraph TD\n    Start[Start] --&gt; Q1{What are you doing?}\n    \n    Q1 --&gt;|Adding docs| Add[Create .qmd + context.yaml]\n    Add --&gt; Inject[task agentic:inject:contexts]\n    Inject --&gt; ValidateSync[task agentic:validate:sync]\n    \n    Q1 --&gt;|Code changed| Sync[task agentic:sync:all]\n    Sync --&gt; ValidateAll[task agentic:validate:all]\n    \n    Q1 --&gt;|Daily check| Stats[task agentic:stats]\n    Stats --&gt; CheckSync[task agentic:validate:sync]\n    \n    Q1 --&gt;|Something broken| Lint[task agentic:lint]\n    Lint --&gt; Debug[Check individual validators]\n    \n    Q1 --&gt;|Release prep| CI[task agentic:ci:validate]\n    CI --&gt; Bump[task agentic:version:bump]",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#understanding-task-categories",
+    "href": "agentic-workflows-guide.html#understanding-task-categories",
+    "title": "Agentic Workflows Guide",
+    "section": "Understanding Task Categories",
+    "text": "Understanding Task Categories\n\nValidation Tasks (validate:*)\n\nPurpose: Ensure documentation integrity\nWhen to use: After any changes, before releases\nKey tasks:\n\nvalidate:all - Complete validation suite\nvalidate:sync - Check human-AI alignment\nvalidate:contracts - Test executable specs\n\n\n\n\nSynchronization Tasks (sync:*)\n\nPurpose: Keep docs aligned with code\nWhen to use: After code changes\nKey tasks:\n\nsync:all - Full synchronization\nsync:types - Update type signatures\nsync:examples - Update code samples\n\n\n\n\nGeneration Tasks (generate:*)\n\nPurpose: Create docs from code\nWhen to use: For new components\nKey tasks:\n\ngenerate:contexts - From docstrings\ngenerate:troubleshooting - From test patterns\n\n\n\n\nMaintenance Tasks\n\nPurpose: Keep docs clean and consistent\nWhen to use: Regularly\nKey tasks:\n\nlint - Find issues\nformat - Auto-format files\nstats - Show overview\n\n\n\n\nVersion Tasks (version:*)\n\nPurpose: Manage doc versions\nWhen to use: For releases\nKey tasks:\n\nversion:check - Current version\nversion:bump - Increment version",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#best-practices",
+    "href": "agentic-workflows-guide.html#best-practices",
+    "title": "Agentic Workflows Guide",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nRun validate:sync frequently - Catches drift early\nUse stats for quick health checks - Shows counts and sizes\nAlways validate after sync - Ensures changes are correct\nCheck versions before release - Avoid compatibility issues\nUse CI tasks in pipelines - Automated quality gates",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#troubleshooting-common-issues",
+    "href": "agentic-workflows-guide.html#troubleshooting-common-issues",
+    "title": "Agentic Workflows Guide",
+    "section": "Troubleshooting Common Issues",
+    "text": "Troubleshooting Common Issues\n\n“Orphaned AI contexts” Warning\n# Find orphaned contexts\ntask agentic:validate:sync\n\n# Either create missing .qmd files or remove orphaned contexts\n\n\n“Version mismatch” Error\n# Check versions\ntask agentic:version:check\n\n# Update compatibility in version.yaml\nvim docs/agentic/version.yaml\n\n\n“Contract validation failed”\n# Run specific contract\npython docs/agentic/_contracts/nanobrick.contract.py\n\n# Fix issues and re-validate\ntask agentic:validate:contracts",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-workflows-guide.html#integration-with-development-flow",
+    "href": "agentic-workflows-guide.html#integration-with-development-flow",
+    "title": "Agentic Workflows Guide",
+    "section": "Integration with Development Flow",
+    "text": "Integration with Development Flow\n\nPre-Commit Hook\n#!/bin/bash\n# .git/hooks/pre-commit\ntask agentic:validate:sync || exit 1\ntask agentic:validate:examples || exit 1\n\n\nPR Checklist\n\ntask agentic:validate:all passes\ntask agentic:lint shows no issues\nVersion bumped if needed\nCI report generated\n\nThe agentic workflow system ensures your AI-first documentation stays synchronized, validated, and ready for both human and machine consumption.",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Guide"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html",
+    "href": "agentic-cheatsheet.html",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "",
+    "text": "task agentic:stats              # Overview\ntask agentic:validate:sync      # Check alignment\n\n\n\n# 1. Add to Quarto frontmatter\nai-context: myfeature.context.yaml\n\n# 2. Create context\nvim docs/agentic/_contexts/myfeature.context.yaml\n\n# 3. Inject & validate\ntask agentic:inject:contexts\ntask agentic:validate:sync\n\n\n\ntask agentic:sync:all          # Full sync\ntask agentic:validate:all      # Verify\n\n\n\ntask agentic:ci:validate       # Full check\ntask agentic:version:bump      # Increment\ntask agentic:ci:generate-report # CI report\n\n\n\ntask agentic:lint              # Find problems\ntask agentic:validate:contracts # Test specs\ntask agentic:validate:examples  # Test code",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html#essential-workflows",
+    "href": "agentic-cheatsheet.html#essential-workflows",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "",
+    "text": "task agentic:stats              # Overview\ntask agentic:validate:sync      # Check alignment\n\n\n\n# 1. Add to Quarto frontmatter\nai-context: myfeature.context.yaml\n\n# 2. Create context\nvim docs/agentic/_contexts/myfeature.context.yaml\n\n# 3. Inject & validate\ntask agentic:inject:contexts\ntask agentic:validate:sync\n\n\n\ntask agentic:sync:all          # Full sync\ntask agentic:validate:all      # Verify\n\n\n\ntask agentic:ci:validate       # Full check\ntask agentic:version:bump      # Increment\ntask agentic:ci:generate-report # CI report\n\n\n\ntask agentic:lint              # Find problems\ntask agentic:validate:contracts # Test specs\ntask agentic:validate:examples  # Test code",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html#task-categories",
+    "href": "agentic-cheatsheet.html#task-categories",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "Task Categories",
+    "text": "Task Categories\n\n\n\nPrefix\nPurpose\nExample\n\n\n\n\nvalidate:\nCheck integrity\nvalidate:all\n\n\nsync:\nUpdate from code\nsync:types\n\n\ngenerate:\nCreate from code\ngenerate:contexts\n\n\nversion:\nManage versions\nversion:check\n\n\nci:\nCI/CD integration\nci:validate",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html#one-liners",
+    "href": "agentic-cheatsheet.html#one-liners",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "One-Liners",
+    "text": "One-Liners\n# Full health check\ntask agentic:validate:all && echo \"✅ Healthy\" || echo \"❌ Issues found\"\n\n# Quick stats\ntask agentic:stats | grep -E \"Contexts|Tasks|Contracts\"\n\n# Find TODOs\ntask agentic:lint | grep TODO\n\n# Version info\ntask agentic:version:check | head -3",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html#decision-flow",
+    "href": "agentic-cheatsheet.html#decision-flow",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "Decision Flow",
+    "text": "Decision Flow\n┌─────────────────┐\n│ What changed?   │\n└────────┬────────┘\n         │\n    ┌────┴────┐\n    │ Nothing │ → task agentic:validate:sync\n    └─────────┘\n         │\n    ┌────┴────┐\n    │  Code   │ → task agentic:sync:all\n    └─────────┘\n         │\n    ┌────┴────┐\n    │  Docs   │ → task agentic:inject:contexts\n    └─────────┘\n         │\n    ┌────┴────┐\n    │ Release │ → task agentic:ci:validate\n    └─────────┘",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "agentic-cheatsheet.html#remember",
+    "href": "agentic-cheatsheet.html#remember",
+    "title": "Agentic Workflows Cheat Sheet",
+    "section": "Remember",
+    "text": "Remember\n\nSync after code changes\nValidate after any changes\n\nVersion before releases\nStats for quick health checks\n\n\nPro tip: Add alias agd='task agentic:' to your shell for faster access!",
+    "crumbs": [
+      "Home",
+      "Agentic Documentation",
+      "Agentic Workflows Cheat Sheet"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html",
+    "href": "nanobrick.html",
+    "title": "Creating Nanobricks",
+    "section": "",
+    "text": "A nanobrick is a self-contained, composable module that implements the Runnable protocol. Think of it as a Lego brick for code - standardized, reusable, and designed to connect with other bricks.",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#what-is-a-nanobrick",
+    "href": "nanobrick.html#what-is-a-nanobrick",
+    "title": "Creating Nanobricks",
+    "section": "",
+    "text": "A nanobrick is a self-contained, composable module that implements the Runnable protocol. Think of it as a Lego brick for code - standardized, reusable, and designed to connect with other bricks.",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#creating-your-first-nanobrick",
+    "href": "nanobrick.html#creating-your-first-nanobrick",
+    "title": "Creating Nanobricks",
+    "section": "Creating Your First Nanobrick",
+    "text": "Creating Your First Nanobrick\n\nStep 1: Import Required Types\nfrom nanobricks import Nanobrick\nfrom typing import TypedDict, Optional\n\n\nStep 2: Define Your Types\n# Input and output types\nInputType = dict[str, any]\nOutputType = str\n\n# Optional dependencies\nclass MyDeps(TypedDict, total=False):\n    logger: Optional[Logger]\n    config: Optional[dict]\n\n\nStep 3: Implement the Nanobrick\nclass GreeterBrick(Nanobrick[InputType, OutputType, MyDeps]):\n    \"\"\"A simple nanobrick that greets users.\"\"\"\n    \n    def __init__(self, greeting: str = \"Hello\"):\n        super().__init__()\n        self.greeting = greeting\n    \n    async def invoke(self, input: InputType, *, deps: MyDeps = None) -&gt; OutputType:\n        \"\"\"Process the input and return a greeting.\"\"\"\n        deps = deps or {}\n        name = input.get(\"name\", \"World\")\n        \n        if logger := deps.get(\"logger\"):\n            logger.info(f\"Greeting {name}\")\n        \n        return f\"{self.greeting}, {name}!\"",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#key-requirements",
+    "href": "nanobrick.html#key-requirements",
+    "title": "Creating Nanobricks",
+    "section": "Key Requirements",
+    "text": "Key Requirements\nEvery nanobrick must:\n\nInherit from Nanobrick: With proper type parameters\nImplement invoke: The async method that processes input\nHandle deps gracefully: Always use deps = deps or {}\nBe composable: Work well with the &gt;&gt; operator",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#testing-your-nanobrick",
+    "href": "nanobrick.html#testing-your-nanobrick",
+    "title": "Creating Nanobricks",
+    "section": "Testing Your Nanobrick",
+    "text": "Testing Your Nanobrick\nimport pytest\n\n@pytest.mark.asyncio\nasync def test_greeter():\n    greeter = GreeterBrick()\n    result = await greeter.invoke({\"name\": \"Alice\"})\n    assert result == \"Hello, Alice!\"\n\ndef test_greeter_sync():\n    greeter = GreeterBrick()\n    result = greeter.invoke_sync({\"name\": \"Bob\"})\n    assert result == \"Hello, Bob!\"",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#composition-example",
+    "href": "nanobrick.html#composition-example",
+    "title": "Creating Nanobricks",
+    "section": "Composition Example",
+    "text": "Composition Example\n# Combine with other bricks\nupper_brick = UppercaseBrick()\npipeline = greeter &gt;&gt; upper_brick\n\nresult = await pipeline.invoke({\"name\": \"Charlie\"})\n# Result: \"HELLO, CHARLIE!\"",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#common-patterns",
+    "href": "nanobrick.html#common-patterns",
+    "title": "Creating Nanobricks",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nWith Skills\nfrom nanobricks import with_logging, with_cache\n\n@with_logging\n@with_cache(ttl=300)\nclass SmartGreeter(Nanobrick[dict, str]):\n    # Automatically gets logging and caching\n    pass\n\n\nError Handling\nasync def invoke(self, input: InputType, *, deps=None) -&gt; OutputType:\n    try:\n        # Your logic\n        return result\n    except ValueError as e:\n        if logger := deps.get(\"logger\"):\n            logger.error(f\"Validation error: {e}\")\n        raise",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "nanobrick.html#next-steps",
+    "href": "nanobrick.html#next-steps",
+    "title": "Creating Nanobricks",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nLearn about Pipeline Composition\nExplore Built-in Skills\nCheck the Cookbook for more examples",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Creating Nanobricks"
+    ]
+  },
+  {
+    "objectID": "pipeline.html",
+    "href": "pipeline.html",
+    "title": "Pipeline Composition",
+    "section": "",
+    "text": "Nanobricks shine when composed into pipelines. The &gt;&gt; operator creates a data flow where the output of one brick becomes the input of the next.",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#the-power-of-composition",
+    "href": "pipeline.html#the-power-of-composition",
+    "title": "Pipeline Composition",
+    "section": "",
+    "text": "Nanobricks shine when composed into pipelines. The &gt;&gt; operator creates a data flow where the output of one brick becomes the input of the next.",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#basic-pipeline",
+    "href": "pipeline.html#basic-pipeline",
+    "title": "Pipeline Composition",
+    "section": "Basic Pipeline",
+    "text": "Basic Pipeline\nfrom nanobricks import Nanobrick\n\n# Define some bricks\nvalidator = EmailValidator()\nnormalizer = EmailNormalizer()\nstorage = EmailStorage()\n\n# Compose them\npipeline = validator &gt;&gt; normalizer &gt;&gt; storage\n\n# Use the pipeline\nresult = await pipeline.invoke(\"User@Example.com\")",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#how-it-works",
+    "href": "pipeline.html#how-it-works",
+    "title": "Pipeline Composition",
+    "section": "How It Works",
+    "text": "How It Works\nThe &gt;&gt; operator: 1. Type checks at composition time 2. Chains the invoke methods 3. Propagates dependencies through the pipeline 4. Maintains error boundaries",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#type-safety",
+    "href": "pipeline.html#type-safety",
+    "title": "Pipeline Composition",
+    "section": "Type Safety",
+    "text": "Type Safety\nPipeline composition is type-safe:\n# This works - types align\nstring_to_dict = ParseBrick()      # str -&gt; dict\ndict_to_list = ExtractBrick()      # dict -&gt; list\npipeline = string_to_dict &gt;&gt; dict_to_list  # str -&gt; list\n\n# This fails at composition time\nbad_pipeline = dict_to_list &gt;&gt; string_to_dict  # Type error!",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#handling-type-mismatches",
+    "href": "pipeline.html#handling-type-mismatches",
+    "title": "Pipeline Composition",
+    "section": "Handling Type Mismatches",
+    "text": "Handling Type Mismatches\nWhen types don’t align, use TypeAdapter:\nfrom nanobricks import TypeAdapter\n\n# Convert between incompatible types\nstring_brick = StringProcessor()   # str -&gt; str\nint_brick = NumberCruncher()      # int -&gt; int\n\n# Bridge with TypeAdapter\npipeline = (\n    string_brick \n    &gt;&gt; TypeAdapter[str, int]  # Convert str to int\n    &gt;&gt; int_brick\n)",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#dependency-propagation",
+    "href": "pipeline.html#dependency-propagation",
+    "title": "Pipeline Composition",
+    "section": "Dependency Propagation",
+    "text": "Dependency Propagation\nDependencies flow through the entire pipeline:\nclass LoggingBrick(Nanobrick[str, str]):\n    async def invoke(self, input: str, *, deps=None) -&gt; str:\n        deps = deps or {}\n        if logger := deps.get(\"logger\"):\n            logger.info(f\"Processing: {input}\")\n        return input.upper()\n\n# Create pipeline\npipeline = LoggingBrick() &gt;&gt; LoggingBrick() &gt;&gt; LoggingBrick()\n\n# Dependencies reach all bricks\ndeps = {\"logger\": my_logger}\nresult = await pipeline.invoke(\"hello\", deps=deps)\n# All three bricks log their processing",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#advanced-patterns",
+    "href": "pipeline.html#advanced-patterns",
+    "title": "Pipeline Composition",
+    "section": "Advanced Patterns",
+    "text": "Advanced Patterns\n\nBranching Pipelines\n# Process data through multiple paths\nasync def branch_processing(data):\n    # Path 1: Validation and storage\n    path1 = validator &gt;&gt; storage\n    \n    # Path 2: Transformation and analysis\n    path2 = transformer &gt;&gt; analyzer\n    \n    # Run both paths\n    result1 = await path1.invoke(data)\n    result2 = await path2.invoke(data)\n    \n    return {\"stored\": result1, \"analysis\": result2}\n\n\nConditional Pipelines\n# Choose pipeline based on input\ndef get_pipeline(data_type: str):\n    if data_type == \"email\":\n        return email_validator &gt;&gt; email_processor\n    elif data_type == \"phone\":\n        return phone_validator &gt;&gt; phone_formatter\n    else:\n        return generic_validator &gt;&gt; generic_processor\n\n# Use it\npipeline = get_pipeline(user_input_type)\nresult = await pipeline.invoke(user_data)\n\n\nError Recovery\n# Add error handling to pipelines\nclass ErrorRecoveryBrick(Nanobrick[T, T]):\n    def __init__(self, fallback_value: T):\n        self.fallback = fallback_value\n    \n    async def invoke(self, input: T, *, deps=None) -&gt; T:\n        try:\n            return input\n        except Exception as e:\n            if logger := deps.get(\"logger\"):\n                logger.error(f\"Recovering from: {e}\")\n            return self.fallback\n\n# Wrap risky operations\nsafe_pipeline = (\n    risky_parser \n    &gt;&gt; ErrorRecoveryBrick(default_dict)\n    &gt;&gt; processor\n)",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#performance-considerations",
+    "href": "pipeline.html#performance-considerations",
+    "title": "Pipeline Composition",
+    "section": "Performance Considerations",
+    "text": "Performance Considerations\n\nPipelines are lazy - No execution until invoke\nOverhead is minimal - Just function calls\nAsync throughout - Fully concurrent execution\nMemory efficient - No intermediate storage",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#best-practices",
+    "href": "pipeline.html#best-practices",
+    "title": "Pipeline Composition",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nKeep pipelines readable - Not too long\nName intermediate steps - For debugging\nTest compositions - Not just individual bricks\nDocument type flow - Especially complex ones\n\n# Good: Named steps\nvalidation = EmailValidator()\nnormalization = EmailNormalizer()\nenrichment = EmailEnricher()\nstorage = EmailStorage()\n\nemail_pipeline = (\n    validation &gt;&gt;      # str -&gt; str (validated)\n    normalization &gt;&gt;   # str -&gt; str (normalized)\n    enrichment &gt;&gt;      # str -&gt; dict (enriched)\n    storage           # dict -&gt; bool (stored)\n)",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#debugging-pipelines",
+    "href": "pipeline.html#debugging-pipelines",
+    "title": "Pipeline Composition",
+    "section": "Debugging Pipelines",
+    "text": "Debugging Pipelines\nUse the devtools for pipeline inspection:\nfrom nanobricks.devtools import visualize_pipeline\n\n# Visualize the pipeline\nvisualize_pipeline(email_pipeline)\n\n# Trace execution\nfrom nanobricks.devtools import trace_pipeline\ntraced = trace_pipeline(email_pipeline)\nresult = await traced.invoke(data)\n# See execution flow and timing",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#next-steps",
+    "href": "pipeline.html#next-steps",
+    "title": "Pipeline Composition",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nExplore Error Handling\nLearn about Testing Pipelines\nCheck Advanced Composition",
+    "crumbs": [
+      "Home",
+      "Core Concepts",
+      "Pipeline Composition"
+    ]
+  },
+  {
+    "objectID": "claude-code.html",
+    "href": "claude-code.html",
+    "title": "Claude Code",
+    "section": "",
+    "text": "Claude Code is Anthropic’s desktop application that provides AI-powered coding assistance. This section covers important configuration options, timeout settings, and troubleshooting information.",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#overview",
+    "href": "claude-code.html#overview",
+    "title": "Claude Code",
+    "section": "",
+    "text": "Claude Code is Anthropic’s desktop application that provides AI-powered coding assistance. This section covers important configuration options, timeout settings, and troubleshooting information.",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#timeout-configuration",
+    "href": "claude-code.html#timeout-configuration",
+    "title": "Claude Code",
+    "section": "Timeout Configuration",
+    "text": "Timeout Configuration\n\nCurrent Timeout Limitations\nClaude Code has several timeout-related settings, but the main tool call timeout appears to be hardcoded and not easily configurable:\n\nTool Call Timeout: The standard tool call timeout is 2 minutes (120 seconds) and this appears to be a hardcoded limit in Claude Code\nKnown Issue: There’s an open issue (#1539) where Claude doesn’t properly respect timeout commands, even when using shell timeout commands\n\n\n\nAvailable Timeout Configurations\n\nMCP Server Startup Timeout\nYou can configure the MCP (Model Context Protocol) server startup timeout:\n# Set MCP timeout to 30 seconds (30000ms)\nMCP_TIMEOUT=30000 claude\n\n# Or export it for your session\nexport MCP_TIMEOUT=30000\nclaude\n\n\n\n\n\n\nNote\n\n\n\nThis only affects how long Claude Code waits for MCP servers to start up, not general tool call execution time.\n\n\n\n\n\nWorkarounds for Long-Running Tasks\nSince you can’t directly increase the tool call timeout, here are some proven workarounds:\n\nRun Commands in Background\nFor long-running tasks that exceed the 2-minute limit:\n# Run the task in background and capture output\ntask agentic:generate:contexts &gt; output.log 2&gt;&1 &\n\n# Then check the progress\ntail -f output.log\n\n# Or check if it's still running\nps aux | grep \"task agentic\"\n\n\nBreak Down Long Tasks\nIf possible, break your task into smaller chunks that complete within 2 minutes:\n# Instead of processing everything at once\ntask agentic:generate:contexts --batch-size=10\n\n# Or process specific components\ntask agentic:generate:contexts --component=schemas\ntask agentic:generate:contexts --component=templates\n\n\nUse Non-Interactive Mode\nFor long-running tasks, run them outside of Claude Code first:\n# Run directly in terminal\ntask agentic:generate:contexts\n\n# Then use Claude Code to analyze results\nclaude --continue \"analyze the generated contexts from the previous run\"",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#best-practices",
+    "href": "claude-code.html#best-practices",
+    "title": "Claude Code",
+    "section": "Best Practices",
+    "text": "Best Practices\n\nTask Design for Claude Code\nWhen designing tasks that will be run through Claude Code:\n\nKeep individual operations under 2 minutes\nProvide progress indicators for longer processes\nMake tasks resumable if they fail due to timeout\nUse batch processing for large datasets\n\n\n\nExample Task Structure\n# Good: Fast, focused task\ncore:dev:test:unit:\n  desc: Run unit tests quickly\n  cmds:\n    - pytest tests/unit/ -v --tb=short\n\n# Better: Long task broken into chunks\nagentic:generate:contexts:schemas:\n  desc: Generate context schemas only\n  cmds:\n    - python scripts/generate_contexts.py --type=schemas --batch-size=5\n\nagentic:generate:contexts:templates:\n  desc: Generate context templates only  \n  cmds:\n    - python scripts/generate_contexts.py --type=templates --batch-size=5",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#troubleshooting",
+    "href": "claude-code.html#troubleshooting",
+    "title": "Claude Code",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nCommon Timeout Issues\n\n“Command timed out after 2m 0.0s”\nThis is the standard tool call timeout. Solutions:\n\nBreak the task into smaller pieces\nRun the task outside Claude Code first\nAdd progress indicators to your scripts\nUse background execution\n\n\n\nMCP Server Connection Timeouts\nIf MCP servers fail to start:\n# Increase MCP startup timeout\nexport MCP_TIMEOUT=60000  # 60 seconds\nclaude\n\n\nHigh Memory Usage During Long Tasks\nFor memory-intensive operations:\n\nProcess data in smaller batches\nClear intermediate results\nUse streaming where possible\n\n\n\n\nError Messages and Solutions\n\n\n\n\n\n\n\n\nError\nCause\nSolution\n\n\n\n\nCommand timed out after 2m 0.0s\nTool call exceeded hardcoded limit\nBreak task into smaller chunks\n\n\nMCP server failed to start\nMCP startup timeout too short\nIncrease MCP_TIMEOUT\n\n\nConnection closed (-32000)\nMCP timeout during operation\nUse shorter operations or background processing",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#feature-requests",
+    "href": "claude-code.html#feature-requests",
+    "title": "Claude Code",
+    "section": "Feature Requests",
+    "text": "Feature Requests\nThe Claude Code community has identified several timeout-related improvements needed:\n\nConfigurable tool call timeouts (Issue #1539)\nBetter timeout handling for MCP operations (Issue #424)\nProgress indicators for long-running operations\n\nConsider adding your voice to these GitHub issues if timeout limitations are affecting your workflow.",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#see-also",
+    "href": "claude-code.html#see-also",
+    "title": "Claude Code",
+    "section": "See Also",
+    "text": "See Also\n\nClaude Code Documentation\nModel Context Protocol (MCP) Documentation\nTask System Reference\nDeveloper Workflows",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#released-versions",
+    "href": "roadmap.html#released-versions",
+    "title": "Nanobricks Roadmap",
+    "section": "Released Versions",
+    "text": "Released Versions\n\n\n\n\n\n\n\n\n\nVersion\nRelease Date\nTheme\nKey Features\n\n\n\n\nv0.1.0\n2025-01-06\nInitial Release\nCore protocol, async-first design, skills system, pipe operator (|)\n\n\nv0.1.1\n2025-01-06\nDocumentation & Examples\nCookbook section, testing patterns, roadmap documentation\n\n\nv0.1.2\n2025-01-06\nType Improvements\nType utilities, Result type, better error messages\n\n\nv0.1.3\n2025-01-06\nCore API Refinement\nRenamed NanobrickSimple to Nanobrick, enhanced git integration\n\n\nv0.2.0\n2025-06-05\nComposition Revolution\nPipeline Builder API, &gt;&gt; operator migration, test suite cleanup\n\n\nv0.2.1\n2025-06-05\nDeveloper Experience\nTask namespace refactoring, improved symlink handling\n\n\nv0.2.2\n2025-06-05\nTask System & Docs\nTaskfile organization, pipe operator migration completion\n\n\nv0.2.3\n2025-06-06\nAI-First Documentation\nAgentic docs system, AI workflows, documentation restructuring",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#current-state-v0.2.3",
+    "href": "roadmap.html#current-state-v0.2.3",
+    "title": "Nanobricks Roadmap",
+    "section": "Current State: v0.2.3",
+    "text": "Current State: v0.2.3\n\nWhat’s Working Well\n\nCore Protocol: The Nanobrick[Input, Output] abstraction is intuitive and powerful\nSkills System: The @skill decorator pattern for cross-cutting concerns is a major hit\nType Safety: Generic typing provides excellent IDE support and catch errors early\nAsync-First: Modern design that works well with contemporary Python patterns\n\n\n\nKey Achievements\n\nSuccessfully used to build production-grade applications (nano-scorm)\n~55% code reduction compared to manual implementation\n70% reduction in API boilerplate through skills system\nProven composition patterns for complex workflows",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.2-task-system-organization",
+    "href": "roadmap.html#version-0.2.2-task-system-organization",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.2: Task System Organization ✅",
+    "text": "Version 0.2.2: Task System Organization ✅\nStatus: Released 2025-06-05\nTheme: Better task organization and documentation consistency\n\nWhat Was Delivered\n\nTask System Restructuring\n\nMoved all Taskfile*.yml to taskfiles/ directory\nCreated scripts/ directory structure\nExtracted common Claude CLI discovery logic\nApplied DRY principles across taskfiles\n\nDocumentation Consistency\n\nCompleted migration from | to &gt;&gt; operator\nFixed method references and cookbook examples\nEnsured all code examples use current API\n\nEnhanced Claude Integration\n\nVerbose mode support with CLAUDE_VERBOSE=1\nProgress indicators for non-verbose mode\nBetter error messages and setup documentation",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-0.2.3-ai-first-documentation",
+    "href": "roadmap.html#version-0.2.3-ai-first-documentation",
+    "title": "Nanobricks Roadmap",
+    "section": "Version 0.2.3: AI-First Documentation ✅",
+    "text": "Version 0.2.3: AI-First Documentation ✅\nStatus: Released 2025-06-06\nTheme: Revolutionary agentic documentation for AI developers\n\nWhat Was Delivered\n\nAI-First Documentation System\n\nCreated docs/agentic/ directory with specialized formats\nImplemented llms.txt standard for AI discovery\nAdded executable contracts and JSON-LD knowledge graphs\nBuilt comprehensive task registry and tool definitions\n\nAgentic Task Workflows\n\nAdded Taskfile.agentic.yml with validation and sync tasks\nAutomated context generation from code\nVersion management for agentic documentation\nCI/CD integration for validation\n\nDocumentation Bridge System\n\nContext injection for Quarto documents\nAI-specific CSS classes for visual differentiation\nDual-mode documentation supporting both audiences\n\nDocumentation Restructuring\n\nReordered sections for better flow\nConsolidated Evolution section with nested subsections\nFixed markdown formatting across 36 files",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "claude-code.html#file-exclusion-and-ignore-patterns",
+    "href": "claude-code.html#file-exclusion-and-ignore-patterns",
+    "title": "Claude Code",
+    "section": "File Exclusion and Ignore Patterns",
+    "text": "File Exclusion and Ignore Patterns\n\nCurrent State: No Direct .claudeignore Equivalent\nUnfortunately, Claude Code does not currently have a direct equivalent to .gitignore or .cursorignore. This is an active area of discussion in the Claude Code community.\n\n\nWhat Currently Exists\n\nSettings-Based File Permissions\nClaude Code uses settings.json files for configuration, including Read & Edit permissions that follow gitignore patterns:\n{\n  \"permissions\": {\n    \"deny\": [\n      \"Read(node_modules/**)\",\n      \"Read(dist/**)\",\n      \"Read(.git/**)\",\n      \"Read(build/**)\",\n      \"Read(htmlcov/**)\",\n      \"Read(temp/**)\",\n      \"Read(__pycache__/**)\",\n      \"Read(*.pyc)\",\n      \"Edit(build/**)\"\n    ]\n  }\n}\nLocation of settings.json: - User settings: ~/.claude/settings.json (applies to all projects) - Project settings: .claude/settings.json (shared with team) - Local project settings: .claude/settings.local.json (private)\n\n\nGitignore Integration\nClaude Code does respect .gitignore files to some extent, but this approach has limitations:\n\n✅ Works for standard ignored files (node_modules, build artifacts)\n❌ Problem: Insufficient for multi-platform projects where you need context-specific exclusions\n❌ Problem: Can’t ignore source code that should be tracked in Git\n\n\n\n\nCommunity Demand for .claudeignore\nThere are active GitHub issues requesting this feature:\n\nIssue #79: “How to tell claude CLI agent to ignore directories” - marked as “in progress”\nIssue #1304: “Need for dedicated .claudeignore file” - specifically addresses the limitation of .gitignore approach\n\n\nThe Problem with Current Approach\nFrom Issue #1304, a key example of why .gitignore isn’t sufficient:\n\n\n\n\n\n\nWarning\n\n\n\n“I have a large iOS/Mac project with shared code. When working on iOS features, I need to ignore Mac-specific directories to save tokens. When working on Mac features, I need to ignore iOS-specific directories. The problem: I cannot add Mac directories to .gitignore when working on iOS because both platforms are part of the same repository.”\n\n\n\n\n\nCurrent Workarounds\n\n1. Use Settings-Based Permissions\nCreate .claude/settings.json in your project:\n{\n  \"permissions\": {\n    \"deny\": [\n      \"Read(htmlcov/**)\",\n      \"Read(temp/**)\",\n      \"Read(test-projects/**)\",\n      \"Read(.quarto/**)\",\n      \"Read(_site/**)\",\n      \"Read(node_modules/**)\",\n      \"Read(*.pyc)\",\n      \"Read(__pycache__/**)\"\n    ]\n  }\n}\n\n\n2. Strategic .gitignore Usage\nAdd commonly excluded directories to .gitignore:\nnode_modules/\ndist/\nbuild/\n.venv/\n__pycache__/\n*.pyc\nhtmlcov/\ntemp/\n.quarto/\n_site/\n\n\n3. Context-Specific Instructions\nExplicitly tell Claude what to ignore in conversations:\n&gt; Please analyze this codebase but ignore the htmlcov/, temp/, and test-projects/ directories\n\n\n\nExample Project Configuration\nFor a typical Python project with Quarto documentation:\n{\n  \"permissions\": {\n    \"deny\": [\n      \"Read(__pycache__/**)\",\n      \"Read(*.pyc)\",\n      \"Read(.pytest_cache/**)\",\n      \"Read(htmlcov/**)\",\n      \"Read(.coverage)\",\n      \"Read(dist/**)\",\n      \"Read(build/**)\",\n      \"Read(.quarto/**)\",\n      \"Read(_site/**)\",\n      \"Read(.venv/**)\",\n      \"Read(venv/**)\",\n      \"Read(temp/**)\",\n      \"Read(*.log)\",\n      \"Edit(.git/**)\"\n    ]\n  }\n}\n\n\nFuture Outlook\nThe Claude Code team is actively working on this (Issue #79 is marked “in progress”). A dedicated .claudeignore file or enhanced settings-based exclusion system is likely coming.\n\n\nRecommendations\nFor now, we suggest:\n\nAdd a .claude/settings.json to your project with Read/Edit deny rules\nUse strategic .gitignore entries for build artifacts\n\nProvide explicit instructions to Claude about what to ignore\nWatch the GitHub issues for updates on native .claudeignore support\n\n\n\n\n\n\n\nTip\n\n\n\nPerformance Tip: Excluding large directories like node_modules/, htmlcov/, and build outputs can significantly reduce token usage and improve Claude Code’s response time.",
+    "crumbs": [
+      "Home",
+      "Claude Code",
+      "Claude Code"
     ]
   }
 ]

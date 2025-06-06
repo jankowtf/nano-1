@@ -269,6 +269,7 @@ class Skill(Protocol):
 
 Handles different composition patterns:
 
+
 - **Sequential**: `A >> B >> C`
 - **Parallel**: `A + B + C`
 - **Nested**: `A(B(C))`

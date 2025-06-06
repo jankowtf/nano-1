@@ -1,0 +1,139 @@
+{
+  "name": "nanobrick_cli",
+  "description": "CLI tool for scaffolding and managing nanobricks",
+  "version": "1.0.0",
+  "mcp_version": "0.1.0",
+  "commands": [
+    {
+      "name": "new",
+      "description": "Create a new nanobrick with boilerplate code",
+      "parameters": {
+        "name": {
+          "type": "string",
+          "description": "Name of the nanobrick (e.g., 'data-validator')",
+          "required": true,
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of nanobrick to create",
+          "required": false,
+          "default": "basic",
+          "enum": ["basic", "validator", "transformer", "async", "streaming"]
+        },
+        "input_type": {
+          "type": "string",
+          "description": "Python type for input (e.g., 'Dict[str, Any]')",
+          "required": false,
+          "default": "Any"
+        },
+        "output_type": {
+          "type": "string",
+          "description": "Python type for output",
+          "required": false,
+          "default": "Any"
+        },
+        "skills": {
+          "type": "array",
+          "description": "Skills to add to the nanobrick",
+          "required": false,
+          "items": {
+            "type": "string",
+            "enum": ["logging", "api", "cache", "observability", "cli"]
+          }
+        }
+      },
+      "returns": {
+        "type": "object",
+        "properties": {
+          "created_files": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "next_steps": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "example_usage": {
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        {
+          "description": "Create a basic nanobrick",
+          "command": "nanobrick new my-processor"
+        },
+        {
+          "description": "Create a validator with API skill",
+          "command": "nanobrick new user-validator --type validator --skills api --input_type 'Dict[str, Any]' --output_type 'User'"
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "description": "Run tests for a nanobrick",
+      "parameters": {
+        "path": {
+          "type": "string",
+          "description": "Path to nanobrick or test file",
+          "required": false,
+          "default": "."
+        },
+        "coverage": {
+          "type": "boolean",
+          "description": "Generate coverage report",
+          "required": false,
+          "default": true
+        }
+      },
+      "returns": {
+        "type": "object",
+        "properties": {
+          "passed": {"type": "integer"},
+          "failed": {"type": "integer"},
+          "coverage": {"type": "number"}
+        }
+      }
+    },
+    {
+      "name": "compose",
+      "description": "Validate composition of nanobricks",
+      "parameters": {
+        "bricks": {
+          "type": "array",
+          "description": "List of nanobrick classes to compose",
+          "required": true,
+          "minItems": 2
+        }
+      },
+      "returns": {
+        "type": "object",
+        "properties": {
+          "valid": {"type": "boolean"},
+          "issues": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "type_flow": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "brick": {"type": "string"},
+                "input": {"type": "string"},
+                "output": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "configuration": {
+    "templates_dir": "./templates",
+    "default_test_framework": "pytest",
+    "type_checker": "mypy",
+    "linter": "ruff"
+  }
+}

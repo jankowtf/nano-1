@@ -1,0 +1,96 @@
+# Nanobricks Framework
+
+> Self-contained, composable modules implementing the Runnable protocol for building AI-powered pipelines.
+
+## IMMEDIATE CONTEXT
+
+Project: Python framework for antifragile code components
+Pattern: Protocol + ABC hybrid for type safety and runtime enforcement
+Core abstraction: NanobrickProtocol with invoke/invoke_sync/__rshift__ methods
+
+## ESSENTIAL KNOWLEDGE
+
+### Core Protocol
+```python
+class NanobrickProtocol[T_in, T_out, T_deps](Protocol):
+    async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out: ...
+    def __rshift__(self, other) -> NanobrickProtocol: ...
+```
+
+### Composition Pattern
+```python
+pipeline = validator >> transformer >> processor
+result = await pipeline.invoke(data)
+```
+
+### Type Safety
+- Compile-time: Protocol matching
+- Runtime: beartype validation
+- Composition: Type alignment checks
+
+## TASK REGISTRY
+
+- [Create Nanobrick](./tasks/create-nanobrick.json): Build new brick with type signature
+- [Compose Pipeline](./tasks/compose-pipeline.json): Chain bricks with >> operator
+- [Add Skill](./tasks/add-skill.json): Enhance brick with capabilities
+- [Debug Type Error](./tasks/debug-type-error.json): Fix composition mismatches
+- [Test Nanobrick](./tasks/test-nanobrick.json): Write effective tests
+
+## CONTRACTS & SCHEMAS
+
+- [Nanobrick Contract](./_contracts/nanobrick.contract.py): Executable specification
+- [Skill Registry](./_contracts/skills.yaml): Available decorators and capabilities
+- [Dependency Types](./_contracts/dependencies.yaml): Standard deps patterns
+
+## ERROR PATTERNS
+
+Common issues with immediate solutions:
+- Type mismatch in pipeline: Use TypeAdapter or fix signatures
+- Missing async: Ensure async/await consistency
+- Circular imports: Use TYPE_CHECKING guards
+- Dependency injection: Follow TypedDict patterns
+
+## TOOLS
+
+MCP-compatible tool definitions:
+- [nanobrick-cli](./tools/nanobrick-cli.json): Scaffold new bricks
+- [type-checker](./tools/type-checker.json): Validate compositions
+- [skill-applicator](./tools/skill-applicator.json): Add capabilities
+
+## MEMORY BANK
+
+Structured knowledge:
+- [Core Concepts](./memories/concepts.jsonld): Semantic knowledge graph
+- [Patterns](./memories/patterns.jsonld): Reusable solutions
+- [Troubleshooting](./memories/troubleshooting.jsonld): Problem-solution pairs
+
+## SUCCESS CRITERIA
+
+When working with Nanobricks:
+1. Types must align in pipelines
+2. Tests must pass (pytest)
+3. Linting must pass (ruff, mypy)
+4. Examples must be runnable
+
+## QUICK START
+
+```bash
+# Install
+pip install nanobricks
+
+# Create brick
+nanobrick new my-validator --type validator
+
+# Test
+pytest tests/
+
+# Run
+python -m my_validator
+```
+
+## LINKS
+
+- [Human Docs](../quarto/index.qmd): Narrative explanations
+- [API Reference](./_contracts/): Formal specifications
+- [Examples](../../examples/): Working code

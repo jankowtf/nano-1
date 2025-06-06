@@ -10,6 +10,7 @@ Nanobricks are the code equivalent of "antifragile nanobots" — atomic, self-su
 
 "Both super complex and super simple" - this guides our design:
 
+
 - **Simple rules**: Minimal nanobrick interface
 - **Complex emergence**: Rich behaviors from composition
 - **Organic growth**: Start small, evolve naturally
@@ -47,6 +48,7 @@ Nanobricks are the code equivalent of "antifragile nanobots" — atomic, self-su
 ### 4. **Batteries Included**
 
 Each nanobrick ships with modular, self-contained interfaces:
+
 
 - **API Layer** (FastAPI) — RESTful endpoints auto-generated
 - **CLI Layer** (Typer) — Command-line interface out of the box

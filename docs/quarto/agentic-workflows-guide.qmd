@@ -1,0 +1,317 @@
+---
+title: "Agentic Workflows Guide"
+subtitle: "Practical recipes for managing AI-first documentation"
+description: "Learn which task combinations to use for different scenarios"
+ai-context: agentic-workflows-guide.context.yaml
+---
+
+## Overview
+
+The agentic documentation system includes comprehensive workflows managed through `task agentic:*` commands. This guide shows you which tasks to run in combination for different scenarios.
+
+## Quick Reference Card
+
+| Scenario | Commands to Run |
+|----------|----------------|
+| **Daily Check** | `task agentic:stats` → `task agentic:validate:sync` |
+| **After Code Changes** | `task agentic:sync:all` → `task agentic:validate:all` |
+| **Before Release** | `task agentic:ci:validate` → `task agentic:version:bump` |
+| **New Documentation** | `task agentic:inject:contexts` → `task agentic:validate:sync` |
+| **Troubleshooting** | `task agentic:lint` → `task agentic:validate:all` |
+
+## Common Workflows
+
+### 1. Initial Setup Workflow
+
+When first working with agentic docs:
+
+```bash
+# 1. Check what you have
+task agentic:stats
+
+# 2. Validate everything is working
+task agentic:validate:all
+
+# 3. Check version compatibility
+task agentic:version:check
+```
+
+### 2. Daily Maintenance Workflow
+
+Start your day by ensuring docs are healthy:
+
+```bash
+# Morning routine
+task agentic:validate:sync    # Check human-AI sync
+task agentic:stats            # See overview
+task agentic:lint             # Find TODOs and issues
+```
+
+### 3. Adding New Documentation Workflow
+
+When creating new docs with AI context:
+
+```bash
+# 1. Create your Quarto document
+echo "---
+title: \"My New Feature\"
+ai-context: my-feature.context.yaml
+---" > docs/quarto/my-feature.qmd
+
+# 2. Create the AI context
+cat > docs/agentic/_contexts/my-feature.context.yaml << EOF
+immediate_context: "Working with my new feature"
+prerequisites: ["nanobricks-basics"]
+success_criteria: ["Feature implemented correctly"]
+common_errors: ["Missing dependencies"]
+EOF
+
+# 3. Inject and validate
+task agentic:inject:contexts
+task agentic:validate:sync
+```
+
+### 4. Code Update Workflow
+
+After making changes to the Nanobricks codebase:
+
+```bash
+# 1. Sync documentation with code
+task agentic:sync:types      # Update type signatures
+task agentic:sync:examples   # Update code examples
+task agentic:sync:contracts  # Verify contracts match
+
+# 2. Full sync and validation
+task agentic:sync:all
+task agentic:validate:all
+```
+
+### 5. Pre-Release Workflow
+
+Before releasing a new version:
+
+```bash
+# 1. Full validation
+task agentic:ci:validate
+
+# 2. Check for issues
+task agentic:lint
+
+# 3. Version compatibility check
+task agentic:validate:versions
+
+# 4. Bump version if all good
+task agentic:version:bump TYPE=minor
+
+# 5. Generate CI report
+task agentic:ci:generate-report
+```
+
+### 6. Troubleshooting Workflow
+
+When something seems wrong:
+
+```bash
+# 1. Check sync status
+task agentic:validate:sync
+
+# 2. Validate individual components
+task agentic:validate:contracts   # Check executable specs
+task agentic:validate:examples    # Check code examples
+task agentic:validate:schemas     # Check JSON-LD
+
+# 3. Look for common issues
+task agentic:lint
+
+# 4. Get detailed stats
+task agentic:stats
+```
+
+### 7. CI/CD Integration Workflow
+
+For automated pipelines:
+
+```bash
+# In your CI configuration
+- name: Validate Agentic Docs
+  run: |
+    task agentic:ci:validate
+    task agentic:ci:generate-report
+    
+- name: Upload Report
+  uses: actions/upload-artifact@v3
+  with:
+    name: agentic-validation-report
+    path: .agentic-validation-report.json
+```
+
+## Advanced Workflows
+
+### Auto-Generation Workflow
+
+When you want to generate documentation from code:
+
+```bash
+# 1. Generate contexts from docstrings (requires Claude CLI)
+task agentic:generate:contexts
+
+# 2. Generate troubleshooting from test failures
+task agentic:generate:troubleshooting
+
+# 3. Validate generated content
+task agentic:validate:all
+```
+
+### Format and Clean Workflow
+
+For maintaining consistency:
+
+```bash
+# 1. Format all files
+task agentic:format
+
+# 2. Run linting
+task agentic:lint
+
+# 3. Validate after formatting
+task agentic:validate:all
+```
+
+### Version Management Workflow
+
+For documentation releases:
+
+```bash
+# 1. Check current version
+task agentic:version:check
+
+# 2. Review what changed
+task agentic:stats
+git diff docs/agentic/
+
+# 3. Bump appropriately
+task agentic:version:bump TYPE=patch  # Bug fixes
+task agentic:version:bump TYPE=minor  # New features
+task agentic:version:bump TYPE=major  # Breaking changes
+
+# 4. Commit version change
+git add docs/agentic/version.yaml
+git commit -m "chore: bump agentic docs to v$(task agentic:version:check | grep Version | cut -d' ' -f4)"
+```
+
+## Workflow Decision Tree
+
+```mermaid
+graph TD
+    Start[Start] --> Q1{What are you doing?}
+    
+    Q1 -->|Adding docs| Add[Create .qmd + context.yaml]
+    Add --> Inject[task agentic:inject:contexts]
+    Inject --> ValidateSync[task agentic:validate:sync]
+    
+    Q1 -->|Code changed| Sync[task agentic:sync:all]
+    Sync --> ValidateAll[task agentic:validate:all]
+    
+    Q1 -->|Daily check| Stats[task agentic:stats]
+    Stats --> CheckSync[task agentic:validate:sync]
+    
+    Q1 -->|Something broken| Lint[task agentic:lint]
+    Lint --> Debug[Check individual validators]
+    
+    Q1 -->|Release prep| CI[task agentic:ci:validate]
+    CI --> Bump[task agentic:version:bump]
+```
+
+## Understanding Task Categories
+
+### Validation Tasks (`validate:*`)
+- **Purpose**: Ensure documentation integrity
+- **When to use**: After any changes, before releases
+- **Key tasks**:
+  - `validate:all` - Complete validation suite
+  - `validate:sync` - Check human-AI alignment
+  - `validate:contracts` - Test executable specs
+
+### Synchronization Tasks (`sync:*`)
+- **Purpose**: Keep docs aligned with code
+- **When to use**: After code changes
+- **Key tasks**:
+  - `sync:all` - Full synchronization
+  - `sync:types` - Update type signatures
+  - `sync:examples` - Update code samples
+
+### Generation Tasks (`generate:*`)
+- **Purpose**: Create docs from code
+- **When to use**: For new components
+- **Key tasks**:
+  - `generate:contexts` - From docstrings
+  - `generate:troubleshooting` - From test patterns
+
+### Maintenance Tasks
+- **Purpose**: Keep docs clean and consistent
+- **When to use**: Regularly
+- **Key tasks**:
+  - `lint` - Find issues
+  - `format` - Auto-format files
+  - `stats` - Show overview
+
+### Version Tasks (`version:*`)
+- **Purpose**: Manage doc versions
+- **When to use**: For releases
+- **Key tasks**:
+  - `version:check` - Current version
+  - `version:bump` - Increment version
+
+## Best Practices
+
+1. **Run `validate:sync` frequently** - Catches drift early
+2. **Use `stats` for quick health checks** - Shows counts and sizes
+3. **Always validate after sync** - Ensures changes are correct
+4. **Check versions before release** - Avoid compatibility issues
+5. **Use CI tasks in pipelines** - Automated quality gates
+
+## Troubleshooting Common Issues
+
+### "Orphaned AI contexts" Warning
+```bash
+# Find orphaned contexts
+task agentic:validate:sync
+
+# Either create missing .qmd files or remove orphaned contexts
+```
+
+### "Version mismatch" Error
+```bash
+# Check versions
+task agentic:version:check
+
+# Update compatibility in version.yaml
+vim docs/agentic/version.yaml
+```
+
+### "Contract validation failed"
+```bash
+# Run specific contract
+python docs/agentic/_contracts/nanobrick.contract.py
+
+# Fix issues and re-validate
+task agentic:validate:contracts
+```
+
+## Integration with Development Flow
+
+### Pre-Commit Hook
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+task agentic:validate:sync || exit 1
+task agentic:validate:examples || exit 1
+```
+
+### PR Checklist
+- [ ] `task agentic:validate:all` passes
+- [ ] `task agentic:lint` shows no issues
+- [ ] Version bumped if needed
+- [ ] CI report generated
+
+The agentic workflow system ensures your AI-first documentation stays synchronized, validated, and ready for both human and machine consumption.

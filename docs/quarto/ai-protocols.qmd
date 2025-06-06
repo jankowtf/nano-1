@@ -13,6 +13,8 @@ The AI agent ecosystem is converging on several protocols for standardized commu
 **Purpose**: Standardizes how applications provide context to LLMs
 
 **Key Features**:
+
+
 - Universal "USB-C port for AI applications"
 - Client-server architecture
 - Tool and data source exposure
@@ -38,6 +40,8 @@ class SkillMCP:
 **Purpose**: Enable communication between opaque agentic applications
 
 **Key Features**:
+
+
 - JSON-RPC 2.0 over HTTP(S)
 - Agent discovery via "Agent Cards"
 - Preserves agent opacity (no internal state exposure)
@@ -65,6 +69,8 @@ class SkillA2A:
 **Purpose**: Standardize front-end to AI agent connections
 
 **Key Features**:
+
+
 - Event-driven protocol (16 event types)
 - Real-time state streaming
 - Human-in-the-loop collaboration
@@ -90,6 +96,8 @@ class SkillAGUI:
 **Purpose**: Open standard for agent interoperability
 
 **Key Features**:
+
+
 - REST-based communication
 - Async-first, sync supported
 - No SDK required (plain HTTP)
@@ -124,24 +132,32 @@ class SkillACP:
 
 ### 1. Primary Protocol: MCP
 **Rationale**: 
+
+
 - Anthropic-backed with growing adoption
 - Clean tool/resource abstraction
 - Fits nanobrick philosophy
 
 ### 2. Secondary Support: A2A
 **Rationale**:
+
+
 - Google backing ensures longevity
 - Enables multi-agent workflows
 - Complements MCP
 
 ### 3. UI Layer: AG-UI
 **Rationale**:
+
+
 - Purpose-built for UI interaction
 - Works with Streamlit skill
 - Real-time capabilities
 
 ### 4. Fallback: ACP
 **Rationale**:
+
+
 - Simple REST compatibility
 - No SDK dependencies
 - Broad accessibility

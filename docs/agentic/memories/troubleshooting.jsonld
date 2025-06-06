@@ -1,0 +1,115 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "nb": "https://nanobricks.dev/schema/",
+    "error_pattern": "nb:errorPattern",
+    "solution_steps": "nb:solutionSteps",
+    "related_errors": "nb:relatedErrors"
+  },
+  "@graph": [
+    {
+      "@id": "nb:TypeError-PipelineMismatch",
+      "@type": "nb:ErrorPattern",
+      "name": "Pipeline Type Mismatch",
+      "error_pattern": "TypeError: Cannot compose .* output type .* doesn't match .* input type",
+      "description": "Occurs when chaining nanobricks with incompatible types",
+      "example_error": "TypeError: Cannot compose StringBrick >> IntBrick: output type 'str' doesn't match input type 'int'",
+      "root_cause": "Type system prevents unsafe compositions at runtime",
+      "solution_steps": [
+        "Check the output type of the first brick",
+        "Check the input type of the second brick",
+        "Use TypeAdapter if conversion is needed",
+        "Or create an intermediate transformer brick"
+      ],
+      "code_fix": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "# Option 1: Use TypeAdapter\npipeline = string_brick >> TypeAdapter[str, int] >> int_brick\n\n# Option 2: Create transformer\nclass StrToIntBrick(Nanobrick[str, int]):\n    async def invoke(self, input: str, *, deps=None) -> int:\n        return int(input)\n\npipeline = string_brick >> StrToIntBrick() >> int_brick"
+      },
+      "related_errors": ["nb:AttributeError-MissingMethod", "nb:TypeError-GenericParams"]
+    },
+    {
+      "@id": "nb:RuntimeError-MissingAsync",
+      "@type": "nb:ErrorPattern",
+      "name": "Missing Async/Await",
+      "error_pattern": "RuntimeError: coroutine .* was never awaited",
+      "description": "Forgetting to await async invoke calls",
+      "example_error": "RuntimeError: coroutine 'MyBrick.invoke' was never awaited",
+      "root_cause": "invoke() is async and returns a coroutine",
+      "solution_steps": [
+        "Add 'await' before the invoke call",
+        "Or use invoke_sync() for synchronous contexts",
+        "Or wrap in asyncio.run() for scripts"
+      ],
+      "code_fix": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "# Async context (recommended):\nresult = await brick.invoke(data)\n\n# Sync context:\nresult = brick.invoke_sync(data)\n\n# Script/main:\nimport asyncio\nresult = asyncio.run(brick.invoke(data))"
+      },
+      "related_errors": ["nb:TypeError-NotAwaitable"]
+    },
+    {
+      "@id": "nb:ImportError-CircularDependency",
+      "@type": "nb:ErrorPattern",
+      "name": "Circular Import",
+      "error_pattern": "ImportError: cannot import name .* from partially initialized module",
+      "description": "Circular imports between nanobrick modules",
+      "example_error": "ImportError: cannot import name 'BrickA' from partially initialized module 'bricks.a'",
+      "root_cause": "Python's import system doesn't handle circular dependencies",
+      "solution_steps": [
+        "Use TYPE_CHECKING guard for type hints",
+        "Move shared types to separate module",
+        "Lazy import inside methods",
+        "Restructure to avoid circular deps"
+      ],
+      "code_fix": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "from typing import TYPE_CHECKING\n\nif TYPE_CHECKING:\n    from .other_brick import OtherBrick\n\nclass MyBrick(Nanobrick[str, str]):\n    async def invoke(self, input: str, *, deps=None) -> str:\n        # Lazy import if needed at runtime\n        from .other_brick import OtherBrick\n        return input"
+      },
+      "related_errors": ["nb:AttributeError-ForwardRef"]
+    },
+    {
+      "@id": "nb:ValidationError-PydanticSchema",
+      "@type": "nb:ErrorPattern",
+      "name": "Pydantic Validation Error",
+      "error_pattern": "ValidationError: .* field required",
+      "description": "Input data doesn't match expected schema",
+      "example_error": "ValidationError: 1 validation error for UserInput\nemail\n  field required (type=value_error.missing)",
+      "root_cause": "Pydantic models enforce schema at runtime",
+      "solution_steps": [
+        "Check the input data structure",
+        "Verify all required fields are present",
+        "Check field types match schema",
+        "Consider making fields optional with default values"
+      ],
+      "code_fix": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "# Make fields optional:\nclass UserInput(BaseModel):\n    name: str\n    email: str = ''  # Default value\n    age: Optional[int] = None  # Optional field\n\n# Or validate before passing:\ntry:\n    validated = UserInput(**raw_data)\n    result = await brick.invoke(validated)\nexcept ValidationError as e:\n    logger.error(f\"Invalid input: {e}\")"
+      },
+      "related_errors": ["nb:TypeError-InvalidArgument", "nb:ValueError-InvalidData"]
+    },
+    {
+      "@id": "nb:AttributeError-SkillNotActivated",
+      "@type": "nb:ErrorPattern",
+      "name": "Skill Not Activated",
+      "error_pattern": "AttributeError: .* object has no attribute 'logger'",
+      "description": "Trying to use skill features without applying decorator",
+      "example_error": "AttributeError: 'MyBrick' object has no attribute 'logger'",
+      "root_cause": "Skills must be explicitly activated with decorators",
+      "solution_steps": [
+        "Add the appropriate skill decorator",
+        "Ensure decorator is above class definition",
+        "Check skill is imported correctly",
+        "Verify skill configuration in TOML"
+      ],
+      "code_fix": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "from nanobricks import Nanobrick, with_logging\n\n@with_logging  # <-- Add this!\nclass MyBrick(Nanobrick[str, str]):\n    async def invoke(self, input: str, *, deps=None) -> str:\n        self.logger.info(f\"Processing: {input}\")  # Now works\n        return input.upper()"
+      },
+      "related_errors": ["nb:NameError-UndefinedSkill", "nb:ImportError-SkillModule"]
+    }
+  ]
+}

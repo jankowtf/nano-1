@@ -32,6 +32,7 @@ task deploy:package:install:local # Install locally
 
 All tasks follow a hierarchical naming pattern that creates systematic organization:
 
+
 - **namespace**: Primary domain (core, docs, build, deploy, dev, version)
 - **component**: Specific component (dev, site, package, scaffold, semver)  
 - **action**: What to do (test, render, create, install, bump)

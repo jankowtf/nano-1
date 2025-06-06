@@ -1,6 +1,7 @@
 ---
-title: "Concept Evolution"
-subtitle: "How Nanobricks developed through collaborative design"
+title: "Evolution"
+subtitle: "The journey from vision to reality"
+ai-context: evolution.context.yaml
 ---
 
 ## Version History
@@ -16,6 +17,7 @@ The original vision established five pillars:
 5. **Scaffoldable** - Rails-inspired instant functionality
 
 Key decisions:
+
 - Every nanobrick as a Python package
 - uv-based package management
 - src-layout project structure
@@ -76,6 +78,7 @@ This became our guiding principle - simple rules creating complex behaviors thro
 ## Future Evolution
 
 The concept continues to evolve. Key areas for v3.0:
+
 - Dynamic discovery mechanisms
 - AI/Agent integration patterns
 - Performance optimizations

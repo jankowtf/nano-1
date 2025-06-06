@@ -1,0 +1,37 @@
+immediate_context: "Getting started with Nanobricks in minimal time"
+prerequisites:
+  - python-basics
+  - async-await-understanding
+success_criteria:
+  - "Install nanobricks successfully"
+  - "Create first working nanobrick"
+  - "Compose two bricks into pipeline"
+  - "Run and get output"
+common_errors:
+  - "Forgetting await in async context"
+  - "Type mismatch when composing"
+  - "Not using invoke_sync in sync code"
+code_template: |
+  # Minimal working example:
+  from nanobricks import Nanobrick
+  
+  class MyFirstBrick(Nanobrick[str, str]):
+      async def invoke(self, input: str, *, deps=None) -> str:
+          return f"Processed: {input}"
+  
+  # Use it (async):
+  brick = MyFirstBrick()
+  result = await brick.invoke("test")
+  
+  # Use it (sync):
+  result = brick.invoke_sync("test")
+  
+  # Compose:
+  class UpperBrick(Nanobrick[str, str]):
+      async def invoke(self, input: str, *, deps=None) -> str:
+          return input.upper()
+  
+  pipeline = MyFirstBrick() >> UpperBrick()
+  result = await pipeline.invoke("hello")  # "PROCESSED: HELLO"
+validation_command: "python -c 'import nanobricks; print(nanobricks.__version__)'"
+expected_output: "Version number printed"

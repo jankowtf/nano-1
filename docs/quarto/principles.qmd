@@ -92,6 +92,7 @@ The principles themselves can evolve, but only through community consensus and r
 
 These ten principles, when followed together, create the conditions for antifragility:
 
+
 - **Simplicity** enables understanding and adaptation
 - **Standardization** allows universal composition
 - **Composability** creates emergent complexity

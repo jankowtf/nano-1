@@ -1,0 +1,78 @@
+{
+  "task": "create-nanobrick",
+  "description": "Create a new nanobrick with proper type signature and protocol implementation",
+  "difficulty": "beginner",
+  "estimated_time": "5-10 minutes",
+  "prerequisites": [
+    "understanding-protocol",
+    "python-typing",
+    "async-basics"
+  ],
+  "context": {
+    "imports": [
+      "from nanobricks import Nanobrick",
+      "from typing import TypedDict",
+      "import asyncio"
+    ],
+    "patterns": ["protocol-implementation", "type-safety", "error-handling"]
+  },
+  "steps": [
+    {
+      "step": 1,
+      "instruction": "Define your type parameters",
+      "code": "from typing import Dict, List, TypedDict\n\n# Input type\nInputType = Dict[str, Any]\n\n# Output type  \nOutputType = List[str]\n\n# Dependencies (optional)\nclass MyDeps(TypedDict, total=False):\n    logger: Logger\n    config: Dict[str, Any]",
+      "explanation": "Clear type definitions enable type checking and IDE support"
+    },
+    {
+      "step": 2,
+      "instruction": "Create your nanobrick class",
+      "code": "class DataProcessor(Nanobrick[InputType, OutputType, MyDeps]):\n    \"\"\"Processes dictionary data into list format.\"\"\"\n    \n    def __init__(self, name: str = \"data-processor\"):\n        super().__init__()\n        self.name = name",
+      "explanation": "Inherit from Nanobrick with your type parameters"
+    },
+    {
+      "step": 3,
+      "instruction": "Implement the invoke method",
+      "code": "async def invoke(self, input: InputType, *, deps: MyDeps = None) -> OutputType:\n    \"\"\"Process input data asynchronously.\"\"\"\n    deps = deps or {}\n    logger = deps.get('logger')\n    \n    if logger:\n        logger.info(f\"Processing {len(input)} items\")\n    \n    # Your processing logic here\n    result = []\n    for key, value in input.items():\n        processed = f\"{key}: {value}\"\n        result.append(processed)\n        \n    # Simulate async operation\n    await asyncio.sleep(0.1)\n    \n    return result",
+      "explanation": "The async invoke method contains your core logic"
+    },
+    {
+      "step": 4,
+      "instruction": "Test your nanobrick",
+      "code": "# test_data_processor.py\nimport pytest\nimport asyncio\n\n@pytest.mark.asyncio\nasync def test_data_processor():\n    processor = DataProcessor()\n    \n    input_data = {\"name\": \"test\", \"value\": 42}\n    result = await processor.invoke(input_data)\n    \n    assert len(result) == 2\n    assert \"name: test\" in result\n    assert \"value: 42\" in result\n\n# Also test sync version\ndef test_data_processor_sync():\n    processor = DataProcessor()\n    input_data = {\"key\": \"value\"}\n    result = processor.invoke_sync(input_data)\n    assert len(result) == 1",
+      "explanation": "Always test both async and sync interfaces"
+    }
+  ],
+  "validation": {
+    "commands": [
+      "pytest test_data_processor.py -v",
+      "mypy data_processor.py",
+      "ruff check data_processor.py"
+    ],
+    "expected_output": "All tests pass, no type errors, no linting issues"
+  },
+  "success_criteria": [
+    "Implements all required methods",
+    "Type annotations are correct",
+    "Tests pass",
+    "Can be composed with other bricks"
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting async keyword",
+      "solution": "The invoke method MUST be async"
+    },
+    {
+      "issue": "Not handling None deps",
+      "solution": "Always use `deps = deps or {}` pattern"
+    },
+    {
+      "issue": "Type mismatch",
+      "solution": "Ensure your actual implementation matches declared types"
+    }
+  ],
+  "next_steps": [
+    "compose-pipeline",
+    "add-skill",
+    "test-nanobrick"
+  ]
+}

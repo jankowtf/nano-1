@@ -88,6 +88,7 @@ class Pipeline(Generic[T1, T2]):
 
 ### PipeFunc
 [PipeFunc](https://pipefunc.readthedocs.io/) provides type-safe pipelines:
+
 - Automatic dependency resolution
 - Type checking built-in
 - Visualization support

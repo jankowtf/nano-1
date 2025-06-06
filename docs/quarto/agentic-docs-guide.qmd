@@ -1,0 +1,161 @@
+---
+title: "Understanding Agentic Documentation"
+subtitle: "A Human's Guide to AI-First Documentation"
+description: "Learn how the agentic documentation system works and why it's revolutionary"
+---
+
+## What Are Agentic Docs?
+
+Imagine documentation that's designed the way AI agents think - structured, predictable, and task-oriented. That's what our agentic documentation system provides. It's not meant to replace human documentation, but to complement it with a parallel system optimized for AI consumption.
+
+## Why Do We Need This?
+
+Traditional documentation tells stories. It explains concepts through narrative, builds understanding gradually, and relies on human intuition to fill gaps. This works great for humans but poorly for AI agents who need:
+
+
+- **Immediate context** without reading paragraphs
+- **Structured data** they can parse reliably
+- **Executable examples** they can validate
+- **Clear contracts** defining interfaces
+- **Task-oriented guidance** for specific goals
+
+## The Architecture
+
+### 1. Entry Point: `llms.txt`
+
+This follows an emerging standard (like `robots.txt` for web crawlers). It's the first thing an AI agent reads:
+
+```text
+# Nanobricks Framework
+> Self-contained, composable modules...
+
+## IMMEDIATE CONTEXT
+Project: Python framework for antifragile code components
+Pattern: Protocol + ABC hybrid...
+```
+
+**Why it works**: AI agents get everything they need in seconds, not minutes.
+
+### 2. Contexts: `_contexts/*.yaml`
+
+These provide structured metadata for specific topics:
+
+```yaml
+immediate_context: "Creating self-contained module"
+prerequisites: ["protocol-understanding", "type-system"]
+success_criteria: ["Tests pass", "Types align"]
+```
+
+**Why YAML?**: More readable than JSON for complex structures, supports comments, and is widely understood by AI systems.
+
+### 3. Contracts: `_contracts/*.py`
+
+Executable specifications that serve as both documentation AND validation:
+
+```python
+class ContractValidator:
+    @staticmethod
+    def validate(cls) -> tuple[bool, list[str]]:
+        # Actually checks if your code is correct!
+```
+
+**Why it matters**: Documentation that can verify itself is never out of date.
+
+### 4. Memories: `memories/*.jsonld`
+
+Knowledge graphs in JSON-LD format:
+
+```json
+{
+  "@context": "https://schema.org/",
+  "@type": "SoftwareSourceCode",
+  "name": "Nanobrick",
+  "implements": "RunnableProtocol"
+}
+```
+
+**Why JSON-LD?**: It's semantic web standard, enables reasoning, and links concepts formally.
+
+### 5. Tasks: `tasks/*.json`
+
+Step-by-step guides with all context included:
+
+```json
+{
+  "task": "create-nanobrick",
+  "steps": [...],
+  "validation": {...},
+  "common_pitfalls": [...]
+}
+```
+
+**Why JSON?**: Best for structured data exchange, universally supported.
+
+### 6. Tools: `tools/*.json`
+
+MCP (Model Context Protocol) definitions for IDE integration:
+
+```json
+{
+  "name": "nanobrick_cli",
+  "commands": [...],
+  "parameters": {...}
+}
+```
+
+**Why MCP?**: Anthropic's standard for AI-tool communication.
+
+## How AI Agents Use This
+
+1. **Discovery**: Read `llms.txt` for overview
+2. **Task Selection**: Find relevant task in registry
+3. **Context Loading**: Get prerequisites and success criteria
+4. **Code Generation**: Use templates and examples
+5. **Validation**: Run contracts to verify
+6. **Error Handling**: Check troubleshooting memories
+
+## How Humans Benefit
+
+Even though it's AI-first, humans gain:
+
+
+- **Quick Reference**: Structured data is scannable
+- **Copy-Paste Code**: Examples are always runnable
+- **Validation Tools**: Contracts help debug
+- **Clear Specs**: No ambiguity in interfaces
+
+## The Format Philosophy
+
+### Why Multiple Formats?
+
+Each format serves its optimal purpose:
+
+
+- **YAML** for human-editable configs (contexts)
+- **JSON** for data exchange (tasks, tools)
+- **JSON-LD** for semantic knowledge (memories)
+- **Python** for executable specs (contracts)
+- **Markdown** for entry points (llms.txt)
+
+### The Key Insight
+
+We're not trying to force everything into one format. We're using each format where it shines, creating a polyglot system that's optimal for its purpose.
+
+## Try It Yourself
+
+1. **Read** `/docs/agentic/llms.txt` - See how concise it is
+2. **Run** `/docs/agentic/_contracts/nanobrick.contract.py` - Watch it validate
+3. **Browse** `/docs/agentic/tasks/create-nanobrick.json` - Everything in one place
+4. **Explore** `/docs/agentic/memories/concepts.jsonld` - Follow the knowledge graph
+
+## The Future
+
+This is just the beginning. Imagine:
+
+
+- Documentation that updates itself
+- AI agents contributing improvements
+- Automatic validation of all examples
+- Knowledge graphs that grow with usage
+
+The agentic docs are living documentation - they evolve with the code and the community.

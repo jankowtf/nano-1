@@ -1,0 +1,232 @@
+---
+title: "Agentic Docs Walkthrough"
+subtitle: "A practical tour through AI-first documentation"
+description: "Step-by-step exploration of how agentic docs work in practice"
+---
+
+## Let's Build Understanding Through Examples
+
+The best way to understand agentic documentation is to walk through real examples. Let's follow an AI agent's journey through our docs.
+
+## Scenario: Creating a Data Validator
+
+Imagine you're an AI agent tasked with creating a data validation nanobrick. Here's how you'd use the agentic docs:
+
+### Step 1: Start at the Entry Point
+
+First, read `/docs/agentic/llms.txt`:
+
+```text
+# Nanobricks Framework
+> Self-contained, composable modules...
+
+## TASK REGISTRY
+- [Create Nanobrick](./tasks/create-nanobrick.json): Build new brick
+```
+
+**What you learn**: There's a specific task file for creating nanobricks.
+
+### Step 2: Load the Task Definition
+
+Open `/docs/agentic/tasks/create-nanobrick.json`:
+
+```json
+{
+  "task": "create-nanobrick",
+  "context": {
+    "imports": [
+      "from nanobricks import Nanobrick",
+      "from typing import TypedDict"
+    ]
+  },
+  "steps": [
+    {
+      "step": 1,
+      "instruction": "Define your type parameters",
+      "code": "InputType = Dict[str, Any]"
+    }
+  ]
+}
+```
+
+**What you get**: Step-by-step instructions with actual code.
+
+### Step 3: Check the Context
+
+Since you're creating a validator, check `/docs/agentic/_contexts/nanobrick.context.yaml`:
+
+```yaml
+immediate_context: "Creating self-contained module"
+prerequisites:
+  - protocol-understanding
+  - type-system
+success_criteria:
+  - "Implements all required methods"
+  - "Tests pass"
+common_errors:
+  - "Missing async keyword"
+  - "Type mismatch in pipeline"
+```
+
+**What you understand**: Prerequisites and what success looks like.
+
+### Step 4: Use the Code Template
+
+The context provides a template:
+
+```python
+from nanobricks import Nanobrick
+from pydantic import BaseModel
+
+class EmailValidator(Nanobrick[dict, str]):
+    async def invoke(self, input: dict, *, deps=None) -> str:
+        email = input.get('email', '')
+        if '@' in email:
+            return email
+        raise ValueError(f"Invalid email: {email}")
+```
+
+### Step 5: Validate Your Implementation
+
+Run `/docs/agentic/_contracts/nanobrick.contract.py`:
+
+```python
+from docs.agentic._contracts.nanobrick_contract import ContractValidator
+
+is_valid, issues = ContractValidator.validate(EmailValidator)
+print(f"Valid: {is_valid}")
+print(f"Issues: {issues}")
+```
+
+**Output**:
+```
+Valid: True
+Issues: []
+```
+
+### Step 6: Handle Errors
+
+If something goes wrong, check `/docs/agentic/memories/troubleshooting.jsonld`:
+
+```json
+{
+  "@id": "nb:TypeError-PipelineMismatch",
+  "name": "Pipeline Type Mismatch",
+  "solution_steps": [
+    "Check output type of first brick",
+    "Use TypeAdapter if needed"
+  ],
+  "code_fix": {
+    "text": "pipeline = brick1 >> TypeAdapter[str, int] >> brick2"
+  }
+}
+```
+
+## The Human Perspective
+
+As a human reading these docs, you benefit from:
+
+### 1. **Clear Structure**
+Every piece of information has a specific place:
+
+- Tasks in `tasks/`
+- Contexts in `_contexts/`
+- Errors in `memories/troubleshooting.jsonld`
+
+### 2. **Runnable Examples**
+Everything can be executed:
+```bash
+python docs/agentic/_contracts/nanobrick.contract.py
+```
+
+### 3. **Semantic Understanding**
+The JSON-LD format creates a knowledge graph:
+```mermaid
+graph TD
+    A[Nanobrick] -->|implements| B[Runnable Protocol]
+    A -->|composable_with| C[Pipeline]
+    A -->|composable_with| D[TypeAdapter]
+    C -->|uses| E[>> operator]
+```
+
+### 4. **Progressive Disclosure**
+- Start simple with `llms.txt`
+- Dive deeper into specific tasks
+- Explore advanced concepts in memories
+
+## Practical Exercises
+
+### Exercise 1: Explore a Task
+1. Open `/docs/agentic/tasks/create-nanobrick.json`
+2. Count how many steps it has
+3. Find the validation commands
+4. Identify common pitfalls
+
+### Exercise 2: Run a Contract
+```bash
+cd /path/to/nanobricks
+python -c "from docs.agentic._contracts.nanobrick_contract import ValidNanobrick, ContractValidator; print(ContractValidator.validate(ValidNanobrick))"
+```
+
+### Exercise 3: Parse JSON-LD
+```python
+import json
+with open('docs/agentic/memories/concepts.jsonld') as f:
+    data = json.load(f)
+    for concept in data['@graph']:
+        print(f"Concept: {concept.get('name')}")
+        print(f"Type: {concept.get('@type')}")
+        print("---")
+```
+
+## Integration Points
+
+### With IDEs
+The MCP tool definitions can integrate with:
+
+- VS Code extensions
+- IntelliJ plugins
+- Neovim configurations
+
+### With AI Agents
+- Claude can read `llms.txt` directly
+- GPT-4 can parse JSON task definitions
+- Local LLMs can use the structured format
+
+### With CI/CD
+- Contract validation in pre-commit hooks
+- Automatic documentation updates
+- Knowledge graph generation
+
+## Advanced Features
+
+### Dynamic Context Injection
+The `_bridge/context-injector.py` can:
+```python
+injector = ContextInjector(quarto_dir, agentic_dir)
+injector.process_directory()
+```
+
+This adds AI context blocks to human docs automatically!
+
+### Knowledge Graph Queries
+Using JSON-LD enables SPARQL-like queries:
+```python
+# Find all things that implement Runnable
+implementations = [
+    concept for concept in concepts
+    if concept.get('implements') == 'nb:RunnableProtocol'
+]
+```
+
+## Summary
+
+Agentic documentation isn't just "docs for AI" - it's a new paradigm where:
+
+1. **Structure enables understanding**
+2. **Examples are executable**
+3. **Errors have solutions**
+4. **Knowledge forms a graph**
+5. **Formats fit their purpose**
+
+The system respects both human intuition and machine precision, creating documentation that truly serves both audiences.

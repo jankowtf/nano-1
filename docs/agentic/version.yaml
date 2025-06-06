@@ -1,0 +1,55 @@
+# Agentic Documentation Version
+# Follows Semantic Versioning 2.0.0
+
+version: "1.0.0"
+release_date: "2025-06-06"
+nanobricks_compatibility:
+  min: "0.2.0"
+  max: "0.3.0"
+  tested: ["0.2.2"]
+
+# Version History
+# MAJOR: Incompatible format changes (AI agents need updates)
+# MINOR: New features/sections (backward compatible)
+# PATCH: Bug fixes, typo corrections
+
+changelog:
+  - version: "1.0.0"
+    date: "2025-06-06"
+    changes:
+      - "Initial release of agentic documentation system"
+      - "llms.txt standard implementation"
+      - "JSON-LD knowledge graphs"
+      - "MCP tool definitions"
+      - "Executable contracts"
+    breaking: false
+    
+  # Future versions will be added here
+
+# Format Versions
+# Track individual format versions for stability
+formats:
+  llms_txt: "1.0"
+  contexts: "1.0"
+  contracts: "1.0"
+  memories: "1.0"
+  tasks: "1.0"
+  tools: "1.0"
+
+# Feature Flags
+features:
+  auto_validation: true
+  context_injection: true
+  knowledge_graph: true
+  mcp_integration: true
+  
+# Deprecations
+# Track what will be removed in future versions
+deprecations: []
+
+# Extensions
+# Third-party or experimental features
+extensions:
+  - name: "vector_embeddings"
+    version: "0.1.0"
+    status: "experimental"

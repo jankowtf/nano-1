@@ -19,12 +19,14 @@ This guide shows how to use Nanobricks as an SDK for building larger, production
 ## Why Nanobricks as an SDK?
 
 Traditional approaches to building Python systems often lead to:
+
 - Monolithic code that's hard to test and maintain
 - Tight coupling between components
 - Difficulty adding features without breaking existing code
 - Complex deployment and scaling challenges
 
 Nanobricks solves these problems by providing:
+
 - **Atomic Components**: Self-contained units that do one thing well
 - **Standardized Interfaces**: Every component follows the same pattern
 - **Composition Over Inheritance**: Build complex systems from simple parts

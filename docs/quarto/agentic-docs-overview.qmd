@@ -1,0 +1,229 @@
+---
+title: "Agentic Documentation Overview"
+subtitle: "The complete guide to our AI-first documentation system"
+description: "Understand the architecture, philosophy, and practical usage of agentic docs"
+date: "2025-06-06"
+ai-context: agentic-docs-overview.context.yaml
+---
+
+## What We've Built
+
+We've created a revolutionary **dual-mode documentation system** that treats AI agents as first-class citizens while maintaining excellent human readability. This isn't just documentation - it's an active partnership between human understanding and machine comprehension.
+
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "Human Layer"
+        Q[Quarto Docs] --> H[Human Readers]
+        Q --> IDE[IDEs/Editors]
+    end
+    
+    subgraph "Bridge Layer"
+        CI[Context Injector] --> Q
+        VR[Validation Runner] --> AD
+    end
+    
+    subgraph "AI Layer"
+        L[llms.txt] --> AI[AI Agents]
+        C[Contexts] --> AI
+        K[Knowledge Graphs] --> AI
+        T[Tasks] --> AI
+        AD[Agentic Docs] --> AI
+    end
+    
+    subgraph "Sync Layer"
+        W[Workflows] --> CI
+        W --> VR
+        W --> V[Version Control]
+    end
+```
+
+## Key Components
+
+### 1. Entry Points
+
+- **For AI**: `/docs/agentic/llms.txt` - Immediate context and navigation
+- **For Humans**: `/docs/quarto/` - Narrative documentation with AI enhancements
+
+### 2. Knowledge Representation
+
+| Format | Purpose | Location |
+|--------|---------|----------|
+| **YAML** | Human-editable contexts | `_contexts/*.yaml` |
+| **JSON** | Structured tasks & tools | `tasks/*.json`, `tools/*.json` |
+| **JSON-LD** | Semantic knowledge graphs | `memories/*.jsonld` |
+| **Python** | Executable contracts | `_contracts/*.py` |
+
+### 3. Version Management
+
+The agentic docs have **independent versioning**:
+
+```yaml
+version: "1.0.0"
+release_date: "2025-06-06"
+nanobricks_compatibility:
+  min: "0.2.0"
+  max: "0.3.0"
+```
+
+### 4. Workflows
+
+Comprehensive task automation via `task agentic:*`:
+
+
+- **Validation**: `task agentic:validate:all`
+- **Synchronization**: `task agentic:sync:all`
+- **Version management**: `task agentic:version:bump TYPE=minor`
+- **CI Integration**: `task agentic:ci:validate`
+
+## The Innovation
+
+### AI Context Blocks in Quarto
+
+We embed AI-specific blocks directly in human documentation:
+
+::: {.ai-context}
+IMMEDIATE_CONTEXT: Overview of agentic documentation system
+PREREQUISITES: ["basic-nanobricks-understanding", "documentation-concepts"]
+SUCCESS_CRITERIA: ["Understand dual-mode approach", "Can navigate both layers", "Know how to contribute"]
+:::
+
+::: {.ai-instructions}
+```python
+# To add AI context to any Quarto doc:
+# 1. Add to frontmatter: ai-context: filename.context.yaml
+# 2. Create context file in docs/agentic/_contexts/
+# 3. Run: task agentic:inject:contexts
+```
+:::
+
+### Executable Documentation
+
+Contracts that validate themselves:
+
+```python
+from docs.agentic._contracts.nanobrick_contract import ContractValidator
+
+# Documentation that tests the code!
+is_valid, issues = ContractValidator.validate(MyNanobrick)
+```
+
+### Semantic Knowledge Graphs
+
+JSON-LD enables reasoning about relationships:
+
+```json
+{
+  "@context": "https://schema.org/",
+  "@type": "SoftwareSourceCode",
+  "@id": "nb:Nanobrick",
+  "implements": "nb:RunnableProtocol",
+  "composable_with": ["nb:Pipeline", "nb:TypeAdapter"]
+}
+```
+
+## Benefits
+
+### For AI Agents
+- Zero ambiguity with structured data
+- Immediate context without narrative overhead
+- Validated examples that always work
+- Machine-readable troubleshooting
+
+### For Humans
+- Visual AI blocks with gradient styling
+- Quick reference via structured formats
+- Validated code examples
+- Clear separation of concerns
+
+### For Maintainers
+- Automated synchronization workflows
+- Independent version management
+- CI/CD integration
+- Built-in validation
+
+## Getting Started
+
+### Quick Exploration
+
+1. **AI Agent Path**:
+   ```bash
+   cat docs/agentic/llms.txt
+   ls docs/agentic/tasks/
+   python docs/agentic/_contracts/nanobrick.contract.py
+   ```
+
+2. **Human Path**:
+   - Read this overview
+   - Explore [Agentic Docs Guide](agentic-docs-guide.qmd)
+   - Try the [Walkthrough](agentic-docs-walkthrough.qmd)
+   - Understand [Format Choices](agentic-docs-formats.qmd)
+
+3. **Maintainer Path**:
+   ```bash
+   task agentic:stats          # See what we have
+   task agentic:validate:all   # Ensure consistency
+   task agentic:version:check  # Check versions
+   ```
+
+## Contributing
+
+### Adding New Content
+
+1. **For a new concept**:
+   - Create context: `docs/agentic/_contexts/concept.context.yaml`
+   - Add to Quarto doc frontmatter: `ai-context: concept.context.yaml`
+   - Run: `task agentic:inject:contexts`
+
+2. **For a new task**:
+   - Create task definition: `docs/agentic/tasks/new-task.json`
+   - Include all steps, validation, and examples
+   - Run: `task agentic:validate:examples`
+
+3. **For troubleshooting**:
+   - Add to: `docs/agentic/memories/troubleshooting.jsonld`
+   - Follow JSON-LD format with error patterns
+   - Include solutions and code fixes
+
+### Maintenance
+
+Regular maintenance tasks:
+
+```bash
+# Daily
+task agentic:validate:sync    # Ensure sync between layers
+
+# On code changes
+task agentic:sync:all         # Update examples and types
+
+# On release
+task agentic:version:bump     # Version the docs
+task agentic:ci:validate      # Full validation
+```
+
+## Philosophy
+
+This system embodies several key principles:
+
+1. **Documentation as Code**: Docs that execute and validate
+2. **Polyglot by Design**: Right format for right purpose
+3. **Dual Audience**: Humans and AI as equal consumers
+4. **Living Documentation**: Evolves with the codebase
+5. **Semantic Richness**: Knowledge graphs, not just text
+
+## Future Vision
+
+- **Auto-generation**: More content generated from code analysis
+- **AI Contributions**: Agents suggesting improvements
+- **Visual Tooling**: Drag-drop pipeline builders
+- **Community Patterns**: Shared knowledge graphs
+
+The agentic documentation system isn't just about documenting code - it's about creating a **cognitive bridge** between human intuition and machine precision.
+
+## Resources
+
+- [Agentic Docs Repository](../agentic/)
+- [Quick Reference](../agentic/QUICK_REFERENCE.md)
+- [Innovation Summary](../agentic/INNOVATION_SUMMARY.md)
+- [Workflows Documentation](../../taskfiles/Taskfile.agentic.yml)

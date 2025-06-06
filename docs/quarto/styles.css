@@ -137,3 +137,71 @@ input[type="checkbox"] {
 .phase-future {
   color: #95a5a6;
 }
+
+/* AI Context Blocks - The Bold Innovation! */
+.ai-context {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.9em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ai-context::before {
+  content: "🤖 AI CONTEXT";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+.ai-instructions {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ai-instructions::before {
+  content: "⚡ COPY-PASTE-MODIFY";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+.ai-instructions pre {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 4px solid rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.ai-instructions code {
+  color: white !important;
+  background: transparent !important;
+}
+
+/* AI Memory Blocks */
+.ai-memory {
+  background: #1a1a2e;
+  color: #eee;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: 2px dashed #16213e;
+}
+
+.ai-memory::before {
+  content: "💾 STRUCTURED MEMORY";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #0f3460;
+}

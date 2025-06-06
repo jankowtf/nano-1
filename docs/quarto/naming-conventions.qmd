@@ -166,6 +166,7 @@ skill_list()
 
 ### 3. Consistent Mental Model
 The same pattern works everywhere:
+
 - Classes: `EntityVariant`
 - Functions: `entity_action()`
 - CLI: `entity action`
@@ -193,6 +194,7 @@ ValidatorSSN
 ## Exceptions
 
 Rare exceptions may exist for:
+
 - External API compatibility
 - Third-party library constraints
 - Legacy system integration

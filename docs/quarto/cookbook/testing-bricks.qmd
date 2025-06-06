@@ -10,6 +10,7 @@ format:
 ## Problem
 
 You need to test your nanobricks to ensure they:
+
 - Handle inputs correctly
 - Manage dependencies properly
 - Propagate errors as expected

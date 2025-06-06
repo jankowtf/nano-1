@@ -1,0 +1,193 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "nb": "https://nanobricks.dev/schema/",
+    "perf": "nb:performance/",
+    "sec": "nb:security/",
+    "deps": "nb:dependencies/"
+  },
+  "@id": "nb:FrameworkMetadata",
+  "@type": "SoftwareApplication",
+  "name": "Nanobricks Framework",
+  "version": "0.2.2",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Python 3.13+",
+  
+  "performance": {
+    "@type": "perf:Characteristics",
+    "overhead": {
+      "protocol_check": "~1μs per call",
+      "type_validation": "~10μs with beartype",
+      "skill_activation": "~100μs first time, cached after"
+    },
+    "scalability": {
+      "pipeline_depth": "No practical limit, O(n) traversal",
+      "concurrent_execution": "Thread-safe with async",
+      "memory_usage": "Minimal - bricks are stateless by default"
+    },
+    "bottlenecks": [
+      {
+        "area": "Type checking in deep pipelines",
+        "impact": "Linear with pipeline depth",
+        "mitigation": "Use TypeAdapter sparingly"
+      }
+    ]
+  },
+  
+  "security": {
+    "@type": "sec:Constraints",
+    "sandboxing": "None by default - bricks execute in process",
+    "input_validation": "Via Pydantic models or validators",
+    "secrets_handling": {
+      "pattern": "Use deps parameter",
+      "example": "deps={'api_key': os.environ['KEY']}"
+    },
+    "vulnerabilities": {
+      "known": [],
+      "reporting": "security@nanobricks.dev"
+    }
+  },
+  
+  "dependencies": {
+    "@type": "deps:Graph",
+    "core": [
+      {"name": "beartype", "version": ">=0.16.0", "purpose": "Runtime type checking"},
+      {"name": "typing-extensions", "version": ">=4.8.0", "purpose": "Backported type features"}
+    ],
+    "optional": {
+      "api": ["fastapi>=0.115.12", "uvicorn>=0.34.2"],
+      "cli": ["typer>=0.15.4", "rich>=14.0.0"],
+      "observability": ["opentelemetry-api>=1.33.1"],
+      "ai": ["mcp>=1.9.1"]
+    },
+    "conflicts": [],
+    "python_requires": ">=3.13"
+  },
+  
+  "resource_requirements": {
+    "@type": "nb:ResourceProfile",
+    "cpu": {
+      "minimal": "Any",
+      "recommended": "Multi-core for async pipelines"
+    },
+    "memory": {
+      "minimal": "10MB",
+      "typical": "50-100MB",
+      "scales_with": "Pipeline complexity and data size"
+    },
+    "disk": {
+      "installation": "~5MB",
+      "with_all_skills": "~50MB"
+    }
+  },
+  
+  "integration_patterns": {
+    "@type": "nb:IntegrationGuide",
+    "rest_api": {
+      "pattern": "FastAPI skill",
+      "example": "@with_api(path='/process')"
+    },
+    "cli": {
+      "pattern": "Typer skill",
+      "example": "@with_cli(name='process')"
+    },
+    "event_driven": {
+      "pattern": "AsyncIO integration",
+      "example": "await pipeline.invoke(event)"
+    },
+    "batch_processing": {
+      "pattern": "Async gather",
+      "example": "await asyncio.gather(*[brick.invoke(item) for item in batch])"
+    }
+  },
+  
+  "observability": {
+    "@type": "nb:ObservabilityHooks",
+    "tracing": {
+      "provider": "OpenTelemetry",
+      "automatic": "With @with_observability skill",
+      "manual": "Via tracer in deps"
+    },
+    "metrics": {
+      "builtin": ["invoke_count", "invoke_duration", "error_rate"],
+      "custom": "Via metrics in deps"
+    },
+    "logging": {
+      "provider": "Python logging",
+      "automatic": "With @with_logging skill"
+    }
+  },
+  
+  "migration_paths": {
+    "@type": "nb:MigrationGuide",
+    "from_functions": {
+      "difficulty": "easy",
+      "pattern": "Wrap in Nanobrick class",
+      "tools": ["nanobrick migrate-function"]
+    },
+    "from_classes": {
+      "difficulty": "moderate",
+      "pattern": "Implement protocol methods",
+      "tools": ["nanobrick migrate-class"]
+    },
+    "version_upgrades": {
+      "0.1_to_0.2": {
+        "breaking_changes": ["Skills replace batteries"],
+        "migration_script": "scripts/migrate_0.2.py"
+      }
+    }
+  },
+  
+  "limits_and_quotas": {
+    "@type": "nb:Limits",
+    "rate_limits": "None in framework, implement in skills",
+    "size_limits": {
+      "input_size": "Limited by memory",
+      "pipeline_depth": "Python recursion limit (~1000)"
+    },
+    "concurrency": {
+      "max_async_tasks": "System dependent",
+      "recommended": "Use asyncio.Semaphore for control"
+    }
+  },
+  
+  "debugging_hints": {
+    "@type": "nb:DebuggingGuide",
+    "common_issues": [
+      {
+        "symptom": "Slow performance",
+        "check": "Profile with @with_performance",
+        "likely_cause": "Synchronous code in async context"
+      },
+      {
+        "symptom": "Memory growth",
+        "check": "Look for stateful bricks",
+        "likely_cause": "Caching without limits"
+      }
+    ],
+    "tools": {
+      "type_checker": "mypy src/",
+      "profiler": "python -m cProfile",
+      "debugger": "python -m pdb"
+    }
+  },
+  
+  "extension_points": {
+    "@type": "nb:ExtensibilityGuide",
+    "custom_skills": {
+      "location": "src/nanobricks/skills/",
+      "pattern": "Decorator returning wrapper",
+      "example": "skills/custom_skill.py"
+    },
+    "custom_validators": {
+      "location": "src/nanobricks/validators/",
+      "pattern": "Inherit from ValidatorBase",
+      "example": "validators/custom_validator.py"
+    },
+    "custom_transformers": {
+      "location": "src/nanobricks/transformers/",
+      "pattern": "Inherit from TransformerBase",
+      "example": "transformers/custom_transformer.py"
+    }
+  }
+}

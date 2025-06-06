@@ -1,0 +1,109 @@
+---
+title: "Agentic Workflows Cheat Sheet"
+subtitle: "Quick reference for common task combinations"
+format:
+  html:
+    toc: false
+---
+
+## Essential Workflows
+
+### 🌅 Morning Check
+```bash
+task agentic:stats              # Overview
+task agentic:validate:sync      # Check alignment
+```
+
+### 📝 Adding New Docs
+```bash
+# 1. Add to Quarto frontmatter
+ai-context: myfeature.context.yaml
+
+# 2. Create context
+vim docs/agentic/_contexts/myfeature.context.yaml
+
+# 3. Inject & validate
+task agentic:inject:contexts
+task agentic:validate:sync
+```
+
+### 🔄 After Code Changes
+```bash
+task agentic:sync:all          # Full sync
+task agentic:validate:all      # Verify
+```
+
+### 🚀 Before Release
+```bash
+task agentic:ci:validate       # Full check
+task agentic:version:bump      # Increment
+task agentic:ci:generate-report # CI report
+```
+
+### 🔍 Debugging Issues
+```bash
+task agentic:lint              # Find problems
+task agentic:validate:contracts # Test specs
+task agentic:validate:examples  # Test code
+```
+
+## Task Categories
+
+| Prefix | Purpose | Example |
+|--------|---------|---------|
+| `validate:` | Check integrity | `validate:all` |
+| `sync:` | Update from code | `sync:types` |
+| `generate:` | Create from code | `generate:contexts` |
+| `version:` | Manage versions | `version:check` |
+| `ci:` | CI/CD integration | `ci:validate` |
+
+## One-Liners
+
+```bash
+# Full health check
+task agentic:validate:all && echo "✅ Healthy" || echo "❌ Issues found"
+
+# Quick stats
+task agentic:stats | grep -E "Contexts|Tasks|Contracts"
+
+# Find TODOs
+task agentic:lint | grep TODO
+
+# Version info
+task agentic:version:check | head -3
+```
+
+## Decision Flow
+
+```
+┌─────────────────┐
+│ What changed?   │
+└────────┬────────┘
+         │
+    ┌────┴────┐
+    │ Nothing │ → task agentic:validate:sync
+    └─────────┘
+         │
+    ┌────┴────┐
+    │  Code   │ → task agentic:sync:all
+    └─────────┘
+         │
+    ┌────┴────┐
+    │  Docs   │ → task agentic:inject:contexts
+    └─────────┘
+         │
+    ┌────┴────┐
+    │ Release │ → task agentic:ci:validate
+    └─────────┘
+```
+
+## Remember
+
+- **Sync** after code changes
+- **Validate** after any changes  
+- **Version** before releases
+- **Stats** for quick health checks
+
+---
+
+*Pro tip: Add `alias agd='task agentic:'` to your shell for faster access!*

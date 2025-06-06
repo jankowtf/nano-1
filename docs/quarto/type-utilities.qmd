@@ -11,6 +11,7 @@ format:
 
 Version 0.1.2 introduces powerful type utilities to reduce friction when composing nanobricks. These utilities help you:
 
+
 - Handle errors explicitly with the `Result` type
 - Automatically convert between common types
 - Get clear error messages when types don't match

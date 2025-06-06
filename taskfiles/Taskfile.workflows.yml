@@ -372,6 +372,12 @@ tasks:
       - |
         echo ""
         echo "📋 Please review the generated changelog and update {{.CHANGELOG_FILE}} manually"
+        echo ""
+        echo "📝 After updating CHANGELOG.md, also update docs/quarto/roadmap.qmd:"
+        echo "   - Mark completed versions as 'Released' with dates"
+        echo "   - Update version status in the appropriate sections"
+        echo "   - Ensure roadmap reflects current release state"
+        echo ""
         echo "Then continue with the release process"
 
   release:commit:
@@ -383,7 +389,8 @@ tasks:
           claude -p "Please check if all necessary files are staged for the release commit:
           1. Version file ({{.VERSION_FILE}})
           2. CHANGELOG.md
-          3. Any other files that should be included
+          3. docs/quarto/roadmap.qmd (should be updated to reflect release status)
+          4. Any other files that should be included
           
           Run: git status
           
@@ -397,11 +404,13 @@ tasks:
           echo "Make sure these files are staged:"
           echo "- [ ] {{.VERSION_FILE}} (version bump)"
           echo "- [ ] {{.CHANGELOG_FILE}} (changelog)"
+          echo "- [ ] docs/quarto/roadmap.qmd (roadmap update)"
           echo ""
           if [ -n "$(git status --porcelain)" ]; then
             echo "📝 Suggested commands:"
             echo "  git add {{.VERSION_FILE}}"
             echo "  git add {{.CHANGELOG_FILE}}"
+            echo "  git add docs/quarto/roadmap.qmd"
           fi
         fi
       - task: version:commit:version

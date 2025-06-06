@@ -1,6 +1,7 @@
 ---
 title: "Nanobricks Tutorial"
 subtitle: "A comprehensive guide to building with nanobricks"
+ai-context: tutorial.context.yaml
 format:
   html:
     code-fold: false
@@ -19,15 +20,39 @@ import os
 sys.path.append(os.path.abspath("/Users/jankothyson/Code/kaosmaps/nano/nano-1/src"))
 ```
 
+::: {.ai-context}
+IMMEDIATE_CONTEXT: Comprehensive tutorial for building with nanobricks
+PREREQUISITES: ["python-basics", "async-programming", "type-hints"]
+SUCCESS_CRITERIA: ["Create working nanobricks", "Compose pipelines", "Add skills", "Handle errors"]
+COMMON_ERRORS: ["Type mismatches", "Missing await", "Circular imports"]
+:::
+
 ## Introduction
 
 This tutorial will teach you how to build production-ready Python systems using nanobricks. We'll start with the basics and work our way up to complex applications.
+
+::: {.ai-instructions}
+```python
+# COPY-PASTE-MODIFY: Basic nanobrick template
+from nanobricks import Nanobrick
+from typing import TypedDict
+
+class YourBrick(Nanobrick[InputType, OutputType]):
+    async def invoke(self, input: InputType, *, deps=None) -> OutputType:
+        # YOUR_LOGIC_HERE
+        return processed_output
+```
+
+**VALIDATION_COMMAND**: `pytest tests/test_your_brick.py`
+**EXPECTED_OUTPUT**: All tests pass
+:::
 
 ## Core Concepts
 
 ### What is a Nanobrick?
 
 A nanobrick is:
+
 - **Atomic**: Does one thing well
 - **Self-contained**: No hidden dependencies
 - **Composable**: Combines with other bricks

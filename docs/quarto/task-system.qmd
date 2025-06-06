@@ -17,6 +17,7 @@ component:action[:target]
 ```
 
 Where:
+
 - **component** - The system/module being operated on (e.g., `docs`, `dev`, `package`)
 - **action** - The verb/operation (e.g., `create`, `build`, `test`, `link`)
 - **target** - Optional specific target (e.g., `local`, `wheel`, `pypi`, `unit`)
@@ -150,6 +151,7 @@ task sync:nanobricks  # Update Nanobricks dependency
 ## Task Organization
 
 Tasks are organized across multiple Taskfiles:
+
 
 - **Taskfile.yml** - Core development tasks
 - **Taskfile.dist.yml** - Distribution and project creation

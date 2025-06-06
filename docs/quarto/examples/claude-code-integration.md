@@ -180,6 +180,7 @@ task dev:claude:compare:usage PROJECTS="project1,project2,project3"
 
 This helps identify:
 
+
 - Common usage patterns
 - Different implementation approaches
 - Opportunities for new Nanobricks features
@@ -223,6 +224,7 @@ claude --verbose -p "Your prompt here"
 
 When enabled, verbose mode displays:
 
+
 - **Function Calls**: Every tool Claude uses with parameters
 - **Variable Values**: The state of data during execution
 - **File Operations**: Reading, writing, and permissions checks
@@ -240,6 +242,7 @@ When verbose mode is **not** enabled, our tasks show friendly progress indicator
 ```
 
 This provides a better user experience by:
+
 
 - Confirming that Claude is working
 - Suggesting how to get more information
@@ -308,6 +311,7 @@ export CLAUDE_PATH="/path/to/your/claude"
 #### Option 2: Standard Locations
 
 The tasks automatically check these locations:
+
 
 - `$HOME/.claude/local/claude`
 - `/usr/local/bin/claude`

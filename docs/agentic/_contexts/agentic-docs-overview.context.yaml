@@ -1,0 +1,37 @@
+immediate_context: "Understanding the complete agentic documentation system"
+prerequisites:
+  - basic-documentation-understanding
+  - nanobricks-framework-basics
+  - yaml-json-familiarity
+success_criteria:
+  - "Understand dual-mode documentation approach"
+  - "Can navigate both AI and human layers"
+  - "Know how to add new content"
+  - "Can run validation workflows"
+common_errors:
+  - "Confusing agentic docs with regular docs"
+  - "Not running sync after changes"
+  - "Forgetting to bump version"
+  - "Missing context files for new docs"
+code_template: |
+  # Quick start for working with agentic docs:
+  
+  # 1. Check current state
+  task agentic:stats
+  task agentic:validate:all
+  
+  # 2. Add AI context to a Quarto doc
+  echo "ai-context: myfeature.context.yaml" >> docs/quarto/myfeature.qmd
+  
+  # 3. Create the context
+  cat > docs/agentic/_contexts/myfeature.context.yaml << EOF
+  immediate_context: "Working with my feature"
+  prerequisites: ["nanobricks-basics"]
+  success_criteria: ["Feature works as expected"]
+  EOF
+  
+  # 4. Inject and validate
+  task agentic:inject:contexts
+  task agentic:validate:sync
+validation_command: "task agentic:validate:all"
+expected_output: "All validations passed!"

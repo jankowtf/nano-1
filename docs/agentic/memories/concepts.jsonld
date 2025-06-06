@@ -1,0 +1,100 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "nb": "https://nanobricks.dev/schema/",
+    "implements": "nb:implements",
+    "composable_with": "nb:composableWith",
+    "type_parameters": "nb:typeParameters",
+    "required_methods": "nb:requiredMethods"
+  },
+  "@graph": [
+    {
+      "@id": "nb:Nanobrick",
+      "@type": "SoftwareSourceCode",
+      "name": "Nanobrick",
+      "description": "Self-contained module implementing Runnable protocol for composable AI pipelines",
+      "programmingLanguage": "Python",
+      "implements": "nb:RunnableProtocol",
+      "type_parameters": ["T_in", "T_out", "T_deps"],
+      "required_methods": [
+        {
+          "@type": "nb:Method",
+          "name": "invoke",
+          "async": true,
+          "signature": "async def invoke(self, input: T_in, *, deps: T_deps = None) -> T_out"
+        },
+        {
+          "@type": "nb:Method",
+          "name": "invoke_sync",
+          "async": false,
+          "signature": "def invoke_sync(self, input: T_in, *, deps: T_deps = None) -> T_out"
+        },
+        {
+          "@type": "nb:Method",
+          "name": "__rshift__",
+          "async": false,
+          "signature": "def __rshift__(self, other: NanobrickProtocol) -> NanobrickProtocol"
+        }
+      ],
+      "composable_with": ["nb:Pipeline", "nb:TypeAdapter", "nb:Nanobrick"],
+      "sameAs": "https://github.com/jankowtf/nanobricks"
+    },
+    {
+      "@id": "nb:Pipeline",
+      "@type": "SoftwareSourceCode",
+      "name": "Pipeline",
+      "description": "Composition of multiple nanobricks using >> operator",
+      "implements": "nb:RunnableProtocol",
+      "example": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "pipeline = validator >> transformer >> processor"
+      },
+      "isPartOf": "nb:Nanobrick"
+    },
+    {
+      "@id": "nb:Skill",
+      "@type": "SoftwareSourceCode",
+      "name": "Skill",
+      "description": "Optional capability that can be added to nanobricks via decorators",
+      "subClassOf": [
+        "nb:LoggingSkill",
+        "nb:APISkill",
+        "nb:CacheSkill",
+        "nb:ObservabilitySkill"
+      ],
+      "example": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "@with_logging\\n@with_api(path='/process')\\nclass MyBrick(Nanobrick[Dict, Dict]):\\n    pass"
+      }
+    },
+    {
+      "@id": "nb:TypeAdapter",
+      "@type": "SoftwareSourceCode",
+      "name": "TypeAdapter",
+      "description": "Bridges type mismatches between nanobricks in pipelines",
+      "implements": "nb:RunnableProtocol",
+      "type_parameters": ["T_from", "T_to"],
+      "usage": "Inserted between incompatible bricks to convert types",
+      "example": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "pipeline = dict_brick >> TypeAdapter[Dict, List] >> list_brick"
+      }
+    },
+    {
+      "@id": "nb:DependencyInjection",
+      "@type": "TechArticle",
+      "name": "Dependency Injection Pattern",
+      "description": "How to pass shared resources through the deps parameter",
+      "articleBody": "Dependencies flow through pipelines via TypedDict contracts",
+      "example": {
+        "@type": "CodeSnippet",
+        "programmingLanguage": "Python",
+        "text": "class StandardDeps(TypedDict, total=False):\\n    db: Database\\n    cache: Cache\\n    config: Config"
+      },
+      "isPartOf": "nb:Nanobrick"
+    }
+  ]
+}
