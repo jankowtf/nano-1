@@ -1,0 +1,8 @@
+{
+  "feature": "version-reset-docs",
+  "branch": "feature/version-reset-docs",
+  "created": "2025-06-09T20:12:36Z",
+  "agent": "claude",
+  "purpose": "Update documentation for version reset to v0.1.0",
+  "status": "active"
+}
