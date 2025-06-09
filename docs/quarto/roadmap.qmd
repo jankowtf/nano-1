@@ -1,362 +1,102 @@
 ---
 title: "Nanobricks Roadmap"
-subtitle: "From v0.1.0 to Production-Ready Framework"
+subtitle: "Atomic Development Approach from v0.1.0"
 format: 
   html:
     toc: true
     toc-depth: 3
 ---
 
+## Version Reset Notice
+
+**Important**: As of June 2025, we have reset our version numbering from v0.2.5 back to v0.1.0. This reflects:
+
+1. A shift from version-based to atomic commit-based development
+2. More accurate representation of the framework's maturity
+3. Better alignment with semantic versioning principles
+
+All functionality from previous versions (0.1.1 through 0.2.5) is included in the new v0.1.0 release.
+
 ## Introduction
 
-This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework's core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.
+This roadmap outlines our development approach using atomic commits and git worktrees rather than traditional version milestones. The framework's core abstractions have proven solid through real-world usage, and we're now focused on iterative improvements through focused, atomic changes.
 
-## Released Versions
+## Development Philosophy
 
-| Version | Release Date | Theme | Key Features |
-|---------|--------------|-------|-------------|
-| v0.1.0  | 2025-01-06   | Initial Release | Core protocol, async-first design, skills system, pipe operator (`|`) |
-| v0.1.1  | 2025-01-06   | Documentation & Examples | Cookbook section, testing patterns, roadmap documentation |
-| v0.1.2  | 2025-01-06   | Type Improvements | Type utilities, Result type, better error messages |
-| v0.1.3  | 2025-01-06   | Core API Refinement | Renamed NanobrickSimple to Nanobrick, enhanced git integration |
-| v0.2.0  | 2025-06-05   | Composition Revolution | Pipeline Builder API, `>>` operator migration, test suite cleanup |
-| v0.2.1  | 2025-06-05   | Developer Experience | Task namespace refactoring, improved symlink handling |
-| v0.2.2  | 2025-06-05   | Task System & Docs | Taskfile organization, pipe operator migration completion |
-| v0.2.3  | 2025-06-06   | AI-First Documentation | Agentic docs system, AI workflows, documentation restructuring |
+### From Versions to Atomic Commits
 
-## Current State: v0.2.3
+Instead of planning large version releases, we now:
+
+- Use **atomic commits** for each logical change
+- Leverage **git worktrees** for parallel development
+- Focus on **continuous integration** rather than release milestones
+- Maintain **semantic versioning** for dependency management only
+
+### Atomic Development Principles
+
+1. **One Feature = One Worktree**: Each feature gets its own isolated workspace
+2. **Small, Focused Changes**: Maximum 10 files per commit (warning at 7)
+3. **Complete Units**: Each commit includes implementation, tests, and docs
+4. **Rapid Integration**: Merge within 48 hours to avoid conflicts
+
+## Current State: v0.1.0 (Reset)
+
+### Consolidated Features
+
+The current v0.1.0 includes all functionality previously released:
+
+- **Core Protocol**: The `Nanobrick[Input, Output]` abstraction
+- **Skills System**: The `@skill` decorator pattern for cross-cutting concerns
+- **Composition**: Pipeline Builder API with `>>` operator
+- **Type Safety**: Generic typing with excellent IDE support
+- **Async-First**: Modern design for contemporary Python
+- **Task System**: Comprehensive go-task based workflows
+- **AI Integration**: Agentic documentation and bridge system
+- **Developer Tools**: Scaffolding, debugging, and profiling
 
 ### What's Working Well
 
-- **Core Protocol**: The `Nanobrick[Input, Output]` abstraction is intuitive and powerful
-- **Skills System**: The `@skill` decorator pattern for cross-cutting concerns is a major hit
-- **Type Safety**: Generic typing provides excellent IDE support and catch errors early
-- **Async-First**: Modern design that works well with contemporary Python patterns
-
-### Key Achievements
-
-- Successfully used to build production-grade applications (nano-scorm)
+- Core abstractions proven in production (nano-scorm project)
 - ~55% code reduction compared to manual implementation
-- 70% reduction in API boilerplate through skills system
-- Proven composition patterns for complex workflows
+- 70% reduction in API boilerplate through skills
+- Strong composition patterns for complex workflows
+- Excellent AI-agent collaboration tools
 
-## Immediate Priorities
+## Active Development Areas
 
-Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.
+### Immediate Focus (Atomic Commits)
 
-## Version 0.1.1: Documentation & Examples ✅
+These areas are being developed through atomic commits:
 
-**Status**: Released 2025-01-06
+#### 🔧 Core Improvements
+- [ ] Standardize error handling patterns
+- [ ] Enhance type inference for pipe operator
+- [ ] Optimize async performance
+- [ ] Improve protocol validation messages
 
-**Theme**: Zero code changes, maximum clarity
+#### 📚 Documentation
+- [ ] Expand cookbook with real-world examples
+- [ ] Add troubleshooting guide
+- [ ] Create video tutorials
+- [ ] Improve API reference
 
-### Priority Documentation
-- **Cookbook Examples**: Step-by-step guides for common patterns
-- **Dependency Injection Guide**: Clear documentation on using the `deps` parameter
-- **Error Handling Patterns**: Best practices for exceptions vs Result types
-- **Testing Patterns**: How to test individual bricks and pipelines
-- **Architecture Decision Guide**: When to use composition vs inheritance
+#### 🧰 Developer Experience
+- [ ] Enhanced CLI scaffolding options
+- [ ] Better error messages with suggestions
+- [ ] Improved debugging tools
+- [ ] VS Code extension
 
-## Version 0.1.2: Type Improvements ✅
+#### 🔌 Standard Components
+- [ ] Common validators (email, URL, phone)
+- [ ] File processors (CSV, JSON, XML)
+- [ ] HTTP client nanobrick
+- [ ] Database connectors
 
-**Status**: Released 2025-01-06
+### Medium-Term Goals
 
-**Theme**: Backwards-compatible enhancements to reduce friction
+These represent larger efforts that may span multiple atomic commits:
 
-### Type System Enhancements
-- **Type Adapter Utilities**: Helper functions to adapt between mismatched types for pipe operator
-- **Generic Result Type**: Optional `Result[T, E]` import for standardized error handling
-- **Better Error Messages**: Improved type mismatch errors for pipe operator
-- **Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.
-
-## Version 0.1.3: Core API Refinement ✅
-
-**Status**: Released 2025-01-06
-
-**Theme**: Simplify and clarify the core API based on user feedback
-
-### API Improvements
-- **Rename `NanobrickSimple` to `Nanobrick`**: The "Simple" suffix is confusing since there's no complex variant
-  - Keep `NanobrickBase` as the abstract base class for advanced use cases
-  - `Nanobrick` becomes the primary class for 99% of use cases
-  - Backwards compatible: `NanobrickSimple` remains as deprecated alias
-- **Enhanced Git Integration**: Smart git tasks with better commit messages
-  - `task version:release` for complete release workflow
-  - Auto-generated commit messages based on CHANGELOG entries
-  - Integrated version bumping, tagging, and pushing
-- **Date Handling in Tasks**: Use system date commands for accurate timestamps
-  - Remove hardcoded dates from documentation
-  - Dynamic date generation in version tasks
-
-### Developer Experience
-- **Clearer Class Hierarchy**: 
-  - `Nanobrick[T_in, T_out]` - Primary class for stateless bricks (was NanobrickSimple)
-  - `NanobrickBase[T_in, T_out, T_deps]` - Abstract base for advanced scenarios
-  - `NanobrickProtocol` - Type checking protocol
-- **Migration Tool**: Script to automatically update imports from `NanobrickSimple` to `Nanobrick`
-- **Updated Examples**: All documentation and examples use the new `Nanobrick` name
-
-## Version 0.2.0: Composition Revolution ✅
-
-**Status**: Released 2025-06-05
-
-**Theme**: Address the #1 pain point - strict pipe operator type alignment
-
-### What Was Delivered
-
-1. **Pipeline Builder API**: Fluent interface for complex compositions
-   - `Pipeline()` function with method chaining
-   - `.branch()`, `.parallel()`, `.merge_with()` for advanced flows
-   - `.catch_errors()` for error boundaries
-   - `.adapt()` for type conversions
-   - `.visualize()` and `.explain()` for debugging
-
-2. **Pipe Operator Migration**: Changed from `|` to `>>`
-   - More intuitive arrow syntax
-   - Backwards compatibility during transition
-   - Migration script included
-
-3. **Test Suite Alignment**: Focused on simplicity
-   - Removed tests for non-existent features
-   - All tests now passing
-   - Framework aligned with core philosophy
-
-### Piping Strategy: Hybrid Approach with `>>` Operator
-
-After extensive analysis of piping approaches across languages (Elixir's `|>`, R's `%>%`, Rust discussions, Python libraries), we've decided on a hybrid approach that balances simplicity with power, using the `>>` (right shift) operator instead of `|`:
-
-#### 1. **Switch from `|` to `>>` for Simple Linear Pipelines**
-- **Breaking Change**: Moving from `|` to `>>` for clearer semantics
-- Visual arrow metaphor (`>>`) better represents data flow
-- Less conflict with bitwise OR operations
-- Used by some functional Python libraries (e.g., fn.py)
-
-```python
-# New elegant syntax with >> operator
-result = LoadData() >> ValidateSchema() >> TransformFields() >> SaveOutput()
-```
-
-**Migration from v0.1.x:**
-```python
-# Old (v0.1.x)
-result = Parser() >> Validator() >> Formatter()
-
-# New (v0.2.0)
-result = Parser() >> Validator() >> Formatter()
-```
-
-#### 2. **Add Pipeline Builder for Advanced Patterns**
-- Fluent interface for complex compositions
-- Solves type alignment issues with explicit adapters
-- Enables branching, merging, and error handling
-
-```python
-# New Pipeline builder for advanced cases
-pipeline = (
-    Pipeline()
-    .start_with(Parser())
-    .adapt(string_to_dict)  # Explicit type adapter
-    .branch(
-        ("email", EmailValidator() >> EmailFormatter()),
-        ("phone", PhoneValidator() >> PhoneFormatter()),
-        ("default", PassthroughValidator())
-    )
-    .merge_with(CombineResults())
-    .catch_errors(ErrorHandler())
-    .build()
-)
-```
-
-#### 3. **Why `>>` Over `|`?**
-
-**Advantages of `>>`:**
-- **Visual Clarity**: Arrow metaphor (`>>`) clearly shows data flow direction
-- **Semantic Alignment**: Better represents "pipe forward" concept
-- **Less Ambiguity**: `|` often means "OR" in many contexts
-- **Precedence Benefits**: Right shift has different precedence than bitwise OR
-
-**Migration Support:**
-- Automated migration script to convert existing code
-- Deprecation period with warnings for `|` usage
-- Clear documentation and examples
-
-#### 4. **Why This Hybrid Approach?**
-
-**Pros:**
-- **Clear Semantics**: `>>` operator is more intuitive for piping
-- **Progressive Complexity**: Simple cases stay simple with `>>`
-- **Type Safety**: Explicit adapters in Pipeline builder
-- **IDE Friendly**: Methods are discoverable and documented
-- **No Conflicts**: Methods don't clash with operators
-- **Familiar Patterns**: Similar to functional programming languages
-
-**Cons Addressed:**
-- Breaking change mitigated by migration tools
-- Verbosity mitigated by keeping operator syntax for simple cases
-- Complexity isolated to advanced use cases only
-
-### Core Enhancements
-
-- **Automatic Type Adapters**: Smart conversion between compatible types
-  ```python
-  # Automatically insert adapters when possible
-  LoadJSON() >> ProcessDict()  # Auto-inserts string_to_dict adapter
-  ```
-
-- **Pipeline Debugging**: Visualize and debug compositions
-  ```python
-  pipeline.visualize()  # Shows flow diagram
-  pipeline.explain()    # Details type transformations
-  ```
-
-- **Parallel/Branch Support**: Built-in fan-out/fan-in patterns
-- **Error Boundaries**: Explicit error handling without breaking the pipeline
-
-## Version 0.2.1: Developer Experience Improvements ✅
-
-**Status**: Released 2025-06-05
-
-**Theme**: Enhanced developer workflow and better Claude Code integration
-
-### What Was Delivered
-
-1. **Task System Namespace Refactoring**
-   - Changed from `project:*` to `dev:*` namespace for consistency
-   - All project management tasks now under unified `dev:` prefix
-   - Improved task discoverability and organization
-
-2. **Improved Symbolic Link Handling**
-   - Refactored symlink creation to use absolute paths
-   - Better compatibility with Claude Code's file referencing
-   - Enhanced logging showing both source and resolved paths
-   - Added verification step for symlink creation
-
-3. **Documentation Updates**
-   - Updated all task references to use new `dev:` namespace
-   - Added README for dependents directory explaining symlink structure
-   - Improved clarity in task documentation
-
-### Developer Workflow Enhancements
-- **Absolute Path Resolution**: All symlinks now use absolute paths for consistency
-- **Better Error Messages**: Clear feedback when symlink operations fail
-- **Enhanced Git Integration**: Proper .gitignore entries for dependent projects
-
-## Version 0.2.2: Task System Organization ✅
-
-**Status**: Released 2025-06-05
-
-**Theme**: Better task organization and documentation consistency
-
-### What Was Delivered
-
-1. **Task System Restructuring**
-   - Moved all Taskfile*.yml to taskfiles/ directory
-   - Created scripts/ directory structure
-   - Extracted common Claude CLI discovery logic
-   - Applied DRY principles across taskfiles
-
-2. **Documentation Consistency**
-   - Completed migration from `|` to `>>` operator
-   - Fixed method references and cookbook examples
-   - Ensured all code examples use current API
-
-3. **Enhanced Claude Integration**
-   - Verbose mode support with CLAUDE_VERBOSE=1
-   - Progress indicators for non-verbose mode
-   - Better error messages and setup documentation
-
-## Version 0.2.3: AI-First Documentation ✅
-
-**Status**: Released 2025-06-06
-
-**Theme**: Revolutionary agentic documentation for AI developers
-
-### What Was Delivered
-
-1. **AI-First Documentation System**
-   - Created docs/agentic/ directory with specialized formats
-   - Implemented llms.txt standard for AI discovery
-   - Added executable contracts and JSON-LD knowledge graphs
-   - Built comprehensive task registry and tool definitions
-
-2. **Agentic Task Workflows**
-   - Added Taskfile.agentic.yml with validation and sync tasks
-   - Automated context generation from code
-   - Version management for agentic documentation
-   - CI/CD integration for validation
-
-3. **Documentation Bridge System**
-   - Context injection for Quarto documents
-   - AI-specific CSS classes for visual differentiation
-   - Dual-mode documentation supporting both audiences
-
-4. **Documentation Restructuring**
-   - Reordered sections for better flow
-   - Consolidated Evolution section with nested subsections
-   - Fixed markdown formatting across 36 files
-
-## Version 0.3.x: Standard Patterns Library
-
-**Theme**: Common bricks to accelerate development
-
-### Planned Features
-- **Common Validators**: Email, URL, phone, regex, range validators
-- **Common Transformers**: JSON adapters, type converters, normalizers
-- **File Processing Bricks**: CSV, JSON, XML, YAML readers/writers
-- **HTTP Client Brick**: Basic requests wrapper with retry logic
-- **Data Manipulation**: Filter, map, reduce, aggregate bricks
-
-*Note: This release focuses on providing a comprehensive set of pre-built nanobricks that cover common use cases, reducing the need for developers to build these from scratch.*
-
-## Version 0.4.x: Advanced Developer Experience
-
-**Theme**: Superior tooling and development workflow
-
-### CLI Enhancements
-
-- **Interactive Scaffolding**: `nanobrick new --interactive`
-- **Project Templates**: Full application templates (API service, data processor, etc.)
-- **Skill Generation**: `nanobrick add-skill logging` to retrofit existing bricks
-
-### Development Tools
-
-- **Pipeline Visualizer**: Generate diagrams from code
-- **Performance Profiler**: Identify bottlenecks in pipelines
-- **Type Stub Generator**: Better IDE support for dynamic features
-- **VS Code Extension**: Snippets, navigation, and debugging support
-
-### Dependency Injection
-
-- **Clear Patterns**: Documentation and examples for the `deps` parameter
-- **Service Registry**: Built-in IoC container for shared resources
-- **Configuration Injection**: Standardized config management
-- **Testing Utilities**: Mock injectors for unit tests
-
-## Version 0.5.x: Comprehensive Standard Library
-
-**Theme**: Batteries-included ecosystem
-
-### Common Bricks Library
-
-- **Data Validation**: Email, phone, URL, schema validators
-- **HTTP Operations**: Request/response handling, retries, rate limiting
-- **Database Access**: Connection pooling, query builders, ORMs
-- **File Processing**: CSV, JSON, XML, Excel readers/writers
-- **Message Queues**: Kafka, RabbitMQ, Redis pub/sub
-- **Caching**: In-memory, Redis, distributed caches
-
-### Integration Patterns
-
-- **Third-party Libraries**: Adapters for popular packages
-- **Framework Bridges**: Integration with FastAPI, Django, Flask
-- **Cloud Services**: AWS, GCP, Azure service bricks
-
-## Version 0.6.x: Advanced Features
-
-**Theme**: Production-scale capabilities
-
-### Streaming Support
-
+#### Stream Processing
 ```python
 class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
     async def invoke_stream(
@@ -367,134 +107,174 @@ class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
             yield await self.process_chunk(chunk)
 ```
 
-### State Management
+#### State Management
+- Patterns for stateful nanobricks
+- Persistence mechanisms
+- Distributed state coordination
 
+#### Performance Optimization
+- Zero-copy operations
+- Automatic parallelization
+- Memory-efficient streaming
+
+## Contributing Through Atomic Development
+
+### How to Contribute
+
+1. **Identify a Focused Change**: One bug fix, one feature, one improvement
+2. **Create a Worktree**: `task worktree:create FEATURE=your-feature`
+3. **Make Atomic Commits**: Use `task worktree:atomic:commit`
+4. **Submit PR Quickly**: Within 48 hours of starting
+5. **Iterate**: Small changes compound into big improvements
+
+### Example Atomic Contributions
+
+- Fix a specific error message
+- Add one new validator
+- Improve one section of documentation
+- Optimize a single function
+- Add a missing test case
+
+## Success Metrics
+
+Rather than version-based goals, we measure:
+
+- **Integration Velocity**: Time from commit to main branch
+- **Atomic Commit Quality**: Completeness and focus of changes
+- **Conflict Rate**: Percentage of PRs with merge conflicts
+- **Community Engagement**: Number of atomic contributions
+- **User Satisfaction**: Feedback on incremental improvements
+
+## Future Version Planning
+
+While we embrace atomic development, we still plan feature sets that may warrant version bumps:
+
+### Version 0.2.x: Standard Patterns Library
+**Theme**: Common bricks to accelerate development
+
+- **Common Validators**: Email, URL, phone, regex, range validators
+- **Common Transformers**: JSON adapters, type converters, normalizers
+- **File Processing Bricks**: CSV, JSON, XML, YAML readers/writers
+- **HTTP Client Brick**: Basic requests wrapper with retry logic
+- **Data Manipulation**: Filter, map, reduce, aggregate bricks
+
+### Version 0.3.x: Advanced Developer Experience
+**Theme**: Superior tooling and development workflow
+
+#### CLI Enhancements
+- **Interactive Scaffolding**: `nanobrick new --interactive`
+- **Project Templates**: Full application templates
+- **Skill Generation**: `nanobrick add-skill logging` to retrofit existing bricks
+
+#### Development Tools
+- **Pipeline Visualizer**: Generate diagrams from code
+- **Performance Profiler**: Identify bottlenecks in pipelines
+- **Type Stub Generator**: Better IDE support for dynamic features
+- **VS Code Extension**: Snippets, navigation, and debugging support
+
+### Version 0.4.x: Comprehensive Standard Library
+**Theme**: Batteries-included ecosystem
+
+- **Data Validation**: Email, phone, URL, schema validators
+- **HTTP Operations**: Request/response handling, retries, rate limiting
+- **Database Access**: Connection pooling, query builders, ORMs
+- **File Processing**: CSV, JSON, XML, Excel readers/writers
+- **Message Queues**: Kafka, RabbitMQ, Redis pub/sub
+- **Caching**: In-memory, Redis, distributed caches
+
+### Version 0.5.x: Advanced Features
+**Theme**: Production-scale capabilities
+
+#### Streaming Support
+```python
+class StreamProcessor(NanobrickStream[bytes, ProcessedItem]):
+    async def invoke_stream(
+        self, 
+        input_stream: AsyncIterator[bytes]
+    ) -> AsyncIterator[ProcessedItem]:
+        async for chunk in input_stream:
+            yield await self.process_chunk(chunk)
+```
+
+#### State Management
 - **Stateful Bricks**: Clear patterns for maintaining state
 - **State Persistence**: Save/restore capabilities
 - **Distributed State**: Coordination across instances
 
-### Resource Lifecycle
-
-- **Setup/Teardown Hooks**: Manage expensive resources
-- **Connection Pooling**: Built-in resource pools
-- **Graceful Shutdown**: Proper cleanup on termination
-
-## Version 1.0: Production Ready
-
+### Version 1.0: Production Ready
 **Theme**: Enterprise-grade stability
 
-*Note: The 1.0 release will mark API stability and production readiness. The exact version progression (0.7.x, 0.8.x, etc.) leading to 1.0 will depend on feature completeness and community feedback.*
-
-### Performance Optimizations
-
+#### Performance Optimizations
 - **Zero-Copy Operations**: Efficient data passing
 - **Parallel Execution**: Automatic parallelization where possible
 - **Memory Management**: Streaming and chunking for large datasets
 - **Profiling Tools**: Built-in performance monitoring
 
-### Observability
-
+#### Observability
 - **Distributed Tracing**: Full OpenTelemetry integration
 - **Metrics Collection**: Prometheus-compatible metrics
 - **Health Checks**: Standardized health/readiness probes
 - **Debugging Tools**: Enhanced error messages and stack traces
 
-### Enterprise Features
-
+#### Enterprise Features
 - **Security**: Sandboxing, permission models, audit trails
 - **Compliance**: GDPR, SOC2, HIPAA helpers
 - **Multi-tenancy**: Isolation and resource limits
 - **High Availability**: Clustering and failover support
 
-## Future Vision (Post-1.0)
-
-*These features represent our long-term vision. Version numbers will be assigned as we approach implementation.*
+## Long-Term Vision (Post-1.0)
 
 ### AI-Native Framework
-
 - **LLM Integration**: First-class support for AI models
 - **Prompt Management**: Version and test prompts
 - **RAG Pipelines**: Built-in retrieval-augmented generation
 - **Agent Frameworks**: Multi-agent orchestration
 
 ### Distributed Computing
-
 - **Cluster Mode**: Scale across multiple machines
 - **Workflow Engine**: Complex DAG execution
 - **Event Sourcing**: Built-in event store
 - **CQRS Support**: Command/query separation
 
 ### Language Expansion
-
 - **Type Hints**: Full runtime validation with beartype
 - **Rust Extensions**: Performance-critical components
 - **WebAssembly**: Run bricks in browsers
 - **Cross-Language**: Polyglot brick composition
 
-## Community & Ecosystem
+## Version Planning Philosophy
 
-### Governance
+We use a hybrid approach:
 
-- **RFC Process**: Community-driven feature development
-- **Stability Guarantee**: Clear deprecation policies
-- **Security Process**: Vulnerability disclosure and fixes
-- **Release Cadence**: Predictable release schedule
+1. **Atomic Commits** for day-to-day development
+2. **Version Milestones** for major feature sets
+3. **Semantic Versioning** for dependency management
 
-### Ecosystem Growth
-
-- **Plugin Registry**: Discover and share bricks
-- **Certification Program**: Quality standards for third-party bricks
-- **Corporate Sponsors**: Sustainable development funding
-- **Academic Partnerships**: Research and education
-
-## Migration Strategy
-
-### Version Compatibility
-
-- **Semantic Versioning**: Strict adherence to SemVer
-- **Deprecation Warnings**: Two minor versions before removal
-- **Migration Tools**: Automated upgrades where possible
-- **Compatibility Layer**: Support for older brick versions
-
-### Adoption Path
-
-1. **Early Adopters** (now - v0.2.x): Feedback and iteration
-2. **Production Users** (v0.3.x+): Stable core with growing standard library
-3. **Enterprise** (v0.5.x+): Advanced features and production support
-4. **Mainstream** (v1.0+): Mature ecosystem with API stability guarantee
-
-### Version Planning Philosophy
-
-Starting with v0.2.1, we're adopting a more flexible approach to version planning:
-
-
-- **Feature-Driven Releases**: Version numbers assigned when features are ready
-- **No Fixed Timeline**: Quality and completeness over arbitrary deadlines  
-- **Community Input**: Feature prioritization based on user feedback
-- **Semantic Versioning**: Strict adherence to SemVer principles
-- **.x Notation**: Future versions use .x to indicate flexibility in exact numbering
-
-This approach provides:
-
-- **Signal of Intent**: Clear indication of planned features and their themes
-- **Implementation Flexibility**: Freedom to adjust based on real-world needs
-- **Quality Focus**: Features ship when they're ready, not when scheduled
-
-## Success Metrics
-
-- **Developer Satisfaction**: >4.5/5 in surveys
-- **Adoption**: 10k+ GitHub stars, 100k+ monthly downloads
-- **Performance**: <1% overhead vs hand-written code
-- **Reliability**: 99.99% uptime in production deployments
-- **Community**: 100+ contributors, 1000+ third-party bricks
+This provides:
+- **Clear Communication**: Users know what's coming
+- **Flexible Implementation**: Features develop organically
+- **Quality Focus**: Ship when ready, not by deadline
 
 ## Getting Involved
 
-- **GitHub Discussions**: Share ideas and feedback
-- **RFC Process**: Propose new features
-- **Contributing**: Code, documentation, examples
-- **Sponsorship**: Support sustainable development
+### For Users
+- Test atomic changes in your projects
+- Provide feedback on specific improvements
+- Report bugs with reproducible examples
+- Suggest focused enhancements
+
+### For Contributors
+- Pick an atomic task from GitHub issues
+- Create focused PRs that do one thing well
+- Review others' atomic commits
+- Help maintain documentation
+
+### For Maintainers
+- Guide atomic development direction
+- Ensure quality standards
+- Coordinate parallel efforts
+- Foster community growth
 
 ---
 
-*This roadmap is a living document. We'll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!*
+*This roadmap is a living document updated through atomic commits. Each contribution shapes the future of nanobricks!*

@@ -5,7 +5,7 @@ A revolutionary framework for building composable, resilient software components
 that gain strength from stress and complexity.
 """
 
-__version__ = "0.2.3"
+__version__ = "0.1.0"
 
 # Export main protocol and base classes
 # Import built-in skills to register them
