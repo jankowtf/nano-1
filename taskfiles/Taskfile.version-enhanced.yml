@@ -1,0 +1,145 @@
+# Enhanced Version Management with Safeguards
+# 
+# This file adds safeguards to prevent premature version bumps
+# and ensures version changes are intentional and well-documented.
+
+version: '3'
+
+vars:
+  PYPROJECT_FILE: pyproject.toml
+  CHANGELOG_FILE: CHANGELOG.md
+  VERSION_PATTERN: '^version = "([0-9]+\.[0-9]+\.[0-9]+)"$'
+
+tasks:
+  check:rationale:
+    desc: Check if version bump rationale is documented
+    internal: true
+    cmds:
+      - |
+        if [ ! -f ".version-bump-rationale.md" ]; then
+          echo "❌ ERROR - Version bump rationale not found!"
+          echo ""
+          echo "Before bumping version, create .version-bump-rationale.md with:"
+          echo "  - Reason for version bump"
+          echo "  - Summary of changes included"
+          echo "  - Migration notes if applicable"
+          echo ""
+          echo "Example:"
+          echo "  echo '## Version Bump Rationale' > .version-bump-rationale.md"
+          echo "  echo '### Reason: Added new standard validators library' >> .version-bump-rationale.md"
+          exit 1
+        fi
+        echo "✅ Version bump rationale found"
+
+  check:changelog:
+    desc: Verify CHANGELOG.md has unreleased section
+    internal: true
+    cmds:
+      - |
+        if ! grep -q "## \[Unreleased\]" {{.CHANGELOG_FILE}}; then
+          echo "❌ ERROR - No [Unreleased] section in CHANGELOG.md"
+          echo "Please document your changes in CHANGELOG.md first"
+          exit 1
+        fi
+        
+        # Check if unreleased section has content
+        unreleased_content=$(awk '/## \[Unreleased\]/,/## \[/{if (!/## \[/) print}' {{.CHANGELOG_FILE}} | grep -v '^$' | wc -l)
+        if [ "$unreleased_content" -eq 0 ]; then
+          echo "❌ ERROR - [Unreleased] section is empty"
+          echo "Please document your changes in CHANGELOG.md first"
+          exit 1
+        fi
+        
+        echo "✅ CHANGELOG.md has documented changes"
+
+  check:atomic-commits:
+    desc: Verify working on atomic commits not versions
+    internal: true
+    cmds:
+      - |
+        current_version=$(grep -E '{{.VERSION_PATTERN}}' {{.PYPROJECT_FILE}} | sed -E 's/{{.VERSION_PATTERN}}/\1/')
+        
+        # For v0.1.0, remind about atomic development
+        if [ "$current_version" = "0.1.0" ]; then
+          echo "⚠️  REMINDER - We use atomic commit-based development"
+          echo "Version bumps should only occur for significant feature sets"
+          echo ""
+          read -p "Are you sure you need a version bump? (yes/no): " confirm
+          if [ "$confirm" != "yes" ]; then
+            echo "Version bump cancelled - continue with atomic commits!"
+            exit 1
+          fi
+        fi
+
+  safeguard:all:
+    desc: Run all version bump safeguards
+    cmds:
+      - task: check:rationale
+      - task: check:changelog
+      - task: check:atomic-commits
+
+  bump:patch:safe:
+    desc: Bump patch version with safeguards
+    cmds:
+      - task: safeguard:all
+      - task: bump:patch
+
+  bump:minor:safe:
+    desc: Bump minor version with safeguards
+    cmds:
+      - task: safeguard:all
+      - task: bump:minor
+
+  bump:major:safe:
+    desc: Bump major version with safeguards
+    cmds:
+      - task: safeguard:all
+      - task: bump:major
+
+  reset:
+    desc: Reset version to v0.1.0 (use with extreme caution)
+    cmds:
+      - |
+        echo "⚠️  WARNING - This will reset the version to v0.1.0"
+        echo "This should only be done as part of a planned version reset"
+        echo ""
+        read -p "Type 'RESET VERSION' to confirm: " confirm
+        if [ "$confirm" != "RESET VERSION" ]; then
+          echo "Version reset cancelled"
+          exit 1
+        fi
+        
+        # Update pyproject.toml
+        sed -i.bak 's/{{.VERSION_PATTERN}}/version = "0.1.0"/' {{.PYPROJECT_FILE}}
+        echo "✅ Updated {{.PYPROJECT_FILE}} to version 0.1.0"
+        
+        # Remind to update other files
+        echo ""
+        echo "📝 Remember to also update:"
+        echo "  - src/nanobricks/__init__.py"
+        echo "  - Any documentation mentioning versions"
+        echo "  - Run the git tag cleanup script"
+
+  validate:consistency:
+    desc: Validate version consistency across files
+    cmds:
+      - |
+        # Get version from pyproject.toml
+        pyproject_version=$(grep -E '{{.VERSION_PATTERN}}' {{.PYPROJECT_FILE}} | sed -E 's/{{.VERSION_PATTERN}}/\1/')
+        
+        # Get version from __init__.py
+        init_version=$(grep -E '^__version__ = "([0-9]+\.[0-9]+\.[0-9]+)"$' src/nanobricks/__init__.py | sed -E 's/^__version__ = "([0-9]+\.[0-9]+\.[0-9]+)"$/\1/')
+        
+        echo "Checking version consistency..."
+        echo "  pyproject.toml: $pyproject_version"
+        echo "  __init__.py:    $init_version"
+        
+        if [ "$pyproject_version" != "$init_version" ]; then
+          echo ""
+          echo "❌ ERROR - Version mismatch detected!"
+          echo "Please sync versions across all files"
+          exit 1
+        fi
+        
+        echo ""
+        echo "✅ Versions are consistent"

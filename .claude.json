@@ -1,0 +1,8 @@
+{
+  "feature": "version-reset-workflow",
+  "branch": "feature/version-reset-workflow",
+  "created": "2025-06-09T20:36:03Z",
+  "agent": "claude",
+  "purpose": "Update workflows and add version tests",
+  "status": "active"
+}

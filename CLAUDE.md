@@ -87,13 +87,38 @@ TOML-based configuration with environment inheritance:
 
 ## Version Management
 
-**IMPORTANT**: Use Task commands for version management:
+**IMPORTANT**: We follow atomic commit-based development. Version bumps are rare and intentional.
+
+### Current Version: v0.1.0 (Reset)
+As of June 2025, we reset from v0.2.5 to v0.1.0 to reflect:
+- Shift to atomic commit-based development
+- More accurate project maturity representation
+- Better semantic versioning alignment
+
+### Version Management Commands
 
 1. `task version:current` - Check current version
-2. `task version:bump:patch|minor|major` - Bump version
-3. Update `__version__` in `src/nanobricks/__init__.py` manually
-4. Update CHANGELOG.md `[Unreleased]` section
-5. `task version:release` - Complete release (commit, tag, push)
+2. `task version:validate:consistency` - Verify version sync across files
+3. `task version:bump:patch:safe` - Bump patch with safeguards
+4. `task version:bump:minor:safe` - Bump minor with safeguards
+5. `task version:bump:major:safe` - Bump major with safeguards
+
+### Version Bump Safeguards
+
+Before any version bump:
+1. Create `.version-bump-rationale.md` explaining why
+2. Update CHANGELOG.md `[Unreleased]` section
+3. Confirm this isn't better as atomic commits
+4. Run `task version:validate:consistency`
+5. After bump, manually sync `__version__` in `src/nanobricks/__init__.py`
+
+### When to Bump Versions
+
+Only bump versions for:
+- Major feature sets (multiple related atomic commits)
+- Breaking API changes
+- Significant architectural shifts
+- NOT for individual features or fixes (use atomic commits)
 
 ## AI Integration Strategy
 
