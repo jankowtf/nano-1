@@ -1,8 +1,8 @@
 {
-  "feature": "version-reset-docs",
-  "branch": "feature/version-reset-docs",
-  "created": "2025-06-09T20:12:36Z",
+  "feature": "version-reset-workflow",
+  "branch": "feature/version-reset-workflow",
+  "created": "2025-06-09T20:36:03Z",
   "agent": "claude",
-  "purpose": "Update documentation for version reset to v0.1.0",
+  "purpose": "Update workflows and add version tests",
   "status": "active"
 }
