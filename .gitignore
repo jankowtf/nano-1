@@ -16,3 +16,4 @@ linked-nanobricks
 dependents/*
 !dependents/README.md
 .claude.json
+/trees/
