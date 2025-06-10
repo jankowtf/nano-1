@@ -1,20 +1,111 @@
-# Python-generated files
+# ============================================================================
+#
+# Standard .gitignore for Python Projects
+#
+#=============================================================================
+
+# Generic Archives and Logs
+# ----------------------------------------------------------------------------
+*.log
+*.zip
+*.tar.gz
+.DS_Store
+
+# Archives & Reports (Project-specific)
+# ----------------------------------------------------------------------------
+/.archive/
+/reports/
+/temp/
+
+# Python Bytecode and C extensions
+# ----------------------------------------------------------------------------
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+*.py[cod]
+*$py.class
+*.so
 
-# Virtual environments
-.venv
+# Distribution / Packaging
+# ----------------------------------------------------------------------------
+/build/
+/dist/
+/downloads/
+/eggs/
+/.eggs/
+/lib/
+/lib64/
+/parts/
+/sdist/
+/var/
+/wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+# ----------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
 activate/
+pyvenv.cfg
+pip-selfcheck.json
 
-# Linked projects for development
-linked-projects/
-linked-nanobricks
-dependents/*
-!dependents/README.md
+# Environment variables
+# ----------------------------------------------------------------------------
+*.env
+.env.*
+
+# Documentation
+# ----------------------------------------------------------------------------
+# Ignore Quarto build outputs
+/docs/quarto/_site/
+
+# Ignore Sphinx build outputs
+/docs/_build/
+
+# Testing & Coverage
+# ----------------------------------------------------------------------------
+/htmlcov/
+/.tox/
+/.nox/
+.coverage
+.coverage.*
+.cache
+/.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Linters & Type Checking
+# ----------------------------------------------------------------------------
+/.ruff_cache/
+/.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDEs and Editors
+# ----------------------------------------------------------------------------
+# VSCode
+.vscode/
+.history/
+
+# JetBrains (PyCharm, etc.)
+.idea/
+
+# Jupyter Notebook
+# ----------------------------------------------------------------------------
+.ipynb_checkpoints
+
+# Project-specific ignored files
+# ----------------------------------------------------------------------------
+# Allow dependents README but ignore the rest
+/dependents/*
+!/dependents/README.md
+
+# Ignore local Claude config
+.claude.local.md
 .claude.json
-/trees/
-\n# Ignore generated reports\nreports/\n\n# Ignore archived files\n.archive/\n\n# Ignore log files\n*.log\n
+
+# Git worktrees for parallel development
+/trees/ 

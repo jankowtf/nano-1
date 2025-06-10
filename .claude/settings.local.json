@@ -77,7 +77,10 @@
       "Bash(eza:*)",
       "Bash(task atomic:hook:install)",
       "Bash(task atomic:analyze:changes)",
-      "Bash(task atomic:validate COUNT=5)"
+      "Bash(task atomic:validate COUNT=5)",
+      "Bash(git rm:*)",
+      "Bash(git reset:*)",
+      "Bash(git cherry-pick:*)"
     ],
     "deny": []
   },
