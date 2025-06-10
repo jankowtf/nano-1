@@ -85,6 +85,39 @@ TOML-based configuration with environment inheritance:
 - `tests/conftest.py` - Shared fixtures (sample_data, temp_config_file, mock_deps)
 - Use `pytest-asyncio` for async testing
 
+## Atomic Commit Requirements
+
+**MANDATORY**: All commits must be atomic - one logical change per commit.
+
+### Commit Guidelines
+1. Before committing, review your changes with `git diff`
+2. If changes serve different purposes, split them:
+   - Use `git add -p` to stage selectively
+   - Create multiple commits for unrelated changes
+3. Use Conventional Commits format: `type(scope): description`
+4. Run tests before committing to ensure working state
+
+### Examples
+- ✅ `feat(validator): add email validation to user input`
+- ✅ `fix(pipeline): handle empty array in transformer`
+- ❌ `update various files` (too vague)
+- ❌ `fix login bug and update styles` (multiple purposes)
+
+### AI Agent Workflow
+1. Plan changes as discrete tasks
+2. Implement one task at a time
+3. Commit after each completed task
+4. Update todo list to track progress
+
+### Atomic Commit Commands
+- `task atomic:analyze:changes` - Analyze current changes for atomic opportunities
+- `task atomic:stage:interactive` - Interactive staging for atomic commits
+- `task atomic:commit:guided` - Create atomic commit with guidance
+- `task atomic:validate` - Validate recent commits for atomicity
+- `task atomic:workflow:feature` - Complete atomic workflow guide
+
+See `task --list atomic` for all atomic commit commands.
+
 ## Version Management
 
 **IMPORTANT**: We follow atomic commit-based development. Version bumps are rare and intentional.

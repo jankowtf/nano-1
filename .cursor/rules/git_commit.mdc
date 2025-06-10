@@ -1,0 +1,59 @@
+# Git Commit Rules
+
+## Atomic Commits
+- **Make atomic commits:** One logical change per commit
+- Never mix unrelated changes (e.g., bug fix + feature)
+- If commit message needs "and" or "&", split the commit
+
+## Conventional Commits Format
+Use: `type(scope): description`
+
+Types:
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation only
+- refactor: Code change without fixing bug or adding feature
+- test: Adding or updating tests
+- chore: Maintenance tasks
+
+## Examples
+✅ Good: `fix(auth): prevent login with empty credentials`
+❌ Bad: `update login and fix validation and add tests`
+
+## Pre-commit Checklist
+1. Is this one logical change?
+2. Do all file changes support the same purpose?
+3. Can I describe this in one sentence without "and"?
+4. Will this commit be meaningful in 6 months?
+
+## Workflow for AI Agents
+1. Review changes with `git diff`
+2. If multiple logical changes exist:
+   - Use `git add -p` to stage selectively
+   - Or stage specific files for one logical change
+3. Create commit with conventional format
+4. Update todo list after each commit
+5. Continue with next logical change
+
+## Common Patterns
+- **Setup commits**: `feat(component): add initial structure`
+- **Implementation commits**: `feat(component): implement core logic`
+- **Test commits**: `test(component): add unit tests`
+- **Documentation commits**: `docs(component): add API documentation`
+- **Configuration commits**: `chore(config): update dependencies`
+
+## Commit Message Guidelines
+- Start with lowercase after type
+- No period at the end
+- Present tense ("add" not "added")
+- Imperative mood ("fix" not "fixes")
+- Maximum 72 characters for subject line
+- Reference issues when applicable: `fix(auth): handle timeout (#123)`
+
+## Red Flags - Split These Commits!
+- Multiple unrelated file types changed (e.g., .py + .md + .yml)
+- Commit message contains "and", "also", "plus"
+- More than 100 lines changed (excluding generated files)
+- Changes in different components/modules
+- Bug fix mixed with refactoring
+- New feature mixed with test updates
