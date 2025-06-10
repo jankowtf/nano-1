@@ -2,30 +2,33 @@
 
 ## Variables
 
-PLAN_TO_EXECUTE: $ARGUMENTS
-NUMBER_OF_PARALLEL_WORKTREES: $ARGUMENTS
+FEATURE_NAME: $ARGUMENTS[0]
+PLAN_FILE: $ARGUMENTS[1]
+PARALLEL_COUNT: $ARGUMENTS[2]
 
-## Run these commands top to bottom
+## Pre-execution Setup
 
-RUN `eza -la --git`
-RUN `eza src/nanobricks --tree --level=2 --git-ignore`
-RUN `eza trees --tree --level=3 --git-ignore`
-READ: PLAN_TO_EXECUTE
+RUN `eza trees/ --tree --level=1 --git-ignore`
+RUN `pwd`
+RUN `test -f $PLAN_FILE && echo "✓ Plan file exists: $PLAN_FILE" || echo "⚠️  Plan file not found: $PLAN_FILE"`
 
-## Instructions
+## CRITICAL: Parallel Agent Creation
 
-We're going to create NUMBER_OF_PARALLEL_WORKTREES new subagents that use the Task tool to create N versions of the same feature in parallel.
+You must create $PARALLEL_COUNT separate agents to work simultaneously. Use this EXACT language:
 
-This enables us to concurrently build the same feature in parallel so we can test and validate each subagent's changes in isolation then pick the best changes.
+"I will now create $PARALLEL_COUNT independent agents to work in parallel on implementing $FEATURE_NAME. Each agent will work in their own worktree directory and implement the plan independently.
 
-The first agent will run in trees/<predefined_feature_name>-1/
-The second agent will run in trees/<predefined_feature_name>-2/
-...
-The last agent will run in trees/<predefined_feature_name>-<NUMBER_OF_PARALLEL_WORKTREES>/
+Agent 1: Please work in `trees/$FEATURE_NAME-1/` directory. First run `cd trees/$FEATURE_NAME-1/ && pwd` to confirm your location, then implement the plan from $PLAN_FILE. Create RESULTS.md when complete.
 
-The code in trees/<predefined_feature_name>-<i>/ will be identical to the code in the current branch. It will be setup and ready for you to build the feature end to end.
+Agent 2: Please work in `trees/$FEATURE_NAME-2/` directory. First run `cd trees/$FEATURE_NAME-2/ && pwd` to confirm your location, then implement the plan from $PLAN_FILE. Create RESULTS.md when complete.
 
-Each agent will independently implement the engineering plan detailed in PLAN_TO_EXECUTE in their respective workspace.
+Agent 3: Please work in `trees/$FEATURE_NAME-3/` directory. First run `cd trees/$FEATURE_NAME-3/ && pwd` to confirm your location, then implement the plan from $PLAN_FILE. Create RESULTS.md when complete.
+
+All agents should begin working now in parallel."
+
+## Instructions for Each Agent
+
+Each agent will independently implement the engineering plan detailed in $PLAN_FILE in their respective workspace (trees/$FEATURE_NAME-<number>/).
 
 When the subagent completes its work, have the subagent report their final changes made in a comprehensive `RESULTS.md` file at the root of their respective workspace.
 

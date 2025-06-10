@@ -92,6 +92,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -104,6 +105,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -116,6 +118,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -128,6 +131,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -136,10 +140,11 @@
     "href": "type-safety.html#alternative-libraries",
     "title": "Type Safety in Nanobricks",
     "section": "Alternative Libraries",
-    "text": "Alternative Libraries\n\nPipeFunc\nPipeFunc provides type-safe pipelines: - Automatic dependency resolution - Type checking built-in - Visualization support\n\n\nPipe Package\nSimple pipe operations with partial type support:\nfrom pipe import select, where, take\n\nresult = data | select(lambda x: x.value) | where(lambda x: x &gt; 0) | take(5)",
+    "text": "Alternative Libraries\n\nPipeFunc\nPipeFunc provides type-safe pipelines:\n\nAutomatic dependency resolution\nType checking built-in\nVisualization support\n\n\n\nPipe Package\nSimple pipe operations with partial type support:\nfrom pipe import select, where, take\n\nresult = data | select(lambda x: x.value) | where(lambda x: x &gt; 0) | take(5)",
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -152,6 +157,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -164,6 +170,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -176,6 +183,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Type System",
       "Type Safety in Nanobricks"
     ]
   },
@@ -428,6 +436,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -440,6 +449,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -452,6 +462,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -464,6 +475,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -476,6 +488,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -488,6 +501,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -500,6 +514,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -512,6 +527,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -524,6 +540,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -536,6 +553,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Architecture Overview"
     ]
   },
@@ -940,10 +958,11 @@
     "href": "cookbook/composition-patterns.html",
     "title": "Composition vs Inheritance",
     "section": "",
-    "text": "You need to decide how to structure your nanobricks: - When should you compose existing bricks? - When should you inherit from a base brick? - When should you create a new brick from scratch? - How do you balance reusability with clarity?\nThese decisions significantly impact maintainability, testability, and flexibility.",
+    "text": "You need to decide how to structure your nanobricks:\n\nWhen should you compose existing bricks?\nWhen should you inherit from a base brick?\nWhen should you create a new brick from scratch?\nHow do you balance reusability with clarity?\n\nThese decisions significantly impact maintainability, testability, and flexibility.",
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -952,10 +971,11 @@
     "href": "cookbook/composition-patterns.html#problem",
     "title": "Composition vs Inheritance",
     "section": "",
-    "text": "You need to decide how to structure your nanobricks: - When should you compose existing bricks? - When should you inherit from a base brick? - When should you create a new brick from scratch? - How do you balance reusability with clarity?\nThese decisions significantly impact maintainability, testability, and flexibility.",
+    "text": "You need to decide how to structure your nanobricks:\n\nWhen should you compose existing bricks?\nWhen should you inherit from a base brick?\nWhen should you create a new brick from scratch?\nHow do you balance reusability with clarity?\n\nThese decisions significantly impact maintainability, testability, and flexibility.",
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -968,6 +988,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -980,6 +1001,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -992,6 +1014,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1004,6 +1027,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1016,6 +1040,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1028,6 +1053,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1040,6 +1066,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1052,6 +1079,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Advanced Patterns",
       "Composition vs Inheritance"
     ]
   },
@@ -1220,6 +1248,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1232,6 +1261,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1244,6 +1274,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1256,6 +1287,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1268,6 +1300,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1280,6 +1313,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1292,6 +1326,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1304,6 +1339,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1316,6 +1352,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1328,6 +1365,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Integration Patterns"
     ]
   },
@@ -1527,6 +1565,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1539,6 +1578,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1551,6 +1591,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1563,6 +1604,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1575,6 +1617,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1587,6 +1630,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1599,6 +1643,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1611,6 +1656,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1623,6 +1669,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1635,6 +1682,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -1647,6 +1695,7 @@
     "crumbs": [
       "Home",
       "Building Systems",
+      "Deployment & Production",
       "Multi-Project Development"
     ]
   },
@@ -2486,6 +2535,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2498,6 +2548,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2506,10 +2557,11 @@
     "href": "ai-protocols.html#protocol-comparison",
     "title": "AI Agent Protocols",
     "section": "Protocol Comparison",
-    "text": "Protocol Comparison\n\nMCP (Model Context Protocol) - Anthropic\nPurpose: Standardizes how applications provide context to LLMs\nKey Features: - Universal “USB-C port for AI applications” - Client-server architecture - Tool and data source exposure - Vendor-agnostic LLM interactions\nBest For: Exposing nanobrick capabilities as tools/resources to LLMs\nExample Integration:\nclass SkillMCP:\n    \"\"\"MCP server for nanobricks\"\"\"\n    \n    def expose_as_tool(self, nanobrick: Nanobrick):\n        return {\n            \"name\": nanobrick.name,\n            \"description\": nanobrick.__doc__,\n            \"input_schema\": nanobrick.input_schema,\n            \"handler\": nanobrick.invoke\n        }\n\n\nA2A (Agent-to-Agent) - Google\nPurpose: Enable communication between opaque agentic applications\nKey Features: - JSON-RPC 2.0 over HTTP(S) - Agent discovery via “Agent Cards” - Preserves agent opacity (no internal state exposure) - Cross-ecosystem collaboration\nBest For: Nanobricks communicating with other AI agents\nExample Integration:\nclass SkillA2A:\n    \"\"\"A2A protocol for inter-agent communication\"\"\"\n    \n    def create_agent_card(self, nanobrick: Nanobrick):\n        return {\n            \"id\": f\"nanobrick.{nanobrick.name}\",\n            \"capabilities\": nanobrick.list_capabilities(),\n            \"endpoints\": {\n                \"invoke\": \"/invoke\",\n                \"stream\": \"/stream\"\n            }\n        }\n\n\nAG-UI (Agent User Interaction)\nPurpose: Standardize front-end to AI agent connections\nKey Features: - Event-driven protocol (16 event types) - Real-time state streaming - Human-in-the-loop collaboration - Transport-agnostic (SSE, WebSockets, webhooks)\nBest For: Creating interactive UIs for nanobricks\nExample Integration:\nclass SkillAGUI:\n    \"\"\"AG-UI for interactive nanobrick interfaces\"\"\"\n    \n    def emit_event(self, event_type: str, data: dict):\n        return {\n            \"type\": event_type,\n            \"timestamp\": datetime.now().isoformat(),\n            \"source\": f\"nanobrick.{self.name}\",\n            \"data\": data\n        }\n\n\nACP (Agent Communication Protocol) - Linux Foundation\nPurpose: Open standard for agent interoperability\nKey Features: - REST-based communication - Async-first, sync supported - No SDK required (plain HTTP) - Offline discovery via metadata\nBest For: RESTful agent interactions with broad compatibility\nExample Integration:\nclass SkillACP:\n    \"\"\"ACP-compliant REST interface\"\"\"\n    \n    @app.post(\"/agent/invoke\")\n    async def invoke(self, request: ACPRequest):\n        # Standard REST endpoint\n        return {\n            \"status\": \"success\",\n            \"result\": await self.nanobrick.invoke(request.input)\n        }",
+    "text": "Protocol Comparison\n\nMCP (Model Context Protocol) - Anthropic\nPurpose: Standardizes how applications provide context to LLMs\nKey Features:\n\nUniversal “USB-C port for AI applications”\nClient-server architecture\nTool and data source exposure\nVendor-agnostic LLM interactions\n\nBest For: Exposing nanobrick capabilities as tools/resources to LLMs\nExample Integration:\nclass SkillMCP:\n    \"\"\"MCP server for nanobricks\"\"\"\n    \n    def expose_as_tool(self, nanobrick: Nanobrick):\n        return {\n            \"name\": nanobrick.name,\n            \"description\": nanobrick.__doc__,\n            \"input_schema\": nanobrick.input_schema,\n            \"handler\": nanobrick.invoke\n        }\n\n\nA2A (Agent-to-Agent) - Google\nPurpose: Enable communication between opaque agentic applications\nKey Features:\n\nJSON-RPC 2.0 over HTTP(S)\nAgent discovery via “Agent Cards”\nPreserves agent opacity (no internal state exposure)\nCross-ecosystem collaboration\n\nBest For: Nanobricks communicating with other AI agents\nExample Integration:\nclass SkillA2A:\n    \"\"\"A2A protocol for inter-agent communication\"\"\"\n    \n    def create_agent_card(self, nanobrick: Nanobrick):\n        return {\n            \"id\": f\"nanobrick.{nanobrick.name}\",\n            \"capabilities\": nanobrick.list_capabilities(),\n            \"endpoints\": {\n                \"invoke\": \"/invoke\",\n                \"stream\": \"/stream\"\n            }\n        }\n\n\nAG-UI (Agent User Interaction)\nPurpose: Standardize front-end to AI agent connections\nKey Features:\n\nEvent-driven protocol (16 event types)\nReal-time state streaming\nHuman-in-the-loop collaboration\nTransport-agnostic (SSE, WebSockets, webhooks)\n\nBest For: Creating interactive UIs for nanobricks\nExample Integration:\nclass SkillAGUI:\n    \"\"\"AG-UI for interactive nanobrick interfaces\"\"\"\n    \n    def emit_event(self, event_type: str, data: dict):\n        return {\n            \"type\": event_type,\n            \"timestamp\": datetime.now().isoformat(),\n            \"source\": f\"nanobrick.{self.name}\",\n            \"data\": data\n        }\n\n\nACP (Agent Communication Protocol) - Linux Foundation\nPurpose: Open standard for agent interoperability\nKey Features:\n\nREST-based communication\nAsync-first, sync supported\nNo SDK required (plain HTTP)\nOffline discovery via metadata\n\nBest For: RESTful agent interactions with broad compatibility\nExample Integration:\nclass SkillACP:\n    \"\"\"ACP-compliant REST interface\"\"\"\n    \n    @app.post(\"/agent/invoke\")\n    async def invoke(self, request: ACPRequest):\n        # Standard REST endpoint\n        return {\n            \"status\": \"success\",\n            \"result\": await self.nanobrick.invoke(request.input)\n        }",
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2522,6 +2574,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2530,10 +2583,11 @@
     "href": "ai-protocols.html#integration-strategy-for-nanobricks",
     "title": "AI Agent Protocols",
     "section": "Integration Strategy for Nanobricks",
-    "text": "Integration Strategy for Nanobricks\n\n1. Primary Protocol: MCP\nRationale: - Anthropic-backed with growing adoption - Clean tool/resource abstraction - Fits nanobrick philosophy\n\n\n2. Secondary Support: A2A\nRationale: - Google backing ensures longevity - Enables multi-agent workflows - Complements MCP\n\n\n3. UI Layer: AG-UI\nRationale: - Purpose-built for UI interaction - Works with Streamlit skill - Real-time capabilities\n\n\n4. Fallback: ACP\nRationale: - Simple REST compatibility - No SDK dependencies - Broad accessibility",
+    "text": "Integration Strategy for Nanobricks\n\n1. Primary Protocol: MCP\nRationale:\n\nAnthropic-backed with growing adoption\nClean tool/resource abstraction\nFits nanobrick philosophy\n\n\n\n2. Secondary Support: A2A\nRationale:\n\nGoogle backing ensures longevity\nEnables multi-agent workflows\nComplements MCP\n\n\n\n3. UI Layer: AG-UI\nRationale:\n\nPurpose-built for UI interaction\nWorks with Streamlit skill\nReal-time capabilities\n\n\n\n4. Fallback: ACP\nRationale:\n\nSimple REST compatibility\nNo SDK dependencies\nBroad accessibility",
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2546,6 +2600,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2558,6 +2613,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2570,6 +2626,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2582,6 +2639,7 @@
     "crumbs": [
       "Home",
       "Advanced Topics",
+      "AI Integration",
       "AI Agent Protocols"
     ]
   },
@@ -2906,6 +2964,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2918,6 +2977,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2930,6 +2990,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2942,6 +3003,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2954,6 +3016,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2966,6 +3029,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2978,6 +3042,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -2990,6 +3055,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -3002,6 +3068,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -3014,6 +3081,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -3026,6 +3094,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -3038,6 +3107,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Task System",
       "Task Reference"
     ]
   },
@@ -3322,7 +3392,7 @@
     "href": "roadmap.html",
     "title": "Nanobricks Roadmap",
     "section": "",
-    "text": "This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.",
+    "text": "Important: As of June 2025, we have reset our version numbering from v0.2.5 back to v0.1.0. This reflects:\n\nA shift from version-based to atomic commit-based development\nMore accurate representation of the framework’s maturity\nBetter alignment with semantic versioning principles\n\nAll functionality from previous versions (0.1.1 through 0.2.5) is included in the new v0.1.0 release.",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3333,8 +3403,8 @@
     "objectID": "roadmap.html#introduction",
     "href": "roadmap.html#introduction",
     "title": "Nanobricks Roadmap",
-    "section": "",
-    "text": "This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.",
+    "section": "Introduction",
+    "text": "Introduction\nThis roadmap outlines our development approach using atomic commits and git worktrees rather than traditional version milestones. The framework’s core abstractions have proven solid through real-world usage, and we’re now focused on iterative improvements through focused, atomic changes.",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3526,7 +3596,7 @@
     "href": "roadmap.html#success-metrics",
     "title": "Nanobricks Roadmap",
     "section": "Success Metrics",
-    "text": "Success Metrics\n\nDeveloper Satisfaction: &gt;4.5/5 in surveys\nAdoption: 10k+ GitHub stars, 100k+ monthly downloads\nPerformance: &lt;1% overhead vs hand-written code\nReliability: 99.99% uptime in production deployments\nCommunity: 100+ contributors, 1000+ third-party bricks",
+    "text": "Success Metrics\nRather than version-based goals, we measure:\n\nIntegration Velocity: Time from commit to main branch\nAtomic Commit Quality: Completeness and focus of changes\nConflict Rate: Percentage of PRs with merge conflicts\nCommunity Engagement: Number of atomic contributions\nUser Satisfaction: Feedback on incremental improvements",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3538,7 +3608,7 @@
     "href": "roadmap.html#getting-involved",
     "title": "Nanobricks Roadmap",
     "section": "Getting Involved",
-    "text": "Getting Involved\n\nGitHub Discussions: Share ideas and feedback\nRFC Process: Propose new features\nContributing: Code, documentation, examples\nSponsorship: Support sustainable development\n\n\nThis roadmap is a living document. We’ll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!",
+    "text": "Getting Involved\n\nFor Users\n\nTest atomic changes in your projects\nProvide feedback on specific improvements\nReport bugs with reproducible examples\nSuggest focused enhancements\n\n\n\nFor Contributors\n\nPick an atomic task from GitHub issues\nCreate focused PRs that do one thing well\nReview others’ atomic commits\nHelp maintain documentation\n\n\n\nFor Maintainers\n\nGuide atomic development direction\nEnsure quality standards\nCoordinate parallel efforts\nFoster community growth\n\n\nThis roadmap is a living document updated through atomic commits. Each contribution shapes the future of nanobricks!",
     "crumbs": [
       "Home",
       "Evolution",
@@ -3723,6 +3793,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3735,6 +3806,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3747,6 +3819,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3759,6 +3832,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3771,6 +3845,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3783,6 +3858,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3795,6 +3871,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3807,6 +3884,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3815,10 +3893,11 @@
     "href": "cookbook/basic-pipeline.html#performance-considerations",
     "title": "Basic Pipeline",
     "section": "Performance Considerations",
-    "text": "Performance Considerations\nThe pipe operator has minimal overhead: - Each stage is called sequentially (no unnecessary parallelism) - No intermediate storage unless needed - Async operations are properly chained\nFor parallel processing, see Branching Pipelines.",
+    "text": "Performance Considerations\nThe pipe operator has minimal overhead:\n\nEach stage is called sequentially (no unnecessary parallelism)\nNo intermediate storage unless needed\nAsync operations are properly chained\n\nFor parallel processing, see Branching Pipelines.",
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3831,6 +3910,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3843,6 +3923,7 @@
     "crumbs": [
       "Home",
       "Cookbook",
+      "Basic Patterns",
       "Basic Pipeline"
     ]
   },
@@ -3899,7 +3980,7 @@
     "href": "cookbook/index.html#code-examples",
     "title": "Nanobricks Cookbook",
     "section": "Code Examples",
-    "text": "Code Examples\nAll examples in this cookbook are: - ✅ Tested with the current version of nanobricks - ✅ Type-checked with mypy - ✅ Available in the examples/cookbook/ directory - ✅ Designed to be copy-paste ready",
+    "text": "Code Examples\nAll examples in this cookbook are:\n\n✅ Tested with the current version of nanobricks\n✅ Type-checked with mypy\n✅ Available in the examples/cookbook/ directory\n✅ Designed to be copy-paste ready",
     "crumbs": [
       "Home",
       "Cookbook",
@@ -3911,7 +3992,7 @@
     "href": "cookbook/index.html#common-questions",
     "title": "Nanobricks Cookbook",
     "section": "Common Questions",
-    "text": "Common Questions\n\n“When should I use the pipe operator vs manual composition?”\nThe pipe operator (&gt;&gt;) is great when: - Types align perfectly between stages - You want a clean, linear flow - Each stage has a single input/output\nUse manual composition when: - You need to branch or merge data flows - Types don’t align naturally - You need complex error handling - You want more control over the flow\n\n\n“How do I handle errors in my pipelines?”\nWe recommend two patterns: 1. Let exceptions bubble - Good for unexpected errors 2. Return validation results - Good for expected failures\nSee the Error Handling recipe for details.\n\n\n“How do I test my nanobricks?”\nTesting strategies depend on your brick’s complexity: - Unit tests for individual bricks - Integration tests for pipelines - Mock dependencies for isolated testing\nSee the Testing Bricks recipe for patterns.",
+    "text": "Common Questions\n\n“When should I use the pipe operator vs manual composition?”\nThe pipe operator (&gt;&gt;) is great when:\n\nTypes align perfectly between stages\nYou want a clean, linear flow\nEach stage has a single input/output\n\nUse manual composition when:\n\nYou need to branch or merge data flows\nTypes don’t align naturally\nYou need complex error handling\nYou want more control over the flow\n\n\n\n“How do I handle errors in my pipelines?”\nWe recommend two patterns: 1. Let exceptions bubble - Good for unexpected errors 2. Return validation results - Good for expected failures\nSee the Error Handling recipe for details.\n\n\n“How do I test my nanobricks?”\nTesting strategies depend on your brick’s complexity:\n\nUnit tests for individual bricks\nIntegration tests for pipelines\nMock dependencies for isolated testing\n\nSee the Testing Bricks recipe for patterns.",
     "crumbs": [
       "Home",
       "Cookbook",
@@ -4163,10 +4244,11 @@
     "href": "developer-workflows.html",
     "title": "Developer Workflows Guide",
     "section": "",
-    "text": "This guide provides practical, scenario-based workflows for common development tasks in Nanobricks. Whether you’re contributing to Nanobricks, creating new projects, or managing multiple dependent projects, this guide has you covered.\n\n\n\nSetting Up Your Development Environment\nDaily Development Workflow\nCreating New Projects\nMulti-Project Development\nClaude Code Integration\nTesting Workflows\nDocumentation Development\nRelease Management\n\nPre-Release Workflows\nCreating a Release\nPublishing a Release\nRecovery Workflows\nReal-World Release Scenarios\n\nAdvanced Workflows\nTroubleshooting\nExtending the Task System\n\n\n\n\n\n\nAfter cloning the Nanobricks repository, set up your development environment:\n# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Create and activate virtual environment\nuv venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\n# Install development dependencies\ntask core:dev:setup\n\n# Verify everything is working\ntask core:dev:all\n\n\n\nFor VS Code users, install recommended extensions: - Python - Pylance - Ruff - MyPy\nThe repository includes VS Code settings for optimal development experience.\n\n\n\n\n\n\nHere’s a typical development workflow when working on Nanobricks:\n# 1. Start with a clean state\ntask core:dev:format    # Format code\ntask core:dev:lint      # Check for issues\n\n# 2. Make your changes\n# ... edit files ...\n\n# 3. Run tests continuously (in another terminal)\ntask core:dev:watch:test\n\n# 4. Before committing, run all checks\ntask core:dev:all\n\n# 5. Update documentation if needed\ntask docs:site:preview  # Live preview while editing\n\n\n\nFor rapid development:\n# Terminal 1: Watch tests\ntask core:dev:watch:test\n\n# Terminal 2: Watch documentation (if editing docs)\ntask docs:site:preview\n\n# Terminal 3: Your regular development\n\n\n\nBefore committing changes:\n\nFormat code: task core:dev:format\nRun linters: task core:dev:lint\nRun tests: task core:dev:test\nCheck types: task core:dev:typecheck\nBuild docs: task docs:site:render\n\nOr simply run: task core:dev:all\n\n\n\n\n\n\nThe fastest way to create a new project using Nanobricks:\n# Using uv (recommended)\ntask project:scaffold:create:uv NAME=my-awesome-app DIR=~/projects\n\n# Navigate to the project\ncd ~/projects/my-awesome-app\n\n# Activate the environment (already created by uv)\nsource .venv/bin/activate\n\n# Run tests to verify setup\ntask dev:test\n\n\n\nFor more control over the setup:\n# Create project structure\ntask project:scaffold:create NAME=my-app DIR=~/projects\n\n# Navigate and set up\ncd ~/projects/my-app\nuv venv --python 3.13\nsource .venv/bin/activate\nuv pip install -e .\n\n# Verify\ntask dev:test\n\n\n\nBoth methods create a project with this structure:\nmy-app/\n├── src/\n│   └── my_app/\n│       └── __init__.py      # Example nanobrick\n├── tests/\n│   └── test_example.py      # Example test\n├── docs/                    # Documentation directory\n├── pyproject.toml          # Project configuration\n├── Taskfile.yml            # Project-specific tasks\n├── README.md               # Project documentation\n└── .gitignore              # Git ignore file\n\n\n\n\n\n\nWhen you’re developing Nanobricks features that affect dependent projects:\n# 1. Link your dependent project from Nanobricks directory\ntask project:link:add PATH=~/projects/my-app\n\n# 2. List linked projects\ntask project:link:list\n\n# 3. After making changes to Nanobricks, test in linked project\ncd linked-projects/my-app\ntask dev:test\n\n# 4. When done, unlink\ntask project:link:remove NAME=my-app\n\n\n\nFrom your project directory, link to Nanobricks source:\n# Link to Nanobricks for development\ntask link:nanobricks\n\n# After Nanobricks changes\ntask sync:nanobricks\n\n# When done with development\ntask unlink:nanobricks\n\n\n\n\nAlways use editable installs during development\nLink projects instead of reinstalling repeatedly\nTest changes in all dependent projects before releasing\nUse sync commands to update dependencies\n\n\n\n\n\n\n\nClaude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when: - Understanding how dependent projects use Nanobricks - Analyzing code patterns across multiple projects\n- Getting recommendations for improvements - Understanding complex code relationships\n\n\n\nSince Claude CLI installations vary across team members, run the setup helper first:\n# Check your Claude configuration\ntask workflow:claude:setup\n\n# Generate export command for your shell\ntask workflow:claude:setup:export\n\n\n\nEnvironment Variable (Recommended)\n# Add to ~/.zshrc or ~/.bashrc\nexport CLAUDE_PATH=\"/path/to/your/claude\"\nStandard Locations\n\n$HOME/.claude/local/claude\n/usr/local/bin/claude\n/opt/homebrew/bin/claude\n\nCreate Symlink\nsudo ln -s /actual/claude/path /usr/local/bin/claude\n\n\n\n\n\nClaude CLI supports a --verbose flag that provides detailed visibility into its operations. This is particularly valuable for debugging, learning, and performance optimization.\n\n\nYou have three options for enabling verbose mode:\n\nEnvironment VariableCommand Line FlagTask Variable\n\n\nSet CLAUDE_VERBOSE=1 to enable verbose mode for all Claude-related tasks:\n# Enable for your session\nexport CLAUDE_VERBOSE=1\ntask workflow:example:claude:hello\n\n# Or inline for a single command\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm\n\n\nWhen running Claude directly, use the --verbose flag:\nclaude --verbose -p \"Analyze this codebase\"\n\n\nSome tasks also respond to the generic VERBOSE variable:\nVERBOSE=1 task workflow:release:prepare\n\n\n\n\n\n\nWhen enabled, verbose mode displays:\n\nTool Executions: Every file read, edit, or command with parameters\nDecision Process: Claude’s reasoning for choosing specific approaches\nProgress Updates: Real-time status of long-running operations\nNetwork Activity: API communications (without sensitive data)\nTiming Information: Duration of each operation\nError Context: Full debugging information when issues occur\n\n\n\n\nWhen verbose mode is disabled, our tasks provide friendly progress indicators:\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\nThis keeps output clean while confirming Claude is working on your request.\n\n\n\n\nStandard OutputVerbose Output\n\n\n$ task workflow:example:claude:hello\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\n\nHello! Here's your repository status:\n- 15 modified files\n- Latest commit: \"Update documentation\"\n- All tests passing\n\n\n$ CLAUDE_VERBOSE=1 task workflow:example:claude:hello\n🔍 Running Claude in verbose mode...\n\n[DEBUG] Building context from /Users/you/project\n[INFO] Executing tool: git_status\n[DEBUG] Parameters: {\"show_untracked\": true}\n[INFO] Result: 15 files modified, 3 untracked\n[DEBUG] Execution time: 0.12s\n[INFO] Executing tool: git_log\n[DEBUG] Parameters: {\"limit\": 1}\n[INFO] Result: commit abc123...\n...\n\n\n\n\n\n\n\nDefault Off: Keep verbose mode disabled for normal operations\nDebugging: Enable when troubleshooting unexpected behavior\nLearning: Use verbose mode to understand Claude’s capabilities\nPerformance: Identify slow operations in complex workflows\nCI/CD: Consider logging verbose output for build debugging\n\n\n\n\n\nFrom the Nanobricks directory, analyze how dependents use your framework:\n# Analyze a specific dependent\ntask dev:claude:understand:dependent NAME=nano-scorm\n\n# Compare usage patterns across projects\ntask dev:claude:compare:usage PROJECTS=\"project1,project2,project3\"\n\n\n\nWhen working in a dependent project, understand the upstream framework:\n# From your project directory\ntask claude:understand:nanobricks\n\n\n\nIf Claude CLI isn’t available, generate prompts to copy/paste:\n# Generate analysis prompt for a dependent\ntask workflow:claude:prompt:dependent NAME=my-project\n\n# Generate Nanobricks understanding prompt\ntask workflow:claude:prompt:nanobricks\n\n\n\n\n\n# 1. Link the dependent project\ntask dev:project:link PATH=~/projects/new-dependent\n\n# 2. Have Claude analyze it\ntask dev:claude:understand:dependent NAME=new-dependent\n\n# 3. Get specific insights\nclaude -p \"What Nanobricks patterns does new-dependent use most?\"\n\n# 4. Debug if needed with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=new-dependent\n\n\n\n# Compare how different projects implement validators\ntask dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n# Ask specific questions\nclaude -p \"Compare how these projects implement data validation\"\n\n# Get detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n\n\n# Understand current usage before making changes\ntask dev:claude:understand:dependent NAME=critical-app\n\n# After making framework changes\nclaude -p \"How will my changes to Nanobricks affect critical-app?\"\n\n# Deep dive with verbose output\nCLAUDE_VERBOSE=1 claude -p \"Analyze breaking changes in detail\"\n\n\n\n# When Claude isn't working as expected, use verbose mode\nCLAUDE_VERBOSE=1 task workflow:example:claude:hello\n\n# Check your configuration\ntask workflow:claude:setup\n\n# Test with a simple prompt\nCLAUDE_VERBOSE=1 claude -p \"Show current directory structure\"\n\n# If still having issues, check the raw command\n$HOME/.claude/local/claude --verbose -p \"Test\"\n\n\n\n\n\nUse Claude for code review: Before major changes, have Claude analyze impact\nDocument patterns: When Claude identifies common patterns, document them\nShare insights: Team members should share useful Claude prompts\nIterative analysis: Start broad, then ask specific follow-up questions\n\n\n\n\n\n\n\n# Start watch mode\ntask core:dev:watch:test\n\n# In another terminal, write your test first\n# Then implement until tests pass\n\n\n\n# Run all tests\ntask core:dev:test\n\n# Run unit tests only\ntask core:dev:test:unit\n\n# Run integration tests only\ntask core:dev:test:integration\n\n# Run with coverage\ntask core:dev:test:coverage\n\n# Run specific test file (using pytest directly)\nuv run pytest tests/unit/test_specific.py -v\n\n# Run specific test function\nuv run pytest tests/unit/test_specific.py::test_function_name -v\n\n\n\n# Run tests with debugging output\nuv run pytest tests/ -vv -s\n\n# Run with pdb on failure\nuv run pytest tests/ --pdb\n\n# Run last failed tests\nuv run pytest tests/ --lf\n\n\n\n\n\n\n# Start live preview server\ntask docs:site:preview\n\n# The server will:\n# - Auto-reload on changes\n# - Show errors in the browser\n# - Preserve scroll position\n\n\n\n\nStart preview server: task docs:site:preview\nEdit .qmd files in docs/quarto/\nCheck rendering in browser (auto-reloads)\nValidate build: task docs:site:render\nCheck links: task docs:content:validate\n\n\n\n\n# 1. Create new .qmd file\ntouch docs/quarto/my-new-guide.qmd\n\n# 2. Add to _quarto.yml sidebar\n# 3. Start preview to see it live\ntask docs:site:preview\n\n\n\n# Build production version\ntask docs:site:render\n\n# Publish to GitHub Pages\ntask docs:site:publish\n\n\n\n\nThis section describes our hybrid approach to release management that combines atomic tasks, workflow orchestration, and Claude Code integration for intelligent decision-making.\n\n\n\n\n\n\nNote\n\n\n\nClaude Setup Required: Before using release workflows with Claude integration, ensure Claude is configured by running task workflow:claude:setup. See the Claude Code Integration section for details.\n\n\n\n\nInstead of fully automating releases (which can be brittle) or keeping everything manual (which is error-prone), we use a semi-automated approach where:\n\nClaude Code acts as an intelligent assistant that analyzes your repository state and provides recommendations\nWorkflows orchestrate atomic tasks in a logical sequence\nHuman oversight remains at critical decision points\nRecovery mechanisms handle common mistakes gracefully\n\n\n\n\nThe release system uses a three-layer architecture:\nflowchart TD\n    A[Workflow Tasks] --&gt;|Orchestrates| B[Claude Code]\n    B --&gt;|Guides| C[Atomic Tasks]\n    \n    style A fill:#f9f,stroke:#333,stroke-width:4px\n    style B fill:#9ff,stroke:#333,stroke-width:4px\n    style C fill:#ff9,stroke:#333,stroke-width:4px\n\n\n\n\n\nLet Claude analyze your changes and recommend the appropriate version bump:\ntask workflow:release:prepare\n\n# For detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task workflow:release:prepare\nClaude will: - Analyze commit messages using conventional commit format - Identify breaking changes - Check for uncommitted files - Recommend patch/minor/major version bump\n\n\n\n\n\n\nTip\n\n\n\nDebugging Tip: If Claude’s recommendation seems incorrect, run with verbose mode to see the full analysis process and understand which commits led to the recommendation.\n\n\n\n\n\nRun comprehensive validation before creating a release:\ntask workflow:release:validate\n\n# See detailed validation steps\nCLAUDE_VERBOSE=1 task workflow:release:validate\nThis runs all tests, linting, documentation builds, and Claude’s pre-flight checks.\n\n\n\n\nThe main release workflow handles the entire process:\n# Based on Claude's recommendation\ntask workflow:release:create TYPE=patch\ntask workflow:release:create TYPE=minor\ntask workflow:release:create TYPE=major\n\n# Debug mode for troubleshooting\nCLAUDE_VERBOSE=1 task workflow:release:create TYPE=patch\nSteps performed: 1. Creates a rollback point 2. Bumps version 3. Generates changelog with Claude’s help 4. Commits changes 5. Creates tag 6. Prepares for publishing\n\n\n\nFinal step to push the release:\ntask workflow:release:publish\n\n# With verbose output to see pre-flight checks\nCLAUDE_VERBOSE=1 task workflow:release:publish\nThis includes: - Pre-flight checks with Claude - Confirmation prompt - Push to GitHub - Publish to PyPI\n\n\n\n\n\nWhen you’ve already tagged but forgot to include files:\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# See detailed recovery steps\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\nClaude will guide you through safely moving the tag to include the missing changes.\n\n\n\nIf something goes wrong:\ntask workflow:release:rollback\n\n# Verbose mode shows exactly what's being reverted\nCLAUDE_VERBOSE=1 task workflow:release:rollback\n\n\n\nCreate a patch release from an older version:\ntask workflow:release:hotfix BASE=v1.2.0\n\n# Debug the hotfix process\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.2.0\n\n\n\n\n\n\n# 1. Prepare and analyze\ntask workflow:release:prepare\n\n# 2. Validate everything is ready\ntask workflow:release:validate\n\n# 3. Create the release (e.g., minor)\ntask workflow:release:create TYPE=minor\n\n# 4. Review and edit CHANGELOG.md manually\n# ... make any necessary edits ...\n\n# 5. Publish when ready\ntask workflow:release:publish\n\n\n\n\n\n\nTip\n\n\n\nVerbose Mode Usage: Enable CLAUDE_VERBOSE=1 at any step to get detailed insights into what Claude is analyzing and recommending.\n\n\n\n\n\n# You released v1.2.3 but forgot to commit README.md\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# Claude guides you through:\n# 1. Creating a branch from the tag\n# 2. Adding the missing files\n# 3. Moving the tag safely\n# 4. Updating remote\n\n# If unsure about the process, use verbose mode:\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n# Current version is v2.0.0 but you need to fix v1.5.0\ntask workflow:release:hotfix BASE=v1.5.0\n\n# Creates v1.5.1 with only the critical fix\n\n# Debug complex branching scenarios\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.5.0\n\n\n\nWhen releases don’t go as expected:\n# Check Claude's detailed analysis\nCLAUDE_VERBOSE=1 task workflow:release:prepare\n\n# Understand why a version bump was recommended\nCLAUDE_VERBOSE=1 task workflow:release:analyze-commits\n\n# See full validation process\nCLAUDE_VERBOSE=1 task workflow:release:validate\n\n# Get step-by-step recovery guidance\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n\n\nAlways run release:prepare first to get Claude’s analysis\nReview generated changelogs before committing\nUse release:dry-run to practice without making changes\nKeep rollback files until the release is confirmed successful\nDocument breaking changes clearly in commit messages\n\n\n\n\nCheck release status:\ntask workflow:release:status\nView release history with insights:\ntask workflow:release:history\nSimulate a release without making changes:\ntask workflow:release:dry-run TYPE=patch\n\n\n\n\nPatch (0.1.0 → 0.1.1): Bug fixes, documentation\nMinor (0.1.0 → 0.2.0): New features, backwards compatible\nMajor (0.1.0 → 1.0.0): Breaking changes\n\n\n\n\nThe release workflows integrate with: - Conventional Commits: For determining version bumps - Semantic Versioning: For version numbering - GitHub Releases: For distribution - PyPI: For Python package distribution\n\n\n\n\n\n\n# Create a new nanobrick component\ntask scaffold:brick:create NAME=data_processor\n\n# This creates:\n# src/data_processor/\n# ├── __init__.py\n# └── core.py\n\n# Edit the generated files to implement your logic\n\n\n\nFor testing package distribution:\n# Build and create local repository\ntask build:package:create\ntask build:repo:create:local\n\n# In another project, install from local repo\nuv pip install nanobricks --find-links file://~/.nanobricks-repo\n\n\n\nFor CI/CD pipelines:\n# Run in CI environment\ntask core:dev:lint\ntask core:dev:test:coverage\ntask docs:site:render\n\n# Only on main branch\ntask build:package:create\ntask deploy:publish:test\n\n\n\n\n\n\n\n\n# Error: Task \"dev:test\" not found\n\n# Solution: Ensure you're in the project root\npwd  # Should show nanobricks directory\nls Taskfile.yml  # Should exist\n\n\n\n# Error: ImportError: cannot import name 'X' from 'nanobricks'\n\n# Solution: Reinstall in development mode\ntask core:dev:setup\n# Or\nuv pip install -e .\n\n\n\n# Error: Quarto render failed\n\n# Solution: Check for syntax errors\ntask docs:dev:check\n\n# Check specific file\nquarto render docs/quarto/problem-file.qmd\n\n\n\n# Error: Changes not reflected in linked project\n\n# Solution: Sync the project\ncd linked-project\ntask sync:nanobricks\n\n\n\n\nRun tasks with verbose output:\n# Show what commands are being run\ntask --verbose core:dev:test\n\n# Dry run (show what would be executed)\ntask --dry core:dev:test\n\n\n\n\n\n\nCreate custom tasks following the naming convention:\n# In Taskfile.yml or a custom Taskfile\n\ntasks:\n  # Follow namespace:component:action:variant pattern\n  analysis:code:complexity:\n    desc: Analyze code complexity\n    cmds:\n      - echo \"Analyzing code complexity...\"\n      - uv run radon cc src/ -a\n\n  analysis:code:metrics:\n    desc: Generate code metrics\n    cmds:\n      - echo \"Generating metrics...\"\n      - uv run radon mi src/\n\n\n\n\nUse silent mode: Add silent: true to Taskfiles\nFollow naming convention: namespace:component:action:variant\nAdd descriptions: Use desc: for all public tasks\nHandle errors: Add preconditions and error messages\nUse variables: Define reusable paths and values\n\n\n\n\ntasks:\n  dev:analyze:all:\n    desc: Run all code analysis tools\n    cmds:\n      - task: core:dev:lint\n      - task: analysis:code:complexity\n      - task: analysis:code:metrics\n      - echo \"✅ All analysis complete\"\n    preconditions:\n      - sh: command -v radon\n        msg: \"radon is required. Install with - uv pip install radon\"\n\n\n\nCritical: When writing echo statements in tasks, replace colons with dashes:\n# ✅ Correct\n- echo \"Building package - creating wheel\"\n- echo \"Error - file not found\"\n- echo \"Usage - task core:dev:test\"\n\n# ❌ Wrong\n- echo \"Building package: creating wheel\"\n- echo \"Error: file not found\"  \n- echo \"Usage: task core:dev:test\"\n\n\n\n\n\n\n# Development\ntask core:dev:all          # Run all checks\ntask core:dev:watch:test   # Watch mode for TDD\n\n# Documentation  \ntask docs:site:preview     # Live documentation server\n\n# Project Creation\ntask project:scaffold:create:uv NAME=app DIR=~/projects\n\n# Multi-Project\ntask project:link:add PATH=../other-project\ntask link:nanobricks       # From project directory\n\n# Release\ntask version:semver:bump:patch\ntask build:package:create\n\n\n\n\n\n\n\n\n\n\nScenario\nCommands\n\n\n\n\nStart developing\ntask core:dev:setup\n\n\nBefore committing\ntask core:dev:all\n\n\nCreate new project\ntask project:scaffold:create:uv NAME=X DIR=Y\n\n\nLink project\ntask project:link:add PATH=X\n\n\nWatch tests\ntask core:dev:watch:test\n\n\nLive docs\ntask docs:site:preview\n\n\nRelease\ntask version:semver:bump:patch → task build:package:create\n\n\n\n\n\n\n\nThe Nanobricks task system is designed to make development workflows smooth and intuitive. By following these patterns and practices, you can maintain high code quality while moving fast.\nRemember: - Use the task system for all operations - Follow the naming conventions - Leverage watch modes for rapid development\n- Link projects for multi-project workflows - Run comprehensive checks before committing\nHappy coding with Nanobricks! 🚀",
+    "text": "This guide provides practical, scenario-based workflows for common development tasks in Nanobricks. Whether you’re contributing to Nanobricks, creating new projects, or managing multiple dependent projects, this guide has you covered.\n\n\n\nSetting Up Your Development Environment\nDaily Development Workflow\nCreating New Projects\nMulti-Project Development\nClaude Code Integration\nTesting Workflows\nDocumentation Development\nRelease Management\n\nPre-Release Workflows\nCreating a Release\nPublishing a Release\nRecovery Workflows\nReal-World Release Scenarios\n\nAdvanced Workflows\nTroubleshooting\nExtending the Task System\n\n\n\n\n\n\nAfter cloning the Nanobricks repository, set up your development environment:\n# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Create and activate virtual environment\nuv venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\n# Install development dependencies\ntask core:dev:setup\n\n# Verify everything is working\ntask core:dev:all\n\n\n\nFor VS Code users, install recommended extensions:\n\nPython\nPylance\nRuff\nMyPy\n\nThe repository includes VS Code settings for optimal development experience.\n\n\n\n\n\n\nHere’s a typical development workflow when working on Nanobricks:\n# 1. Start with a clean state\ntask core:dev:format    # Format code\ntask core:dev:lint      # Check for issues\n\n# 2. Make your changes\n# ... edit files ...\n\n# 3. Run tests continuously (in another terminal)\ntask core:dev:watch:test\n\n# 4. Before committing, run all checks\ntask core:dev:all\n\n# 5. Update documentation if needed\ntask docs:site:preview  # Live preview while editing\n\n\n\nFor rapid development:\n# Terminal 1: Watch tests\ntask core:dev:watch:test\n\n# Terminal 2: Watch documentation (if editing docs)\ntask docs:site:preview\n\n# Terminal 3: Your regular development\n\n\n\nBefore committing changes:\n\nFormat code: task core:dev:format\nRun linters: task core:dev:lint\nRun tests: task core:dev:test\nCheck types: task core:dev:typecheck\nBuild docs: task docs:site:render\n\nOr simply run: task core:dev:all\n\n\n\n\n\n\nThe fastest way to create a new project using Nanobricks:\n# Using uv (recommended)\ntask project:scaffold:create:uv NAME=my-awesome-app DIR=~/projects\n\n# Navigate to the project\ncd ~/projects/my-awesome-app\n\n# Activate the environment (already created by uv)\nsource .venv/bin/activate\n\n# Run tests to verify setup\ntask dev:test\n\n\n\nFor more control over the setup:\n# Create project structure\ntask project:scaffold:create NAME=my-app DIR=~/projects\n\n# Navigate and set up\ncd ~/projects/my-app\nuv venv --python 3.13\nsource .venv/bin/activate\nuv pip install -e .\n\n# Verify\ntask dev:test\n\n\n\nBoth methods create a project with this structure:\nmy-app/\n├── src/\n│   └── my_app/\n│       └── __init__.py      # Example nanobrick\n├── tests/\n│   └── test_example.py      # Example test\n├── docs/                    # Documentation directory\n├── pyproject.toml          # Project configuration\n├── Taskfile.yml            # Project-specific tasks\n├── README.md               # Project documentation\n└── .gitignore              # Git ignore file\n\n\n\n\n\n\nWhen you’re developing Nanobricks features that affect dependent projects:\n# 1. Link your dependent project from Nanobricks directory\ntask project:link:add PATH=~/projects/my-app\n\n# 2. List linked projects\ntask project:link:list\n\n# 3. After making changes to Nanobricks, test in linked project\ncd linked-projects/my-app\ntask dev:test\n\n# 4. When done, unlink\ntask project:link:remove NAME=my-app\n\n\n\nFrom your project directory, link to Nanobricks source:\n# Link to Nanobricks for development\ntask link:nanobricks\n\n# After Nanobricks changes\ntask sync:nanobricks\n\n# When done with development\ntask unlink:nanobricks\n\n\n\n\nAlways use editable installs during development\nLink projects instead of reinstalling repeatedly\nTest changes in all dependent projects before releasing\nUse sync commands to update dependencies\n\n\n\n\n\n\n\nClaude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when:\n\nUnderstanding how dependent projects use Nanobricks\nAnalyzing code patterns across multiple projects\n\nGetting recommendations for improvements\nUnderstanding complex code relationships\n\n\n\n\nSince Claude CLI installations vary across team members, run the setup helper first:\n# Check your Claude configuration\ntask workflow:claude:setup\n\n# Generate export command for your shell\ntask workflow:claude:setup:export\n\n\n\nEnvironment Variable (Recommended)\n# Add to ~/.zshrc or ~/.bashrc\nexport CLAUDE_PATH=\"/path/to/your/claude\"\nStandard Locations\n\n$HOME/.claude/local/claude\n/usr/local/bin/claude\n/opt/homebrew/bin/claude\n\nCreate Symlink\nsudo ln -s /actual/claude/path /usr/local/bin/claude\n\n\n\n\n\nClaude CLI supports a --verbose flag that provides detailed visibility into its operations. This is particularly valuable for debugging, learning, and performance optimization.\n\n\nYou have three options for enabling verbose mode:\n\nEnvironment VariableCommand Line FlagTask Variable\n\n\nSet CLAUDE_VERBOSE=1 to enable verbose mode for all Claude-related tasks:\n# Enable for your session\nexport CLAUDE_VERBOSE=1\ntask workflow:example:claude:hello\n\n# Or inline for a single command\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm\n\n\nWhen running Claude directly, use the --verbose flag:\nclaude --verbose -p \"Analyze this codebase\"\n\n\nSome tasks also respond to the generic VERBOSE variable:\nVERBOSE=1 task workflow:release:prepare\n\n\n\n\n\n\nWhen enabled, verbose mode displays:\n\nTool Executions: Every file read, edit, or command with parameters\nDecision Process: Claude’s reasoning for choosing specific approaches\nProgress Updates: Real-time status of long-running operations\nNetwork Activity: API communications (without sensitive data)\nTiming Information: Duration of each operation\nError Context: Full debugging information when issues occur\n\n\n\n\nWhen verbose mode is disabled, our tasks provide friendly progress indicators:\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\nThis keeps output clean while confirming Claude is working on your request.\n\n\n\n\nStandard OutputVerbose Output\n\n\n$ task workflow:example:claude:hello\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\n\nHello! Here's your repository status:\n\n- 15 modified files\n- Latest commit: \"Update documentation\"\n- All tests passing\n\n\n$ CLAUDE_VERBOSE=1 task workflow:example:claude:hello\n🔍 Running Claude in verbose mode...\n\n[DEBUG] Building context from /Users/you/project\n[INFO] Executing tool: git_status\n[DEBUG] Parameters: {\"show_untracked\": true}\n[INFO] Result: 15 files modified, 3 untracked\n[DEBUG] Execution time: 0.12s\n[INFO] Executing tool: git_log\n[DEBUG] Parameters: {\"limit\": 1}\n[INFO] Result: commit abc123...\n...\n\n\n\n\n\n\n\nDefault Off: Keep verbose mode disabled for normal operations\nDebugging: Enable when troubleshooting unexpected behavior\nLearning: Use verbose mode to understand Claude’s capabilities\nPerformance: Identify slow operations in complex workflows\nCI/CD: Consider logging verbose output for build debugging\n\n\n\n\n\nFrom the Nanobricks directory, analyze how dependents use your framework:\n# Analyze a specific dependent\ntask dev:claude:understand:dependent NAME=nano-scorm\n\n# Compare usage patterns across projects\ntask dev:claude:compare:usage PROJECTS=\"project1,project2,project3\"\n\n\n\nWhen working in a dependent project, understand the upstream framework:\n# From your project directory\ntask claude:understand:nanobricks\n\n\n\nIf Claude CLI isn’t available, generate prompts to copy/paste:\n# Generate analysis prompt for a dependent\ntask workflow:claude:prompt:dependent NAME=my-project\n\n# Generate Nanobricks understanding prompt\ntask workflow:claude:prompt:nanobricks\n\n\n\n\n\n# 1. Link the dependent project\ntask dev:project:link PATH=~/projects/new-dependent\n\n# 2. Have Claude analyze it\ntask dev:claude:understand:dependent NAME=new-dependent\n\n# 3. Get specific insights\nclaude -p \"What Nanobricks patterns does new-dependent use most?\"\n\n# 4. Debug if needed with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=new-dependent\n\n\n\n# Compare how different projects implement validators\ntask dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n# Ask specific questions\nclaude -p \"Compare how these projects implement data validation\"\n\n# Get detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n\n\n# Understand current usage before making changes\ntask dev:claude:understand:dependent NAME=critical-app\n\n# After making framework changes\nclaude -p \"How will my changes to Nanobricks affect critical-app?\"\n\n# Deep dive with verbose output\nCLAUDE_VERBOSE=1 claude -p \"Analyze breaking changes in detail\"\n\n\n\n# When Claude isn't working as expected, use verbose mode\nCLAUDE_VERBOSE=1 task workflow:example:claude:hello\n\n# Check your configuration\ntask workflow:claude:setup\n\n# Test with a simple prompt\nCLAUDE_VERBOSE=1 claude -p \"Show current directory structure\"\n\n# If still having issues, check the raw command\n$HOME/.claude/local/claude --verbose -p \"Test\"\n\n\n\n\n\nUse Claude for code review: Before major changes, have Claude analyze impact\nDocument patterns: When Claude identifies common patterns, document them\nShare insights: Team members should share useful Claude prompts\nIterative analysis: Start broad, then ask specific follow-up questions\n\n\n\n\n\n\n\n# Start watch mode\ntask core:dev:watch:test\n\n# In another terminal, write your test first\n# Then implement until tests pass\n\n\n\n# Run all tests\ntask core:dev:test\n\n# Run unit tests only\ntask core:dev:test:unit\n\n# Run integration tests only\ntask core:dev:test:integration\n\n# Run with coverage\ntask core:dev:test:coverage\n\n# Run specific test file (using pytest directly)\nuv run pytest tests/unit/test_specific.py -v\n\n# Run specific test function\nuv run pytest tests/unit/test_specific.py::test_function_name -v\n\n\n\n# Run tests with debugging output\nuv run pytest tests/ -vv -s\n\n# Run with pdb on failure\nuv run pytest tests/ --pdb\n\n# Run last failed tests\nuv run pytest tests/ --lf\n\n\n\n\n\n\n# Start live preview server\ntask docs:site:preview\n\n# The server will:\n# - Auto-reload on changes\n# - Show errors in the browser\n# - Preserve scroll position\n\n\n\n\nStart preview server: task docs:site:preview\nEdit .qmd files in docs/quarto/\nCheck rendering in browser (auto-reloads)\nValidate build: task docs:site:render\nCheck links: task docs:content:validate\n\n\n\n\n# 1. Create new .qmd file\ntouch docs/quarto/my-new-guide.qmd\n\n# 2. Add to _quarto.yml sidebar\n# 3. Start preview to see it live\ntask docs:site:preview\n\n\n\n# Build production version\ntask docs:site:render\n\n# Publish to GitHub Pages\ntask docs:site:publish\n\n\n\n\nThis section describes our hybrid approach to release management that combines atomic tasks, workflow orchestration, and Claude Code integration for intelligent decision-making.\n\n\n\n\n\n\nNote\n\n\n\nClaude Setup Required: Before using release workflows with Claude integration, ensure Claude is configured by running task workflow:claude:setup. See the Claude Code Integration section for details.\n\n\n\n\nInstead of fully automating releases (which can be brittle) or keeping everything manual (which is error-prone), we use a semi-automated approach where:\n\nClaude Code acts as an intelligent assistant that analyzes your repository state and provides recommendations\nWorkflows orchestrate atomic tasks in a logical sequence\nHuman oversight remains at critical decision points\nRecovery mechanisms handle common mistakes gracefully\n\n\n\n\nThe release system uses a three-layer architecture:\nflowchart TD\n    A[Workflow Tasks] --&gt;|Orchestrates| B[Claude Code]\n    B --&gt;|Guides| C[Atomic Tasks]\n    \n    style A fill:#f9f,stroke:#333,stroke-width:4px\n    style B fill:#9ff,stroke:#333,stroke-width:4px\n    style C fill:#ff9,stroke:#333,stroke-width:4px\n\n\n\n\n\nLet Claude analyze your changes and recommend the appropriate version bump:\ntask workflow:release:prepare\n\n# For detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task workflow:release:prepare\nClaude will:\n\nAnalyze commit messages using conventional commit format\nIdentify breaking changes\nCheck for uncommitted files\nRecommend patch/minor/major version bump\n\n\n\n\n\n\n\nTip\n\n\n\nDebugging Tip: If Claude’s recommendation seems incorrect, run with verbose mode to see the full analysis process and understand which commits led to the recommendation.\n\n\n\n\n\nRun comprehensive validation before creating a release:\ntask workflow:release:validate\n\n# See detailed validation steps\nCLAUDE_VERBOSE=1 task workflow:release:validate\nThis runs all tests, linting, documentation builds, and Claude’s pre-flight checks.\n\n\n\n\nThe main release workflow handles the entire process:\n# Based on Claude's recommendation\ntask workflow:release:create TYPE=patch\ntask workflow:release:create TYPE=minor\ntask workflow:release:create TYPE=major\n\n# Debug mode for troubleshooting\nCLAUDE_VERBOSE=1 task workflow:release:create TYPE=patch\nSteps performed: 1. Creates a rollback point 2. Bumps version 3. Generates changelog with Claude’s help 4. Commits changes 5. Creates tag 6. Prepares for publishing\n\n\n\nFinal step to push the release:\ntask workflow:release:publish\n\n# With verbose output to see pre-flight checks\nCLAUDE_VERBOSE=1 task workflow:release:publish\nThis includes:\n\nPre-flight checks with Claude\nConfirmation prompt\nPush to GitHub\nPublish to PyPI\n\n\n\n\n\n\nWhen you’ve already tagged but forgot to include files:\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# See detailed recovery steps\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\nClaude will guide you through safely moving the tag to include the missing changes.\n\n\n\nIf something goes wrong:\ntask workflow:release:rollback\n\n# Verbose mode shows exactly what's being reverted\nCLAUDE_VERBOSE=1 task workflow:release:rollback\n\n\n\nCreate a patch release from an older version:\ntask workflow:release:hotfix BASE=v1.2.0\n\n# Debug the hotfix process\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.2.0\n\n\n\n\n\n\n# 1. Prepare and analyze\ntask workflow:release:prepare\n\n# 2. Validate everything is ready\ntask workflow:release:validate\n\n# 3. Create the release (e.g., minor)\ntask workflow:release:create TYPE=minor\n\n# 4. Review and edit CHANGELOG.md manually\n# ... make any necessary edits ...\n\n# 5. Publish when ready\ntask workflow:release:publish\n\n\n\n\n\n\nTip\n\n\n\nVerbose Mode Usage: Enable CLAUDE_VERBOSE=1 at any step to get detailed insights into what Claude is analyzing and recommending.\n\n\n\n\n\n# You released v1.2.3 but forgot to commit README.md\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# Claude guides you through:\n# 1. Creating a branch from the tag\n# 2. Adding the missing files\n# 3. Moving the tag safely\n# 4. Updating remote\n\n# If unsure about the process, use verbose mode:\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n# Current version is v2.0.0 but you need to fix v1.5.0\ntask workflow:release:hotfix BASE=v1.5.0\n\n# Creates v1.5.1 with only the critical fix\n\n# Debug complex branching scenarios\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.5.0\n\n\n\nWhen releases don’t go as expected:\n# Check Claude's detailed analysis\nCLAUDE_VERBOSE=1 task workflow:release:prepare\n\n# Understand why a version bump was recommended\nCLAUDE_VERBOSE=1 task workflow:release:analyze-commits\n\n# See full validation process\nCLAUDE_VERBOSE=1 task workflow:release:validate\n\n# Get step-by-step recovery guidance\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n\n\nAlways run release:prepare first to get Claude’s analysis\nReview generated changelogs before committing\nUse release:dry-run to practice without making changes\nKeep rollback files until the release is confirmed successful\nDocument breaking changes clearly in commit messages\n\n\n\n\nCheck release status:\ntask workflow:release:status\nView release history with insights:\ntask workflow:release:history\nSimulate a release without making changes:\ntask workflow:release:dry-run TYPE=patch\n\n\n\n\nPatch (0.1.0 → 0.1.1): Bug fixes, documentation\nMinor (0.1.0 → 0.2.0): New features, backwards compatible\nMajor (0.1.0 → 1.0.0): Breaking changes\n\n\n\n\nThe release workflows integrate with:\n\nConventional Commits: For determining version bumps\nSemantic Versioning: For version numbering\nGitHub Releases: For distribution\nPyPI: For Python package distribution\n\n\n\n\n\n\n\n# Create a new nanobrick component\ntask scaffold:brick:create NAME=data_processor\n\n# This creates:\n# src/data_processor/\n# ├── __init__.py\n# └── core.py\n\n# Edit the generated files to implement your logic\n\n\n\nFor testing package distribution:\n# Build and create local repository\ntask build:package:create\ntask build:repo:create:local\n\n# In another project, install from local repo\nuv pip install nanobricks --find-links file://~/.nanobricks-repo\n\n\n\nFor CI/CD pipelines:\n# Run in CI environment\ntask core:dev:lint\ntask core:dev:test:coverage\ntask docs:site:render\n\n# Only on main branch\ntask build:package:create\ntask deploy:publish:test\n\n\n\n\n\n\n\n\n# Error: Task \"dev:test\" not found\n\n# Solution: Ensure you're in the project root\npwd  # Should show nanobricks directory\nls Taskfile.yml  # Should exist\n\n\n\n# Error: ImportError: cannot import name 'X' from 'nanobricks'\n\n# Solution: Reinstall in development mode\ntask core:dev:setup\n# Or\nuv pip install -e .\n\n\n\n# Error: Quarto render failed\n\n# Solution: Check for syntax errors\ntask docs:dev:check\n\n# Check specific file\nquarto render docs/quarto/problem-file.qmd\n\n\n\n# Error: Changes not reflected in linked project\n\n# Solution: Sync the project\ncd linked-project\ntask sync:nanobricks\n\n\n\n\nRun tasks with verbose output:\n# Show what commands are being run\ntask --verbose core:dev:test\n\n# Dry run (show what would be executed)\ntask --dry core:dev:test\n\n\n\n\n\n\nCreate custom tasks following the naming convention:\n# In Taskfile.yml or a custom Taskfile\n\ntasks:\n  # Follow namespace:component:action:variant pattern\n  analysis:code:complexity:\n    desc: Analyze code complexity\n    cmds:\n      - echo \"Analyzing code complexity...\"\n      - uv run radon cc src/ -a\n\n  analysis:code:metrics:\n    desc: Generate code metrics\n    cmds:\n      - echo \"Generating metrics...\"\n      - uv run radon mi src/\n\n\n\n\nUse silent mode: Add silent: true to Taskfiles\nFollow naming convention: namespace:component:action:variant\nAdd descriptions: Use desc: for all public tasks\nHandle errors: Add preconditions and error messages\nUse variables: Define reusable paths and values\n\n\n\n\ntasks:\n  dev:analyze:all:\n    desc: Run all code analysis tools\n    cmds:\n      - task: core:dev:lint\n      - task: analysis:code:complexity\n      - task: analysis:code:metrics\n      - echo \"✅ All analysis complete\"\n    preconditions:\n      - sh: command -v radon\n        msg: \"radon is required. Install with - uv pip install radon\"\n\n\n\nCritical: When writing echo statements in tasks, replace colons with dashes:\n# ✅ Correct\n- echo \"Building package - creating wheel\"\n- echo \"Error - file not found\"\n- echo \"Usage - task core:dev:test\"\n\n# ❌ Wrong\n- echo \"Building package: creating wheel\"\n- echo \"Error: file not found\"  \n- echo \"Usage: task core:dev:test\"\n\n\n\n\n\n\n# Development\ntask core:dev:all          # Run all checks\ntask core:dev:watch:test   # Watch mode for TDD\n\n# Documentation  \ntask docs:site:preview     # Live documentation server\n\n# Project Creation\ntask project:scaffold:create:uv NAME=app DIR=~/projects\n\n# Multi-Project\ntask project:link:add PATH=../other-project\ntask link:nanobricks       # From project directory\n\n# Release\ntask version:semver:bump:patch\ntask build:package:create\n\n\n\n\n\n\n\n\n\n\nScenario\nCommands\n\n\n\n\nStart developing\ntask core:dev:setup\n\n\nBefore committing\ntask core:dev:all\n\n\nCreate new project\ntask project:scaffold:create:uv NAME=X DIR=Y\n\n\nLink project\ntask project:link:add PATH=X\n\n\nWatch tests\ntask core:dev:watch:test\n\n\nLive docs\ntask docs:site:preview\n\n\nRelease\ntask version:semver:bump:patch → task build:package:create\n\n\n\n\n\n\n\nThe Nanobricks task system is designed to make development workflows smooth and intuitive. By following these patterns and practices, you can maintain high code quality while moving fast.\nRemember:\n\nUse the task system for all operations\nFollow the naming conventions\nLeverage watch modes for rapid development\n\nLink projects for multi-project workflows\nRun comprehensive checks before committing\n\nHappy coding with Nanobricks! 🚀",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4179,6 +4261,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4187,10 +4270,11 @@
     "href": "developer-workflows.html#setting-up-your-development-environment",
     "title": "Developer Workflows Guide",
     "section": "",
-    "text": "After cloning the Nanobricks repository, set up your development environment:\n# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Create and activate virtual environment\nuv venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\n# Install development dependencies\ntask core:dev:setup\n\n# Verify everything is working\ntask core:dev:all\n\n\n\nFor VS Code users, install recommended extensions: - Python - Pylance - Ruff - MyPy\nThe repository includes VS Code settings for optimal development experience.",
+    "text": "After cloning the Nanobricks repository, set up your development environment:\n# Clone the repository\ngit clone https://github.com/your-org/nanobricks.git\ncd nanobricks\n\n# Create and activate virtual environment\nuv venv\nsource .venv/bin/activate  # On Windows: .venv\\Scripts\\activate\n\n# Install development dependencies\ntask core:dev:setup\n\n# Verify everything is working\ntask core:dev:all\n\n\n\nFor VS Code users, install recommended extensions:\n\nPython\nPylance\nRuff\nMyPy\n\nThe repository includes VS Code settings for optimal development experience.",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4203,6 +4287,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4215,6 +4300,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4227,6 +4313,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4235,10 +4322,11 @@
     "href": "developer-workflows.html#claude-code-integration",
     "title": "Developer Workflows Guide",
     "section": "",
-    "text": "Claude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when: - Understanding how dependent projects use Nanobricks - Analyzing code patterns across multiple projects\n- Getting recommendations for improvements - Understanding complex code relationships\n\n\n\nSince Claude CLI installations vary across team members, run the setup helper first:\n# Check your Claude configuration\ntask workflow:claude:setup\n\n# Generate export command for your shell\ntask workflow:claude:setup:export\n\n\n\nEnvironment Variable (Recommended)\n# Add to ~/.zshrc or ~/.bashrc\nexport CLAUDE_PATH=\"/path/to/your/claude\"\nStandard Locations\n\n$HOME/.claude/local/claude\n/usr/local/bin/claude\n/opt/homebrew/bin/claude\n\nCreate Symlink\nsudo ln -s /actual/claude/path /usr/local/bin/claude\n\n\n\n\n\nClaude CLI supports a --verbose flag that provides detailed visibility into its operations. This is particularly valuable for debugging, learning, and performance optimization.\n\n\nYou have three options for enabling verbose mode:\n\nEnvironment VariableCommand Line FlagTask Variable\n\n\nSet CLAUDE_VERBOSE=1 to enable verbose mode for all Claude-related tasks:\n# Enable for your session\nexport CLAUDE_VERBOSE=1\ntask workflow:example:claude:hello\n\n# Or inline for a single command\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm\n\n\nWhen running Claude directly, use the --verbose flag:\nclaude --verbose -p \"Analyze this codebase\"\n\n\nSome tasks also respond to the generic VERBOSE variable:\nVERBOSE=1 task workflow:release:prepare\n\n\n\n\n\n\nWhen enabled, verbose mode displays:\n\nTool Executions: Every file read, edit, or command with parameters\nDecision Process: Claude’s reasoning for choosing specific approaches\nProgress Updates: Real-time status of long-running operations\nNetwork Activity: API communications (without sensitive data)\nTiming Information: Duration of each operation\nError Context: Full debugging information when issues occur\n\n\n\n\nWhen verbose mode is disabled, our tasks provide friendly progress indicators:\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\nThis keeps output clean while confirming Claude is working on your request.\n\n\n\n\nStandard OutputVerbose Output\n\n\n$ task workflow:example:claude:hello\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\n\nHello! Here's your repository status:\n- 15 modified files\n- Latest commit: \"Update documentation\"\n- All tests passing\n\n\n$ CLAUDE_VERBOSE=1 task workflow:example:claude:hello\n🔍 Running Claude in verbose mode...\n\n[DEBUG] Building context from /Users/you/project\n[INFO] Executing tool: git_status\n[DEBUG] Parameters: {\"show_untracked\": true}\n[INFO] Result: 15 files modified, 3 untracked\n[DEBUG] Execution time: 0.12s\n[INFO] Executing tool: git_log\n[DEBUG] Parameters: {\"limit\": 1}\n[INFO] Result: commit abc123...\n...\n\n\n\n\n\n\n\nDefault Off: Keep verbose mode disabled for normal operations\nDebugging: Enable when troubleshooting unexpected behavior\nLearning: Use verbose mode to understand Claude’s capabilities\nPerformance: Identify slow operations in complex workflows\nCI/CD: Consider logging verbose output for build debugging\n\n\n\n\n\nFrom the Nanobricks directory, analyze how dependents use your framework:\n# Analyze a specific dependent\ntask dev:claude:understand:dependent NAME=nano-scorm\n\n# Compare usage patterns across projects\ntask dev:claude:compare:usage PROJECTS=\"project1,project2,project3\"\n\n\n\nWhen working in a dependent project, understand the upstream framework:\n# From your project directory\ntask claude:understand:nanobricks\n\n\n\nIf Claude CLI isn’t available, generate prompts to copy/paste:\n# Generate analysis prompt for a dependent\ntask workflow:claude:prompt:dependent NAME=my-project\n\n# Generate Nanobricks understanding prompt\ntask workflow:claude:prompt:nanobricks\n\n\n\n\n\n# 1. Link the dependent project\ntask dev:project:link PATH=~/projects/new-dependent\n\n# 2. Have Claude analyze it\ntask dev:claude:understand:dependent NAME=new-dependent\n\n# 3. Get specific insights\nclaude -p \"What Nanobricks patterns does new-dependent use most?\"\n\n# 4. Debug if needed with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=new-dependent\n\n\n\n# Compare how different projects implement validators\ntask dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n# Ask specific questions\nclaude -p \"Compare how these projects implement data validation\"\n\n# Get detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n\n\n# Understand current usage before making changes\ntask dev:claude:understand:dependent NAME=critical-app\n\n# After making framework changes\nclaude -p \"How will my changes to Nanobricks affect critical-app?\"\n\n# Deep dive with verbose output\nCLAUDE_VERBOSE=1 claude -p \"Analyze breaking changes in detail\"\n\n\n\n# When Claude isn't working as expected, use verbose mode\nCLAUDE_VERBOSE=1 task workflow:example:claude:hello\n\n# Check your configuration\ntask workflow:claude:setup\n\n# Test with a simple prompt\nCLAUDE_VERBOSE=1 claude -p \"Show current directory structure\"\n\n# If still having issues, check the raw command\n$HOME/.claude/local/claude --verbose -p \"Test\"\n\n\n\n\n\nUse Claude for code review: Before major changes, have Claude analyze impact\nDocument patterns: When Claude identifies common patterns, document them\nShare insights: Team members should share useful Claude prompts\nIterative analysis: Start broad, then ask specific follow-up questions",
+    "text": "Claude Code integration helps you analyze and understand codebases using AI assistance. This is particularly useful when:\n\nUnderstanding how dependent projects use Nanobricks\nAnalyzing code patterns across multiple projects\n\nGetting recommendations for improvements\nUnderstanding complex code relationships\n\n\n\n\nSince Claude CLI installations vary across team members, run the setup helper first:\n# Check your Claude configuration\ntask workflow:claude:setup\n\n# Generate export command for your shell\ntask workflow:claude:setup:export\n\n\n\nEnvironment Variable (Recommended)\n# Add to ~/.zshrc or ~/.bashrc\nexport CLAUDE_PATH=\"/path/to/your/claude\"\nStandard Locations\n\n$HOME/.claude/local/claude\n/usr/local/bin/claude\n/opt/homebrew/bin/claude\n\nCreate Symlink\nsudo ln -s /actual/claude/path /usr/local/bin/claude\n\n\n\n\n\nClaude CLI supports a --verbose flag that provides detailed visibility into its operations. This is particularly valuable for debugging, learning, and performance optimization.\n\n\nYou have three options for enabling verbose mode:\n\nEnvironment VariableCommand Line FlagTask Variable\n\n\nSet CLAUDE_VERBOSE=1 to enable verbose mode for all Claude-related tasks:\n# Enable for your session\nexport CLAUDE_VERBOSE=1\ntask workflow:example:claude:hello\n\n# Or inline for a single command\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=nano-scorm\n\n\nWhen running Claude directly, use the --verbose flag:\nclaude --verbose -p \"Analyze this codebase\"\n\n\nSome tasks also respond to the generic VERBOSE variable:\nVERBOSE=1 task workflow:release:prepare\n\n\n\n\n\n\nWhen enabled, verbose mode displays:\n\nTool Executions: Every file read, edit, or command with parameters\nDecision Process: Claude’s reasoning for choosing specific approaches\nProgress Updates: Real-time status of long-running operations\nNetwork Activity: API communications (without sensitive data)\nTiming Information: Duration of each operation\nError Context: Full debugging information when issues occur\n\n\n\n\nWhen verbose mode is disabled, our tasks provide friendly progress indicators:\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\nThis keeps output clean while confirming Claude is working on your request.\n\n\n\n\nStandard OutputVerbose Output\n\n\n$ task workflow:example:claude:hello\n🤖 Claude is thinking...\n💡 Tip: Set CLAUDE_VERBOSE=1 to see detailed progress\n\nHello! Here's your repository status:\n\n- 15 modified files\n- Latest commit: \"Update documentation\"\n- All tests passing\n\n\n$ CLAUDE_VERBOSE=1 task workflow:example:claude:hello\n🔍 Running Claude in verbose mode...\n\n[DEBUG] Building context from /Users/you/project\n[INFO] Executing tool: git_status\n[DEBUG] Parameters: {\"show_untracked\": true}\n[INFO] Result: 15 files modified, 3 untracked\n[DEBUG] Execution time: 0.12s\n[INFO] Executing tool: git_log\n[DEBUG] Parameters: {\"limit\": 1}\n[INFO] Result: commit abc123...\n...\n\n\n\n\n\n\n\nDefault Off: Keep verbose mode disabled for normal operations\nDebugging: Enable when troubleshooting unexpected behavior\nLearning: Use verbose mode to understand Claude’s capabilities\nPerformance: Identify slow operations in complex workflows\nCI/CD: Consider logging verbose output for build debugging\n\n\n\n\n\nFrom the Nanobricks directory, analyze how dependents use your framework:\n# Analyze a specific dependent\ntask dev:claude:understand:dependent NAME=nano-scorm\n\n# Compare usage patterns across projects\ntask dev:claude:compare:usage PROJECTS=\"project1,project2,project3\"\n\n\n\nWhen working in a dependent project, understand the upstream framework:\n# From your project directory\ntask claude:understand:nanobricks\n\n\n\nIf Claude CLI isn’t available, generate prompts to copy/paste:\n# Generate analysis prompt for a dependent\ntask workflow:claude:prompt:dependent NAME=my-project\n\n# Generate Nanobricks understanding prompt\ntask workflow:claude:prompt:nanobricks\n\n\n\n\n\n# 1. Link the dependent project\ntask dev:project:link PATH=~/projects/new-dependent\n\n# 2. Have Claude analyze it\ntask dev:claude:understand:dependent NAME=new-dependent\n\n# 3. Get specific insights\nclaude -p \"What Nanobricks patterns does new-dependent use most?\"\n\n# 4. Debug if needed with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:understand:dependent NAME=new-dependent\n\n\n\n# Compare how different projects implement validators\ntask dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n# Ask specific questions\nclaude -p \"Compare how these projects implement data validation\"\n\n# Get detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task dev:claude:compare:usage PROJECTS=\"app1,app2,app3\"\n\n\n\n# Understand current usage before making changes\ntask dev:claude:understand:dependent NAME=critical-app\n\n# After making framework changes\nclaude -p \"How will my changes to Nanobricks affect critical-app?\"\n\n# Deep dive with verbose output\nCLAUDE_VERBOSE=1 claude -p \"Analyze breaking changes in detail\"\n\n\n\n# When Claude isn't working as expected, use verbose mode\nCLAUDE_VERBOSE=1 task workflow:example:claude:hello\n\n# Check your configuration\ntask workflow:claude:setup\n\n# Test with a simple prompt\nCLAUDE_VERBOSE=1 claude -p \"Show current directory structure\"\n\n# If still having issues, check the raw command\n$HOME/.claude/local/claude --verbose -p \"Test\"\n\n\n\n\n\nUse Claude for code review: Before major changes, have Claude analyze impact\nDocument patterns: When Claude identifies common patterns, document them\nShare insights: Team members should share useful Claude prompts\nIterative analysis: Start broad, then ask specific follow-up questions",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4251,6 +4339,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4263,6 +4352,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4271,10 +4361,11 @@
     "href": "developer-workflows.html#release-management",
     "title": "Developer Workflows Guide",
     "section": "",
-    "text": "This section describes our hybrid approach to release management that combines atomic tasks, workflow orchestration, and Claude Code integration for intelligent decision-making.\n\n\n\n\n\n\nNote\n\n\n\nClaude Setup Required: Before using release workflows with Claude integration, ensure Claude is configured by running task workflow:claude:setup. See the Claude Code Integration section for details.\n\n\n\n\nInstead of fully automating releases (which can be brittle) or keeping everything manual (which is error-prone), we use a semi-automated approach where:\n\nClaude Code acts as an intelligent assistant that analyzes your repository state and provides recommendations\nWorkflows orchestrate atomic tasks in a logical sequence\nHuman oversight remains at critical decision points\nRecovery mechanisms handle common mistakes gracefully\n\n\n\n\nThe release system uses a three-layer architecture:\nflowchart TD\n    A[Workflow Tasks] --&gt;|Orchestrates| B[Claude Code]\n    B --&gt;|Guides| C[Atomic Tasks]\n    \n    style A fill:#f9f,stroke:#333,stroke-width:4px\n    style B fill:#9ff,stroke:#333,stroke-width:4px\n    style C fill:#ff9,stroke:#333,stroke-width:4px\n\n\n\n\n\nLet Claude analyze your changes and recommend the appropriate version bump:\ntask workflow:release:prepare\n\n# For detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task workflow:release:prepare\nClaude will: - Analyze commit messages using conventional commit format - Identify breaking changes - Check for uncommitted files - Recommend patch/minor/major version bump\n\n\n\n\n\n\nTip\n\n\n\nDebugging Tip: If Claude’s recommendation seems incorrect, run with verbose mode to see the full analysis process and understand which commits led to the recommendation.\n\n\n\n\n\nRun comprehensive validation before creating a release:\ntask workflow:release:validate\n\n# See detailed validation steps\nCLAUDE_VERBOSE=1 task workflow:release:validate\nThis runs all tests, linting, documentation builds, and Claude’s pre-flight checks.\n\n\n\n\nThe main release workflow handles the entire process:\n# Based on Claude's recommendation\ntask workflow:release:create TYPE=patch\ntask workflow:release:create TYPE=minor\ntask workflow:release:create TYPE=major\n\n# Debug mode for troubleshooting\nCLAUDE_VERBOSE=1 task workflow:release:create TYPE=patch\nSteps performed: 1. Creates a rollback point 2. Bumps version 3. Generates changelog with Claude’s help 4. Commits changes 5. Creates tag 6. Prepares for publishing\n\n\n\nFinal step to push the release:\ntask workflow:release:publish\n\n# With verbose output to see pre-flight checks\nCLAUDE_VERBOSE=1 task workflow:release:publish\nThis includes: - Pre-flight checks with Claude - Confirmation prompt - Push to GitHub - Publish to PyPI\n\n\n\n\n\nWhen you’ve already tagged but forgot to include files:\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# See detailed recovery steps\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\nClaude will guide you through safely moving the tag to include the missing changes.\n\n\n\nIf something goes wrong:\ntask workflow:release:rollback\n\n# Verbose mode shows exactly what's being reverted\nCLAUDE_VERBOSE=1 task workflow:release:rollback\n\n\n\nCreate a patch release from an older version:\ntask workflow:release:hotfix BASE=v1.2.0\n\n# Debug the hotfix process\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.2.0\n\n\n\n\n\n\n# 1. Prepare and analyze\ntask workflow:release:prepare\n\n# 2. Validate everything is ready\ntask workflow:release:validate\n\n# 3. Create the release (e.g., minor)\ntask workflow:release:create TYPE=minor\n\n# 4. Review and edit CHANGELOG.md manually\n# ... make any necessary edits ...\n\n# 5. Publish when ready\ntask workflow:release:publish\n\n\n\n\n\n\nTip\n\n\n\nVerbose Mode Usage: Enable CLAUDE_VERBOSE=1 at any step to get detailed insights into what Claude is analyzing and recommending.\n\n\n\n\n\n# You released v1.2.3 but forgot to commit README.md\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# Claude guides you through:\n# 1. Creating a branch from the tag\n# 2. Adding the missing files\n# 3. Moving the tag safely\n# 4. Updating remote\n\n# If unsure about the process, use verbose mode:\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n# Current version is v2.0.0 but you need to fix v1.5.0\ntask workflow:release:hotfix BASE=v1.5.0\n\n# Creates v1.5.1 with only the critical fix\n\n# Debug complex branching scenarios\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.5.0\n\n\n\nWhen releases don’t go as expected:\n# Check Claude's detailed analysis\nCLAUDE_VERBOSE=1 task workflow:release:prepare\n\n# Understand why a version bump was recommended\nCLAUDE_VERBOSE=1 task workflow:release:analyze-commits\n\n# See full validation process\nCLAUDE_VERBOSE=1 task workflow:release:validate\n\n# Get step-by-step recovery guidance\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n\n\nAlways run release:prepare first to get Claude’s analysis\nReview generated changelogs before committing\nUse release:dry-run to practice without making changes\nKeep rollback files until the release is confirmed successful\nDocument breaking changes clearly in commit messages\n\n\n\n\nCheck release status:\ntask workflow:release:status\nView release history with insights:\ntask workflow:release:history\nSimulate a release without making changes:\ntask workflow:release:dry-run TYPE=patch\n\n\n\n\nPatch (0.1.0 → 0.1.1): Bug fixes, documentation\nMinor (0.1.0 → 0.2.0): New features, backwards compatible\nMajor (0.1.0 → 1.0.0): Breaking changes\n\n\n\n\nThe release workflows integrate with: - Conventional Commits: For determining version bumps - Semantic Versioning: For version numbering - GitHub Releases: For distribution - PyPI: For Python package distribution",
+    "text": "This section describes our hybrid approach to release management that combines atomic tasks, workflow orchestration, and Claude Code integration for intelligent decision-making.\n\n\n\n\n\n\nNote\n\n\n\nClaude Setup Required: Before using release workflows with Claude integration, ensure Claude is configured by running task workflow:claude:setup. See the Claude Code Integration section for details.\n\n\n\n\nInstead of fully automating releases (which can be brittle) or keeping everything manual (which is error-prone), we use a semi-automated approach where:\n\nClaude Code acts as an intelligent assistant that analyzes your repository state and provides recommendations\nWorkflows orchestrate atomic tasks in a logical sequence\nHuman oversight remains at critical decision points\nRecovery mechanisms handle common mistakes gracefully\n\n\n\n\nThe release system uses a three-layer architecture:\nflowchart TD\n    A[Workflow Tasks] --&gt;|Orchestrates| B[Claude Code]\n    B --&gt;|Guides| C[Atomic Tasks]\n    \n    style A fill:#f9f,stroke:#333,stroke-width:4px\n    style B fill:#9ff,stroke:#333,stroke-width:4px\n    style C fill:#ff9,stroke:#333,stroke-width:4px\n\n\n\n\n\nLet Claude analyze your changes and recommend the appropriate version bump:\ntask workflow:release:prepare\n\n# For detailed analysis with verbose mode\nCLAUDE_VERBOSE=1 task workflow:release:prepare\nClaude will:\n\nAnalyze commit messages using conventional commit format\nIdentify breaking changes\nCheck for uncommitted files\nRecommend patch/minor/major version bump\n\n\n\n\n\n\n\nTip\n\n\n\nDebugging Tip: If Claude’s recommendation seems incorrect, run with verbose mode to see the full analysis process and understand which commits led to the recommendation.\n\n\n\n\n\nRun comprehensive validation before creating a release:\ntask workflow:release:validate\n\n# See detailed validation steps\nCLAUDE_VERBOSE=1 task workflow:release:validate\nThis runs all tests, linting, documentation builds, and Claude’s pre-flight checks.\n\n\n\n\nThe main release workflow handles the entire process:\n# Based on Claude's recommendation\ntask workflow:release:create TYPE=patch\ntask workflow:release:create TYPE=minor\ntask workflow:release:create TYPE=major\n\n# Debug mode for troubleshooting\nCLAUDE_VERBOSE=1 task workflow:release:create TYPE=patch\nSteps performed: 1. Creates a rollback point 2. Bumps version 3. Generates changelog with Claude’s help 4. Commits changes 5. Creates tag 6. Prepares for publishing\n\n\n\nFinal step to push the release:\ntask workflow:release:publish\n\n# With verbose output to see pre-flight checks\nCLAUDE_VERBOSE=1 task workflow:release:publish\nThis includes:\n\nPre-flight checks with Claude\nConfirmation prompt\nPush to GitHub\nPublish to PyPI\n\n\n\n\n\n\nWhen you’ve already tagged but forgot to include files:\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# See detailed recovery steps\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\nClaude will guide you through safely moving the tag to include the missing changes.\n\n\n\nIf something goes wrong:\ntask workflow:release:rollback\n\n# Verbose mode shows exactly what's being reverted\nCLAUDE_VERBOSE=1 task workflow:release:rollback\n\n\n\nCreate a patch release from an older version:\ntask workflow:release:hotfix BASE=v1.2.0\n\n# Debug the hotfix process\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.2.0\n\n\n\n\n\n\n# 1. Prepare and analyze\ntask workflow:release:prepare\n\n# 2. Validate everything is ready\ntask workflow:release:validate\n\n# 3. Create the release (e.g., minor)\ntask workflow:release:create TYPE=minor\n\n# 4. Review and edit CHANGELOG.md manually\n# ... make any necessary edits ...\n\n# 5. Publish when ready\ntask workflow:release:publish\n\n\n\n\n\n\nTip\n\n\n\nVerbose Mode Usage: Enable CLAUDE_VERBOSE=1 at any step to get detailed insights into what Claude is analyzing and recommending.\n\n\n\n\n\n# You released v1.2.3 but forgot to commit README.md\ntask workflow:release:fix:forgotten TAG=v1.2.3\n\n# Claude guides you through:\n# 1. Creating a branch from the tag\n# 2. Adding the missing files\n# 3. Moving the tag safely\n# 4. Updating remote\n\n# If unsure about the process, use verbose mode:\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n# Current version is v2.0.0 but you need to fix v1.5.0\ntask workflow:release:hotfix BASE=v1.5.0\n\n# Creates v1.5.1 with only the critical fix\n\n# Debug complex branching scenarios\nCLAUDE_VERBOSE=1 task workflow:release:hotfix BASE=v1.5.0\n\n\n\nWhen releases don’t go as expected:\n# Check Claude's detailed analysis\nCLAUDE_VERBOSE=1 task workflow:release:prepare\n\n# Understand why a version bump was recommended\nCLAUDE_VERBOSE=1 task workflow:release:analyze-commits\n\n# See full validation process\nCLAUDE_VERBOSE=1 task workflow:release:validate\n\n# Get step-by-step recovery guidance\nCLAUDE_VERBOSE=1 task workflow:release:fix:forgotten TAG=v1.2.3\n\n\n\n\n\nAlways run release:prepare first to get Claude’s analysis\nReview generated changelogs before committing\nUse release:dry-run to practice without making changes\nKeep rollback files until the release is confirmed successful\nDocument breaking changes clearly in commit messages\n\n\n\n\nCheck release status:\ntask workflow:release:status\nView release history with insights:\ntask workflow:release:history\nSimulate a release without making changes:\ntask workflow:release:dry-run TYPE=patch\n\n\n\n\nPatch (0.1.0 → 0.1.1): Bug fixes, documentation\nMinor (0.1.0 → 0.2.0): New features, backwards compatible\nMajor (0.1.0 → 1.0.0): Breaking changes\n\n\n\n\nThe release workflows integrate with:\n\nConventional Commits: For determining version bumps\nSemantic Versioning: For version numbering\nGitHub Releases: For distribution\nPyPI: For Python package distribution",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4287,6 +4378,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4299,6 +4391,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4311,6 +4404,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4323,6 +4417,7 @@
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4331,10 +4426,11 @@
     "href": "developer-workflows.html#conclusion",
     "title": "Developer Workflows Guide",
     "section": "",
-    "text": "The Nanobricks task system is designed to make development workflows smooth and intuitive. By following these patterns and practices, you can maintain high code quality while moving fast.\nRemember: - Use the task system for all operations - Follow the naming conventions - Leverage watch modes for rapid development\n- Link projects for multi-project workflows - Run comprehensive checks before committing\nHappy coding with Nanobricks! 🚀",
+    "text": "The Nanobricks task system is designed to make development workflows smooth and intuitive. By following these patterns and practices, you can maintain high code quality while moving fast.\nRemember:\n\nUse the task system for all operations\nFollow the naming conventions\nLeverage watch modes for rapid development\n\nLink projects for multi-project workflows\nRun comprehensive checks before committing\n\nHappy coding with Nanobricks! 🚀",
     "crumbs": [
       "Home",
       "Getting Started",
+      "Development Setup",
       "Developer Workflows Guide"
     ]
   },
@@ -4753,6 +4849,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4765,6 +4862,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4777,6 +4875,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4789,6 +4888,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4801,6 +4901,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4813,6 +4914,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4825,6 +4927,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -4837,6 +4940,7 @@
     "crumbs": [
       "Home",
       "Core Concepts",
+      "Architecture & Design",
       "Design Philosophy"
     ]
   },
@@ -5835,5 +5939,178 @@
       "Claude Code",
       "Claude Code"
     ]
+  },
+  {
+    "objectID": "roadmap.html#version-reset-notice",
+    "href": "roadmap.html#version-reset-notice",
+    "title": "Nanobricks Roadmap",
+    "section": "",
+    "text": "Important: As of June 2025, we have reset our version numbering from v0.2.5 back to v0.1.0. This reflects:\n\nA shift from version-based to atomic commit-based development\nMore accurate representation of the framework’s maturity\nBetter alignment with semantic versioning principles\n\nAll functionality from previous versions (0.1.1 through 0.2.5) is included in the new v0.1.0 release.",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#development-philosophy",
+    "href": "roadmap.html#development-philosophy",
+    "title": "Nanobricks Roadmap",
+    "section": "Development Philosophy",
+    "text": "Development Philosophy\n\nFrom Versions to Atomic Commits\nInstead of planning large version releases, we now:\n\nUse atomic commits for each logical change\nLeverage git worktrees for parallel development\nFocus on continuous integration rather than release milestones\nMaintain semantic versioning for dependency management only\n\n\n\nAtomic Development Principles\n\nOne Feature = One Worktree: Each feature gets its own isolated workspace\nSmall, Focused Changes: Maximum 10 files per commit (warning at 7)\nComplete Units: Each commit includes implementation, tests, and docs\nRapid Integration: Merge within 48 hours to avoid conflicts",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#current-state-v0.1.0-reset",
+    "href": "roadmap.html#current-state-v0.1.0-reset",
+    "title": "Nanobricks Roadmap",
+    "section": "Current State: v0.1.0 (Reset)",
+    "text": "Current State: v0.1.0 (Reset)\n\nConsolidated Features\nThe current v0.1.0 includes all functionality previously released:\n\nCore Protocol: The Nanobrick[Input, Output] abstraction\nSkills System: The @skill decorator pattern for cross-cutting concerns\nComposition: Pipeline Builder API with &gt;&gt; operator\nType Safety: Generic typing with excellent IDE support\nAsync-First: Modern design for contemporary Python\nTask System: Comprehensive go-task based workflows\nAI Integration: Agentic documentation and bridge system\nDeveloper Tools: Scaffolding, debugging, and profiling\n\n\n\nWhat’s Working Well\n\nCore abstractions proven in production (nano-scorm project)\n~55% code reduction compared to manual implementation\n70% reduction in API boilerplate through skills\nStrong composition patterns for complex workflows\nExcellent AI-agent collaboration tools",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#active-development-areas",
+    "href": "roadmap.html#active-development-areas",
+    "title": "Nanobricks Roadmap",
+    "section": "Active Development Areas",
+    "text": "Active Development Areas\n\nImmediate Focus (Atomic Commits)\nThese areas are being developed through atomic commits:\n\n🔧 Core Improvements\n\nStandardize error handling patterns\nEnhance type inference for pipe operator\nOptimize async performance\nImprove protocol validation messages\n\n\n\n📚 Documentation\n\nExpand cookbook with real-world examples\nAdd troubleshooting guide\nCreate video tutorials\nImprove API reference\n\n\n\n🧰 Developer Experience\n\nEnhanced CLI scaffolding options\nBetter error messages with suggestions\nImproved debugging tools\nVS Code extension\n\n\n\n🔌 Standard Components\n\nCommon validators (email, URL, phone)\nFile processors (CSV, JSON, XML)\nHTTP client nanobrick\nDatabase connectors\n\n\n\n\nMedium-Term Goals\nThese represent larger efforts that may span multiple atomic commits:\n\nStream Processing\nclass StreamProcessor(NanobrickStream[bytes, ProcessedItem]):\n    async def invoke_stream(\n        self, \n        input_stream: AsyncIterator[bytes]\n    ) -&gt; AsyncIterator[ProcessedItem]:\n        async for chunk in input_stream:\n            yield await self.process_chunk(chunk)\n\n\nState Management\n\nPatterns for stateful nanobricks\nPersistence mechanisms\nDistributed state coordination\n\n\n\nPerformance Optimization\n\nZero-copy operations\nAutomatic parallelization\nMemory-efficient streaming",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#contributing-through-atomic-development",
+    "href": "roadmap.html#contributing-through-atomic-development",
+    "title": "Nanobricks Roadmap",
+    "section": "Contributing Through Atomic Development",
+    "text": "Contributing Through Atomic Development\n\nHow to Contribute\n\nIdentify a Focused Change: One bug fix, one feature, one improvement\nCreate a Worktree: task worktree:create FEATURE=your-feature\nMake Atomic Commits: Use task worktree:atomic:commit\nSubmit PR Quickly: Within 48 hours of starting\nIterate: Small changes compound into big improvements\n\n\n\nExample Atomic Contributions\n\nFix a specific error message\nAdd one new validator\nImprove one section of documentation\nOptimize a single function\nAdd a missing test case",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#future-version-planning",
+    "href": "roadmap.html#future-version-planning",
+    "title": "Nanobricks Roadmap",
+    "section": "Future Version Planning",
+    "text": "Future Version Planning\nWhile we embrace atomic development, we still plan feature sets that may warrant version bumps:\n\nVersion 0.2.x: Standard Patterns Library\nTheme: Common bricks to accelerate development\n\nCommon Validators: Email, URL, phone, regex, range validators\nCommon Transformers: JSON adapters, type converters, normalizers\nFile Processing Bricks: CSV, JSON, XML, YAML readers/writers\nHTTP Client Brick: Basic requests wrapper with retry logic\nData Manipulation: Filter, map, reduce, aggregate bricks\n\n\n\nVersion 0.3.x: Advanced Developer Experience\nTheme: Superior tooling and development workflow\n\nCLI Enhancements\n\nInteractive Scaffolding: nanobrick new --interactive\nProject Templates: Full application templates\nSkill Generation: nanobrick add-skill logging to retrofit existing bricks\n\n\n\nDevelopment Tools\n\nPipeline Visualizer: Generate diagrams from code\nPerformance Profiler: Identify bottlenecks in pipelines\nType Stub Generator: Better IDE support for dynamic features\nVS Code Extension: Snippets, navigation, and debugging support\n\n\n\n\nVersion 0.4.x: Comprehensive Standard Library\nTheme: Batteries-included ecosystem\n\nData Validation: Email, phone, URL, schema validators\nHTTP Operations: Request/response handling, retries, rate limiting\nDatabase Access: Connection pooling, query builders, ORMs\nFile Processing: CSV, JSON, XML, Excel readers/writers\nMessage Queues: Kafka, RabbitMQ, Redis pub/sub\nCaching: In-memory, Redis, distributed caches\n\n\n\nVersion 0.5.x: Advanced Features\nTheme: Production-scale capabilities\n\nStreaming Support\nclass StreamProcessor(NanobrickStream[bytes, ProcessedItem]):\n    async def invoke_stream(\n        self, \n        input_stream: AsyncIterator[bytes]\n    ) -&gt; AsyncIterator[ProcessedItem]:\n        async for chunk in input_stream:\n            yield await self.process_chunk(chunk)\n\n\nState Management\n\nStateful Bricks: Clear patterns for maintaining state\nState Persistence: Save/restore capabilities\nDistributed State: Coordination across instances\n\n\n\n\nVersion 1.0: Production Ready\nTheme: Enterprise-grade stability\n\nPerformance Optimizations\n\nZero-Copy Operations: Efficient data passing\nParallel Execution: Automatic parallelization where possible\nMemory Management: Streaming and chunking for large datasets\nProfiling Tools: Built-in performance monitoring\n\n\n\nObservability\n\nDistributed Tracing: Full OpenTelemetry integration\nMetrics Collection: Prometheus-compatible metrics\nHealth Checks: Standardized health/readiness probes\nDebugging Tools: Enhanced error messages and stack traces\n\n\n\nEnterprise Features\n\nSecurity: Sandboxing, permission models, audit trails\nCompliance: GDPR, SOC2, HIPAA helpers\nMulti-tenancy: Isolation and resource limits\nHigh Availability: Clustering and failover support",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#long-term-vision-post-1.0",
+    "href": "roadmap.html#long-term-vision-post-1.0",
+    "title": "Nanobricks Roadmap",
+    "section": "Long-Term Vision (Post-1.0)",
+    "text": "Long-Term Vision (Post-1.0)\n\nAI-Native Framework\n\nLLM Integration: First-class support for AI models\nPrompt Management: Version and test prompts\nRAG Pipelines: Built-in retrieval-augmented generation\nAgent Frameworks: Multi-agent orchestration\n\n\n\nDistributed Computing\n\nCluster Mode: Scale across multiple machines\nWorkflow Engine: Complex DAG execution\nEvent Sourcing: Built-in event store\nCQRS Support: Command/query separation\n\n\n\nLanguage Expansion\n\nType Hints: Full runtime validation with beartype\nRust Extensions: Performance-critical components\nWebAssembly: Run bricks in browsers\nCross-Language: Polyglot brick composition",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "roadmap.html#version-planning-philosophy",
+    "href": "roadmap.html#version-planning-philosophy",
+    "title": "Nanobricks Roadmap",
+    "section": "Version Planning Philosophy",
+    "text": "Version Planning Philosophy\nWe use a hybrid approach:\n\nAtomic Commits for day-to-day development\nVersion Milestones for major feature sets\nSemantic Versioning for dependency management\n\nThis provides: - Clear Communication: Users know what’s coming - Flexible Implementation: Features develop organically - Quality Focus: Ship when ready, not by deadline",
+    "crumbs": [
+      "Home",
+      "Evolution",
+      "Nanobricks Roadmap"
+    ]
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html",
+    "href": "advanced-topics/atomic-commits-overview.html",
+    "title": "Atomic Commits Overview",
+    "section": "",
+    "text": "An atomic commit represents a single, self-contained logical change to the codebase. Like atoms in chemistry, these commits are the smallest meaningful units of change that:\n\nDo one thing well: Each commit has a single, clear purpose\nStand alone: Can be understood without context from other commits\nAre reversible: Can be reverted without breaking unrelated functionality\nTell a story: Provide clear history of how the code evolved"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#what-are-atomic-commits",
+    "href": "advanced-topics/atomic-commits-overview.html#what-are-atomic-commits",
+    "title": "Atomic Commits Overview",
+    "section": "",
+    "text": "An atomic commit represents a single, self-contained logical change to the codebase. Like atoms in chemistry, these commits are the smallest meaningful units of change that:\n\nDo one thing well: Each commit has a single, clear purpose\nStand alone: Can be understood without context from other commits\nAre reversible: Can be reverted without breaking unrelated functionality\nTell a story: Provide clear history of how the code evolved"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#why-atomic-commits-matter",
+    "href": "advanced-topics/atomic-commits-overview.html#why-atomic-commits-matter",
+    "title": "Atomic Commits Overview",
+    "section": "Why Atomic Commits Matter",
+    "text": "Why Atomic Commits Matter\n\nFor Human Developers\n\nEasier debugging: git bisect works effectively to find bugs\nCleaner reviews: Reviewers can focus on one logical change at a time\nBetter collaboration: Team members understand changes quickly\nSafe rollbacks: Revert specific changes without side effects\n\n\n\nFor AI Agents\n\nClear context boundaries: AI processes one logical unit at a time\nReduced hallucinations: Focused changes prevent context mixing\nBetter suggestions: AI can build on well-structured history\nConsistent patterns: AI learns from clean commit examples"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#conventional-commits-format",
+    "href": "advanced-topics/atomic-commits-overview.html#conventional-commits-format",
+    "title": "Atomic Commits Overview",
+    "section": "Conventional Commits Format",
+    "text": "Conventional Commits Format\nNanobricks follows the Conventional Commits specification:\ntype(scope): description\n\n[optional body]\n\n[optional footer(s)]\n\nTypes\n\nfeat: New feature or capability\nfix: Bug fix\ndocs: Documentation changes only\nrefactor: Code restructuring without changing behavior\ntest: Adding or updating tests\nchore: Maintenance tasks (dependencies, config, etc.)\n\n\n\nExamples\nfeat(validator): add email validation to user input\nfix(pipeline): handle empty array in transformer\ndocs(api): update authentication examples\nrefactor(core): extract common validation logic\ntest(transformer): add edge case for null values\nchore(deps): update pytest to v7.4.0"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#quick-start",
+    "href": "advanced-topics/atomic-commits-overview.html#quick-start",
+    "title": "Atomic Commits Overview",
+    "section": "Quick Start",
+    "text": "Quick Start\n\n1. Analyze Your Changes\nAfter making changes, see how to split them atomically:\ntask atomic:analyze:changes\n\n\n2. Stage Related Changes\nUse interactive staging to select related changes:\ntask atomic:stage:interactive\n\n\n3. Create Atomic Commit\nGet help with conventional commit message:\ntask atomic:commit:guided\n\n\n4. Validate Your Work\nCheck if recent commits follow atomic principles:\ntask atomic:validate"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#best-practices",
+    "href": "advanced-topics/atomic-commits-overview.html#best-practices",
+    "title": "Atomic Commits Overview",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n✅ DO\n\nPlan your commits before implementing (use task atomic:plan:from:prd)\nKeep commits focused on one logical change\nWrite clear, descriptive commit messages\nTest before committing to ensure working state\nUse conventional commit format consistently\n\n\n\n❌ DON’T\n\nMix unrelated changes (e.g., bug fix + new feature)\nUse vague messages like “update files” or “fix stuff”\nCommit broken code or failing tests\nBundle multiple features in one commit\nUse “and” in commit messages (sign of multiple changes)"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#common-scenarios",
+    "href": "advanced-topics/atomic-commits-overview.html#common-scenarios",
+    "title": "Atomic Commits Overview",
+    "section": "Common Scenarios",
+    "text": "Common Scenarios\n\nFeature Development\n# Plan atomic commits from PRD\ntask atomic:plan:from:prd PRD=prds/new-feature.md\n\n# Implement with atomic commits\nfeat(auth): add user model schema\nfeat(auth): implement login endpoint\ntest(auth): add login endpoint tests\ndocs(auth): add API documentation\n\n\nBug Fixes\n# Reproduce bug and create test\ntest(validator): add failing test for edge case\n# Fix the bug\nfix(validator): handle null input correctly\n# Update documentation if needed\ndocs(validator): clarify null handling behavior\n\n\nRefactoring\n# Prepare with tests\ntest(pipeline): add tests for current behavior\n# Refactor in small steps\nrefactor(pipeline): extract common processor logic\nrefactor(pipeline): simplify error handling\n# Clean up\nchore(pipeline): remove deprecated methods"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#integration-with-ai-agents",
+    "href": "advanced-topics/atomic-commits-overview.html#integration-with-ai-agents",
+    "title": "Atomic Commits Overview",
+    "section": "Integration with AI Agents",
+    "text": "Integration with AI Agents\n\nClaude Code\nWhen using Claude Code, atomic commits help the AI:\n\nUnderstand project evolution clearly\nSuggest appropriate next steps\nGenerate better commit messages\nAvoid mixing unrelated changes\n\n\n\nCursor\nThe .cursor/rules/git_commit.mdc file ensures Cursor:\n\nCreates atomic commits automatically\nUses conventional commit format\nSplits complex changes appropriately\nUpdates todo lists after commits"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#tools-and-commands",
+    "href": "advanced-topics/atomic-commits-overview.html#tools-and-commands",
+    "title": "Atomic Commits Overview",
+    "section": "Tools and Commands",
+    "text": "Tools and Commands\n\nEssential Commands\n# Planning and analysis\ntask atomic:plan:from:prd PRD=path/to/prd.md\ntask atomic:analyze:changes\n\n# Committing workflow\ntask atomic:stage:interactive\ntask atomic:commit:guided\ntask atomic:validate\n\n# Advanced operations\ntask atomic:fix:amend\ntask atomic:rebase:split COMMIT=abc123\n\n# Monitoring\ntask atomic:stats\ntask atomic:metrics:dashboard\n\n\nPre-commit Hook\nInstall automatic validation:\ntask atomic:hook:install"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#next-steps",
+    "href": "advanced-topics/atomic-commits-overview.html#next-steps",
+    "title": "Atomic Commits Overview",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nReview the Atomic Commits Guide for detailed workflows\nCheck Atomic Commits Tools for setup instructions\nSee Developer Workflows for integration examples"
+  },
+  {
+    "objectID": "advanced-topics/atomic-commits-overview.html#resources",
+    "href": "advanced-topics/atomic-commits-overview.html#resources",
+    "title": "Atomic Commits Overview",
+    "section": "Resources",
+    "text": "Resources\n\nConventional Commits Specification\nGit Best Practices\nAtomic Commits Workshop"
   }
 ]

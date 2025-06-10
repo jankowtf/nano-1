@@ -672,92 +672,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#released-versions" id="toc-released-versions" class="nav-link" data-scroll-target="#released-versions">Released Versions</a></li>
-  <li><a href="#current-state-v0.2.3" id="toc-current-state-v0.2.3" class="nav-link" data-scroll-target="#current-state-v0.2.3">Current State: v0.2.3</a>
+  <li><a href="#version-reset-notice" id="toc-version-reset-notice" class="nav-link active" data-scroll-target="#version-reset-notice">Version Reset Notice</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#development-philosophy" id="toc-development-philosophy" class="nav-link" data-scroll-target="#development-philosophy">Development Philosophy</a>
   <ul class="collapse">
+  <li><a href="#from-versions-to-atomic-commits" id="toc-from-versions-to-atomic-commits" class="nav-link" data-scroll-target="#from-versions-to-atomic-commits">From Versions to Atomic Commits</a></li>
+  <li><a href="#atomic-development-principles" id="toc-atomic-development-principles" class="nav-link" data-scroll-target="#atomic-development-principles">Atomic Development Principles</a></li>
+  </ul></li>
+  <li><a href="#current-state-v0.1.0-reset" id="toc-current-state-v0.1.0-reset" class="nav-link" data-scroll-target="#current-state-v0.1.0-reset">Current State: v0.1.0 (Reset)</a>
+  <ul class="collapse">
+  <li><a href="#consolidated-features" id="toc-consolidated-features" class="nav-link" data-scroll-target="#consolidated-features">Consolidated Features</a></li>
   <li><a href="#whats-working-well" id="toc-whats-working-well" class="nav-link" data-scroll-target="#whats-working-well">What’s Working Well</a></li>
-  <li><a href="#key-achievements" id="toc-key-achievements" class="nav-link" data-scroll-target="#key-achievements">Key Achievements</a></li>
   </ul></li>
-  <li><a href="#immediate-priorities" id="toc-immediate-priorities" class="nav-link" data-scroll-target="#immediate-priorities">Immediate Priorities</a></li>
-  <li><a href="#version-0.1.1-documentation-examples" id="toc-version-0.1.1-documentation-examples" class="nav-link" data-scroll-target="#version-0.1.1-documentation-examples">Version 0.1.1: Documentation &amp; Examples ✅</a>
+  <li><a href="#active-development-areas" id="toc-active-development-areas" class="nav-link" data-scroll-target="#active-development-areas">Active Development Areas</a>
   <ul class="collapse">
-  <li><a href="#priority-documentation" id="toc-priority-documentation" class="nav-link" data-scroll-target="#priority-documentation">Priority Documentation</a></li>
+  <li><a href="#immediate-focus-atomic-commits" id="toc-immediate-focus-atomic-commits" class="nav-link" data-scroll-target="#immediate-focus-atomic-commits">Immediate Focus (Atomic Commits)</a></li>
+  <li><a href="#medium-term-goals" id="toc-medium-term-goals" class="nav-link" data-scroll-target="#medium-term-goals">Medium-Term Goals</a></li>
   </ul></li>
-  <li><a href="#version-0.1.2-type-improvements" id="toc-version-0.1.2-type-improvements" class="nav-link" data-scroll-target="#version-0.1.2-type-improvements">Version 0.1.2: Type Improvements ✅</a>
+  <li><a href="#contributing-through-atomic-development" id="toc-contributing-through-atomic-development" class="nav-link" data-scroll-target="#contributing-through-atomic-development">Contributing Through Atomic Development</a>
   <ul class="collapse">
-  <li><a href="#type-system-enhancements" id="toc-type-system-enhancements" class="nav-link" data-scroll-target="#type-system-enhancements">Type System Enhancements</a></li>
+  <li><a href="#how-to-contribute" id="toc-how-to-contribute" class="nav-link" data-scroll-target="#how-to-contribute">How to Contribute</a></li>
+  <li><a href="#example-atomic-contributions" id="toc-example-atomic-contributions" class="nav-link" data-scroll-target="#example-atomic-contributions">Example Atomic Contributions</a></li>
   </ul></li>
-  <li><a href="#version-0.1.3-core-api-refinement" id="toc-version-0.1.3-core-api-refinement" class="nav-link" data-scroll-target="#version-0.1.3-core-api-refinement">Version 0.1.3: Core API Refinement ✅</a>
+  <li><a href="#success-metrics" id="toc-success-metrics" class="nav-link" data-scroll-target="#success-metrics">Success Metrics</a></li>
+  <li><a href="#future-version-planning" id="toc-future-version-planning" class="nav-link" data-scroll-target="#future-version-planning">Future Version Planning</a>
   <ul class="collapse">
-  <li><a href="#api-improvements" id="toc-api-improvements" class="nav-link" data-scroll-target="#api-improvements">API Improvements</a></li>
-  <li><a href="#developer-experience" id="toc-developer-experience" class="nav-link" data-scroll-target="#developer-experience">Developer Experience</a></li>
+  <li><a href="#version-0.2.x-standard-patterns-library" id="toc-version-0.2.x-standard-patterns-library" class="nav-link" data-scroll-target="#version-0.2.x-standard-patterns-library">Version 0.2.x: Standard Patterns Library</a></li>
+  <li><a href="#version-0.3.x-advanced-developer-experience" id="toc-version-0.3.x-advanced-developer-experience" class="nav-link" data-scroll-target="#version-0.3.x-advanced-developer-experience">Version 0.3.x: Advanced Developer Experience</a></li>
+  <li><a href="#version-0.4.x-comprehensive-standard-library" id="toc-version-0.4.x-comprehensive-standard-library" class="nav-link" data-scroll-target="#version-0.4.x-comprehensive-standard-library">Version 0.4.x: Comprehensive Standard Library</a></li>
+  <li><a href="#version-0.5.x-advanced-features" id="toc-version-0.5.x-advanced-features" class="nav-link" data-scroll-target="#version-0.5.x-advanced-features">Version 0.5.x: Advanced Features</a></li>
+  <li><a href="#version-1.0-production-ready" id="toc-version-1.0-production-ready" class="nav-link" data-scroll-target="#version-1.0-production-ready">Version 1.0: Production Ready</a></li>
   </ul></li>
-  <li><a href="#version-0.2.0-composition-revolution" id="toc-version-0.2.0-composition-revolution" class="nav-link" data-scroll-target="#version-0.2.0-composition-revolution">Version 0.2.0: Composition Revolution ✅</a>
-  <ul class="collapse">
-  <li><a href="#what-was-delivered" id="toc-what-was-delivered" class="nav-link" data-scroll-target="#what-was-delivered">What Was Delivered</a></li>
-  <li><a href="#piping-strategy-hybrid-approach-with-operator" id="toc-piping-strategy-hybrid-approach-with-operator" class="nav-link" data-scroll-target="#piping-strategy-hybrid-approach-with-operator">Piping Strategy: Hybrid Approach with <code>&gt;&gt;</code> Operator</a></li>
-  <li><a href="#core-enhancements" id="toc-core-enhancements" class="nav-link" data-scroll-target="#core-enhancements">Core Enhancements</a></li>
-  </ul></li>
-  <li><a href="#version-0.2.1-developer-experience-improvements" id="toc-version-0.2.1-developer-experience-improvements" class="nav-link" data-scroll-target="#version-0.2.1-developer-experience-improvements">Version 0.2.1: Developer Experience Improvements ✅</a>
-  <ul class="collapse">
-  <li><a href="#what-was-delivered-1" id="toc-what-was-delivered-1" class="nav-link" data-scroll-target="#what-was-delivered-1">What Was Delivered</a></li>
-  <li><a href="#developer-workflow-enhancements" id="toc-developer-workflow-enhancements" class="nav-link" data-scroll-target="#developer-workflow-enhancements">Developer Workflow Enhancements</a></li>
-  </ul></li>
-  <li><a href="#version-0.2.2-task-system-organization" id="toc-version-0.2.2-task-system-organization" class="nav-link" data-scroll-target="#version-0.2.2-task-system-organization">Version 0.2.2: Task System Organization ✅</a>
-  <ul class="collapse">
-  <li><a href="#what-was-delivered-2" id="toc-what-was-delivered-2" class="nav-link" data-scroll-target="#what-was-delivered-2">What Was Delivered</a></li>
-  </ul></li>
-  <li><a href="#version-0.2.3-ai-first-documentation" id="toc-version-0.2.3-ai-first-documentation" class="nav-link" data-scroll-target="#version-0.2.3-ai-first-documentation">Version 0.2.3: AI-First Documentation ✅</a>
-  <ul class="collapse">
-  <li><a href="#what-was-delivered-3" id="toc-what-was-delivered-3" class="nav-link" data-scroll-target="#what-was-delivered-3">What Was Delivered</a></li>
-  </ul></li>
-  <li><a href="#version-0.3.x-standard-patterns-library" id="toc-version-0.3.x-standard-patterns-library" class="nav-link" data-scroll-target="#version-0.3.x-standard-patterns-library">Version 0.3.x: Standard Patterns Library</a>
-  <ul class="collapse">
-  <li><a href="#planned-features" id="toc-planned-features" class="nav-link" data-scroll-target="#planned-features">Planned Features</a></li>
-  </ul></li>
-  <li><a href="#version-0.4.x-advanced-developer-experience" id="toc-version-0.4.x-advanced-developer-experience" class="nav-link" data-scroll-target="#version-0.4.x-advanced-developer-experience">Version 0.4.x: Advanced Developer Experience</a>
-  <ul class="collapse">
-  <li><a href="#cli-enhancements" id="toc-cli-enhancements" class="nav-link" data-scroll-target="#cli-enhancements">CLI Enhancements</a></li>
-  <li><a href="#development-tools" id="toc-development-tools" class="nav-link" data-scroll-target="#development-tools">Development Tools</a></li>
-  <li><a href="#dependency-injection" id="toc-dependency-injection" class="nav-link" data-scroll-target="#dependency-injection">Dependency Injection</a></li>
-  </ul></li>
-  <li><a href="#version-0.5.x-comprehensive-standard-library" id="toc-version-0.5.x-comprehensive-standard-library" class="nav-link" data-scroll-target="#version-0.5.x-comprehensive-standard-library">Version 0.5.x: Comprehensive Standard Library</a>
-  <ul class="collapse">
-  <li><a href="#common-bricks-library" id="toc-common-bricks-library" class="nav-link" data-scroll-target="#common-bricks-library">Common Bricks Library</a></li>
-  <li><a href="#integration-patterns" id="toc-integration-patterns" class="nav-link" data-scroll-target="#integration-patterns">Integration Patterns</a></li>
-  </ul></li>
-  <li><a href="#version-0.6.x-advanced-features" id="toc-version-0.6.x-advanced-features" class="nav-link" data-scroll-target="#version-0.6.x-advanced-features">Version 0.6.x: Advanced Features</a>
-  <ul class="collapse">
-  <li><a href="#streaming-support" id="toc-streaming-support" class="nav-link" data-scroll-target="#streaming-support">Streaming Support</a></li>
-  <li><a href="#state-management" id="toc-state-management" class="nav-link" data-scroll-target="#state-management">State Management</a></li>
-  <li><a href="#resource-lifecycle" id="toc-resource-lifecycle" class="nav-link" data-scroll-target="#resource-lifecycle">Resource Lifecycle</a></li>
-  </ul></li>
-  <li><a href="#version-1.0-production-ready" id="toc-version-1.0-production-ready" class="nav-link" data-scroll-target="#version-1.0-production-ready">Version 1.0: Production Ready</a>
-  <ul class="collapse">
-  <li><a href="#performance-optimizations" id="toc-performance-optimizations" class="nav-link" data-scroll-target="#performance-optimizations">Performance Optimizations</a></li>
-  <li><a href="#observability" id="toc-observability" class="nav-link" data-scroll-target="#observability">Observability</a></li>
-  <li><a href="#enterprise-features" id="toc-enterprise-features" class="nav-link" data-scroll-target="#enterprise-features">Enterprise Features</a></li>
-  </ul></li>
-  <li><a href="#future-vision-post-1.0" id="toc-future-vision-post-1.0" class="nav-link" data-scroll-target="#future-vision-post-1.0">Future Vision (Post-1.0)</a>
+  <li><a href="#long-term-vision-post-1.0" id="toc-long-term-vision-post-1.0" class="nav-link" data-scroll-target="#long-term-vision-post-1.0">Long-Term Vision (Post-1.0)</a>
   <ul class="collapse">
   <li><a href="#ai-native-framework" id="toc-ai-native-framework" class="nav-link" data-scroll-target="#ai-native-framework">AI-Native Framework</a></li>
   <li><a href="#distributed-computing" id="toc-distributed-computing" class="nav-link" data-scroll-target="#distributed-computing">Distributed Computing</a></li>
   <li><a href="#language-expansion" id="toc-language-expansion" class="nav-link" data-scroll-target="#language-expansion">Language Expansion</a></li>
   </ul></li>
-  <li><a href="#community-ecosystem" id="toc-community-ecosystem" class="nav-link" data-scroll-target="#community-ecosystem">Community &amp; Ecosystem</a>
-  <ul class="collapse">
-  <li><a href="#governance" id="toc-governance" class="nav-link" data-scroll-target="#governance">Governance</a></li>
-  <li><a href="#ecosystem-growth" id="toc-ecosystem-growth" class="nav-link" data-scroll-target="#ecosystem-growth">Ecosystem Growth</a></li>
-  </ul></li>
-  <li><a href="#migration-strategy" id="toc-migration-strategy" class="nav-link" data-scroll-target="#migration-strategy">Migration Strategy</a>
-  <ul class="collapse">
-  <li><a href="#version-compatibility" id="toc-version-compatibility" class="nav-link" data-scroll-target="#version-compatibility">Version Compatibility</a></li>
-  <li><a href="#adoption-path" id="toc-adoption-path" class="nav-link" data-scroll-target="#adoption-path">Adoption Path</a></li>
   <li><a href="#version-planning-philosophy" id="toc-version-planning-philosophy" class="nav-link" data-scroll-target="#version-planning-philosophy">Version Planning Philosophy</a></li>
+  <li><a href="#getting-involved" id="toc-getting-involved" class="nav-link" data-scroll-target="#getting-involved">Getting Involved</a>
+  <ul class="collapse">
+  <li><a href="#for-users" id="toc-for-users" class="nav-link" data-scroll-target="#for-users">For Users</a></li>
+  <li><a href="#for-contributors" id="toc-for-contributors" class="nav-link" data-scroll-target="#for-contributors">For Contributors</a></li>
+  <li><a href="#for-maintainers" id="toc-for-maintainers" class="nav-link" data-scroll-target="#for-maintainers">For Maintainers</a></li>
   </ul></li>
-  <li><a href="#success-metrics" id="toc-success-metrics" class="nav-link" data-scroll-target="#success-metrics">Success Metrics</a></li>
-  <li><a href="#getting-involved" id="toc-getting-involved" class="nav-link" data-scroll-target="#getting-involved">Getting Involved</a></li>
   </ul>
 </nav>
     </div>
@@ -767,7 +725,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./roadmap.html">Evolution</a></li><li class="breadcrumb-item"><a href="./roadmap.html">Nanobricks Roadmap</a></li></ol></nav>
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Nanobricks Roadmap</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">From v0.1.0 to Production-Ready Framework</p>
+<p class="subtitle lead">Atomic Development Approach from v0.1.0</p>
 </div>
 
 
@@ -784,376 +742,182 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="version-reset-notice" class="level2">
+<h2 class="anchored" data-anchor-id="version-reset-notice">Version Reset Notice</h2>
+<p><strong>Important</strong>: As of June 2025, we have reset our version numbering from v0.2.5 back to v0.1.0. This reflects:</p>
+<ol type="1">
+<li>A shift from version-based to atomic commit-based development</li>
+<li>More accurate representation of the framework’s maturity</li>
+<li>Better alignment with semantic versioning principles</li>
+</ol>
+<p>All functionality from previous versions (0.1.1 through 0.2.5) is included in the new v0.1.0 release.</p>
+</section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework’s core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.</p>
+<p>This roadmap outlines our development approach using atomic commits and git worktrees rather than traditional version milestones. The framework’s core abstractions have proven solid through real-world usage, and we’re now focused on iterative improvements through focused, atomic changes.</p>
 </section>
-<section id="released-versions" class="level2">
-<h2 class="anchored" data-anchor-id="released-versions">Released Versions</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 32%">
-<col style="width: 16%">
-<col style="width: 30%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Version</th>
-<th>Release Date</th>
-<th>Theme</th>
-<th>Key Features</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>v0.1.0</td>
-<td>2025-01-06</td>
-<td>Initial Release</td>
-<td>Core protocol, async-first design, skills system, pipe operator (<code>|</code>)</td>
-</tr>
-<tr class="even">
-<td>v0.1.1</td>
-<td>2025-01-06</td>
-<td>Documentation &amp; Examples</td>
-<td>Cookbook section, testing patterns, roadmap documentation</td>
-</tr>
-<tr class="odd">
-<td>v0.1.2</td>
-<td>2025-01-06</td>
-<td>Type Improvements</td>
-<td>Type utilities, Result type, better error messages</td>
-</tr>
-<tr class="even">
-<td>v0.1.3</td>
-<td>2025-01-06</td>
-<td>Core API Refinement</td>
-<td>Renamed NanobrickSimple to Nanobrick, enhanced git integration</td>
-</tr>
-<tr class="odd">
-<td>v0.2.0</td>
-<td>2025-06-05</td>
-<td>Composition Revolution</td>
-<td>Pipeline Builder API, <code>&gt;&gt;</code> operator migration, test suite cleanup</td>
-</tr>
-<tr class="even">
-<td>v0.2.1</td>
-<td>2025-06-05</td>
-<td>Developer Experience</td>
-<td>Task namespace refactoring, improved symlink handling</td>
-</tr>
-<tr class="odd">
-<td>v0.2.2</td>
-<td>2025-06-05</td>
-<td>Task System &amp; Docs</td>
-<td>Taskfile organization, pipe operator migration completion</td>
-</tr>
-<tr class="even">
-<td>v0.2.3</td>
-<td>2025-06-06</td>
-<td>AI-First Documentation</td>
-<td>Agentic docs system, AI workflows, documentation restructuring</td>
-</tr>
-</tbody>
-</table>
+<section id="development-philosophy" class="level2">
+<h2 class="anchored" data-anchor-id="development-philosophy">Development Philosophy</h2>
+<section id="from-versions-to-atomic-commits" class="level3">
+<h3 class="anchored" data-anchor-id="from-versions-to-atomic-commits">From Versions to Atomic Commits</h3>
+<p>Instead of planning large version releases, we now:</p>
+<ul>
+<li>Use <strong>atomic commits</strong> for each logical change</li>
+<li>Leverage <strong>git worktrees</strong> for parallel development</li>
+<li>Focus on <strong>continuous integration</strong> rather than release milestones</li>
+<li>Maintain <strong>semantic versioning</strong> for dependency management only</li>
+</ul>
 </section>
-<section id="current-state-v0.2.3" class="level2">
-<h2 class="anchored" data-anchor-id="current-state-v0.2.3">Current State: v0.2.3</h2>
+<section id="atomic-development-principles" class="level3">
+<h3 class="anchored" data-anchor-id="atomic-development-principles">Atomic Development Principles</h3>
+<ol type="1">
+<li><strong>One Feature = One Worktree</strong>: Each feature gets its own isolated workspace</li>
+<li><strong>Small, Focused Changes</strong>: Maximum 10 files per commit (warning at 7)</li>
+<li><strong>Complete Units</strong>: Each commit includes implementation, tests, and docs</li>
+<li><strong>Rapid Integration</strong>: Merge within 48 hours to avoid conflicts</li>
+</ol>
+</section>
+</section>
+<section id="current-state-v0.1.0-reset" class="level2">
+<h2 class="anchored" data-anchor-id="current-state-v0.1.0-reset">Current State: v0.1.0 (Reset)</h2>
+<section id="consolidated-features" class="level3">
+<h3 class="anchored" data-anchor-id="consolidated-features">Consolidated Features</h3>
+<p>The current v0.1.0 includes all functionality previously released:</p>
+<ul>
+<li><strong>Core Protocol</strong>: The <code>Nanobrick[Input, Output]</code> abstraction</li>
+<li><strong>Skills System</strong>: The <code>@skill</code> decorator pattern for cross-cutting concerns</li>
+<li><strong>Composition</strong>: Pipeline Builder API with <code>&gt;&gt;</code> operator</li>
+<li><strong>Type Safety</strong>: Generic typing with excellent IDE support</li>
+<li><strong>Async-First</strong>: Modern design for contemporary Python</li>
+<li><strong>Task System</strong>: Comprehensive go-task based workflows</li>
+<li><strong>AI Integration</strong>: Agentic documentation and bridge system</li>
+<li><strong>Developer Tools</strong>: Scaffolding, debugging, and profiling</li>
+</ul>
+</section>
 <section id="whats-working-well" class="level3">
 <h3 class="anchored" data-anchor-id="whats-working-well">What’s Working Well</h3>
 <ul>
-<li><strong>Core Protocol</strong>: The <code>Nanobrick[Input, Output]</code> abstraction is intuitive and powerful</li>
-<li><strong>Skills System</strong>: The <code>@skill</code> decorator pattern for cross-cutting concerns is a major hit</li>
-<li><strong>Type Safety</strong>: Generic typing provides excellent IDE support and catch errors early</li>
-<li><strong>Async-First</strong>: Modern design that works well with contemporary Python patterns</li>
-</ul>
-</section>
-<section id="key-achievements" class="level3">
-<h3 class="anchored" data-anchor-id="key-achievements">Key Achievements</h3>
-<ul>
-<li>Successfully used to build production-grade applications (nano-scorm)</li>
+<li>Core abstractions proven in production (nano-scorm project)</li>
 <li>~55% code reduction compared to manual implementation</li>
-<li>70% reduction in API boilerplate through skills system</li>
-<li>Proven composition patterns for complex workflows</li>
+<li>70% reduction in API boilerplate through skills</li>
+<li>Strong composition patterns for complex workflows</li>
+<li>Excellent AI-agent collaboration tools</li>
 </ul>
 </section>
 </section>
-<section id="immediate-priorities" class="level2">
-<h2 class="anchored" data-anchor-id="immediate-priorities">Immediate Priorities</h2>
-<p>Based on real-world feedback, we’re taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.</p>
+<section id="active-development-areas" class="level2">
+<h2 class="anchored" data-anchor-id="active-development-areas">Active Development Areas</h2>
+<section id="immediate-focus-atomic-commits" class="level3">
+<h3 class="anchored" data-anchor-id="immediate-focus-atomic-commits">Immediate Focus (Atomic Commits)</h3>
+<p>These areas are being developed through atomic commits:</p>
+<section id="core-improvements" class="level4">
+<h4 class="anchored" data-anchor-id="core-improvements">🔧 Core Improvements</h4>
+<ul class="task-list">
+<li><label><input type="checkbox">Standardize error handling patterns</label></li>
+<li><label><input type="checkbox">Enhance type inference for pipe operator</label></li>
+<li><label><input type="checkbox">Optimize async performance</label></li>
+<li><label><input type="checkbox">Improve protocol validation messages</label></li>
+</ul>
 </section>
-<section id="version-0.1.1-documentation-examples" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.1.1-documentation-examples">Version 0.1.1: Documentation &amp; Examples ✅</h2>
-<p><strong>Status</strong>: Released 2025-01-06</p>
-<p><strong>Theme</strong>: Zero code changes, maximum clarity</p>
-<section id="priority-documentation" class="level3">
-<h3 class="anchored" data-anchor-id="priority-documentation">Priority Documentation</h3>
-<ul>
-<li><strong>Cookbook Examples</strong>: Step-by-step guides for common patterns</li>
-<li><strong>Dependency Injection Guide</strong>: Clear documentation on using the <code>deps</code> parameter</li>
-<li><strong>Error Handling Patterns</strong>: Best practices for exceptions vs Result types</li>
-<li><strong>Testing Patterns</strong>: How to test individual bricks and pipelines</li>
-<li><strong>Architecture Decision Guide</strong>: When to use composition vs inheritance</li>
+<section id="documentation" class="level4">
+<h4 class="anchored" data-anchor-id="documentation">📚 Documentation</h4>
+<ul class="task-list">
+<li><label><input type="checkbox">Expand cookbook with real-world examples</label></li>
+<li><label><input type="checkbox">Add troubleshooting guide</label></li>
+<li><label><input type="checkbox">Create video tutorials</label></li>
+<li><label><input type="checkbox">Improve API reference</label></li>
+</ul>
+</section>
+<section id="developer-experience" class="level4">
+<h4 class="anchored" data-anchor-id="developer-experience">🧰 Developer Experience</h4>
+<ul class="task-list">
+<li><label><input type="checkbox">Enhanced CLI scaffolding options</label></li>
+<li><label><input type="checkbox">Better error messages with suggestions</label></li>
+<li><label><input type="checkbox">Improved debugging tools</label></li>
+<li><label><input type="checkbox">VS Code extension</label></li>
+</ul>
+</section>
+<section id="standard-components" class="level4">
+<h4 class="anchored" data-anchor-id="standard-components">🔌 Standard Components</h4>
+<ul class="task-list">
+<li><label><input type="checkbox">Common validators (email, URL, phone)</label></li>
+<li><label><input type="checkbox">File processors (CSV, JSON, XML)</label></li>
+<li><label><input type="checkbox">HTTP client nanobrick</label></li>
+<li><label><input type="checkbox">Database connectors</label></li>
 </ul>
 </section>
 </section>
-<section id="version-0.1.2-type-improvements" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.1.2-type-improvements">Version 0.1.2: Type Improvements ✅</h2>
-<p><strong>Status</strong>: Released 2025-01-06</p>
-<p><strong>Theme</strong>: Backwards-compatible enhancements to reduce friction</p>
-<section id="type-system-enhancements" class="level3">
-<h3 class="anchored" data-anchor-id="type-system-enhancements">Type System Enhancements</h3>
+<section id="medium-term-goals" class="level3">
+<h3 class="anchored" data-anchor-id="medium-term-goals">Medium-Term Goals</h3>
+<p>These represent larger efforts that may span multiple atomic commits:</p>
+<section id="stream-processing" class="level4">
+<h4 class="anchored" data-anchor-id="stream-processing">Stream Processing</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="state-management" class="level4">
+<h4 class="anchored" data-anchor-id="state-management">State Management</h4>
 <ul>
-<li><strong>Type Adapter Utilities</strong>: Helper functions to adapt between mismatched types for pipe operator</li>
-<li><strong>Generic Result Type</strong>: Optional <code>Result[T, E]</code> import for standardized error handling</li>
-<li><strong>Better Error Messages</strong>: Improved type mismatch errors for pipe operator</li>
-<li><strong>Type Conversion Helpers</strong>: Common adapters for string↔︎dict, list↔︎tuple, etc.</li>
+<li>Patterns for stateful nanobricks</li>
+<li>Persistence mechanisms</li>
+<li>Distributed state coordination</li>
+</ul>
+</section>
+<section id="performance-optimization" class="level4">
+<h4 class="anchored" data-anchor-id="performance-optimization">Performance Optimization</h4>
+<ul>
+<li>Zero-copy operations</li>
+<li>Automatic parallelization</li>
+<li>Memory-efficient streaming</li>
 </ul>
 </section>
 </section>
-<section id="version-0.1.3-core-api-refinement" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.1.3-core-api-refinement">Version 0.1.3: Core API Refinement ✅</h2>
-<p><strong>Status</strong>: Released 2025-01-06</p>
-<p><strong>Theme</strong>: Simplify and clarify the core API based on user feedback</p>
-<section id="api-improvements" class="level3">
-<h3 class="anchored" data-anchor-id="api-improvements">API Improvements</h3>
-<ul>
-<li><strong>Rename <code>NanobrickSimple</code> to <code>Nanobrick</code></strong>: The “Simple” suffix is confusing since there’s no complex variant
-<ul>
-<li>Keep <code>NanobrickBase</code> as the abstract base class for advanced use cases</li>
-<li><code>Nanobrick</code> becomes the primary class for 99% of use cases</li>
-<li>Backwards compatible: <code>NanobrickSimple</code> remains as deprecated alias</li>
-</ul></li>
-<li><strong>Enhanced Git Integration</strong>: Smart git tasks with better commit messages
-<ul>
-<li><code>task version:release</code> for complete release workflow</li>
-<li>Auto-generated commit messages based on CHANGELOG entries</li>
-<li>Integrated version bumping, tagging, and pushing</li>
-</ul></li>
-<li><strong>Date Handling in Tasks</strong>: Use system date commands for accurate timestamps
-<ul>
-<li>Remove hardcoded dates from documentation</li>
-<li>Dynamic date generation in version tasks</li>
-</ul></li>
-</ul>
 </section>
-<section id="developer-experience" class="level3">
-<h3 class="anchored" data-anchor-id="developer-experience">Developer Experience</h3>
-<ul>
-<li><strong>Clearer Class Hierarchy</strong>:
-<ul>
-<li><code>Nanobrick[T_in, T_out]</code> - Primary class for stateless bricks (was NanobrickSimple)</li>
-<li><code>NanobrickBase[T_in, T_out, T_deps]</code> - Abstract base for advanced scenarios</li>
-<li><code>NanobrickProtocol</code> - Type checking protocol</li>
-</ul></li>
-<li><strong>Migration Tool</strong>: Script to automatically update imports from <code>NanobrickSimple</code> to <code>Nanobrick</code></li>
-<li><strong>Updated Examples</strong>: All documentation and examples use the new <code>Nanobrick</code> name</li>
-</ul>
-</section>
-</section>
-<section id="version-0.2.0-composition-revolution" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.2.0-composition-revolution">Version 0.2.0: Composition Revolution ✅</h2>
-<p><strong>Status</strong>: Released 2025-06-05</p>
-<p><strong>Theme</strong>: Address the #1 pain point - strict pipe operator type alignment</p>
-<section id="what-was-delivered" class="level3">
-<h3 class="anchored" data-anchor-id="what-was-delivered">What Was Delivered</h3>
+<section id="contributing-through-atomic-development" class="level2">
+<h2 class="anchored" data-anchor-id="contributing-through-atomic-development">Contributing Through Atomic Development</h2>
+<section id="how-to-contribute" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-contribute">How to Contribute</h3>
 <ol type="1">
-<li><strong>Pipeline Builder API</strong>: Fluent interface for complex compositions
-<ul>
-<li><code>Pipeline()</code> function with method chaining</li>
-<li><code>.branch()</code>, <code>.parallel()</code>, <code>.merge_with()</code> for advanced flows</li>
-<li><code>.catch_errors()</code> for error boundaries</li>
-<li><code>.adapt()</code> for type conversions</li>
-<li><code>.visualize()</code> and <code>.explain()</code> for debugging</li>
-</ul></li>
-<li><strong>Pipe Operator Migration</strong>: Changed from <code>|</code> to <code>&gt;&gt;</code>
-<ul>
-<li>More intuitive arrow syntax</li>
-<li>Backwards compatibility during transition</li>
-<li>Migration script included</li>
-</ul></li>
-<li><strong>Test Suite Alignment</strong>: Focused on simplicity
-<ul>
-<li>Removed tests for non-existent features</li>
-<li>All tests now passing</li>
-<li>Framework aligned with core philosophy</li>
-</ul></li>
+<li><strong>Identify a Focused Change</strong>: One bug fix, one feature, one improvement</li>
+<li><strong>Create a Worktree</strong>: <code>task worktree:create FEATURE=your-feature</code></li>
+<li><strong>Make Atomic Commits</strong>: Use <code>task worktree:atomic:commit</code></li>
+<li><strong>Submit PR Quickly</strong>: Within 48 hours of starting</li>
+<li><strong>Iterate</strong>: Small changes compound into big improvements</li>
 </ol>
 </section>
-<section id="piping-strategy-hybrid-approach-with-operator" class="level3">
-<h3 class="anchored" data-anchor-id="piping-strategy-hybrid-approach-with-operator">Piping Strategy: Hybrid Approach with <code>&gt;&gt;</code> Operator</h3>
-<p>After extensive analysis of piping approaches across languages (Elixir’s <code>|&gt;</code>, R’s <code>%&gt;%</code>, Rust discussions, Python libraries), we’ve decided on a hybrid approach that balances simplicity with power, using the <code>&gt;&gt;</code> (right shift) operator instead of <code>|</code>:</p>
-<section id="switch-from-to-for-simple-linear-pipelines" class="level4">
-<h4 class="anchored" data-anchor-id="switch-from-to-for-simple-linear-pipelines">1. <strong>Switch from <code>|</code> to <code>&gt;&gt;</code> for Simple Linear Pipelines</strong></h4>
+<section id="example-atomic-contributions" class="level3">
+<h3 class="anchored" data-anchor-id="example-atomic-contributions">Example Atomic Contributions</h3>
 <ul>
-<li><strong>Breaking Change</strong>: Moving from <code>|</code> to <code>&gt;&gt;</code> for clearer semantics</li>
-<li>Visual arrow metaphor (<code>&gt;&gt;</code>) better represents data flow</li>
-<li>Less conflict with bitwise OR operations</li>
-<li>Used by some functional Python libraries (e.g., fn.py)</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New elegant syntax with &gt;&gt; operator</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> LoadData() <span class="op">&gt;&gt;</span> ValidateSchema() <span class="op">&gt;&gt;</span> TransformFields() <span class="op">&gt;&gt;</span> SaveOutput()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Migration from v0.1.x:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Old (v0.1.x)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># New (v0.2.0)</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="add-pipeline-builder-for-advanced-patterns" class="level4">
-<h4 class="anchored" data-anchor-id="add-pipeline-builder-for-advanced-patterns">2. <strong>Add Pipeline Builder for Advanced Patterns</strong></h4>
-<ul>
-<li>Fluent interface for complex compositions</li>
-<li>Solves type alignment issues with explicit adapters</li>
-<li>Enables branching, merging, and error handling</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># New Pipeline builder for advanced cases</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Pipeline()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    .start_with(Parser())</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    .adapt(string_to_dict)  <span class="co"># Explicit type adapter</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    .branch(</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"email"</span>, EmailValidator() <span class="op">&gt;&gt;</span> EmailFormatter()),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"phone"</span>, PhoneValidator() <span class="op">&gt;&gt;</span> PhoneFormatter()),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"default"</span>, PassthroughValidator())</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    .merge_with(CombineResults())</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    .catch_errors(ErrorHandler())</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    .build()</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="why-over" class="level4">
-<h4 class="anchored" data-anchor-id="why-over">3. <strong>Why <code>&gt;&gt;</code> Over <code>|</code>?</strong></h4>
-<p><strong>Advantages of <code>&gt;&gt;</code>:</strong> - <strong>Visual Clarity</strong>: Arrow metaphor (<code>&gt;&gt;</code>) clearly shows data flow direction - <strong>Semantic Alignment</strong>: Better represents “pipe forward” concept - <strong>Less Ambiguity</strong>: <code>|</code> often means “OR” in many contexts - <strong>Precedence Benefits</strong>: Right shift has different precedence than bitwise OR</p>
-<p><strong>Migration Support:</strong> - Automated migration script to convert existing code - Deprecation period with warnings for <code>|</code> usage - Clear documentation and examples</p>
-</section>
-<section id="why-this-hybrid-approach" class="level4">
-<h4 class="anchored" data-anchor-id="why-this-hybrid-approach">4. <strong>Why This Hybrid Approach?</strong></h4>
-<p><strong>Pros:</strong> - <strong>Clear Semantics</strong>: <code>&gt;&gt;</code> operator is more intuitive for piping - <strong>Progressive Complexity</strong>: Simple cases stay simple with <code>&gt;&gt;</code> - <strong>Type Safety</strong>: Explicit adapters in Pipeline builder - <strong>IDE Friendly</strong>: Methods are discoverable and documented - <strong>No Conflicts</strong>: Methods don’t clash with operators - <strong>Familiar Patterns</strong>: Similar to functional programming languages</p>
-<p><strong>Cons Addressed:</strong> - Breaking change mitigated by migration tools - Verbosity mitigated by keeping operator syntax for simple cases - Complexity isolated to advanced use cases only</p>
-</section>
-</section>
-<section id="core-enhancements" class="level3">
-<h3 class="anchored" data-anchor-id="core-enhancements">Core Enhancements</h3>
-<ul>
-<li><p><strong>Automatic Type Adapters</strong>: Smart conversion between compatible types</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatically insert adapters when possible</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>LoadJSON() <span class="op">&gt;&gt;</span> ProcessDict()  <span class="co"># Auto-inserts string_to_dict adapter</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Pipeline Debugging</strong>: Visualize and debug compositions</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pipeline.visualize()  <span class="co"># Shows flow diagram</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pipeline.explain()    <span class="co"># Details type transformations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p><strong>Parallel/Branch Support</strong>: Built-in fan-out/fan-in patterns</p></li>
-<li><p><strong>Error Boundaries</strong>: Explicit error handling without breaking the pipeline</p></li>
+<li>Fix a specific error message</li>
+<li>Add one new validator</li>
+<li>Improve one section of documentation</li>
+<li>Optimize a single function</li>
+<li>Add a missing test case</li>
 </ul>
 </section>
 </section>
-<section id="version-0.2.1-developer-experience-improvements" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.2.1-developer-experience-improvements">Version 0.2.1: Developer Experience Improvements ✅</h2>
-<p><strong>Status</strong>: Released 2025-06-05</p>
-<p><strong>Theme</strong>: Enhanced developer workflow and better Claude Code integration</p>
-<section id="what-was-delivered-1" class="level3">
-<h3 class="anchored" data-anchor-id="what-was-delivered-1">What Was Delivered</h3>
-<ol type="1">
-<li><strong>Task System Namespace Refactoring</strong>
+<section id="success-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="success-metrics">Success Metrics</h2>
+<p>Rather than version-based goals, we measure:</p>
 <ul>
-<li>Changed from <code>project:*</code> to <code>dev:*</code> namespace for consistency</li>
-<li>All project management tasks now under unified <code>dev:</code> prefix</li>
-<li>Improved task discoverability and organization</li>
-</ul></li>
-<li><strong>Improved Symbolic Link Handling</strong>
-<ul>
-<li>Refactored symlink creation to use absolute paths</li>
-<li>Better compatibility with Claude Code’s file referencing</li>
-<li>Enhanced logging showing both source and resolved paths</li>
-<li>Added verification step for symlink creation</li>
-</ul></li>
-<li><strong>Documentation Updates</strong>
-<ul>
-<li>Updated all task references to use new <code>dev:</code> namespace</li>
-<li>Added README for dependents directory explaining symlink structure</li>
-<li>Improved clarity in task documentation</li>
-</ul></li>
-</ol>
-</section>
-<section id="developer-workflow-enhancements" class="level3">
-<h3 class="anchored" data-anchor-id="developer-workflow-enhancements">Developer Workflow Enhancements</h3>
-<ul>
-<li><strong>Absolute Path Resolution</strong>: All symlinks now use absolute paths for consistency</li>
-<li><strong>Better Error Messages</strong>: Clear feedback when symlink operations fail</li>
-<li><strong>Enhanced Git Integration</strong>: Proper .gitignore entries for dependent projects</li>
+<li><strong>Integration Velocity</strong>: Time from commit to main branch</li>
+<li><strong>Atomic Commit Quality</strong>: Completeness and focus of changes</li>
+<li><strong>Conflict Rate</strong>: Percentage of PRs with merge conflicts</li>
+<li><strong>Community Engagement</strong>: Number of atomic contributions</li>
+<li><strong>User Satisfaction</strong>: Feedback on incremental improvements</li>
 </ul>
 </section>
-</section>
-<section id="version-0.2.2-task-system-organization" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.2.2-task-system-organization">Version 0.2.2: Task System Organization ✅</h2>
-<p><strong>Status</strong>: Released 2025-06-05</p>
-<p><strong>Theme</strong>: Better task organization and documentation consistency</p>
-<section id="what-was-delivered-2" class="level3">
-<h3 class="anchored" data-anchor-id="what-was-delivered-2">What Was Delivered</h3>
-<ol type="1">
-<li><strong>Task System Restructuring</strong>
-<ul>
-<li>Moved all Taskfile*.yml to taskfiles/ directory</li>
-<li>Created scripts/ directory structure</li>
-<li>Extracted common Claude CLI discovery logic</li>
-<li>Applied DRY principles across taskfiles</li>
-</ul></li>
-<li><strong>Documentation Consistency</strong>
-<ul>
-<li>Completed migration from <code>|</code> to <code>&gt;&gt;</code> operator</li>
-<li>Fixed method references and cookbook examples</li>
-<li>Ensured all code examples use current API</li>
-</ul></li>
-<li><strong>Enhanced Claude Integration</strong>
-<ul>
-<li>Verbose mode support with CLAUDE_VERBOSE=1</li>
-<li>Progress indicators for non-verbose mode</li>
-<li>Better error messages and setup documentation</li>
-</ul></li>
-</ol>
-</section>
-</section>
-<section id="version-0.2.3-ai-first-documentation" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.2.3-ai-first-documentation">Version 0.2.3: AI-First Documentation ✅</h2>
-<p><strong>Status</strong>: Released 2025-06-06</p>
-<p><strong>Theme</strong>: Revolutionary agentic documentation for AI developers</p>
-<section id="what-was-delivered-3" class="level3">
-<h3 class="anchored" data-anchor-id="what-was-delivered-3">What Was Delivered</h3>
-<ol type="1">
-<li><strong>AI-First Documentation System</strong>
-<ul>
-<li>Created docs/agentic/ directory with specialized formats</li>
-<li>Implemented llms.txt standard for AI discovery</li>
-<li>Added executable contracts and JSON-LD knowledge graphs</li>
-<li>Built comprehensive task registry and tool definitions</li>
-</ul></li>
-<li><strong>Agentic Task Workflows</strong>
-<ul>
-<li>Added Taskfile.agentic.yml with validation and sync tasks</li>
-<li>Automated context generation from code</li>
-<li>Version management for agentic documentation</li>
-<li>CI/CD integration for validation</li>
-</ul></li>
-<li><strong>Documentation Bridge System</strong>
-<ul>
-<li>Context injection for Quarto documents</li>
-<li>AI-specific CSS classes for visual differentiation</li>
-<li>Dual-mode documentation supporting both audiences</li>
-</ul></li>
-<li><strong>Documentation Restructuring</strong>
-<ul>
-<li>Reordered sections for better flow</li>
-<li>Consolidated Evolution section with nested subsections</li>
-<li>Fixed markdown formatting across 36 files</li>
-</ul></li>
-</ol>
-</section>
-</section>
-<section id="version-0.3.x-standard-patterns-library" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.3.x-standard-patterns-library">Version 0.3.x: Standard Patterns Library</h2>
+<section id="future-version-planning" class="level2">
+<h2 class="anchored" data-anchor-id="future-version-planning">Future Version Planning</h2>
+<p>While we embrace atomic development, we still plan feature sets that may warrant version bumps:</p>
+<section id="version-0.2.x-standard-patterns-library" class="level3">
+<h3 class="anchored" data-anchor-id="version-0.2.x-standard-patterns-library">Version 0.2.x: Standard Patterns Library</h3>
 <p><strong>Theme</strong>: Common bricks to accelerate development</p>
-<section id="planned-features" class="level3">
-<h3 class="anchored" data-anchor-id="planned-features">Planned Features</h3>
 <ul>
 <li><strong>Common Validators</strong>: Email, URL, phone, regex, range validators</li>
 <li><strong>Common Transformers</strong>: JSON adapters, type converters, normalizers</li>
@@ -1161,22 +925,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>HTTP Client Brick</strong>: Basic requests wrapper with retry logic</li>
 <li><strong>Data Manipulation</strong>: Filter, map, reduce, aggregate bricks</li>
 </ul>
-<p><em>Note: This release focuses on providing a comprehensive set of pre-built nanobricks that cover common use cases, reducing the need for developers to build these from scratch.</em></p>
 </section>
-</section>
-<section id="version-0.4.x-advanced-developer-experience" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.4.x-advanced-developer-experience">Version 0.4.x: Advanced Developer Experience</h2>
+<section id="version-0.3.x-advanced-developer-experience" class="level3">
+<h3 class="anchored" data-anchor-id="version-0.3.x-advanced-developer-experience">Version 0.3.x: Advanced Developer Experience</h3>
 <p><strong>Theme</strong>: Superior tooling and development workflow</p>
-<section id="cli-enhancements" class="level3">
-<h3 class="anchored" data-anchor-id="cli-enhancements">CLI Enhancements</h3>
+<section id="cli-enhancements" class="level4">
+<h4 class="anchored" data-anchor-id="cli-enhancements">CLI Enhancements</h4>
 <ul>
 <li><strong>Interactive Scaffolding</strong>: <code>nanobrick new --interactive</code></li>
-<li><strong>Project Templates</strong>: Full application templates (API service, data processor, etc.)</li>
+<li><strong>Project Templates</strong>: Full application templates</li>
 <li><strong>Skill Generation</strong>: <code>nanobrick add-skill logging</code> to retrofit existing bricks</li>
 </ul>
 </section>
-<section id="development-tools" class="level3">
-<h3 class="anchored" data-anchor-id="development-tools">Development Tools</h3>
+<section id="development-tools" class="level4">
+<h4 class="anchored" data-anchor-id="development-tools">Development Tools</h4>
 <ul>
 <li><strong>Pipeline Visualizer</strong>: Generate diagrams from code</li>
 <li><strong>Performance Profiler</strong>: Identify bottlenecks in pipelines</li>
@@ -1184,21 +946,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>VS Code Extension</strong>: Snippets, navigation, and debugging support</li>
 </ul>
 </section>
-<section id="dependency-injection" class="level3">
-<h3 class="anchored" data-anchor-id="dependency-injection">Dependency Injection</h3>
-<ul>
-<li><strong>Clear Patterns</strong>: Documentation and examples for the <code>deps</code> parameter</li>
-<li><strong>Service Registry</strong>: Built-in IoC container for shared resources</li>
-<li><strong>Configuration Injection</strong>: Standardized config management</li>
-<li><strong>Testing Utilities</strong>: Mock injectors for unit tests</li>
-</ul>
 </section>
-</section>
-<section id="version-0.5.x-comprehensive-standard-library" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.5.x-comprehensive-standard-library">Version 0.5.x: Comprehensive Standard Library</h2>
+<section id="version-0.4.x-comprehensive-standard-library" class="level3">
+<h3 class="anchored" data-anchor-id="version-0.4.x-comprehensive-standard-library">Version 0.4.x: Comprehensive Standard Library</h3>
 <p><strong>Theme</strong>: Batteries-included ecosystem</p>
-<section id="common-bricks-library" class="level3">
-<h3 class="anchored" data-anchor-id="common-bricks-library">Common Bricks Library</h3>
 <ul>
 <li><strong>Data Validation</strong>: Email, phone, URL, schema validators</li>
 <li><strong>HTTP Operations</strong>: Request/response handling, retries, rate limiting</li>
@@ -1208,51 +959,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Caching</strong>: In-memory, Redis, distributed caches</li>
 </ul>
 </section>
-<section id="integration-patterns" class="level3">
-<h3 class="anchored" data-anchor-id="integration-patterns">Integration Patterns</h3>
-<ul>
-<li><strong>Third-party Libraries</strong>: Adapters for popular packages</li>
-<li><strong>Framework Bridges</strong>: Integration with FastAPI, Django, Flask</li>
-<li><strong>Cloud Services</strong>: AWS, GCP, Azure service bricks</li>
-</ul>
-</section>
-</section>
-<section id="version-0.6.x-advanced-features" class="level2">
-<h2 class="anchored" data-anchor-id="version-0.6.x-advanced-features">Version 0.6.x: Advanced Features</h2>
+<section id="version-0.5.x-advanced-features" class="level3">
+<h3 class="anchored" data-anchor-id="version-0.5.x-advanced-features">Version 0.5.x: Advanced Features</h3>
 <p><strong>Theme</strong>: Production-scale capabilities</p>
-<section id="streaming-support" class="level3">
-<h3 class="anchored" data-anchor-id="streaming-support">Streaming Support</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="streaming-support" class="level4">
+<h4 class="anchored" data-anchor-id="streaming-support">Streaming Support</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="state-management" class="level3">
-<h3 class="anchored" data-anchor-id="state-management">State Management</h3>
+<section id="state-management-1" class="level4">
+<h4 class="anchored" data-anchor-id="state-management-1">State Management</h4>
 <ul>
 <li><strong>Stateful Bricks</strong>: Clear patterns for maintaining state</li>
 <li><strong>State Persistence</strong>: Save/restore capabilities</li>
 <li><strong>Distributed State</strong>: Coordination across instances</li>
 </ul>
 </section>
-<section id="resource-lifecycle" class="level3">
-<h3 class="anchored" data-anchor-id="resource-lifecycle">Resource Lifecycle</h3>
-<ul>
-<li><strong>Setup/Teardown Hooks</strong>: Manage expensive resources</li>
-<li><strong>Connection Pooling</strong>: Built-in resource pools</li>
-<li><strong>Graceful Shutdown</strong>: Proper cleanup on termination</li>
-</ul>
 </section>
-</section>
-<section id="version-1.0-production-ready" class="level2">
-<h2 class="anchored" data-anchor-id="version-1.0-production-ready">Version 1.0: Production Ready</h2>
+<section id="version-1.0-production-ready" class="level3">
+<h3 class="anchored" data-anchor-id="version-1.0-production-ready">Version 1.0: Production Ready</h3>
 <p><strong>Theme</strong>: Enterprise-grade stability</p>
-<p><em>Note: The 1.0 release will mark API stability and production readiness. The exact version progression (0.7.x, 0.8.x, etc.) leading to 1.0 will depend on feature completeness and community feedback.</em></p>
-<section id="performance-optimizations" class="level3">
-<h3 class="anchored" data-anchor-id="performance-optimizations">Performance Optimizations</h3>
+<section id="performance-optimizations" class="level4">
+<h4 class="anchored" data-anchor-id="performance-optimizations">Performance Optimizations</h4>
 <ul>
 <li><strong>Zero-Copy Operations</strong>: Efficient data passing</li>
 <li><strong>Parallel Execution</strong>: Automatic parallelization where possible</li>
@@ -1260,8 +993,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Profiling Tools</strong>: Built-in performance monitoring</li>
 </ul>
 </section>
-<section id="observability" class="level3">
-<h3 class="anchored" data-anchor-id="observability">Observability</h3>
+<section id="observability" class="level4">
+<h4 class="anchored" data-anchor-id="observability">Observability</h4>
 <ul>
 <li><strong>Distributed Tracing</strong>: Full OpenTelemetry integration</li>
 <li><strong>Metrics Collection</strong>: Prometheus-compatible metrics</li>
@@ -1269,8 +1002,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Debugging Tools</strong>: Enhanced error messages and stack traces</li>
 </ul>
 </section>
-<section id="enterprise-features" class="level3">
-<h3 class="anchored" data-anchor-id="enterprise-features">Enterprise Features</h3>
+<section id="enterprise-features" class="level4">
+<h4 class="anchored" data-anchor-id="enterprise-features">Enterprise Features</h4>
 <ul>
 <li><strong>Security</strong>: Sandboxing, permission models, audit trails</li>
 <li><strong>Compliance</strong>: GDPR, SOC2, HIPAA helpers</li>
@@ -1279,9 +1012,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="future-vision-post-1.0" class="level2">
-<h2 class="anchored" data-anchor-id="future-vision-post-1.0">Future Vision (Post-1.0)</h2>
-<p><em>These features represent our long-term vision. Version numbers will be assigned as we approach implementation.</em></p>
+</section>
+<section id="long-term-vision-post-1.0" class="level2">
+<h2 class="anchored" data-anchor-id="long-term-vision-post-1.0">Long-Term Vision (Post-1.0)</h2>
 <section id="ai-native-framework" class="level3">
 <h3 class="anchored" data-anchor-id="ai-native-framework">AI-Native Framework</h3>
 <ul>
@@ -1310,90 +1043,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="community-ecosystem" class="level2">
-<h2 class="anchored" data-anchor-id="community-ecosystem">Community &amp; Ecosystem</h2>
-<section id="governance" class="level3">
-<h3 class="anchored" data-anchor-id="governance">Governance</h3>
-<ul>
-<li><strong>RFC Process</strong>: Community-driven feature development</li>
-<li><strong>Stability Guarantee</strong>: Clear deprecation policies</li>
-<li><strong>Security Process</strong>: Vulnerability disclosure and fixes</li>
-<li><strong>Release Cadence</strong>: Predictable release schedule</li>
-</ul>
-</section>
-<section id="ecosystem-growth" class="level3">
-<h3 class="anchored" data-anchor-id="ecosystem-growth">Ecosystem Growth</h3>
-<ul>
-<li><strong>Plugin Registry</strong>: Discover and share bricks</li>
-<li><strong>Certification Program</strong>: Quality standards for third-party bricks</li>
-<li><strong>Corporate Sponsors</strong>: Sustainable development funding</li>
-<li><strong>Academic Partnerships</strong>: Research and education</li>
-</ul>
-</section>
-</section>
-<section id="migration-strategy" class="level2">
-<h2 class="anchored" data-anchor-id="migration-strategy">Migration Strategy</h2>
-<section id="version-compatibility" class="level3">
-<h3 class="anchored" data-anchor-id="version-compatibility">Version Compatibility</h3>
-<ul>
-<li><strong>Semantic Versioning</strong>: Strict adherence to SemVer</li>
-<li><strong>Deprecation Warnings</strong>: Two minor versions before removal</li>
-<li><strong>Migration Tools</strong>: Automated upgrades where possible</li>
-<li><strong>Compatibility Layer</strong>: Support for older brick versions</li>
-</ul>
-</section>
-<section id="adoption-path" class="level3">
-<h3 class="anchored" data-anchor-id="adoption-path">Adoption Path</h3>
+<section id="version-planning-philosophy" class="level2">
+<h2 class="anchored" data-anchor-id="version-planning-philosophy">Version Planning Philosophy</h2>
+<p>We use a hybrid approach:</p>
 <ol type="1">
-<li><strong>Early Adopters</strong> (now - v0.2.x): Feedback and iteration</li>
-<li><strong>Production Users</strong> (v0.3.x+): Stable core with growing standard library</li>
-<li><strong>Enterprise</strong> (v0.5.x+): Advanced features and production support</li>
-<li><strong>Mainstream</strong> (v1.0+): Mature ecosystem with API stability guarantee</li>
+<li><strong>Atomic Commits</strong> for day-to-day development</li>
+<li><strong>Version Milestones</strong> for major feature sets</li>
+<li><strong>Semantic Versioning</strong> for dependency management</li>
 </ol>
-</section>
-<section id="version-planning-philosophy" class="level3">
-<h3 class="anchored" data-anchor-id="version-planning-philosophy">Version Planning Philosophy</h3>
-<p>Starting with v0.2.1, we’re adopting a more flexible approach to version planning:</p>
-<ul>
-<li><strong>Feature-Driven Releases</strong>: Version numbers assigned when features are ready</li>
-<li><strong>No Fixed Timeline</strong>: Quality and completeness over arbitrary deadlines<br>
-</li>
-<li><strong>Community Input</strong>: Feature prioritization based on user feedback</li>
-<li><strong>Semantic Versioning</strong>: Strict adherence to SemVer principles</li>
-<li><strong>.x Notation</strong>: Future versions use .x to indicate flexibility in exact numbering</li>
-</ul>
-<p>This approach provides:</p>
-<ul>
-<li><strong>Signal of Intent</strong>: Clear indication of planned features and their themes</li>
-<li><strong>Implementation Flexibility</strong>: Freedom to adjust based on real-world needs</li>
-<li><strong>Quality Focus</strong>: Features ship when they’re ready, not when scheduled</li>
-</ul>
-</section>
-</section>
-<section id="success-metrics" class="level2">
-<h2 class="anchored" data-anchor-id="success-metrics">Success Metrics</h2>
-<ul>
-<li><strong>Developer Satisfaction</strong>: &gt;4.5/5 in surveys</li>
-<li><strong>Adoption</strong>: 10k+ GitHub stars, 100k+ monthly downloads</li>
-<li><strong>Performance</strong>: &lt;1% overhead vs hand-written code</li>
-<li><strong>Reliability</strong>: 99.99% uptime in production deployments</li>
-<li><strong>Community</strong>: 100+ contributors, 1000+ third-party bricks</li>
-</ul>
+<p>This provides: - <strong>Clear Communication</strong>: Users know what’s coming - <strong>Flexible Implementation</strong>: Features develop organically - <strong>Quality Focus</strong>: Ship when ready, not by deadline</p>
 </section>
 <section id="getting-involved" class="level2">
 <h2 class="anchored" data-anchor-id="getting-involved">Getting Involved</h2>
+<section id="for-users" class="level3">
+<h3 class="anchored" data-anchor-id="for-users">For Users</h3>
 <ul>
-<li><strong>GitHub Discussions</strong>: Share ideas and feedback</li>
-<li><strong>RFC Process</strong>: Propose new features</li>
-<li><strong>Contributing</strong>: Code, documentation, examples</li>
-<li><strong>Sponsorship</strong>: Support sustainable development</li>
+<li>Test atomic changes in your projects</li>
+<li>Provide feedback on specific improvements</li>
+<li>Report bugs with reproducible examples</li>
+<li>Suggest focused enhancements</li>
+</ul>
+</section>
+<section id="for-contributors" class="level3">
+<h3 class="anchored" data-anchor-id="for-contributors">For Contributors</h3>
+<ul>
+<li>Pick an atomic task from GitHub issues</li>
+<li>Create focused PRs that do one thing well</li>
+<li>Review others’ atomic commits</li>
+<li>Help maintain documentation</li>
+</ul>
+</section>
+<section id="for-maintainers" class="level3">
+<h3 class="anchored" data-anchor-id="for-maintainers">For Maintainers</h3>
+<ul>
+<li>Guide atomic development direction</li>
+<li>Ensure quality standards</li>
+<li>Coordinate parallel efforts</li>
+<li>Foster community growth</li>
 </ul>
 <hr>
-<p><em>This roadmap is a living document. We’ll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!</em></p>
+<p><em>This roadmap is a living document updated through atomic commits. Each contribution shapes the future of nanobricks!</em></p>
 
 
 <!-- -->
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1847,506 +1541,286 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Nanobricks Roadmap"</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "From v0.1.0 to Production-Ready Framework"</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>This roadmap synthesizes feedback from real-world usage of nanobricks (particularly from the nano-scorm project) and outlines our path forward. The framework's core abstractions have proven solid, but we need to reduce friction and provide clearer guidance for common patterns.</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Released Versions</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Version <span class="pp">|</span> Release Date <span class="pp">|</span> Theme <span class="pp">|</span> Key Features <span class="pp">|</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|--------------|-------|-------------|</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.1.0  <span class="pp">|</span> 2025-01-06   <span class="pp">|</span> Initial Release <span class="pp">|</span> Core protocol, async-first design, skills system, pipe operator (<span class="in">`|`</span>) <span class="pp">|</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.1.1  <span class="pp">|</span> 2025-01-06   <span class="pp">|</span> Documentation &amp; Examples <span class="pp">|</span> Cookbook section, testing patterns, roadmap documentation <span class="pp">|</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.1.2  <span class="pp">|</span> 2025-01-06   <span class="pp">|</span> Type Improvements <span class="pp">|</span> Type utilities, Result type, better error messages <span class="pp">|</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.1.3  <span class="pp">|</span> 2025-01-06   <span class="pp">|</span> Core API Refinement <span class="pp">|</span> Renamed NanobrickSimple to Nanobrick, enhanced git integration <span class="pp">|</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.2.0  <span class="pp">|</span> 2025-06-05   <span class="pp">|</span> Composition Revolution <span class="pp">|</span> Pipeline Builder API, <span class="in">`&gt;&gt;`</span> operator migration, test suite cleanup <span class="pp">|</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.2.1  <span class="pp">|</span> 2025-06-05   <span class="pp">|</span> Developer Experience <span class="pp">|</span> Task namespace refactoring, improved symlink handling <span class="pp">|</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.2.2  <span class="pp">|</span> 2025-06-05   <span class="pp">|</span> Task System &amp; Docs <span class="pp">|</span> Taskfile organization, pipe operator migration completion <span class="pp">|</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> v0.2.3  <span class="pp">|</span> 2025-06-06   <span class="pp">|</span> AI-First Documentation <span class="pp">|</span> Agentic docs system, AI workflows, documentation restructuring <span class="pp">|</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Current State: v0.2.3</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### What's Working Well</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Core Protocol**: The <span class="in">`Nanobrick[Input, Output]`</span> abstraction is intuitive and powerful</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skills System**: The <span class="in">`@skill`</span> decorator pattern for cross-cutting concerns is a major hit</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Safety**: Generic typing provides excellent IDE support and catch errors early</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Async-First**: Modern design that works well with contemporary Python patterns</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Achievements</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Successfully used to build production-grade applications (nano-scorm)</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>~55% code reduction compared to manual implementation</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>70% reduction in API boilerplate through skills system</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Proven composition patterns for complex workflows</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Immediate Priorities</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>Based on real-world feedback, we're taking a pragmatic approach with patch releases for backwards-compatible improvements before major feature additions.</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.1.1: Documentation &amp; Examples ✅</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-01-06</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>**Theme**: Zero code changes, maximum clarity</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="fu">### Priority Documentation</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cookbook Examples**: Step-by-step guides for common patterns</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Dependency Injection Guide**: Clear documentation on using the <span class="in">`deps`</span> parameter</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error Handling Patterns**: Best practices for exceptions vs Result types</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Testing Patterns**: How to test individual bricks and pipelines</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Architecture Decision Guide**: When to use composition vs inheritance</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.1.2: Type Improvements ✅</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-01-06</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>**Theme**: Backwards-compatible enhancements to reduce friction</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="fu">### Type System Enhancements</span></span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Adapter Utilities**: Helper functions to adapt between mismatched types for pipe operator</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Generic Result Type**: Optional <span class="in">`Result[T, E]`</span> import for standardized error handling</span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Better Error Messages**: Improved type mismatch errors for pipe operator</span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Conversion Helpers**: Common adapters for string↔dict, list↔tuple, etc.</span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.1.3: Core API Refinement ✅</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-01-06</span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>**Theme**: Simplify and clarify the core API based on user feedback</span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="fu">### API Improvements</span></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rename `NanobrickSimple` to `Nanobrick`**: The "Simple" suffix is confusing since there's no complex variant</span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Keep <span class="in">`NanobrickBase`</span> as the abstract base class for advanced use cases</span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`Nanobrick`</span> becomes the primary class for 99% of use cases</span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Backwards compatible: <span class="in">`NanobrickSimple`</span> remains as deprecated alias</span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Enhanced Git Integration**: Smart git tasks with better commit messages</span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`task version:release`</span> for complete release workflow</span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Auto-generated commit messages based on CHANGELOG entries</span>
-<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Integrated version bumping, tagging, and pushing</span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Date Handling in Tasks**: Use system date commands for accurate timestamps</span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Remove hardcoded dates from documentation</span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Dynamic date generation in version tasks</span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Developer Experience</span></span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clearer Class Hierarchy**: </span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`Nanobrick[T_in, T_out]`</span> - Primary class for stateless bricks (was NanobrickSimple)</span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`NanobrickBase[T_in, T_out, T_deps]`</span> - Abstract base for advanced scenarios</span>
-<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`NanobrickProtocol`</span> - Type checking protocol</span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Migration Tool**: Script to automatically update imports from <span class="in">`NanobrickSimple`</span> to <span class="in">`Nanobrick`</span></span>
-<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Updated Examples**: All documentation and examples use the new <span class="in">`Nanobrick`</span> name</span>
-<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.0: Composition Revolution ✅</span></span>
-<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-06-05</span>
-<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>**Theme**: Address the #1 pain point - strict pipe operator type alignment</span>
-<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Was Delivered</span></span>
-<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Pipeline Builder API**: Fluent interface for complex compositions</span>
-<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`Pipeline()`</span> function with method chaining</span>
-<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`.branch()`</span>, <span class="in">`.parallel()`</span>, <span class="in">`.merge_with()`</span> for advanced flows</span>
-<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`.catch_errors()`</span> for error boundaries</span>
-<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`.adapt()`</span> for type conversions</span>
-<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span><span class="in">`.visualize()`</span> and <span class="in">`.explain()`</span> for debugging</span>
-<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Pipe Operator Migration**: Changed from <span class="in">`|`</span> to <span class="in">`&gt;&gt;`</span></span>
-<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>More intuitive arrow syntax</span>
-<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Backwards compatibility during transition</span>
-<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Migration script included</span>
-<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Test Suite Alignment**: Focused on simplicity</span>
-<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Removed tests for non-existent features</span>
-<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>All tests now passing</span>
-<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Framework aligned with core philosophy</span>
-<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="fu">### Piping Strategy: Hybrid Approach with `&gt;&gt;` Operator</span></span>
-<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>After extensive analysis of piping approaches across languages (Elixir's <span class="in">`|&gt;`</span>, R's <span class="in">`%&gt;%`</span>, Rust discussions, Python libraries), we've decided on a hybrid approach that balances simplicity with power, using the <span class="in">`&gt;&gt;`</span> (right shift) operator instead of <span class="in">`|`</span>:</span>
-<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 1. **Switch from `|` to `&gt;&gt;` for Simple Linear Pipelines**</span></span>
-<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Breaking Change**: Moving from <span class="in">`|`</span> to <span class="in">`&gt;&gt;`</span> for clearer semantics</span>
-<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Visual arrow metaphor (<span class="in">`&gt;&gt;`</span>) better represents data flow</span>
-<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Less conflict with bitwise OR operations</span>
-<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Used by some functional Python libraries (e.g., fn.py)</span>
-<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co"># New elegant syntax with &gt;&gt; operator</span></span>
-<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> LoadData() <span class="op">&gt;&gt;</span> ValidateSchema() <span class="op">&gt;&gt;</span> TransformFields() <span class="op">&gt;&gt;</span> SaveOutput()</span>
-<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>**Migration from v0.1.x:**</span>
-<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Old (v0.1.x)</span></span>
-<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>
-<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a><span class="co"># New (v0.2.0)</span></span>
-<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> Parser() <span class="op">&gt;&gt;</span> Validator() <span class="op">&gt;&gt;</span> Formatter()</span>
-<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 2. **Add Pipeline Builder for Advanced Patterns**</span></span>
-<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fluent interface for complex compositions</span>
-<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Solves type alignment issues with explicit adapters</span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Enables branching, merging, and error handling</span>
-<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a><span class="co"># New Pipeline builder for advanced cases</span></span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> (</span>
-<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>    Pipeline()</span>
-<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>    .start_with(Parser())</span>
-<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>    .adapt(string_to_dict)  <span class="co"># Explicit type adapter</span></span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>    .branch(</span>
-<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"email"</span>, EmailValidator() <span class="op">&gt;&gt;</span> EmailFormatter()),</span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"phone"</span>, PhoneValidator() <span class="op">&gt;&gt;</span> PhoneFormatter()),</span>
-<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>        (<span class="st">"default"</span>, PassthroughValidator())</span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>    .merge_with(CombineResults())</span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>    .catch_errors(ErrorHandler())</span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>    .build()</span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 3. **Why `&gt;&gt;` Over `|`?**</span></span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>**Advantages of `&gt;&gt;`:**</span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Visual Clarity**: Arrow metaphor (<span class="in">`&gt;&gt;`</span>) clearly shows data flow direction</span>
-<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Semantic Alignment**: Better represents "pipe forward" concept</span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Less Ambiguity**: <span class="in">`|`</span> often means "OR" in many contexts</span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Precedence Benefits**: Right shift has different precedence than bitwise OR</span>
-<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>**Migration Support:**</span>
-<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Automated migration script to convert existing code</span>
-<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Deprecation period with warnings for <span class="in">`|`</span> usage</span>
-<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Clear documentation and examples</span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 4. **Why This Hybrid Approach?**</span></span>
-<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>**Pros:**</span>
-<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clear Semantics**: <span class="in">`&gt;&gt;`</span> operator is more intuitive for piping</span>
-<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Progressive Complexity**: Simple cases stay simple with <span class="in">`&gt;&gt;`</span></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Safety**: Explicit adapters in Pipeline builder</span>
-<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**IDE Friendly**: Methods are discoverable and documented</span>
-<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No Conflicts**: Methods don't clash with operators</span>
-<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Familiar Patterns**: Similar to functional programming languages</span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>**Cons Addressed:**</span>
-<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Breaking change mitigated by migration tools</span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Verbosity mitigated by keeping operator syntax for simple cases</span>
-<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Complexity isolated to advanced use cases only</span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="fu">### Core Enhancements</span></span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Automatic Type Adapters**: Smart conversion between compatible types</span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>  <span class="in">```python</span></span>
-<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Automatically insert adapters when possible</span></span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>  LoadJSON() <span class="op">&gt;&gt;</span> ProcessDict()  <span class="co"># Auto-inserts string_to_dict adapter</span></span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>  <span class="in">```</span></span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pipeline Debugging**: Visualize and debug compositions</span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>  <span class="in">```python</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>  pipeline.visualize()  <span class="co"># Shows flow diagram</span></span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>  pipeline.explain()    <span class="co"># Details type transformations</span></span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>  <span class="in">```</span></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel/Branch Support**: Built-in fan-out/fan-in patterns</span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Error Boundaries**: Explicit error handling without breaking the pipeline</span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.1: Developer Experience Improvements ✅</span></span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-06-05</span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>**Theme**: Enhanced developer workflow and better Claude Code integration</span>
-<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Was Delivered</span></span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Task System Namespace Refactoring**</span>
-<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Changed from <span class="in">`project:*`</span> to <span class="in">`dev:*`</span> namespace for consistency</span>
-<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>All project management tasks now under unified <span class="in">`dev:`</span> prefix</span>
-<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Improved task discoverability and organization</span>
-<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Improved Symbolic Link Handling**</span>
-<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Refactored symlink creation to use absolute paths</span>
-<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Better compatibility with Claude Code's file referencing</span>
-<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Enhanced logging showing both source and resolved paths</span>
-<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Added verification step for symlink creation</span>
-<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Documentation Updates**</span>
-<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Updated all task references to use new <span class="in">`dev:`</span> namespace</span>
-<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Added README for dependents directory explaining symlink structure</span>
-<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Improved clarity in task documentation</span>
-<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### Developer Workflow Enhancements</span></span>
-<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Absolute Path Resolution**: All symlinks now use absolute paths for consistency</span>
-<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Better Error Messages**: Clear feedback when symlink operations fail</span>
-<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Enhanced Git Integration**: Proper .gitignore entries for dependent projects</span>
-<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.2: Task System Organization ✅</span></span>
-<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-06-05</span>
-<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>**Theme**: Better task organization and documentation consistency</span>
-<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Was Delivered</span></span>
-<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Task System Restructuring**</span>
-<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Moved all Taskfile*.yml to taskfiles/ directory</span>
-<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Created scripts/ directory structure</span>
-<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Extracted common Claude CLI discovery logic</span>
-<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Applied DRY principles across taskfiles</span>
-<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Documentation Consistency**</span>
-<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Completed migration from <span class="in">`|`</span> to <span class="in">`&gt;&gt;`</span> operator</span>
-<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Fixed method references and cookbook examples</span>
-<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Ensured all code examples use current API</span>
-<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Enhanced Claude Integration**</span>
-<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Verbose mode support with CLAUDE_VERBOSE=1</span>
-<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Progress indicators for non-verbose mode</span>
-<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Better error messages and setup documentation</span>
-<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.2.3: AI-First Documentation ✅</span></span>
-<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>**Status**: Released 2025-06-06</span>
-<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>**Theme**: Revolutionary agentic documentation for AI developers</span>
-<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### What Was Delivered</span></span>
-<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**AI-First Documentation System**</span>
-<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Created docs/agentic/ directory with specialized formats</span>
-<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Implemented llms.txt standard for AI discovery</span>
-<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Added executable contracts and JSON-LD knowledge graphs</span>
-<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Built comprehensive task registry and tool definitions</span>
-<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Agentic Task Workflows**</span>
-<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Added Taskfile.agentic.yml with validation and sync tasks</span>
-<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Automated context generation from code</span>
-<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Version management for agentic documentation</span>
-<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>CI/CD integration for validation</span>
-<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Documentation Bridge System**</span>
-<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Context injection for Quarto documents</span>
-<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>AI-specific CSS classes for visual differentiation</span>
-<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Dual-mode documentation supporting both audiences</span>
-<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Documentation Restructuring**</span>
-<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Reordered sections for better flow</span>
-<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Consolidated Evolution section with nested subsections</span>
-<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Fixed markdown formatting across 36 files</span>
-<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.3.x: Standard Patterns Library</span></span>
-<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a>**Theme**: Common bricks to accelerate development</span>
-<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planned Features</span></span>
-<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Validators**: Email, URL, phone, regex, range validators</span>
-<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Transformers**: JSON adapters, type converters, normalizers</span>
-<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing Bricks**: CSV, JSON, XML, YAML readers/writers</span>
-<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Client Brick**: Basic requests wrapper with retry logic</span>
-<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Manipulation**: Filter, map, reduce, aggregate bricks</span>
-<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a>*Note: This release focuses on providing a comprehensive set of pre-built nanobricks that cover common use cases, reducing the need for developers to build these from scratch.*</span>
-<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.4.x: Advanced Developer Experience</span></span>
-<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a>**Theme**: Superior tooling and development workflow</span>
-<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="fu">### CLI Enhancements</span></span>
-<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interactive Scaffolding**: <span class="in">`nanobrick new --interactive`</span></span>
-<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Project Templates**: Full application templates (API service, data processor, etc.)</span>
-<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skill Generation**: <span class="in">`nanobrick add-skill logging`</span> to retrofit existing bricks</span>
-<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="fu">### Development Tools</span></span>
-<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pipeline Visualizer**: Generate diagrams from code</span>
-<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Performance Profiler**: Identify bottlenecks in pipelines</span>
-<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Stub Generator**: Better IDE support for dynamic features</span>
-<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**VS Code Extension**: Snippets, navigation, and debugging support</span>
-<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dependency Injection</span></span>
-<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clear Patterns**: Documentation and examples for the <span class="in">`deps`</span> parameter</span>
-<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Service Registry**: Built-in IoC container for shared resources</span>
-<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Configuration Injection**: Standardized config management</span>
-<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Testing Utilities**: Mock injectors for unit tests</span>
-<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.5.x: Comprehensive Standard Library</span></span>
-<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>**Theme**: Batteries-included ecosystem</span>
-<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="fu">### Common Bricks Library</span></span>
-<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Validation**: Email, phone, URL, schema validators</span>
-<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Operations**: Request/response handling, retries, rate limiting</span>
-<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Database Access**: Connection pooling, query builders, ORMs</span>
-<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing**: CSV, JSON, XML, Excel readers/writers</span>
-<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Message Queues**: Kafka, RabbitMQ, Redis pub/sub</span>
-<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Caching**: In-memory, Redis, distributed caches</span>
-<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a><span class="fu">### Integration Patterns</span></span>
-<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Third-party Libraries**: Adapters for popular packages</span>
-<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Framework Bridges**: Integration with FastAPI, Django, Flask</span>
-<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cloud Services**: AWS, GCP, Azure service bricks</span>
-<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 0.6.x: Advanced Features</span></span>
-<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a>**Theme**: Production-scale capabilities</span>
-<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a><span class="fu">### Streaming Support</span></span>
-<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
-<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
-<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
-<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
-<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
-<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
-<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span>
-<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a><span class="fu">### State Management</span></span>
-<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stateful Bricks**: Clear patterns for maintaining state</span>
-<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**State Persistence**: Save/restore capabilities</span>
-<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed State**: Coordination across instances</span>
-<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a><span class="fu">### Resource Lifecycle</span></span>
-<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Setup/Teardown Hooks**: Manage expensive resources</span>
-<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Connection Pooling**: Built-in resource pools</span>
-<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Graceful Shutdown**: Proper cleanup on termination</span>
-<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version 1.0: Production Ready</span></span>
-<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a>**Theme**: Enterprise-grade stability</span>
-<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a>*Note: The 1.0 release will mark API stability and production readiness. The exact version progression (0.7.x, 0.8.x, etc.) leading to 1.0 will depend on feature completeness and community feedback.*</span>
-<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a><span class="fu">### Performance Optimizations</span></span>
-<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Zero-Copy Operations**: Efficient data passing</span>
-<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel Execution**: Automatic parallelization where possible</span>
-<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Memory Management**: Streaming and chunking for large datasets</span>
-<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Profiling Tools**: Built-in performance monitoring</span>
-<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a><span class="fu">### Observability</span></span>
-<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed Tracing**: Full OpenTelemetry integration</span>
-<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Metrics Collection**: Prometheus-compatible metrics</span>
-<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Health Checks**: Standardized health/readiness probes</span>
-<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Debugging Tools**: Enhanced error messages and stack traces</span>
-<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a><span class="fu">### Enterprise Features</span></span>
-<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security**: Sandboxing, permission models, audit trails</span>
-<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Compliance**: GDPR, SOC2, HIPAA helpers</span>
-<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multi-tenancy**: Isolation and resource limits</span>
-<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**High Availability**: Clustering and failover support</span>
-<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a><span class="fu">## Future Vision (Post-1.0)</span></span>
-<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a>*These features represent our long-term vision. Version numbers will be assigned as we approach implementation.*</span>
-<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Native Framework</span></span>
-<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LLM Integration**: First-class support for AI models</span>
-<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prompt Management**: Version and test prompts</span>
-<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG Pipelines**: Built-in retrieval-augmented generation</span>
-<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Frameworks**: Multi-agent orchestration</span>
-<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distributed Computing</span></span>
-<span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cluster Mode**: Scale across multiple machines</span>
-<span id="cb7-423"><a href="#cb7-423" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Workflow Engine**: Complex DAG execution</span>
-<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Event Sourcing**: Built-in event store</span>
-<span id="cb7-425"><a href="#cb7-425" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CQRS Support**: Command/query separation</span>
-<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a><span class="fu">### Language Expansion</span></span>
-<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-429"><a href="#cb7-429" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Hints**: Full runtime validation with beartype</span>
-<span id="cb7-430"><a href="#cb7-430" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rust Extensions**: Performance-critical components</span>
-<span id="cb7-431"><a href="#cb7-431" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**WebAssembly**: Run bricks in browsers</span>
-<span id="cb7-432"><a href="#cb7-432" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cross-Language**: Polyglot brick composition</span>
-<span id="cb7-433"><a href="#cb7-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-434"><a href="#cb7-434" aria-hidden="true" tabindex="-1"></a><span class="fu">## Community &amp; Ecosystem</span></span>
-<span id="cb7-435"><a href="#cb7-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-436"><a href="#cb7-436" aria-hidden="true" tabindex="-1"></a><span class="fu">### Governance</span></span>
-<span id="cb7-437"><a href="#cb7-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-438"><a href="#cb7-438" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RFC Process**: Community-driven feature development</span>
-<span id="cb7-439"><a href="#cb7-439" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stability Guarantee**: Clear deprecation policies</span>
-<span id="cb7-440"><a href="#cb7-440" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security Process**: Vulnerability disclosure and fixes</span>
-<span id="cb7-441"><a href="#cb7-441" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Release Cadence**: Predictable release schedule</span>
-<span id="cb7-442"><a href="#cb7-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-443"><a href="#cb7-443" aria-hidden="true" tabindex="-1"></a><span class="fu">### Ecosystem Growth</span></span>
-<span id="cb7-444"><a href="#cb7-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-445"><a href="#cb7-445" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Plugin Registry**: Discover and share bricks</span>
-<span id="cb7-446"><a href="#cb7-446" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Certification Program**: Quality standards for third-party bricks</span>
-<span id="cb7-447"><a href="#cb7-447" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Corporate Sponsors**: Sustainable development funding</span>
-<span id="cb7-448"><a href="#cb7-448" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Academic Partnerships**: Research and education</span>
-<span id="cb7-449"><a href="#cb7-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-450"><a href="#cb7-450" aria-hidden="true" tabindex="-1"></a><span class="fu">## Migration Strategy</span></span>
-<span id="cb7-451"><a href="#cb7-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-452"><a href="#cb7-452" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version Compatibility</span></span>
-<span id="cb7-453"><a href="#cb7-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-454"><a href="#cb7-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Semantic Versioning**: Strict adherence to SemVer</span>
-<span id="cb7-455"><a href="#cb7-455" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Deprecation Warnings**: Two minor versions before removal</span>
-<span id="cb7-456"><a href="#cb7-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Migration Tools**: Automated upgrades where possible</span>
-<span id="cb7-457"><a href="#cb7-457" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Compatibility Layer**: Support for older brick versions</span>
-<span id="cb7-458"><a href="#cb7-458" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-459"><a href="#cb7-459" aria-hidden="true" tabindex="-1"></a><span class="fu">### Adoption Path</span></span>
-<span id="cb7-460"><a href="#cb7-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-461"><a href="#cb7-461" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Early Adopters** (now - v0.2.x): Feedback and iteration</span>
-<span id="cb7-462"><a href="#cb7-462" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Production Users** (v0.3.x+): Stable core with growing standard library</span>
-<span id="cb7-463"><a href="#cb7-463" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Enterprise** (v0.5.x+): Advanced features and production support</span>
-<span id="cb7-464"><a href="#cb7-464" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Mainstream** (v1.0+): Mature ecosystem with API stability guarantee</span>
-<span id="cb7-465"><a href="#cb7-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-466"><a href="#cb7-466" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version Planning Philosophy</span></span>
-<span id="cb7-467"><a href="#cb7-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-468"><a href="#cb7-468" aria-hidden="true" tabindex="-1"></a>Starting with v0.2.1, we're adopting a more flexible approach to version planning:</span>
-<span id="cb7-469"><a href="#cb7-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-470"><a href="#cb7-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-471"><a href="#cb7-471" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Feature-Driven Releases**: Version numbers assigned when features are ready</span>
-<span id="cb7-472"><a href="#cb7-472" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No Fixed Timeline**: Quality and completeness over arbitrary deadlines  </span>
-<span id="cb7-473"><a href="#cb7-473" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Community Input**: Feature prioritization based on user feedback</span>
-<span id="cb7-474"><a href="#cb7-474" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Semantic Versioning**: Strict adherence to SemVer principles</span>
-<span id="cb7-475"><a href="#cb7-475" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**.x Notation**: Future versions use .x to indicate flexibility in exact numbering</span>
-<span id="cb7-476"><a href="#cb7-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-477"><a href="#cb7-477" aria-hidden="true" tabindex="-1"></a>This approach provides:</span>
-<span id="cb7-478"><a href="#cb7-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-479"><a href="#cb7-479" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Signal of Intent**: Clear indication of planned features and their themes</span>
-<span id="cb7-480"><a href="#cb7-480" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Implementation Flexibility**: Freedom to adjust based on real-world needs</span>
-<span id="cb7-481"><a href="#cb7-481" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Quality Focus**: Features ship when they're ready, not when scheduled</span>
-<span id="cb7-482"><a href="#cb7-482" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-483"><a href="#cb7-483" aria-hidden="true" tabindex="-1"></a><span class="fu">## Success Metrics</span></span>
-<span id="cb7-484"><a href="#cb7-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-485"><a href="#cb7-485" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Developer Satisfaction**: &gt;4.5/5 in surveys</span>
-<span id="cb7-486"><a href="#cb7-486" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Adoption**: 10k+ GitHub stars, 100k+ monthly downloads</span>
-<span id="cb7-487"><a href="#cb7-487" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Performance**: &lt;1% overhead vs hand-written code</span>
-<span id="cb7-488"><a href="#cb7-488" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reliability**: 99.99% uptime in production deployments</span>
-<span id="cb7-489"><a href="#cb7-489" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Community**: 100+ contributors, 1000+ third-party bricks</span>
-<span id="cb7-490"><a href="#cb7-490" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-491"><a href="#cb7-491" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Involved</span></span>
-<span id="cb7-492"><a href="#cb7-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-493"><a href="#cb7-493" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**GitHub Discussions**: Share ideas and feedback</span>
-<span id="cb7-494"><a href="#cb7-494" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RFC Process**: Propose new features</span>
-<span id="cb7-495"><a href="#cb7-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Contributing**: Code, documentation, examples</span>
-<span id="cb7-496"><a href="#cb7-496" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sponsorship**: Support sustainable development</span>
-<span id="cb7-497"><a href="#cb7-497" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-498"><a href="#cb7-498" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb7-499"><a href="#cb7-499" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-500"><a href="#cb7-500" aria-hidden="true" tabindex="-1"></a>*This roadmap is a living document. We'll update it based on community feedback and real-world usage patterns. Your input shapes the future of nanobricks!*</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Nanobricks Roadmap"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Atomic Development Approach from v0.1.0"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version Reset Notice</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>**Important**: As of June 2025, we have reset our version numbering from v0.2.5 back to v0.1.0. This reflects:</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>A shift from version-based to atomic commit-based development</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>More accurate representation of the framework's maturity</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Better alignment with semantic versioning principles</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>All functionality from previous versions (0.1.1 through 0.2.5) is included in the new v0.1.0 release.</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>This roadmap outlines our development approach using atomic commits and git worktrees rather than traditional version milestones. The framework's core abstractions have proven solid through real-world usage, and we're now focused on iterative improvements through focused, atomic changes.</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Development Philosophy</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### From Versions to Atomic Commits</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>Instead of planning large version releases, we now:</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use **atomic commits** for each logical change</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Leverage **git worktrees** for parallel development</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Focus on **continuous integration** rather than release milestones</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Maintain **semantic versioning** for dependency management only</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">### Atomic Development Principles</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**One Feature = One Worktree**: Each feature gets its own isolated workspace</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Small, Focused Changes**: Maximum 10 files per commit (warning at 7)</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Complete Units**: Each commit includes implementation, tests, and docs</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Rapid Integration**: Merge within 48 hours to avoid conflicts</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Current State: v0.1.0 (Reset)</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="fu">### Consolidated Features</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>The current v0.1.0 includes all functionality previously released:</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Core Protocol**: The <span class="in">`Nanobrick[Input, Output]`</span> abstraction</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skills System**: The <span class="in">`@skill`</span> decorator pattern for cross-cutting concerns</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Composition**: Pipeline Builder API with <span class="in">`&gt;&gt;`</span> operator</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Safety**: Generic typing with excellent IDE support</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Async-First**: Modern design for contemporary Python</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Task System**: Comprehensive go-task based workflows</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**AI Integration**: Agentic documentation and bridge system</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Developer Tools**: Scaffolding, debugging, and profiling</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="fu">### What's Working Well</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Core abstractions proven in production (nano-scorm project)</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>~55% code reduction compared to manual implementation</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>70% reduction in API boilerplate through skills</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Strong composition patterns for complex workflows</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Excellent AI-agent collaboration tools</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Active Development Areas</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Immediate Focus (Atomic Commits)</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>These areas are being developed through atomic commits:</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 🔧 Core Improvements</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Standardize error handling patterns</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Enhance type inference for pipe operator</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Optimize async performance</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Improve protocol validation messages</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 📚 Documentation</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Expand cookbook with real-world examples</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Add troubleshooting guide</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Create video tutorials</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Improve API reference</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 🧰 Developer Experience</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Enhanced CLI scaffolding options</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Better error messages with suggestions</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Improved debugging tools</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> VS Code extension</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="fu">#### 🔌 Standard Components</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Common validators (email, URL, phone)</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> File processors (CSV, JSON, XML)</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> HTTP client nanobrick</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Database connectors</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### Medium-Term Goals</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>These represent larger efforts that may span multiple atomic commits:</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Stream Processing</span></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="fu">#### State Management</span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Patterns for stateful nanobricks</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Persistence mechanisms</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Distributed state coordination</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Performance Optimization</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Zero-copy operations</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Automatic parallelization</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Memory-efficient streaming</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contributing Through Atomic Development</span></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to Contribute</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Identify a Focused Change**: One bug fix, one feature, one improvement</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Create a Worktree**: <span class="in">`task worktree:create FEATURE=your-feature`</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Make Atomic Commits**: Use <span class="in">`task worktree:atomic:commit`</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Submit PR Quickly**: Within 48 hours of starting</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Iterate**: Small changes compound into big improvements</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example Atomic Contributions</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Fix a specific error message</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Add one new validator</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Improve one section of documentation</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Optimize a single function</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Add a missing test case</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Success Metrics</span></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>Rather than version-based goals, we measure:</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Integration Velocity**: Time from commit to main branch</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Atomic Commit Quality**: Completeness and focus of changes</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Conflict Rate**: Percentage of PRs with merge conflicts</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Community Engagement**: Number of atomic contributions</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**User Satisfaction**: Feedback on incremental improvements</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Future Version Planning</span></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>While we embrace atomic development, we still plan feature sets that may warrant version bumps:</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version 0.2.x: Standard Patterns Library</span></span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>**Theme**: Common bricks to accelerate development</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Validators**: Email, URL, phone, regex, range validators</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Common Transformers**: JSON adapters, type converters, normalizers</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing Bricks**: CSV, JSON, XML, YAML readers/writers</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Client Brick**: Basic requests wrapper with retry logic</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Manipulation**: Filter, map, reduce, aggregate bricks</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version 0.3.x: Advanced Developer Experience</span></span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>**Theme**: Superior tooling and development workflow</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a><span class="fu">#### CLI Enhancements</span></span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Interactive Scaffolding**: <span class="in">`nanobrick new --interactive`</span></span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Project Templates**: Full application templates</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Skill Generation**: <span class="in">`nanobrick add-skill logging`</span> to retrofit existing bricks</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Development Tools</span></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Pipeline Visualizer**: Generate diagrams from code</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Performance Profiler**: Identify bottlenecks in pipelines</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Stub Generator**: Better IDE support for dynamic features</span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**VS Code Extension**: Snippets, navigation, and debugging support</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version 0.4.x: Comprehensive Standard Library</span></span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>**Theme**: Batteries-included ecosystem</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data Validation**: Email, phone, URL, schema validators</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HTTP Operations**: Request/response handling, retries, rate limiting</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Database Access**: Connection pooling, query builders, ORMs</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**File Processing**: CSV, JSON, XML, Excel readers/writers</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Message Queues**: Kafka, RabbitMQ, Redis pub/sub</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Caching**: In-memory, Redis, distributed caches</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version 0.5.x: Advanced Features</span></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>**Theme**: Production-scale capabilities</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Streaming Support</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StreamProcessor(NanobrickStream[<span class="bu">bytes</span>, ProcessedItem]):</span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> invoke_stream(</span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>, </span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>        input_stream: AsyncIterator[<span class="bu">bytes</span>]</span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>    ) <span class="op">-&gt;</span> AsyncIterator[ProcessedItem]:</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>        <span class="cf">async</span> <span class="cf">for</span> chunk <span class="kw">in</span> input_stream:</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="cf">await</span> <span class="va">self</span>.process_chunk(chunk)</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="fu">#### State Management</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Stateful Bricks**: Clear patterns for maintaining state</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**State Persistence**: Save/restore capabilities</span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed State**: Coordination across instances</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="fu">### Version 1.0: Production Ready</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>**Theme**: Enterprise-grade stability</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Performance Optimizations</span></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Zero-Copy Operations**: Efficient data passing</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Parallel Execution**: Automatic parallelization where possible</span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Memory Management**: Streaming and chunking for large datasets</span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Profiling Tools**: Built-in performance monitoring</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Observability</span></span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Distributed Tracing**: Full OpenTelemetry integration</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Metrics Collection**: Prometheus-compatible metrics</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Health Checks**: Standardized health/readiness probes</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Debugging Tools**: Enhanced error messages and stack traces</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Enterprise Features</span></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Security**: Sandboxing, permission models, audit trails</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Compliance**: GDPR, SOC2, HIPAA helpers</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Multi-tenancy**: Isolation and resource limits</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**High Availability**: Clustering and failover support</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="fu">## Long-Term Vision (Post-1.0)</span></span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### AI-Native Framework</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LLM Integration**: First-class support for AI models</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prompt Management**: Version and test prompts</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RAG Pipelines**: Built-in retrieval-augmented generation</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Agent Frameworks**: Multi-agent orchestration</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distributed Computing</span></span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cluster Mode**: Scale across multiple machines</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Workflow Engine**: Complex DAG execution</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Event Sourcing**: Built-in event store</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CQRS Support**: Command/query separation</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="fu">### Language Expansion</span></span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Type Hints**: Full runtime validation with beartype</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Rust Extensions**: Performance-critical components</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**WebAssembly**: Run bricks in browsers</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Cross-Language**: Polyglot brick composition</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="fu">## Version Planning Philosophy</span></span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a>We use a hybrid approach:</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Atomic Commits** for day-to-day development</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Version Milestones** for major feature sets</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Semantic Versioning** for dependency management</span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>This provides:</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Clear Communication**: Users know what's coming</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Flexible Implementation**: Features develop organically</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Quality Focus**: Ship when ready, not by deadline</span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Getting Involved</span></span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a><span class="fu">### For Users</span></span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Test atomic changes in your projects</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Provide feedback on specific improvements</span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Report bugs with reproducible examples</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Suggest focused enhancements</span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### For Contributors</span></span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Pick an atomic task from GitHub issues</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Create focused PRs that do one thing well</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Review others' atomic commits</span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Help maintain documentation</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="fu">### For Maintainers</span></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Guide atomic development direction</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ensure quality standards</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coordinate parallel efforts</span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Foster community growth</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>*This roadmap is a living document updated through atomic commits. Each contribution shapes the future of nanobricks!*</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

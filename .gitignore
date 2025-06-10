@@ -17,3 +17,4 @@ dependents/*
 !dependents/README.md
 .claude.json
 /trees/
+\n# Ignore generated reports\nreports/\n\n# Ignore archived files\n.archive/\n\n# Ignore log files\n*.log\n
