@@ -20,6 +20,13 @@ from nanobricks.skills.api import SkillApi
 from nanobricks.skills.cli import CliSkill
 from nanobricks.skills.logging import LoggingSkill
 from nanobricks.skills.mcp import MCPToolConfig, SkillMCP, create_mcp_server
+from nanobricks.skills.atomic_commits import (
+    AtomicCommitAnalyzer,
+    AtomicCommitHelper,
+    AtomicCommitSplitter,
+    AtomicCommitValidator,
+    AtomicCommitsSkill,
+)
 
 __all__ = [
     "LoggingSkill",
@@ -39,4 +46,9 @@ __all__ = [
     "SkillACP",
     "RESTEndpoint",
     "RESTResponse",
+    "AtomicCommitAnalyzer",
+    "AtomicCommitHelper",
+    "AtomicCommitSplitter",
+    "AtomicCommitValidator",
+    "AtomicCommitsSkill",
 ]
