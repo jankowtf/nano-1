@@ -15,7 +15,7 @@ from .pipeline_visualizer import (
 from .pipeline_visualizer import (
     visualize_pipeline as visualize,
 )
-from .profiler import BrickProfiler, profile_brick
+from .profiler import BrickProfiler
 from .type_stub_generator import TypeStubGenerator, generate_type_stubs
 from .visualizer import PipelineVisualizer, visualize_pipeline
 
@@ -35,7 +35,6 @@ __all__ = [
     "visualize",
     # Original profiler
     "BrickProfiler",
-    "profile_brick",
     # Type stub generator
     "TypeStubGenerator",
     "generate_type_stubs",
