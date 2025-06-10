@@ -274,3 +274,40 @@ echo "📊 Repository size: $(du -sh .git | cut -f1)"
 - [git-filter-repo](https://github.com/newren/git-filter-repo)
 - [GitHub: Removing sensitive data](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
 - [Oh Shit, Git?!](https://ohshitgit.com/)
+
+## Branch Management
+
+### Problem: I want to apply a specific commit from another branch to my current branch
+
+**Solution**: Use `git cherry-pick` to apply the commit
+
+This is useful when you want to bring a specific bug fix or feature from one branch to another without merging the entire branch.
+
+```bash
+# Find the commit hash you want to pick
+git log --oneline other-branch-name
+
+# Apply the commit to your current branch
+git cherry-pick <commit-hash>
+
+# Example:
+git cherry-pick bbc37e5
+```
+
+### Problem: I want to apply multiple commits from another branch
+
+**Solution**: Cherry-pick a range of commits
+
+```bash
+# Pick a range of commits from <start-commit-hash> (exclusive) 
+# to <end-commit-hash> (inclusive)
+git cherry-pick <start-commit-hash>^..<end-commit-hash>
+
+# Example: Apply three commits starting from bbc37e5
+# (assuming bbc37e5 is the first of the three)
+git cherry-pick bbc37e5^..d89f25a 
+```
+
+:::{.callout-note}
+If you encounter a conflict during a cherry-pick, Git will pause. You must resolve the conflict, `git add` the resolved files, and then run `git cherry-pick --continue`. To cancel, run `git cherry-pick --abort`.
+:::
