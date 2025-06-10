@@ -112,6 +112,9 @@ website:
       - section: "Claude Code"
         contents:
           - claude-code.qmd
+      - section: "Git Cheat Sheet"
+        contents:
+          - git-cheat-sheet.qmd
 
 format:
   html:
