@@ -1,0 +1,502 @@
+version: '3'
+silent: true
+
+vars:
+  # Use common script to find claude
+  CLAUDE_CMD:
+    sh: "{{.ROOT_DIR}}/taskfiles/scripts/find-claude.sh || echo \"\""
+
+tasks:
+  # ============================================================================
+  # ATOMIC COMMIT WORKFLOW
+  # ============================================================================
+  
+  plan:from:prd:
+    desc: Plan atomic commits from a PRD before implementation
+    summary: |
+      Analyzes a Product Requirements Document to plan implementation
+      as a series of atomic commits. Helps structure work upfront.
+      
+      Usage:
+        task atomic:plan:from:prd PRD=prds/prd-feature.md
+        task atomic:plan:from:prd PRD=prds/prd-atomic-commits.md VERBOSE=1
+    vars:
+      PRD_FILE: '{{.PRD | default ""}}'
+    cmds:
+      - |
+        if [ -z "{{.PRD_FILE}}" ]; then
+          echo "❌ Please specify PRD file"
+          echo "Usage: task atomic:plan:from:prd PRD=path/to/prd.md"
+          exit 1
+        fi
+        if [ ! -f "{{.PRD_FILE}}" ]; then
+          echo "❌ PRD file not found: {{.PRD_FILE}}"
+          exit 1
+        fi
+      - |
+        echo "📋 Planning atomic commits from PRD: {{.PRD_FILE}}"
+        echo ""
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          if [ -n "{{.VERBOSE}}" ] || [ -n "$CLAUDE_VERBOSE" ]; then
+            {{.CLAUDE_CMD}} --verbose -p "Analyze this PRD and create a detailed atomic commit plan:
+            
+            $(cat {{.PRD_FILE}})
+            
+            Create a structured implementation plan with:
+            1. Numbered list of atomic commits in logical order
+            2. For each commit:
+               - Conventional commit message (type(scope): description)
+               - List of files/components to create/modify
+               - Dependencies on previous commits
+               - Estimated complexity (simple/medium/complex)
+            3. Identify opportunities for parallel work
+            4. Suggest commit groupings for PRs
+            5. Flag any commits that might be too large
+            
+            Format as a actionable checklist that can be tracked."
+          else
+            echo "🤖 Claude is planning your atomic commits..."
+            {{.CLAUDE_CMD}} -p "Create a concise atomic commit plan from this PRD. List commits in order with: 1) Commit message 2) Files to change 3) Dependencies. PRD: $(cat {{.PRD_FILE}} | head -50)..."
+          fi
+        else
+          echo "📋 Manual planning checklist:"
+          echo ""
+          echo "PRD Summary (first 20 lines):"
+          head -20 {{.PRD_FILE}}
+          echo ""
+          echo "Planning template:"
+          echo "1. [ ] feat(component): initial structure"
+          echo "2. [ ] feat(component): core implementation"
+          echo "3. [ ] test(component): unit tests"
+          echo "4. [ ] docs(component): API documentation"
+          echo ""
+          echo "💡 Break down each feature into setup → implementation → tests → docs"
+        fi
+
+  analyze:changes:
+    desc: Analyze current changes for atomic commit opportunities
+    summary: |
+      Examines git diff to identify logical units of change that should
+      be committed separately. Use after making changes.
+      
+      Usage:
+        task atomic:analyze:changes
+        VERBOSE=1 task atomic:analyze:changes
+    cmds:
+      - |
+        echo "🔍 Analyzing current changes for atomic commits..."
+        # Try to use the nanobrick implementation first
+        if command -v uv >/dev/null 2>&1; then
+          uv run python -m nanobricks.skills.atomic_commits analyze 2>/dev/null || {
+            # Fallback to Claude or manual if nanobrick fails
+            if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+              if [ -n "{{.VERBOSE}}" ] || [ -n "$CLAUDE_VERBOSE" ]; then
+                {{.CLAUDE_CMD}} --verbose -p "Analyze my current git changes and identify:
+                1. How many logical changes are present
+                2. Which files belong together for each logical change
+                3. Suggested commit messages using conventional format
+                4. Any files that seem unrelated and should be separate commits
+                
+                Run: git status --short && git diff --stat"
+              else
+                echo "🤖 Claude is analyzing your changes..."
+                {{.CLAUDE_CMD}} -p "Briefly analyze git diff and suggest atomic commits. Show: 1) Number of logical changes 2) Files per change 3) Commit messages"
+              fi
+            else
+              echo "📋 Manual analysis of changes:"
+              echo ""
+              git status --short
+              echo ""
+              echo "Changed files by type:"
+              git diff --stat | grep -E "\.py|\.md|\.yml|\.toml" | sort
+              echo ""
+              echo "💡 Group related changes together for atomic commits"
+            fi
+          }
+        else
+          echo "📋 Manual analysis of changes:"
+          echo ""
+          git status --short
+          echo ""
+          echo "Changed files by type:"
+          git diff --stat | grep -E "\.py|\.md|\.yml|\.toml" | sort
+          echo ""
+          echo "💡 Group related changes together for atomic commits"
+        fi
+
+  stage:interactive:
+    desc: Interactive staging for atomic commits
+    summary: |
+      Guide through staging related changes using git add -p
+      
+      Usage:
+        task atomic:stage:interactive
+    cmds:
+      - |
+        echo "🎯 Interactive staging for atomic commits"
+        echo ""
+        echo "Tips for atomic staging:"
+        echo "- Use 'y' to stage related changes"
+        echo "- Use 'n' to skip unrelated changes"
+        echo "- Use 's' to split large hunks"
+        echo "- Use 'q' when done with current logical change"
+        echo ""
+        git add -p
+
+  commit:guided:
+    desc: Create atomic commit with guided message generation
+    summary: |
+      Helps create properly formatted conventional commit messages
+      
+      Usage:
+        task atomic:commit:guided
+        task atomic:commit:guided TYPE=feat SCOPE=auth DESC="add password validation"
+    vars:
+      COMMIT_TYPE: '{{.TYPE | default ""}}'
+      COMMIT_SCOPE: '{{.SCOPE | default ""}}'
+      COMMIT_DESC: '{{.DESC | default ""}}'
+    cmds:
+      - |
+        if [ -z "$(git diff --cached --name-only)" ]; then
+          echo "❌ No changes staged. Use 'task atomic:stage:interactive' first"
+          exit 1
+        fi
+      - |
+        if [ -n "{{.COMMIT_TYPE}}" ] && [ -n "{{.COMMIT_DESC}}" ]; then
+          # Direct commit with provided values
+          if [ -n "{{.COMMIT_SCOPE}}" ]; then
+            git commit -m "{{.COMMIT_TYPE}}({{.COMMIT_SCOPE}}): {{.COMMIT_DESC}}"
+          else
+            git commit -m "{{.COMMIT_TYPE}}: {{.COMMIT_DESC}}"
+          fi
+          echo "✅ Atomic commit created"
+        else
+          # Interactive mode
+          if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+            echo "🤖 Generating commit message..."
+            {{.CLAUDE_CMD}} -p "Generate a conventional commit message for these staged changes:
+            $(git diff --cached --stat)
+            
+            Format: type(scope): description
+            Output only the commit message, nothing else."
+            echo ""
+            echo "📝 Copy the message above and run:"
+            echo "   git commit -m \"<message>\""
+          else
+            echo "📝 Staged changes:"
+            git diff --cached --stat
+            echo ""
+            echo "Commit message format: type(scope): description"
+            echo ""
+            echo "Types: feat, fix, docs, refactor, test, chore"
+            echo ""
+            echo "Example: git commit -m \"feat(auth): add password validation\""
+          fi
+        fi
+
+  split:
+    desc: Split mixed changes into multiple atomic commits
+    summary: |
+      Workflow to split a mixed changeset into atomic commits
+      
+      Usage:
+        task atomic:split
+    cmds:
+      - |
+        echo "🔄 Splitting changes into atomic commits"
+        echo ""
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          {{.CLAUDE_CMD}} -p "Guide me through splitting these changes into atomic commits:
+          $(git status --short)
+          
+          For each logical change:
+          1. List the files that belong together
+          2. Suggest the git add commands
+          3. Provide a conventional commit message
+          4. Show the next steps"
+        else
+          echo "Follow this workflow:"
+          echo ""
+          echo "1. Review all changes:"
+          git status --short
+          echo ""
+          echo "2. Stage first logical change:"
+          echo "   git add -p  # or git add specific-file.py"
+          echo ""
+          echo "3. Commit with conventional message:"
+          echo "   git commit -m \"type(scope): description\""
+          echo ""
+          echo "4. Repeat for remaining changes"
+          echo ""
+          echo "Run 'task atomic:analyze:changes' for grouping suggestions"
+        fi
+
+  validate:
+    desc: Validate recent commits for atomicity
+    summary: |
+      Check if recent commits follow atomic principles
+      
+      Usage:
+        task atomic:validate
+        task atomic:validate COUNT=5
+    vars:
+      COMMIT_COUNT: '{{.COUNT | default "3"}}'
+    cmds:
+      - |
+        echo "🔍 Validating last {{.COMMIT_COUNT}} commits for atomicity..."
+        echo ""
+        # Try nanobrick implementation first
+        if command -v uv >/dev/null 2>&1; then
+          uv run python -m nanobricks.skills.atomic_commits validate --range "HEAD~{{.COMMIT_COUNT}}..HEAD" 2>/dev/null || {
+            # Fallback to Claude or manual
+            if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+              {{.CLAUDE_CMD}} -p "Analyze these commits for atomic commit principles:
+              $(git log -{{.COMMIT_COUNT}} --oneline --stat)
+              
+              For each commit, evaluate:
+              1. Does it represent one logical change?
+              2. Is the message clear and conventional?
+              3. Are all changed files related to the stated purpose?
+              4. Could it have been split into smaller commits?
+              
+              Provide a score and specific feedback."
+            else
+              echo "Recent commits:"
+              git log -{{.COMMIT_COUNT}} --oneline
+              echo ""
+              echo "Detailed view of latest commit:"
+              git show --stat
+              echo ""
+              echo "Checklist for atomic commits:"
+              echo "✓ One logical change per commit"
+              echo "✓ Clear, conventional message"
+              echo "✓ All files serve the same purpose"
+              echo "✓ Can be reverted without side effects"
+            fi
+          }
+        else
+          echo "Recent commits:"
+          git log -{{.COMMIT_COUNT}} --oneline
+          echo ""
+          echo "Detailed view of latest commit:"
+          git show --stat
+          echo ""
+          echo "Checklist for atomic commits:"
+          echo "✓ One logical change per commit"
+          echo "✓ Clear, conventional message"
+          echo "✓ All files serve the same purpose"
+          echo "✓ Can be reverted without side effects"
+        fi
+
+  fix:amend:
+    desc: Amend the last commit to maintain atomicity
+    summary: |
+      Add forgotten files or fix the message of the last commit
+      
+      Usage:
+        task atomic:fix:amend
+        task atomic:fix:amend MESSAGE="fix(auth): validate email format"
+    vars:
+      NEW_MESSAGE: '{{.MESSAGE | default ""}}'
+    cmds:
+      - |
+        echo "🔧 Amending last commit..."
+        git show --stat
+        echo ""
+      - |
+        if [ -n "{{.NEW_MESSAGE}}" ]; then
+          git commit --amend -m "{{.NEW_MESSAGE}}"
+          echo "✅ Commit message updated"
+        else
+          echo "Options:"
+          echo "1. Add forgotten files: git add <file> && git commit --amend --no-edit"
+          echo "2. Change message: git commit --amend -m \"new message\""
+          echo "3. Interactive edit: git commit --amend"
+        fi
+
+  rebase:split:
+    desc: Split a previous commit into atomic commits
+    summary: |
+      Advanced workflow to split a non-atomic commit in history
+      
+      Usage:
+        task atomic:rebase:split COMMIT=abc123
+    vars:
+      TARGET_COMMIT: '{{.COMMIT}}'
+    cmds:
+      - |
+        if [ -z "{{.TARGET_COMMIT}}" ]; then
+          echo "❌ Please specify COMMIT hash"
+          echo "Usage: task atomic:rebase:split COMMIT=abc123"
+          exit 1
+        fi
+      - |
+        echo "⚠️  Advanced operation - splitting commit {{.TARGET_COMMIT}}"
+        echo ""
+        echo "This will start an interactive rebase. Steps:"
+        echo "1. Mark {{.TARGET_COMMIT}} as 'edit'"
+        echo "2. When rebase stops, run: git reset HEAD^"
+        echo "3. Stage and commit changes atomically"
+        echo "4. Run: git rebase --continue"
+        echo ""
+        read -p "Continue? (y/N) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+          git rebase -i {{.TARGET_COMMIT}}^
+        fi
+
+  # ============================================================================
+  # AUTOMATION HELPERS
+  # ============================================================================
+
+  hook:install:
+    desc: Install pre-commit hook for atomic commit validation
+    cmds:
+      - |
+        echo "📦 Installing atomic commit hook..."
+        mkdir -p .git/hooks
+        cat > .git/hooks/pre-commit << 'EOF'
+        #!/bin/bash
+        # Atomic commit validation hook
+        
+        # Check if commit seems atomic (simple heuristic)
+        FILES_CHANGED=$(git diff --cached --name-only | wc -l)
+        if [ $FILES_CHANGED -gt 10 ]; then
+          echo "⚠️  Large commit detected ($FILES_CHANGED files)"
+          echo "Consider splitting into atomic commits:"
+          echo "  task atomic:analyze"
+          echo ""
+          read -p "Continue anyway? (y/N) " -n 1 -r
+          echo
+          [[ $REPLY =~ ^[Yy]$ ]] || exit 1
+        fi
+        
+        # Validate commit message format (if using -m)
+        if [ -f .git/COMMIT_EDITMSG ]; then
+          MSG=$(head -n1 .git/COMMIT_EDITMSG)
+          if ! echo "$MSG" | grep -qE '^(feat|fix|docs|refactor|test|chore)(\(.+\))?: .+'; then
+            echo "❌ Commit message doesn't follow conventional format"
+            echo "Expected: type(scope): description"
+            exit 1
+          fi
+        fi
+        EOF
+        chmod +x .git/hooks/pre-commit
+        echo "✅ Pre-commit hook installed"
+
+  workflow:feature:
+    desc: Complete workflow for atomic feature development
+    summary: |
+      End-to-end workflow demonstrating atomic commits for a feature
+      
+      Usage:
+        task atomic:workflow:feature
+    cmds:
+      - |
+        echo "📚 Atomic Commit Workflow for Features"
+        echo "===================================="
+        echo ""
+        echo "1. Plan commits from PRD (if available):"
+        echo "   task atomic:plan:from:prd PRD=prds/feature.md"
+        echo ""
+        echo "2. After making changes, analyze them:"
+        echo "   task atomic:analyze:changes"
+        echo ""
+        echo "3. Stage first logical change:"
+        echo "   task atomic:stage:interactive"
+        echo ""
+        echo "4. Commit with conventional message:"
+        echo "   task atomic:commit:guided TYPE=feat SCOPE=component DESC=\"add new capability\""
+        echo ""
+        echo "5. Repeat steps 3-4 for each logical change:"
+        echo "   - Implementation commits"
+        echo "   - Test commits"
+        echo "   - Documentation commits"
+        echo ""
+        echo "6. Validate your commits:"
+        echo "   task atomic:validate COUNT=5"
+        echo ""
+        echo "7. Push when ready:"
+        echo "   git push origin feature-branch"
+
+  # ============================================================================
+  # CLAUDE INTEGRATION
+  # ============================================================================
+
+  claude:learn:
+    desc: Teach Claude about atomic commits in this project
+    summary: |
+      Provides Claude with project-specific atomic commit examples
+    cmds:
+      - |
+        if [ -n "{{.CLAUDE_CMD}}" ] && [ -x "{{.CLAUDE_CMD}}" ]; then
+          {{.CLAUDE_CMD}} -p "Learn from our atomic commit history:
+          
+          Good examples from this project:
+          $(git log --grep='^feat\|^fix' --pretty=format:'- %s (%h)' -10)
+          
+          These demonstrate:
+          1. Clear conventional format
+          2. Single purpose per commit
+          3. Descriptive but concise messages
+          4. Proper scoping
+          
+          Remember these patterns when helping with commits."
+        else
+          echo "📚 Project atomic commit examples:"
+          git log --grep='^feat\|^fix' --oneline -10
+        fi
+
+  stats:
+    desc: Show atomic commit statistics
+    cmds:
+      - |
+        echo "📊 Atomic Commit Statistics"
+        echo ""
+        echo "Conventional commits by type:"
+        git log --pretty=format:'%s' | grep -E '^(feat|fix|docs|refactor|test|chore)' | cut -d: -f1 | sort | uniq -c | sort -rn
+        echo ""
+        echo "Average files per commit (last 20):"
+        git log --stat -20 | grep -E "files? changed" | awk '{sum+=$1; count++} END {print sum/count}'
+
+  # ============================================================================
+  # METRICS & MONITORING
+  # ============================================================================
+
+  metrics:dashboard:
+    desc: Show atomic commit metrics dashboard
+    cmds:
+      - |
+        echo "📊 Atomic Commit Metrics (Last 30 days)"
+        echo "======================================"
+        echo ""
+        # Commits following conventions
+        TOTAL_COMMITS=$(git log --since="30 days ago" --oneline | wc -l)
+        ATOMIC_COMMITS=$(git log --since="30 days ago" --pretty=format:'%s' | grep -E '^(feat|fix|docs|refactor|test|chore)' | wc -l)
+        if [ $TOTAL_COMMITS -gt 0 ]; then
+          echo "Adoption Rate: $((ATOMIC_COMMITS * 100 / TOTAL_COMMITS))%"
+        else
+          echo "Adoption Rate: No commits in last 30 days"
+        fi
+        echo ""
+        # Average files per commit
+        echo "Average files/commit: $(git log --since="30 days ago" --stat | grep -E "files? changed" | awk '{sum+=$1; count++} END {if(count>0) print sum/count; else print "N/A"}')"
+
+  # ============================================================================
+  # FUTURE INTEGRATION PREPARATION
+  # ============================================================================
+
+  changelog:generate:unreleased:
+    desc: Generate changelog entries from atomic commits
+    cmds:
+      - |
+        echo "## [Unreleased]"
+        echo ""
+        echo "### Added"
+        git log --pretty=format:'- %s' --grep='^feat' $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD | sed 's/^feat.*: //'
+        echo ""
+        echo "### Fixed"
+        git log --pretty=format:'- %s' --grep='^fix' $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD | sed 's/^fix.*: //'
+        echo ""
+        echo "### Changed"
+        git log --pretty=format:'- %s' --grep='^refactor' $(git describe --tags --abbrev=0 2>/dev/null || echo "")..HEAD | sed 's/^refactor.*: //'

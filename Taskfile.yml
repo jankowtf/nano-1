@@ -17,6 +17,9 @@ includes:
   dev: ./taskfiles/Taskfile.dev.yml
   workflow: ./taskfiles/Taskfile.workflows.yml
   agentic: ./taskfiles/Taskfile.agentic.yml
+  atomic:
+    taskfile: ./taskfiles/Taskfile.atomic.yml
+    dir: '{{.ROOT_DIR}}'
 
 tasks:
   default:
