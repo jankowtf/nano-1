@@ -1,0 +1,214 @@
+---
+title: "Atomic Commits Overview"
+description: "Understanding and implementing atomic commits in nanobricks development"
+---
+
+## What Are Atomic Commits?
+
+An atomic commit represents a single, self-contained logical change to the codebase. Like atoms in chemistry, these commits are the smallest meaningful units of change that:
+
+- **Do one thing well**: Each commit has a single, clear purpose
+- **Stand alone**: Can be understood without context from other commits
+- **Are reversible**: Can be reverted without breaking unrelated functionality
+- **Tell a story**: Provide clear history of how the code evolved
+
+## Why Atomic Commits Matter
+
+### For Human Developers
+
+- **Easier debugging**: `git bisect` works effectively to find bugs
+- **Cleaner reviews**: Reviewers can focus on one logical change at a time
+- **Better collaboration**: Team members understand changes quickly
+- **Safe rollbacks**: Revert specific changes without side effects
+
+### For AI Agents
+
+- **Clear context boundaries**: AI processes one logical unit at a time
+- **Reduced hallucinations**: Focused changes prevent context mixing
+- **Better suggestions**: AI can build on well-structured history
+- **Consistent patterns**: AI learns from clean commit examples
+
+## Conventional Commits Format
+
+Nanobricks follows the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+```
+type(scope): description
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- `feat`: New feature or capability
+- `fix`: Bug fix
+- `docs`: Documentation changes only
+- `refactor`: Code restructuring without changing behavior
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks (dependencies, config, etc.)
+
+### Examples
+
+```bash
+feat(validator): add email validation to user input
+fix(pipeline): handle empty array in transformer
+docs(api): update authentication examples
+refactor(core): extract common validation logic
+test(transformer): add edge case for null values
+chore(deps): update pytest to v7.4.0
+```
+
+## Quick Start
+
+### 1. Analyze Your Changes
+
+After making changes, see how to split them atomically:
+
+```bash
+task atomic:analyze:changes
+```
+
+### 2. Stage Related Changes
+
+Use interactive staging to select related changes:
+
+```bash
+task atomic:stage:interactive
+```
+
+### 3. Create Atomic Commit
+
+Get help with conventional commit message:
+
+```bash
+task atomic:commit:guided
+```
+
+### 4. Validate Your Work
+
+Check if recent commits follow atomic principles:
+
+```bash
+task atomic:validate
+```
+
+## Best Practices
+
+### ✅ DO
+
+- Plan your commits before implementing (use `task atomic:plan:from:prd`)
+- Keep commits focused on one logical change
+- Write clear, descriptive commit messages
+- Test before committing to ensure working state
+- Use conventional commit format consistently
+
+### ❌ DON'T
+
+- Mix unrelated changes (e.g., bug fix + new feature)
+- Use vague messages like "update files" or "fix stuff"
+- Commit broken code or failing tests
+- Bundle multiple features in one commit
+- Use "and" in commit messages (sign of multiple changes)
+
+## Common Scenarios
+
+### Feature Development
+
+```bash
+# Plan atomic commits from PRD
+task atomic:plan:from:prd PRD=prds/new-feature.md
+
+# Implement with atomic commits
+feat(auth): add user model schema
+feat(auth): implement login endpoint
+test(auth): add login endpoint tests
+docs(auth): add API documentation
+```
+
+### Bug Fixes
+
+```bash
+# Reproduce bug and create test
+test(validator): add failing test for edge case
+# Fix the bug
+fix(validator): handle null input correctly
+# Update documentation if needed
+docs(validator): clarify null handling behavior
+```
+
+### Refactoring
+
+```bash
+# Prepare with tests
+test(pipeline): add tests for current behavior
+# Refactor in small steps
+refactor(pipeline): extract common processor logic
+refactor(pipeline): simplify error handling
+# Clean up
+chore(pipeline): remove deprecated methods
+```
+
+## Integration with AI Agents
+
+### Claude Code
+
+When using Claude Code, atomic commits help the AI:
+
+1. Understand project evolution clearly
+2. Suggest appropriate next steps
+3. Generate better commit messages
+4. Avoid mixing unrelated changes
+
+### Cursor
+
+The `.cursor/rules/git_commit.mdc` file ensures Cursor:
+
+1. Creates atomic commits automatically
+2. Uses conventional commit format
+3. Splits complex changes appropriately
+4. Updates todo lists after commits
+
+## Tools and Commands
+
+### Essential Commands
+
+```bash
+# Planning and analysis
+task atomic:plan:from:prd PRD=path/to/prd.md
+task atomic:analyze:changes
+
+# Committing workflow
+task atomic:stage:interactive
+task atomic:commit:guided
+task atomic:validate
+
+# Advanced operations
+task atomic:fix:amend
+task atomic:rebase:split COMMIT=abc123
+
+# Monitoring
+task atomic:stats
+task atomic:metrics:dashboard
+```
+
+### Pre-commit Hook
+
+Install automatic validation:
+
+```bash
+task atomic:hook:install
+```
+
+## Next Steps
+
+- Review the [Atomic Commits Guide](atomic-commits-guide.qmd) for detailed workflows
+- Check [Atomic Commits Tools](atomic-commits-tools.qmd) for setup instructions
+- See [Developer Workflows](../developer-workflows.qmd) for integration examples
+
+## Resources
+
+- [Conventional Commits Specification](https://www.conventionalcommits.org/)
+- [Git Best Practices](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines)
+- [Atomic Commits Workshop](https://github.com/nanobricks/atomic-commits-workshop)
